@@ -1,7 +1,7 @@
 #Simplet
 Simplet is a simple, file-based, cms framework written in php, with members, forums, and blogging built in.
 
-###It's not finishe yet.
+###It's not finished yet.
 
 ##Features
 - Basic Pages
