@@ -7,15 +7,15 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Responsive Layout
 - Nginx Compatible
 - Members
-- - Signups
-- - Login
-- - Logout
-- - Session Listing
-- - Session Termination
-- - Change Name
-- - Change Mail
-- - Change Pass
-- - Reset Pass
+    - Signups
+    - Login
+    - Logout
+    - Session Listing
+    - Session Termination
+    - Change Name
+    - Change Mail
+    - Change Pass
+    - Reset Pass
 - Open Source
 - Quotes Douglas Adams
 
