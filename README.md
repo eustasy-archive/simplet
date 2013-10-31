@@ -24,8 +24,8 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Add Comments for Blogs (and Pages)
 - Add Forum Categories
 - Admin Interface
-- - User Management
-- - - Mail
-- - - Reset Pass
-- - Forum Topic Edit/Lock/Delete
-- - Blog Comments Edit/Lock/Delte
+    - User Management
+        - Mail
+        - Reset Pass
+    - Forum Topic Edit/Lock/Delete
+    - Blog Comments Edit/Lock/Delte
