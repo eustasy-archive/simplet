@@ -11,11 +11,11 @@
 	$Description = ''; // TODO Add Topic Description
 	$Keywords = 'topic forum'; // TODO Add Topic Keywords
 
-	require '../request.php';
+	require '../../request.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
-	require '../header.php'; ?>
+	require '../../header.php'; ?>
 
 	<div class="content">
 
@@ -46,4 +46,4 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	</div>
 
-<?php require '../footer.php'; } ?>
+<?php require '../../footer.php'; } ?>
