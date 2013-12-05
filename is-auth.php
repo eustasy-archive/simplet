@@ -5,13 +5,15 @@ require 'connect.php';
 
 // Set a default timezone.
 date_default_timezone_set('UTC');
-// Note: GMT is deprecated.
+// Note: GMT is deprecated. Use UTC instead.
+
+// We will need the IP to handle logins. Catch it every time.
+$User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
 if (isset($_COOKIE['l'])) { // If they might be logged in
 
-	// Make a note of their Cookie and IP.
+	// Make a note of their Cookie
 	$User_Cookie = htmlentities($_COOKIE['l'], ENT_QUOTES, 'UTF-8');
-	$User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
 	// Check if the Cookie and IP have an active session in the database
 	$Session_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Sessions` WHERE `Cookie`='$User_Cookie' AND `Active`='1' LIMIT 0, 1", MYSQLI_STORE_RESULT);
