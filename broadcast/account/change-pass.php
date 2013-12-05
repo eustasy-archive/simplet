@@ -21,12 +21,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		$Pass_New = htmlspecialchars($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-		$Salt_Characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-		$Salt_Characters_Count = strlen( $Salt_Characters );
-		$Salt = '';
-		for( $i = 0; $i < 64; $i++ ) {
-			$Salt .= $Salt_Characters[ rand( 0, $Salt_Characters_Count - 1 ) ];
-		}
+		$Salt = stringGenerator();
 
 		$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
 		$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Pass_New) . hash($Hash_Method, $Salt));

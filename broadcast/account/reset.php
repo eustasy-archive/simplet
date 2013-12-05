@@ -37,12 +37,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 					$Key_Fetch = mysqli_fetch_assoc($Key_Check); // Bring them to me. Alive.
 					$Member_Mail = $Key_Fetch['Mail'];; // Number
 
-					$Salt_Characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-					$Salt_Characters_Count = strlen( $Salt_Characters );
-					$Salt = '';
-					for( $i = 0; $i < 64; $i++ ) {
-						$Salt .= $Salt_Characters[ rand( 0, $Salt_Characters_Count - 1 ) ];
-					}
+					$Salt = stringGenerator();
 
 					$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
 					$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Pass_New).hash($Hash_Method, $Salt));
@@ -116,12 +111,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 				$Member_ID = $Fetch_Member['ID'];; // Number
 				$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
 
-				$Reset_Characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-				$Reset_Characters_Count = strlen( $Reset_Characters );
-				$Reset_Key = '';
-				for( $i = 0; $i < 64; $i++ ) {
-					$Reset_Key .= $Reset_Characters[ rand( 0, $Reset_Characters_Count - 1 ) ];
-				}
+				$ResetKey = stringGenerator();
 
 				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Mail`, `Key`, `Active`, `IP`) VALUES ('$Reset_Mail', '$Reset_Key', '1', '$User_IP');", MYSQLI_STORE_RESULT);
 				if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));

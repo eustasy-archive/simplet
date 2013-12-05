@@ -56,13 +56,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 					if ($Login_Hash === $Member_Pass) {
 
-						// Generate a Cookie
-						$Member_Cookie_Characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-						$Member_Cookie_Characters_Count = strlen($Member_Cookie_Characters);
-						$Member_Cookie = '';
-						for( $i = 0; $i < 64; $i++ ) {
-							$Member_Cookie .= $Member_Cookie_Characters[ rand( 0, $Member_Cookie_Characters_Count - 1 ) ];
-						}
+						$Member_Cookie = stringGenerator();
 
 						setcookie ('l', $Member_Cookie, time()+60*60*24*28, '/', '.eustasy.org');
 
