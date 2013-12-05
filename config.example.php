@@ -23,6 +23,8 @@
 	// First 10,00 mails a month free.
 	// This should be more than adequate for Password Resets.
 	// If you are not using accounts, or intend to replace the mailing system, this is not required.
+	
+	$Mail = false;
 
 	// Mailgun API URL
 	// Replace example.com with your domain after signing up at
