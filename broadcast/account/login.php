@@ -51,8 +51,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Member_Pass = $Member_Fetch['Pass'];; // Number
 					$Member_Salt = $Member_Fetch['Salt'];; // Do they have a name?
 
-					$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
-					$Login_Hash = hash($Hash_Method, hash($Hash_Method, $Login_Pass) . hash($Hash_Method, $Member_Salt));
+					$Login_Hash = passHash($Login_Pass, $Member_Salt);
 
 					if ($Login_Hash === $Member_Pass) {
 

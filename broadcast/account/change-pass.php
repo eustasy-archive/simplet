@@ -23,8 +23,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		$Salt = stringGenerator();
 
-		$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
-		$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Pass_New) . hash($Hash_Method, $Salt));
+		$Pass_Hash = passHash($Pass_New, $Salt);
 
 		$Pass_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 		if (!$Pass_Change) exit('Invalid Query (Pass_Change): ' . mysqli_error($$MySQL_Connection));

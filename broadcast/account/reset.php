@@ -39,8 +39,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
 					$Salt = stringGenerator();
 
-					$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
-					$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Pass_New).hash($Hash_Method, $Salt));
+					$Login_Hash = passHash($Pass_New, $Salt);
 
 					$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt' WHERE `Mail`='$Member_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 					if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));

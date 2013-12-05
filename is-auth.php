@@ -97,4 +97,9 @@ function stringGenerator($n=64) {
 	return $String;
 }
 
+function passHash($Pass, $Salt) {
+	$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
+	return hash($Hash_Method, hash($Hash_Method, $Pass) . hash($Hash_Method, $Salt));
+}
+
 ?>

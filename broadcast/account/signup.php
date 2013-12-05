@@ -44,8 +44,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 				$Salt = stringGenerator();
 
-				$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
-				$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Signup_Pass) . hash($Hash_Method, $Salt));
+				$Pass_Hash = passHash($Signup_Pass, $Salt);
 
 				$Member_New = mysqli_query($MySQL_Connection, "INSERT INTO `Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active')", MYSQLI_STORE_RESULT);
 				if (!$Member_New) exit('Invalid Query (Member_New): ' . mysqli_error($MySQL_Connection));
