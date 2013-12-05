@@ -10,7 +10,7 @@
 
 	require '../../request.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
+if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
 	if ($Member_Auth) { // Logged In
 
@@ -24,7 +24,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Reset_Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 
 			$Key_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Resets` WHERE `Key`='$Reset_Key' AND `Active`='1' LIMIT 0, 1", MYSQLI_STORE_RESULT);
-			if (!$Key_Check) exit('Invalid Query (Key_Check): ' . mysqli_error($MySQL_Connection));
+			if (!$Key_Check) exit('Invalid Query (Key_Check): '.mysqli_error($MySQL_Connection));
 			$Key_Count = mysqli_num_rows($Key_Check);
 			if ($Key_Count == 0) {
 				$Error = 'Invalid Key.';
@@ -45,13 +45,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					}
 
 					$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
-					$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Pass_New) . hash($Hash_Method, $Salt));
+					$Pass_Hash = hash($Hash_Method, hash($Hash_Method, $Pass_New).hash($Hash_Method, $Salt));
 
 					$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt' WHERE `Mail`='$Member_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
-					if (!$Reset) exit('Invalid Query (Reset): ' . mysqli_error($MySQL_Connection));
+					if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
 
 					$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0' WHERE `Key`='$Key'", MYSQLI_STORE_RESULT);
-					if (!$Key_Remove) exit('Invalid Query (Key_Remove): ' . mysqli_error($Connection_write));
+					if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($Connection_write));
 
 					require '../../header.php';
 
@@ -94,7 +94,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				require '../../header.php';
 
 				echo '<h2>Reset Error</h2>';
-				echo '<h3>' . $Error . '</h3>';
+				echo '<h3>'.$Error.'</h3>';
 
 				require '../../footer.php';
 
@@ -105,7 +105,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Reset_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
 
 			$Member_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `Mail`='$Reset_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
-			if (!$Member_Check) exit('Invalid Query (Member_Check): ' . mysqli_error($MySQL_Connection));
+			if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($MySQL_Connection));
 
 			$Member_Count = mysqli_num_rows($Member_Check);
 			if ($Member_Count == 0) {
@@ -124,7 +124,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				}
 
 				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Mail`, `Key`, `Active`, `IP`) VALUES ('$Reset_Mail', '$Reset_Key', '1', '$User_IP');", MYSQLI_STORE_RESULT);
-				if (!$Reset_New) exit('Invalid Query (Reset_New): ' . mysqli_error($WriteConnection));
+				if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
 				$Mail_Curl = curl_init();
 
@@ -138,14 +138,14 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 						'from' => $Mail_From.' <'.$Mail_Reply.'>',
 						'to' => $Reset_Mail,
 						'subject' => 'Password Reset',
-						'text' => 'Hello ' . $Member_Name . ', you wanted to reset your password? '.$Request['scheme'].'://'.$Request['host']'/account/reset?key=' . $Reset_Key,
+						'text' => 'Hello '.$Member_Name.', you wanted to reset your password? '.$Request['scheme'].'://'.$Request['host'].'/account/reset?key='.$Reset_Key
 					)
 				));
 
 				$Mail_Response = curl_exec($Mail_Curl);
 				$Mail_Info = curl_getinfo($Mail_Curl);
 
-				if(curl_errno($Mail_Curl)) exit(curl_errno($Mail_Curl) . ' Error: ' . curl_error($Mail_Curl));
+				if(curl_errno($Mail_Curl)) exit(curl_errno($Mail_Curl).' Error: '.curl_error($Mail_Curl));
 
 				if($Mail_Response) {
 					$Reset_Message = 'A Password Reset has been initiated. Please check your email.';
@@ -160,10 +160,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 			if(isset($Error)) {
 				echo '<h2>Password Reset Failed</h2>';
-				echo '<h3>' . $Error . '</h3>';
+				echo '<h3>'.$Error.'</h3>';
 			} else {
 				echo '<h2>Password Reset Initiated</h2>';
-				echo '<h3>An email has been sent to ' . $Reset_Mail . '</h3>';
+				echo '<h3>An email has been sent to '.$Reset_Mail.'</h3>';
 			}
 
 			require '../../footer.php';
@@ -196,12 +196,14 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		}
 
-	} else { ?>
+	} else {
+
+		require '../../header.php'; ?>
 
 		<h2>Sorry, this installation of Simplet does not support reseting passwords.</h2>
-		<h3>If you are the owner of this site, you need to set the Mailgun API URL and Key for your site.</h3>
+		<h4>If you are the owner of this site, you need to set the Mailgun API URL and Key for your site.</h4>
 
-<?php
+<?php	require '../../footer.php';
 
 	}
 

@@ -100,7 +100,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			require '../../header.php';
 
 			echo '<h2>Login Error</h2>';
-			echo '<h3 class="textleft">' . $Error . '</h3><a class="floatright" href="login">Try Again</a></h3>';
+			echo '<h3 class="textleft">' . $Error . ' <a class="floatright" href="login">Try Again</a></h3>';
 
 			require '../../footer.php';
 
