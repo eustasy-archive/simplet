@@ -89,7 +89,7 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 
 function stringGenerator($n=64) {
 	$String_Characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-	$String_Characters_Count = strlen( $Salt_Characters );
+	$String_Characters_Count = strlen( $String_Characters );
 	$String = '';
 	for( $i = 0; $i < $n; $i++ ) {
 		$String .= $String_Characters[ rand( 0, $String_Characters_Count - 1 ) ];
