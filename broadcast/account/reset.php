@@ -17,7 +17,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 		header('Location: /account/', TRUE, 302);
 		die();
 
-	} elseif(isset($Mail_URL) && isset($Mail_Key) && !empty($Mail_URL) && !empty($Mail_Key)) {
+	} elseif(isset($Mail)&&$Mail==true) {
 
 		if(isset($_GET['key'])) { // Enter Password
 
@@ -179,7 +179,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 				<div class="section group">
 					<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
 					<div class="col span_1_of_6"><br></div>
-					<div class="col span_1_of_2"><input type="mail" name="mail" placeholder="johnsmith@example.com" required /></div>
+					<div class="col span_1_of_2"><input type="email" name="mail" placeholder="johnsmith@example.com" required /></div>
 				</div>
 				<div class="section group">
 					<div class="col span_1_of_3">
