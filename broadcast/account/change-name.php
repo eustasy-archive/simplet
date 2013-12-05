@@ -3,6 +3,7 @@
 	$TextTitle = 'Change Name';
 	$WebTitle = 'Change Name &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/change-name';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'change name account';

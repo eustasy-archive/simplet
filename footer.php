@@ -1,3 +1,4 @@
+	</div>
 
 	<footer class="group">
 		<nav>

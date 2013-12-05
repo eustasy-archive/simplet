@@ -3,6 +3,7 @@
 	$TextTitle = 'Change Pass';
 	$WebTitle = 'Change Pass &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/change-pass';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'change pass account';

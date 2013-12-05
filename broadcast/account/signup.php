@@ -3,6 +3,7 @@
 	$TextTitle = 'Signup';
 	$WebTitle = 'Signup &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/signup';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'signup account';

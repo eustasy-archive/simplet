@@ -3,6 +3,7 @@
 	$TextTitle = 'Protected Page';
 	$WebTitle = 'Protected Page';
 	$Canonical = 'protected-page';
+	$PostType = 'Protected';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'protected example page default styles';
@@ -16,19 +17,15 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 	if ($Member_Auth) {
 
 		echo '
-	<div class="content">
 		<h2>Top Secret</h2>
 		<p class="textcenter">You are now authorized to view this super secret page.</p>
-		<p class="textcenter">Yes, this is it.</p>
-	</div>';
+		<p class="textcenter">Yes, this is it.</p>';
 
 	} else {
 
 		echo '
-	<div class="content">
 		<h2>Protected Page</h2>
-		<p class="textcenter">Sorry, you need to log in to view this super secret content.</p>
-	</div>';
+		<p class="textcenter">Sorry, you need to log in to view this super secret content.</p>';
 
 	}
 

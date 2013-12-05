@@ -3,6 +3,7 @@
 	$TextTitle = 'Change Mail';
 	$WebTitle = 'Change Mail &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/change-mail';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'change mail account';

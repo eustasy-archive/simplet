@@ -3,6 +3,7 @@
 	$TextTitle = 'Simplet';
 	$WebTitle = 'a simple, file-based, cms framework written in php';
 	$Canonical = '';
+	$PostType = 'Index';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = '';
@@ -13,6 +14,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	require '../header.php'; ?>
 
+	</div>
 	<div class="content spanpage clouds">
 		<a href="https://github.com/eustasy/simplet">
 			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Simplet on GitHub" style="position: absolute; right: 0;">
@@ -75,6 +77,5 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				<p>
 			</div>
 		</div>
-	</div>
 
 <?php require '../footer.php'; } ?>

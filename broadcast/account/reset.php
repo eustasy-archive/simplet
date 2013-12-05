@@ -3,6 +3,7 @@
 	$TextTitle = 'Reset';
 	$WebTitle = 'Reset &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/reset';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'reset account';

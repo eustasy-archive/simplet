@@ -3,6 +3,7 @@
 	$TextTitle = 'Login';
 	$WebTitle = 'Login &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/login';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'login account';

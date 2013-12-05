@@ -3,6 +3,7 @@
 	$TextTitle = 'Cookie Policy';
 	$WebTitle = 'Cookie Policy &nbsp;&middot;&nbsp; Legal';
 	$Canonical = 'legal/cookie-policy';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'cookie policy legal';

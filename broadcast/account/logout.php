@@ -3,6 +3,7 @@
 	$TextTitle = 'Logout';
 	$WebTitle = 'Logout &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/logout';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'logout account';

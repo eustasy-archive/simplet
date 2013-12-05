@@ -3,6 +3,7 @@
 	$TextTitle = 'Copyright Notice';
 	$WebTitle = 'Copyright Notice &nbsp;&middot;&nbsp; Legal';
 	$Canonical = 'legal/copyright-notice';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'copyright notice legal';

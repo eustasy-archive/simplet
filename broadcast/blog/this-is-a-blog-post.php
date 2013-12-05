@@ -3,6 +3,7 @@
 	$TextTitle = 'This is a Blog Post';
 	$WebTitle = 'This is a Blog Post';
 	$Canonical = 'blog/this-is-a-blog-post';
+	$PostType = 'Post';
 	$FeaturedImage = '';
 	$Description = 'This is a description for a blog post. It is used in the meta description on the page, and be used as an excerpt in the blog index.';
 	$Keywords = 'blog';

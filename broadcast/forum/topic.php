@@ -7,6 +7,7 @@
 	$TextTitle = 'Topic'; // TODO Add Topic Title
 	$WebTitle = 'Topic'; // TODO Add Topic Title
 	$Canonical = 'forum/topic';
+	$PostType = 'Topic';
 	$FeaturedImage = '';
 	$Description = ''; // TODO Add Topic Description
 	$Keywords = 'topic forum'; // TODO Add Topic Keywords
@@ -16,8 +17,6 @@
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	require '../../header.php'; ?>
-
-	<div class="content">
 
 		<h2>Start an Automated Deployment and Management Service for common Web Software</h2><!-- TODO Add Topic Title -->
 		<p class="red">THIS IS A PREVIEW PAGE. FORUM NOT ACTIVE.</p>
@@ -43,7 +42,5 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				<p>Lorem ipsum dolor sit amet, emphasis consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p>
 			</div>
 		</div>
-
-	</div>
 
 <?php require '../../footer.php'; } ?>

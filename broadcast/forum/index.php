@@ -3,6 +3,7 @@
 	$TextTitle = 'Forum';
 	$WebTitle = 'Forum';
 	$Canonical = 'forum/';
+	$PostType = 'Forum';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'forum';
@@ -12,8 +13,6 @@
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	require '../../header.php'; ?>
-
-	<div class="content">
 
 		<h2>Forum</h2>
 		<p class="red">THIS IS A PREVIEW PAGE. FORUM NOT ACTIVE.</p>
@@ -42,7 +41,5 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			<div class="col span_1_of_12"><br></div>
 			<div class="col span_11_of_12"><p>Leveraging the Digital Ocean API (more server providers could be added later), users could pay to have our automated system deploy on their server, or buy servers from us (as a reseller).</p></div>
 		</a>
-
-	</div>
 
 <?php require '../../footer.php'; } ?>

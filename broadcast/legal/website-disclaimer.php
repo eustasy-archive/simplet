@@ -3,6 +3,7 @@
 	$TextTitle = 'Website Disclaimer';
 	$WebTitle = 'Website Disclaimer &nbsp;&middot;&nbsp; Legal';
 	$Canonical = 'legal/website-disclaimer';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'website disclaimer legal';

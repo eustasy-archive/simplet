@@ -3,6 +3,7 @@
 	$TextTitle = 'Terms of Service';
 	$WebTitle = 'Terms of Service &nbsp;&middot;&nbsp; Legal';
 	$Canonical = 'legal/terms-of-service';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'terms of service legal';

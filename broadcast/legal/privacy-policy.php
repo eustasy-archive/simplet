@@ -3,6 +3,7 @@
 	$TextTitle = 'Privacy Policy';
 	$WebTitle = 'Privacy Policy &nbsp;&middot;&nbsp; Legal';
 	$Canonical = 'legal/privacy-policy';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'privacy policy legal';

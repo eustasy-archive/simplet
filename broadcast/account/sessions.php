@@ -3,6 +3,7 @@
 	$TextTitle = 'Sessions';
 	$WebTitle = 'Sessions &nbsp;&middot;&nbsp; Account';
 	$Canonical = 'account/sessions';
+	$PostType = 'Page';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'sessions account';

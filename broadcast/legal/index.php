@@ -3,6 +3,7 @@
 	$TextTitle = 'Legal';
 	$WebTitle = 'Legal';
 	$Canonical = 'legal/';
+	$PostType = 'Index';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'legal copyright notice cookie policy privacy terms service website disclaimer';
