@@ -6,5 +6,3 @@ if(isset($Database_Host) &&  isset($Database_User) &&  isset($Database_Pass) && 
 } else {
 	exit('Simplet Error: No Database Configuration.');
 }
-
-?>

@@ -8,7 +8,7 @@
 	$Description = 'This is a description for a blog post. It is used in the meta description on the page, and be used as an excerpt in the blog index.';
 	$Keywords = 'blog';
 
-	require '../../request.php';
+	require_once '../../request.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 

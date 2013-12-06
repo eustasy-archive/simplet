@@ -2,6 +2,8 @@
 
 	// This is the Title of your Site
 	$Sitewide_Title = 'Simplet';
+	// And the tagline
+	$Sitewide_Tagline = 'a simple, file-based, cms framework written in php';
 
 	// This is the Base URL of your Site
 	$Sitewide_Root = 'http://simplet.eustasy.org';
@@ -23,7 +25,7 @@
 	// First 10,00 mails a month free.
 	// This should be more than adequate for Password Resets.
 	// If you are not using accounts, or intend to replace the mailing system, this is not required.
-	
+
 	$Mail = false;
 
 	// Mailgun API URL
@@ -45,5 +47,3 @@
 	// Please don't use noreply.
 	// $Mail_Reply = 'support@example.com';
 	$Mail_Reply = '';
-
-?>

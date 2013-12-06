@@ -8,7 +8,7 @@
 	$Description = 'You shouldn\'t put HTML in these descriptions, but you can if you want.';
 	$Keywords = 'blog';
 
-	require '../../request.php';
+	require_once '../../request.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 

@@ -8,7 +8,7 @@
 	$Description = '';
 	$Keywords = 'exaple page default styles';
 
-	require '../request.php';
+	require_once '../request.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 

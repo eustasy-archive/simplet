@@ -11,5 +11,3 @@
 	}
 
 	require 'is-auth.php';
-
-?>
