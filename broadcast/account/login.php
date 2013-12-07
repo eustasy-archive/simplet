@@ -30,7 +30,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Login_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
 			$Login_Pass = htmlspecialchars($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-			$Block_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Failures` WHERE `Mail`='$Login_Mail' AND `Timestamp`>NOW()-900", MYSQLI_STORE_RESULT);
+			$Block_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Failures` WHERE `Mail`='$Login_Mail' AND `Created`>NOW()-900", MYSQLI_STORE_RESULT);
 			if (!$Block_Check) exit('Invalid Query (MC): ' . mysqli_error($MySQL_Connection));
 
 			$Block_Count = mysqli_num_rows($Block_Check);
@@ -56,10 +56,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					if ($Login_Hash === $Member_Pass) {
 
 						$Member_Cookie = stringGenerator();
+						$Time = time();
 
-						setcookie ('l', $Member_Cookie, time()+60*60*24*28, '/', '.eustasy.org');
+						setcookie('l', $Member_Cookie, time()+60*60*24*28, '/', '.eustasy.org');
 
-						$Session_New = mysqli_query($MySQL_Connection, "INSERT INTO `Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`) VALUES ('$Member_ID', '$Login_Mail', '$Member_Cookie', '$User_IP', '1')", MYSQLI_STORE_RESULT);
+						$Session_New = mysqli_query($MySQL_Connection, "INSERT INTO `Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES ('$Member_ID', '$Login_Mail', '$Member_Cookie', '$User_IP', '1', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 						if (!$Session_New) exit('Invalid Query (Session_New): ' . mysqli_error($MySQL_Connection));
 
 						// If this is true, the login was successful.
@@ -68,8 +69,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 					} else { // Failed Login
 
-						$Failures_New = mysqli_query($MySQL_Connection, "INSERT INTO `Failures` (`Mail`, `IP`) VALUES ('$Login_Mail', '$User_IP')", MYSQLI_STORE_RESULT);
-						if (!$Failures_New) exit('Invalid Query (Failures_New): ' . mysqli_error($WriteConnection));
+						$Failures_New = mysqli_query($MySQL_Connection, "INSERT INTO `Failures` (`Mail`, `IP`, `Created`) VALUES ('$Login_Mail', '$User_IP', '$Time')", MYSQLI_STORE_RESULT);
+						if (!$Failures_New) exit('Invalid Query (Failures_New): ' . mysqli_error($MySQL_Connection));
 
 						setcookie ('l', '', time() - 3600, '/', '.eustasy.org', 1); // Clear the Cookie
 						setcookie ('l', false, time() - 3600, '/', '.eustasy.org', 1); // Definitely

@@ -26,8 +26,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Check_Three = strpos(strtolower($Name_New),'admin');
 
 		if($Check_One === false && $Check_Two === false && $Check_Three === false) {
+				
+			$Time = time();
 
-			$Name_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Name`='$Name_New' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+			$Name_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Name`='$Name_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 			if (!$Name_Change) exit('Invalid Query (Name_Change): ' . mysqli_error($MySQL_Connection));
 
 			header('Location: /account/', TRUE, 302);

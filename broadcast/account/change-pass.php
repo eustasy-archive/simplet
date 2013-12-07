@@ -25,8 +25,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		$Pass_Hash = passHash($Pass_New, $Salt);
 
-		$Pass_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
-		if (!$Pass_Change) exit('Invalid Query (Pass_Change): ' . mysqli_error($$MySQL_Connection));
+		$Time = time();
+
+		$Pass_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+		if (!$Pass_Change) exit('Invalid Query (Pass_Change): ' . mysqli_error($MySQL_Connection));
 
 		header('Location: /account/', TRUE, 302);
 		die();

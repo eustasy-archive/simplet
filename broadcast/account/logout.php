@@ -17,7 +17,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	} else {
 
-		$Session_End = mysqli_query($MySQL_Connection, "UPDATE `Sessions` SET `Active`='0' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_Cookie' AND `IP`='$User_IP'", MYSQLI_STORE_RESULT);
+		$Time = time();
+		
+		$Session_End = mysqli_query($MySQL_Connection, "UPDATE `Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_Cookie' AND `IP`='$User_IP'", MYSQLI_STORE_RESULT);
 		if (!$Session_End) exit('Invalid Query (Session_End): ' . mysqli_error($MySQL_Connection));
 
 		setcookie ('l', '', time() - 3600, '/', 'eustasy.org', 1); // Clear the Cookie

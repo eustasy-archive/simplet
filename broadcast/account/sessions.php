@@ -26,8 +26,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		if(isset($_GET['cookie'])) {
 
 			$Get_Cookie = htmlspecialchars($_GET['cookie'], ENT_QUOTES, 'UTF-8');
+			$Time = time();
 
-			$Session_End = mysqli_query($MySQL_Connection, "UPDATE `Sessions` SET `Active`='0' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$Get_Cookie'", MYSQLI_STORE_RESULT);
+			$Session_End = mysqli_query($MySQL_Connection, "UPDATE `Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$Get_Cookie'", MYSQLI_STORE_RESULT);
 			if (!$Session_End) exit('Invalid Query (Session_End): ' . mysqli_error($MySQL_Connection));
 
 			echo '<h3>Session Terminated</h3>';

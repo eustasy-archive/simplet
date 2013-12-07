@@ -41,11 +41,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
 					$Login_Hash = passHash($Pass_New, $Salt);
 
-					$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt' WHERE `Mail`='$Member_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+					$Time = time();
+
+					$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `Mail`='$Member_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 					if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
 
-					$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0' WHERE `Key`='$Key'", MYSQLI_STORE_RESULT);
-					if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($Connection_write));
+					$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0', `Modified`='$Time' WHERE `Key`='$Key'", MYSQLI_STORE_RESULT);
+					if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($MySQL_Connection));
 
 					require '../../header.php';
 
@@ -112,7 +114,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
 				$ResetKey = stringGenerator();
 
-				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Mail`, `Key`, `Active`, `IP`) VALUES ('$Reset_Mail', '$Reset_Key', '1', '$User_IP');", MYSQLI_STORE_RESULT);
+				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
 				if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
 				$Mail_Curl = curl_init();

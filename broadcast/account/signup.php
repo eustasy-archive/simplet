@@ -45,8 +45,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				$Salt = stringGenerator();
 
 				$Pass_Hash = passHash($Signup_Pass, $Salt);
+				
+				$Time = time();
 
-				$Member_New = mysqli_query($MySQL_Connection, "INSERT INTO `Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active')", MYSQLI_STORE_RESULT);
+				$Member_New = mysqli_query($MySQL_Connection, "INSERT INTO `Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 				if (!$Member_New) exit('Invalid Query (Member_New): ' . mysqli_error($MySQL_Connection));
 
 				require '../../header.php';

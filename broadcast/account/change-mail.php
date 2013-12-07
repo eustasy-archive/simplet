@@ -20,8 +20,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 	} elseif(isset($_POST['mail'])) {
 
 		$Mail_New = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
+		$Time = time();
 
-		$Mail_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Mail`='$Mail_New' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+		$Mail_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Mail`='$Mail_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 		if (!$Mail_Change) exit('Invalid Query (Mail_Change): ' . mysqli_error($MySQL_Connection));
 
 		header('Location: /account/', TRUE, 302);
