@@ -35,8 +35,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		}
 
-		$Sessions = mysqli_query($Connection_Read, "SELECT * FROM `Sessions` WHERE `Member_ID`='$Member_ID' AND `Active`='1' AND NOT `Cookie`='$User_Cookie'", MYSQLI_STORE_RESULT);
-		if (!$Sessions) exit('Invalid Query (Sessions): ' . mysqli_error($Connection_Read));
+		$Sessions = mysqli_query($MySQL_Connection, "SELECT * FROM `Sessions` WHERE `Member_ID`='$Member_ID' AND `Active`='1' AND NOT `Cookie`='$User_Cookie'", MYSQLI_STORE_RESULT);
+		if (!$Sessions) exit('Invalid Query (Sessions): ' . mysqli_error($MySQL_Connection));
 
 		$Sessions_Count = mysqli_num_rows($Sessions);
 		if ($Sessions_Count == 0) {

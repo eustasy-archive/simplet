@@ -112,9 +112,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 				$Member_ID = $Fetch_Member['ID'];; // Number
 				$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
 
-				$ResetKey = stringGenerator();
+				$Reset_Key = stringGenerator();
+				$Time = time();
 
-				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
+				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Member_ID`, `Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Member_ID', '$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
 				if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
 				$Mail_Curl = curl_init();

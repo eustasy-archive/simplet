@@ -34,7 +34,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Signup_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
 			$Signup_Pass = htmlspecialchars($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-			$Member_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `Mail`='$Signup_Email' LIMIT 0, 1", MYSQLI_STORE_RESULT);
+			$Member_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `Mail`='$Signup_Mail' LIMIT 0, 1", MYSQLI_STORE_RESULT);
 			if (!$Member_Check) exit('Invalid Query (Member_Check): ' . mysqli_error($MySQL_Connection));
 
 			$Member_Count = mysqli_num_rows($Member_Check);
@@ -45,7 +45,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				$Salt = stringGenerator();
 
 				$Pass_Hash = passHash($Signup_Pass, $Salt);
-				
+
 				$Time = time();
 
 				$Member_New = mysqli_query($MySQL_Connection, "INSERT INTO `Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active', '$Time', '$Time')", MYSQLI_STORE_RESULT);
