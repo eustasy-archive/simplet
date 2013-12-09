@@ -114,7 +114,7 @@ h1 img {
 h2, h3, h4, h5, h6 { padding: 10px; }
 
 h2 {
-	font: 300 2em/1.4 'Raleway', Sans;
+	font: 300 2em/1.4 'Open Sans', Sans;
 	color: #333;
 	margin: 5% 0 3%;
 	text-align: center;
@@ -133,7 +133,7 @@ h3 {
 
 h4 {
 	color: #444;
-	font: 400 1.4em/1.25 'Raleway', Sans;
+	font: 400 1.4em/1.25 'Open Sans', Sans;
 	margin : 5% 0 0;
 }
 
