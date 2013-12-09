@@ -35,18 +35,18 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 					$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
 					$Key_Fetch = mysqli_fetch_assoc($Key_Check); // Bring them to me. Alive.
-					$Member_Mail = $Key_Fetch['Mail'];; // Number
+					$Member_ID = $Key_Fetch['Member_ID'];
 
 					$Salt = stringGenerator();
 
-					$Login_Hash = passHash($Pass_New, $Salt);
+					$Pass_Hash = passHash($Pass_New, $Salt);
 
 					$Time = time();
 
-					$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `Mail`='$Member_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+					$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 					if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
 
-					$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0', `Modified`='$Time' WHERE `Key`='$Key'", MYSQLI_STORE_RESULT);
+					$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0', `Modified`='$Time' WHERE `Key`='$Reset_Key'", MYSQLI_STORE_RESULT);
 					if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($MySQL_Connection));
 
 					require '../../header.php';
