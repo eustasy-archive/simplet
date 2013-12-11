@@ -17,7 +17,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 	</div>
 	<div class="content spanpage clouds">
 		<a href="https://github.com/eustasy/simplet">
-			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Simplet on GitHub" style="position: absolute; right: 0;">
+			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Simplet on GitHub" class="tr-banner">
 		</a>
 		<div class="bubble">
 			<h3>a simple, file-based, cms framework written in php</h3>
@@ -46,13 +46,14 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	<div class="content spanpage rocks">
 		<div class="section group">
-			<div class="col span_1_of_2">
+			<div class="col span_5_of_11">
 				<div class="bubble equalize">
 					<h3>Responsive</h3>
 					<p>Try resizing the page. Did you do it? See how cool these columns are, how they just drop down into place. That makes this website work on any screen down to 320px wide. That's about the size of the smallest phone screen with internet.</p>
 				</div>
 			</div>
-			<div class="col span_1_of_2">
+			<div class="col span_1_of_11"><br></div>
+			<div class="col span_5_of_11">
 				<div class="bubble equalize">
 					<h3>Responses</h3>
 					<blockquote>

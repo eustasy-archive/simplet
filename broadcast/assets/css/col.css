@@ -4,7 +4,7 @@
 	margin: 0;
 }
 .group:before, .group:after {
-	content: "";
+	content: '';
 	display: table;
 }
 .group:after { clear: both; }
@@ -14,6 +14,8 @@
 	float: left;
 	margin: 0;
 }
+
+#skiptomain { display: none; }
 
 @media only screen and (min-width:1200px) { /* Laptops */
 
@@ -85,26 +87,33 @@
 	.span_11_of_12 { width: 91.66%; }
 	.span_1_of_1 { width: 100%; }
 
-	#skiptomain { display: none; }
-
 }
 
 @media only screen and (max-width:1199px) { /* Tablets */
-	.span_1_of_2, .span_1_of_2, .span_2_of_2, .span_1_of_3, .span_2_of_3, .span_3_of_3, .span_2_of_4, .span_3_of_4, .span_4_of_4, .span_1_of_5, .span_2_of_5, .span_3_of_5, .span_4_of_5, .span_5_of_5, .span_1_of_6, .span_2_of_6, .span_3_of_6, .span_4_of_6, .span_5_of_6, .span_6_of_6, .span_1_of_7, .span_2_of_7, .span_3_of_7, .span_4_of_7, .span_5_of_7, .span_6_of_7, .span_7_of_7, .span_4_of_8, .span_5_of_8, .span_6_of_8, .span_7_of_8, .span_8_of_8, .span_1_of_9, .span_2_of_9, .span_3_of_9, .span_4_of_9, .span_5_of_9, .span_6_of_9, .span_7_of_9, .span_8_of_9, .span_9_of_9, .span_1_of_10, .span_2_of_10, .span_3_of_10, .span_4_of_10, .span_5_of_10, .span_6_of_10, .span_7_of_10, .span_8_of_10, .span_9_of_10, .span_10_of_10, .span_1_of_11, .span_2_of_11, .span_3_of_11, .span_4_of_11, .span_5_of_11, .span_6_of_11, .span_7_of_11, .span_8_of_11, .span_9_of_11, .span_10_of_11, .span_11_of_11, .span_1_of_12, .span_2_of_12, .span_3_of_12, .span_4_of_12, .span_5_of_12, .span_6_of_12, .span_7_of_12, .span_8_of_12, .span_9_of_12, .span_10_of_12, .span_11_of_12, .span_12_of_12 { width: 100%; }
-	.span_1_of_4:nth-child(2n+1) {
-		clear: both;
-	}
+	.span_1_of_2, .span_1_of_2, .span_2_of_2, .span_1_of_3, .span_2_of_3, .span_3_of_3, .span_3_of_4, .span_4_of_4, .span_1_of_5, .span_2_of_5, .span_3_of_5, .span_4_of_5, .span_5_of_5, .span_1_of_6, .span_2_of_6, .span_3_of_6, .span_4_of_6, .span_5_of_6, .span_6_of_6, .span_1_of_7, .span_2_of_7, .span_3_of_7, .span_4_of_7, .span_5_of_7, .span_6_of_7, .span_7_of_7, .span_4_of_8, .span_5_of_8, .span_6_of_8, .span_7_of_8, .span_8_of_8, .span_1_of_9, .span_2_of_9, .span_3_of_9, .span_4_of_9, .span_5_of_9, .span_6_of_9, .span_7_of_9, .span_8_of_9, .span_9_of_9, .span_1_of_10, .span_2_of_10, .span_3_of_10, .span_4_of_10, .span_5_of_10, .span_6_of_10, .span_7_of_10, .span_8_of_10, .span_9_of_10, .span_10_of_10, .span_2_of_11, .span_3_of_11, .span_4_of_11, .span_6_of_11, .span_7_of_11, .span_8_of_11, .span_9_of_11, .span_10_of_11, .span_11_of_11, .span_1_of_12, .span_2_of_12, .span_3_of_12, .span_4_of_12, .span_5_of_12, .span_6_of_12, .span_7_of_12, .span_8_of_12, .span_9_of_12, .span_10_of_12, .span_11_of_12, .span_12_of_12 { width: 100%; }
 	.span_1_of_8 { width: 25%; }
+	.span_2_of_4,
 	.span_2_of_8 { width: 50%; }
 	.span_3_of_8 { width: 75%; }
-	.span_1_of_8:nth-child(4n+1) {
-		clear: both;
-	}
+	.span_1_of_4:nth-child(2n+1),
+	.span_1_of_8:nth-child(4n+1) { clear: both; }
+	.span_1_of_11 { width: 9.09%; }
+	.span_5_of_11 { width: 45.45%; }
 }
 
 @media only screen and (max-width:799px) { /* Phones */
+
+	#skiptomain { display: block; }
+
 	.equalize { height: auto !important; }
-	.span_1_of_2, .span_1_of_2, .span_2_of_2, .span_1_of_3, .span_2_of_3, .span_3_of_3, .span_1_of_4, .span_2_of_4, .span_3_of_4, .span_4_of_4, .span_1_of_5, .span_2_of_5, .span_3_of_5, .span_4_of_5, .span_5_of_5, .span_1_of_6, .span_2_of_6, .span_3_of_6, .span_4_of_6, .span_5_of_6, .span_6_of_6, .span_1_of_7, .span_2_of_7, .span_3_of_7, .span_4_of_7, .span_5_of_7, .span_6_of_7, .span_7_of_7, .span_2_of_8, .span_3_of_8, .span_4_of_8, .span_5_of_8, .span_6_of_8, .span_7_of_8, .span_8_of_8, .span_1_of_9, .span_2_of_9, .span_3_of_9, .span_4_of_9, .span_5_of_9, .span_6_of_9, .span_7_of_9, .span_8_of_9, .span_9_of_9, .span_1_of_10, .span_2_of_10, .span_3_of_10, .span_4_of_10, .span_5_of_10, .span_6_of_10, .span_7_of_10, .span_8_of_10, .span_9_of_10, .span_10_of_10, .span_1_of_11, .span_2_of_11, .span_3_of_11, .span_4_of_11, .span_5_of_11, .span_6_of_11, .span_7_of_11, .span_8_of_11, .span_9_of_11, .span_10_of_11, .span_11_of_11, .span_1_of_12, .span_2_of_12, .span_3_of_12, .span_4_of_12, .span_5_of_12, .span_6_of_12, .span_7_of_12, .span_8_of_12, .span_9_of_12, .span_10_of_12, .span_11_of_12, .span_12_of_12 { width: 100%; }
+
+	.span_2_of_4,
+	.span_2_of_8,
+	.span_3_of_8,
+	.span_1_of_11,
+	.span_5_of_11 { width: 100%; }
+	.span_1_of_4:nth-child(2n+1) { clear: none; }
+
 	.span_1_of_8 { width: 50%; }
 	.span_1_of_8:nth-child(2n+1) {
 		clear: both;

@@ -19,8 +19,7 @@
 	<link rel="icon" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/favicon.ico">
 	<link rel="shortcut icon" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/favicon.ico">
 	<link rel="stylesheet" media="all" href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans:300,400,400italic,600|Raleway:200,300,400">
-	<link rel="stylesheet" media="all" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/css/col.min.css">
-	<link rel="stylesheet" media="all" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/css/simplet.css">
+	<link rel="stylesheet" media="all" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/css/combined.min.css">
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
