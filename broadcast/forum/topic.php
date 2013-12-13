@@ -63,28 +63,33 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		echo '
 		<h2>'.$Topic_Title.'</h2>
 		'.$Topic_Description;
-		// TODO List Topic Posts
-		echo '
+
+		$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_ID`='$Topic_ID' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+		if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
+
+		$Replies_Count = mysqli_num_rows($Replies);
+		if ($Replies_Count == 0) {
+			echo '<h3>No replies.</h3>';
+		} else {
+
+			while($Replies_Fetch = mysqli_fetch_assoc($Replies)) {
+				$Reply_Member_ID = $Replies_Fetch['Member_ID'];
+				$Reply_Post = html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8');
+				$Reply_Created = date('d M. Y H:i', $Replies_Fetch['Created']);
+				$Reply_Modified = $Replies_Fetch['Modified'];
+				echo '
 		<div class="section group darkrow">
-			<div class="col span_2_of_12 textcenter"><p>Lewis Goddard</p></div>
-			<div class="col span_10_of_12  faded"><p>22 Oct, 2013 22:15</p></div>
+			<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_ID.'</p></div>
+			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
 		</div>
 		<div class="section group reply">
 			<div class="col span_2_of_12"><img class="avatar" src="http://lewisgoddard.eustasy.org/images/faces/circular-blue-small-cropped-compressed.png"></div>
 			<div class="col span_10_of_12">
-				<p>Lorem ipsum dolor sit amet, <a href="#">test link</a> adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p>
+				<p>'.$Reply_Post.'</p>
 			</div>
-		</div>
-		<div class="section group darkrow">
-			<div class="col span_2_of_12 textcenter"><p>Lewis Goddard</p></div>
-			<div class="col span_10_of_12 faded"><p>22 Oct, 2013 22:15</p></div>
-		</div>
-		<div class="section group reply">
-			<div class="col span_2_of_12"><img class="avatar" src="http://lewisgoddard.eustasy.org/images/faces/circular-red-small-compressed.png"></div>
-			<div class="col span_10_of_12">
-				<p>Lorem ipsum dolor sit amet, emphasis consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p>
-			</div>
-		</div>';
+		</div>'; // TODO Gravatars, Markdown Post
+			}
+		}
 
 		require '../../footer.php';
 	}

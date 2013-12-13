@@ -63,3 +63,16 @@ CREATE TABLE IF NOT EXISTS `Topics` (
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- Create Table for Replies
+CREATE TABLE IF NOT EXISTS `Replies` (
+  `ID` int(255) NOT NULL AUTO_INCREMENT,
+  `Member_ID` varchar(12) NOT NULL,
+  `Topic_ID` varchar(255) NOT NULL,
+  `Status` varchar(12) NOT NULL,
+  `Post` MEDIUMTEXT NOT NULL,
+  `Created` int(11) NOT NULL,
+  `Modified` int(11) NOT NULL,
+  UNIQUE KEY `ID` (`ID`),
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Topic_ID` (`Topic_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
