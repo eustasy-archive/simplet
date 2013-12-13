@@ -34,6 +34,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		}
 	} else {
 
+		require '../../parsedown.php';
+
 		echo '
 		<div class="section group darkrow">
 			<div class="col span_1_of_12"><br></div>
@@ -45,8 +47,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
 			$Topics_Status = $Topics_Fetch['Status'];
 			$Topics_Title = html_entity_decode($Topics_Fetch['Title'], ENT_QUOTES, 'UTF-8');
-			$Topics_Description = html_entity_decode($Topics_Fetch['Description'], ENT_QUOTES, 'UTF-8');
-			$Topics_Created = date('d M. Y H:i', $Topics_Fetch['Created']);
+			$Topics_Created = date('d M, Y H:i', $Topics_Fetch['Created']);
 			$Topics_Modified = $Topics_Fetch['Modified'];
 			echo '
 		<a href="#" class="section group topic">
@@ -54,9 +55,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
 			<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
 			<div class="col span_2_of_12 textcenter"><p><span>'.$Topics_Created.'</span></p></div>
-			<div class="clear"></div>
-			<div class="col span_1_of_12"><br></div>
-			<div class="col span_11_of_12">'.$Topics_Description.'</div>
 		</a>'; // TODO Unread/Read, Reply Count, Strip Markdown from Description (maybe database that)
 		}
 	}

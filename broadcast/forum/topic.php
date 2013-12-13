@@ -27,11 +27,12 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		require '../../footer.php';
 	} else {
 
+		require '../../parsedown.php';
+
 		$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
 		$Topic_Status = $Topic_Fetch['Status'];
-		$Topic_Title = $Topic_Fetch['Title'];
-		$Topic_Description = $Topic_Fetch['Description'];
-		$Topic_Created = $Topic_Fetch['Created'];
+		$Topic_Title = html_entity_decode($Topic_Fetch['Title'], ENT_QUOTES, 'UTF-8');
+		$Topic_Created = date('d M, Y H:i', $Topic_Fetch['Created']);
 		$Topic_Modified = $Topic_Fetch['Modified'];
 
 		if($Topic_Status=='Hidden'){
@@ -54,15 +55,14 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$TextTitle = $Topic_Title; // TODO Add Topic Title
 		$WebTitle = $Topic_Title; // TODO Add Topic Title
 		$Canonical = 'forum/topic?topic='.$Topic_ID; // TODO New Topic
-		$Description = ''; // TODO Add Topic Description
+		$Description = $Topic_Title; // TODO Add Topic Description
 		$Keywords = 'topic forum'; // TODO Add Topic Keywords
 
 
 		require '../../header.php';
 
 		echo '
-		<h2>'.$Topic_Title.'</h2>
-		'.$Topic_Description;
+		<h2>'.$Topic_Title.'</h2>';
 
 		$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_ID`='$Topic_ID' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
 		if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
@@ -74,8 +74,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 			while($Replies_Fetch = mysqli_fetch_assoc($Replies)) {
 				$Reply_Member_ID = $Replies_Fetch['Member_ID'];
-				$Reply_Post = html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8');
-				$Reply_Created = date('d M. Y H:i', $Replies_Fetch['Created']);
+				$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
+				$Reply_Created = date('d M, Y H:i', $Replies_Fetch['Created']);
 				$Reply_Modified = $Replies_Fetch['Modified'];
 				echo '
 		<div class="section group darkrow">
@@ -85,7 +85,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		<div class="section group reply">
 			<div class="col span_2_of_12"><img class="avatar" src="http://lewisgoddard.eustasy.org/images/faces/circular-blue-small-cropped-compressed.png"></div>
 			<div class="col span_10_of_12">
-				<p>'.$Reply_Post.'</p>
+				'.$Reply_Post.'
 			</div>
 		</div>'; // TODO Gravatars, Markdown Post
 			}

@@ -57,7 +57,6 @@ CREATE TABLE IF NOT EXISTS `Topics` (
   `Status` varchar(12) NOT NULL,
   `Category` varchar(255) NOT NULL,
   `Title` varchar(500) NOT NULL,
-  `Description` MEDIUMTEXT NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),

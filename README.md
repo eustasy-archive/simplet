@@ -35,3 +35,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Inter-User Messaging
 - Gravatar Avatars
 - User Profiles
+##Libraries
+- [Browning](https://github.com/eustasy/browning-a-mailgun-script)
+- [Parsedown](https://github.com/erusev/parsedown)

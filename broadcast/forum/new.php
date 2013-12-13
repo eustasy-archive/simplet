@@ -4,11 +4,9 @@ function sluggify($url) {
 
 	# Prep string with some basic normalization
 	$url = strtolower($url);
-
 	$url = htmlentities($url, ENT_QUOTES, 'UTF-8');
 	$url = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $url);
 	$url = html_entity_decode($url, ENT_QUOTES, 'UTF-8');
-
 	$url = strip_tags($url);
 	$url = stripslashes($url);
 

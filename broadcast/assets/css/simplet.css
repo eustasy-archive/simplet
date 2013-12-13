@@ -451,10 +451,11 @@ code, .code {
 .topic .icon {
 	color: #ddd;
 	font-size: 3em;
-	margin: -.25em 0 0 .5em;
+	line-height: 1;
+	margin: 0 .5em;
+	list-style: circle;
 }
 .topic .icon.unread { list-style: disc; }
-.topic .icon.unread { list-style: circle; }
 .avatar {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
