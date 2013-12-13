@@ -38,3 +38,4 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 ##Libraries
 - [Browning](https://github.com/eustasy/browning-a-mailgun-script)
 - [Parsedown](https://github.com/erusev/parsedown)
+- [HTML5 Reset](https://github.com/murtaugh/HTML5-Reset)
