@@ -63,4 +63,4 @@
 		</nav>
 	</header>
 
-	<div class="content">
+	<?php if ($Request['path'] != '/') echo '<div class="content">';

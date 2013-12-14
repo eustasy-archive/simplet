@@ -14,7 +14,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	require '../header.php'; ?>
 
-	</div>
 	<div class="content spanpage clouds">
 		<a href="https://github.com/eustasy/simplet">
 			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Simplet on GitHub" class="tr-banner">

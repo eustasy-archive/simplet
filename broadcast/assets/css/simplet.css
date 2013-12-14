@@ -322,7 +322,7 @@ blockquote {
 
 
 /*  TYPOGRAPHY  ============================================================================= */
-p, ol, ul, dl, address {
+p, ol, ul, dl, pre, address {
 	margin: 0;
 	padding: 10px;
 }
@@ -337,9 +337,13 @@ p {
 
 li ul,
 li ol {
-margin : 0;
-font-size : 1em; /* 16 / 16 = 1 */ }
+	margin : 0;
+	font-size : 1em;
+}
 ul.nolist { list-style: none; }
+ul { list-style: disc; }
+li { margin-left: 1.5em; }
+
 
 dl,
 dd {
