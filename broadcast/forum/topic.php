@@ -67,28 +67,82 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_ID`='$Topic_ID' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
 		if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
 
-		$Replies_Count = mysqli_num_rows($Replies);
-		if ($Replies_Count == 0) {
-			echo '<h3>No replies.</h3>';
-		} else {
+		$Replies_Members_IDs = array();
+		$Replies_Members_Names = array();
+		$Replies_Members_Avatar = array();
 
-			while($Replies_Fetch = mysqli_fetch_assoc($Replies)) {
-				$Reply_Member_ID = $Replies_Fetch['Member_ID'];
-				$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
-				$Reply_Created = date('d M, Y H:i', $Replies_Fetch['Created']);
-				$Reply_Modified = $Replies_Fetch['Modified'];
+		while($Replies_Fetch = mysqli_fetch_assoc($Replies)) {
+
+			$Reply_Member_ID = $Replies_Fetch['Member_ID'];
+			$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
+			$Reply_Created = date('d M, Y H:i', $Replies_Fetch['Created']);
+			$Reply_Modified = $Replies_Fetch['Modified'];
+
+			if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
+				$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);
 				echo '
 		<div class="section group darkrow">
-			<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_ID.'</p></div>
+			<div class="col span_2_of_12 textcenter"><p>'.$Replies_Members_Names[$Replies_Members_Num].'</p></div>
 			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
 		</div>
 		<div class="section group reply">
-			<div class="col span_2_of_12"><img class="avatar" src="http://lewisgoddard.eustasy.org/images/faces/circular-blue-small-cropped-compressed.png"></div>
+			<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Replies_Members_Avatar[$Replies_Members_Num].'?s=248&d=identicon"></div>
 			<div class="col span_10_of_12">
 				'.$Reply_Post.'
 			</div>
-		</div>'; // TODO Gravatars, Markdown Post
+		</div>';
+			} else {
+				$Reply_Member = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `ID`='$Reply_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+				if (!$Reply_Member) exit('Invalid Query (Reply_Member): '.mysqli_error($MySQL_Connection));
+				$Reply_Member_Count = mysqli_num_rows($Reply_Member);
+				if($Reply_Member_Count == 0) {
+					echo '
+		<div class="section group darkrow">
+			<div class="col span_2_of_12 textcenter"><p>Deactivated</p></div>
+			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
+		</div>
+		<div class="section group reply">
+			<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/deactivated?s=248&d=mm"></div>
+			<div class="col span_10_of_12">
+				'.$Reply_Post.'
+			</div>
+		</div>';
+				} else {
+					$Replies_Members_ID[] = $Reply_Member_ID;
+					$Reply_Member_Fetch = mysqli_fetch_assoc($Reply_Member);
+					$Reply_Member_Fetch_Name = $Reply_Member_Fetch['Name'];
+					$Replies_Members_Names[] = $Reply_Member_Fetch_Name;
+					$Reply_Member_Fetch_Avatar = md5($Reply_Member_Fetch['Mail']);
+					$Replies_Members_Avatar[] = $Reply_Member_Fetch_Avatar;
+					echo '
+		<div class="section group darkrow">
+			<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_Fetch_Name.'</p></div>
+			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
+		</div>
+		<div class="section group reply">
+			<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Reply_Member_Fetch_Avatar.'?s=248&d=identicon"></div>
+			<div class="col span_10_of_12">
+				'.$Reply_Post.'
+			</div>';
+				}
 			}
+		}
+
+		if($Member_Auth) {
+			echo '
+		<div class="section group reply">
+			<form action="reply" method="post">
+				<input type="hidden" name="topic_id" value="'.$Topic_ID.'" />
+				<div class="col span_2_of_12"><br></div>
+				<div class="col span_10_of_12">
+					<textarea name="post" required></textarea>
+				</div>
+				<div class="col span_10_of_12"><br></div>
+				<div class="col span_2_of_12">
+					<input type="submit" value="Reply" />
+				</div>
+			</form>
+		</div>';
 		}
 
 		require '../../footer.php';

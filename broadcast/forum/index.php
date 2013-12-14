@@ -45,17 +45,32 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		</div>';
 
 		while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
+
+			$Topics_ID = $Topics_Fetch['ID'];
 			$Topics_Status = $Topics_Fetch['Status'];
 			$Topics_Title = html_entity_decode($Topics_Fetch['Title'], ENT_QUOTES, 'UTF-8');
 			$Topics_Created = date('d M, Y H:i', $Topics_Fetch['Created']);
 			$Topics_Modified = $Topics_Fetch['Modified'];
-			echo '
-		<a href="#" class="section group topic">
+
+			if($Topics_Status == 'Public') {
+				echo '
+		<a href="topic?topic='.$Topics_ID.'" class="section group topic">
 			<div class="col span_1_of_12"><li class="icon unread"></li></div>
 			<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
 			<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
 			<div class="col span_2_of_12 textcenter"><p><span>'.$Topics_Created.'</span></p></div>
-		</a>'; // TODO Unread/Read, Reply Count, Strip Markdown from Description (maybe database that)
+		</a>'; // TODO Unread/Read, Reply Count
+
+			} else if($Topics_Status == 'Private' && $Member_Auth) {
+				echo '
+		<a href="topic?topic='.$Topics_ID.'" class="section group topic private">
+			<div class="col span_1_of_12"><li class="icon unread"></li></div>
+			<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
+			<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
+			<div class="col span_2_of_12 textcenter"><p><span>'.$Topics_Created.'</span></p></div>
+		</a>'; // TODO Unread/Read, Reply Count
+			}
+
 		}
 	}
 

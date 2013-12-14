@@ -10,7 +10,7 @@
 
 	require_once '../../request.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
+if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
 	if(!$Member_Auth) { // Handle Invalid Sessions
 		$Error = 'You are not logged in.';
@@ -34,17 +34,17 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	}
 
-	if($Error) {
+	if(isset($Error) && $Error) {
 
 		require '../../header.php';
 
-		echo '<h2>Error: ' . $Error . '</h2>';
+		echo '<h2>Error: '.$Error.'</h2>';
 		echo '<h3>Simplet encountered an error processing your reply.</h3>';
 
 		require '../../footer.php';
 
 	} else {
-		header('Location: /forum/', TRUE, 302);
+		header('Location: /forum/topic?topic='.$Topic_ID, TRUE, 302);
 		die();
 	}
 
