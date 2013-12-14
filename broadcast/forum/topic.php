@@ -83,7 +83,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				echo '
 		<div class="section group darkrow">
 			<div class="col span_2_of_12 textcenter"><p>'.$Replies_Members_Names[$Replies_Members_Num].'</p></div>
-			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
+			<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
 		</div>
 		<div class="section group reply">
 			<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Replies_Members_Avatar[$Replies_Members_Num].'?s=248&d=identicon"></div>
@@ -99,7 +99,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					echo '
 		<div class="section group darkrow">
 			<div class="col span_2_of_12 textcenter"><p>Deactivated</p></div>
-			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
+			<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
 		</div>
 		<div class="section group reply">
 			<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/deactivated?s=248&d=mm"></div>
@@ -117,32 +117,43 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					echo '
 		<div class="section group darkrow">
 			<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_Fetch_Name.'</p></div>
-			<div class="col span_10_of_12  faded"><p>'.$Reply_Created.'</p></div>
+			<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
 		</div>
 		<div class="section group reply">
 			<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Reply_Member_Fetch_Avatar.'?s=248&d=identicon"></div>
 			<div class="col span_10_of_12">
 				'.$Reply_Post.'
-			</div>';
+			</div>
+		</div>';
 				}
 			}
 		}
 
 		if($Member_Auth) {
 			echo '
-		<div class="section group reply">
+		<div class="clear"></div>
+		<div class="section group">
 			<form action="reply" method="post">
 				<input type="hidden" name="topic_id" value="'.$Topic_ID.'" />
 				<div class="col span_2_of_12"><br></div>
 				<div class="col span_10_of_12">
+					<h3>Post a Reply</h3>
 					<textarea name="post" required></textarea>
 				</div>
-				<div class="col span_10_of_12"><br></div>
+				<div class="col span_2_of_12"><br></div>
+				<div class="col span_8_of_12">
+					<p><small>If you wish, you can use Markdown for formatting.<br>
+					Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+				</div>
 				<div class="col span_2_of_12">
 					<input type="submit" value="Reply" />
 				</div>
 			</form>
 		</div>';
+		} else {
+			echo '
+		<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
 		}
 
 		require '../../footer.php';

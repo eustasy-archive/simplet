@@ -18,9 +18,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 	<h2>Forum</h2>';
 
 	if($Member_Auth) {
-		$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden'", MYSQLI_STORE_RESULT);
+		$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
 	} else {
-		$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private'", MYSQLI_STORE_RESULT);
+		$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
 	}
 
 	if (!$Topics) exit('Invalid Query (Topics): '.mysqli_error($MySQL_Connection));
@@ -49,7 +49,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topics_ID = $Topics_Fetch['ID'];
 			$Topics_Status = $Topics_Fetch['Status'];
 			$Topics_Title = html_entity_decode($Topics_Fetch['Title'], ENT_QUOTES, 'UTF-8');
-			$Topics_Created = date('d M, Y H:i', $Topics_Fetch['Created']);
+			$Topics_Created = date('d M, Y', $Topics_Fetch['Created']);
 			$Topics_Modified = $Topics_Fetch['Modified'];
 
 			if($Topics_Status == 'Public') {
