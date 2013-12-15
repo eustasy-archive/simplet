@@ -158,7 +158,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 				if($Category_Status == 'Public') {
 					echo '
-				<a href="?category='.$Category_Slug.'" class="section group topic">
+				<a href="?category='.$Category_Slug.'" class="section group category">
 					<div class="col span_1_of_12"><li class="icon unread"></li></div>
 					<div class="col span_7_of_12">
 						<p class="title">'.$Category_Title.'</p>
@@ -170,7 +170,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 				} else if($Category_Status == 'Private' && $Member_Auth) {
 					echo '
-				<a href="?category='.$Category_Slug.'" class="section group topic">
+				<a href="?category='.$Category_Slug.'" class="section group category private">
 					<div class="col span_1_of_12"><li class="icon unread"></li></div>
 					<div class="col span_7_of_12">
 						<p class="title">'.$Category_Title.'</p>
