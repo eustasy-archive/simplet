@@ -50,7 +50,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		}
 
 		$TextTitle = $Topic_Title;
-		$WebTitle = $Topic_Title' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
+		$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
 		$Canonical = 'forum/topic?topic='.$Topic_ID;
 		$Description = $Topic_Title;
 		$Keywords = $Topic_Title.' topic forum';
