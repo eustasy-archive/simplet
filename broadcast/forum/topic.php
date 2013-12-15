@@ -19,7 +19,6 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	$Topic_Count = mysqli_num_rows($Topic_Check);
 	if($Topic_Count==0) {
-		// TODO Topic does no exist
 		require '../../header.php';
 		echo '
 		<h2>Error: Topic does not exist</h2>
@@ -36,14 +35,12 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Topic_Modified = $Topic_Fetch['Modified'];
 
 		if($Topic_Status=='Hidden'){
-			// TODO Topic is Hidden
 			require '../../header.php';
 			echo '
 			<h2>Error: Topic is Hidden</h2>
 			<p class="textcenter">You may never know what is here...</p>';
 			require '../../footer.php';
 		} else if($Topic_Status=='Private' && !$Member_Auth) {
-			// TODO Topic is private
 			require '../../header.php';
 			echo '
 			<h2>Error: Topic is private</h2>

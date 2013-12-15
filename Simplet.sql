@@ -50,6 +50,20 @@ CREATE TABLE IF NOT EXISTS `Failures` (
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- Create Table for Categories
+CREATE TABLE IF NOT EXISTS `Categories` (
+  `ID` int(255) NOT NULL AUTO_INCREMENT,
+  `Member_ID` varchar(12) NOT NULL,
+  `Status` varchar(12) NOT NULL,
+  `Title` varchar(255) NOT NULL,
+  `Slug` varchar(255) NOT NULL,
+  `Description` varchar(255) NOT NULL,
+  `Created` int(11) NOT NULL,
+  `Modified` int(11) NOT NULL,
+  UNIQUE KEY `ID` (`ID`),
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Title` (`Title`),
+  KEY `Slug` (`Slug`)
 -- Create Table for Topics
 CREATE TABLE IF NOT EXISTS `Topics` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -75,3 +89,4 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   KEY `Member_ID` (`Member_ID`),
   KEY `Topic_ID` (`Topic_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
