@@ -118,33 +118,19 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Member_ID`, `Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Member_ID', '$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
 				if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
-				$Mail_Curl = curl_init();
+				require '../../Browning_Send.php';
 
-				curl_setopt($Mail_Curl, CURLOPT_URL, $Mail_URL);
-				curl_setopt($Mail_Curl, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($Mail_Curl, CURLOPT_USERPWD, 'api:'.$Mail_Key);
-				curl_setopt($Mail_Curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-				curl_setopt_array($Mail_Curl, array(
-					CURLOPT_POST => 1,
-					CURLOPT_POSTFIELDS => array(
-						'from' => $Mail_From.' <'.$Mail_Reply.'>',
-						'to' => $Reset_Mail,
-						'subject' => 'Password Reset',
-						'text' => 'Hello '.$Member_Name.', you wanted to reset your password? '.$Request['scheme'].'://'.$Request['host'].'/account/reset?key='.$Reset_Key
-					)
-				));
-
-				$Mail_Response = curl_exec($Mail_Curl);
-				$Mail_Info = curl_getinfo($Mail_Curl);
-
-				if(curl_errno($Mail_Curl)) exit(curl_errno($Mail_Curl).' Error: '.curl_error($Mail_Curl));
+				$Mail_Response = Browning_Send(
+					$Reset_Mail,
+					'Password Reset',
+					'Hello '.$Member_Name.', you wanted to reset your password? '.$Request['scheme'].'://'.$Request['host'].'/account/reset?key='.$Reset_Key,
+				);
 
 				if($Mail_Response) {
 					$Reset_Message = 'A Password Reset has been initiated. Please check your email.';
 				} else {
 					$Error = 'Unable to send mail.';
 				}
-				curl_close($Mail_Curl);
 
 			}
 
