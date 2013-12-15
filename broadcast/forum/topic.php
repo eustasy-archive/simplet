@@ -49,12 +49,11 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		}
 
-		$TextTitle = $Topic_Title; // TODO Add Topic Title
-		$WebTitle = $Topic_Title; // TODO Add Topic Title
-		$Canonical = 'forum/topic?topic='.$Topic_ID; // TODO New Topic
-		$Description = $Topic_Title; // TODO Add Topic Description
-		$Keywords = 'topic forum'; // TODO Add Topic Keywords
-
+		$TextTitle = $Topic_Title;
+		$WebTitle = $Topic_Title' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
+		$Canonical = 'forum/topic?topic='.$Topic_ID;
+		$Description = $Topic_Title;
+		$Keywords = $Topic_Title.' topic forum';
 
 		require '../../header.php';
 
