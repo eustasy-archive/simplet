@@ -56,6 +56,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 			$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 			if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
+			// TODO If $Topic_Post add Post to Topic
+
 			header('Location: /forum/topic?topic='.$Topic_Slug, TRUE, 302);
 			die();
 
