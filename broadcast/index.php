@@ -1,7 +1,7 @@
 <?php
 
 	$TextTitle = 'Simplet';
-	$WebTitle = 'a simple, file-based, cms framework written in php';
+	$WebTitle = 'a simple, modular, cms framework written in php';
 	$Canonical = '';
 	$PostType = 'Index';
 	$FeaturedImage = '';
@@ -19,7 +19,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Simplet on GitHub" class="tr-banner">
 		</a>
 		<div class="bubble">
-			<h3>a simple, file-based, cms framework written in php</h3>
+			<h3>a simple, modular, cms framework written in php</h3>
 			<hr>
 			<p class="italic faded textcenter">with members, forums, and blogging built in</p>
 		</div>
@@ -31,7 +31,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		<div class="section group">
 			<div class="col span_1_of_2">
 				<h3>About</h3>
-				<p>Simplet is a small, simple, file-based Content Management System designed for use on Linux/Nginx/PHP5-FPM stacks with MySQL-like database systems (we prefer <a href="http://mariadb.org">MariaDB</a>) that includes a basic membership system, blog and forum options plus a nice default responsive template for you to build on.</p>
+				<p>Simplet is a small, simple, Content Management System designed for use on Linux/Nginx/PHP5-FPM stacks with MySQL-like database systems (we prefer <a href="http://mariadb.org">MariaDB</a>) that includes a basic membership system, blog and forum options plus a nice default responsive template for you to build on.</p>
 				<p>It aims to extend the HTML5 Boilerplates by building one directly into a PHP Framework all of its own.</p>
 			</div>
 			<div class="col span_1_of_2">
