@@ -34,18 +34,29 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 				$Topic_Post = false;
 			}
 
+			$Topic_Slug = strtolower($_POST['title']);
+			$Topic_Slug = htmlentities($Topic_Slug, ENT_QUOTES, 'UTF-8');
+			$Topic_Slug = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $Topic_Slug);
+			$Topic_Slug = html_entity_decode($Topic_Slug, ENT_QUOTES, 'UTF-8');
+			$Topic_Slug = strip_tags($Topic_Slug);
+			$Topic_Slug = stripslashes($Topic_Slug);
+
+			$Topic_Slug = str_replace('\'', '', $Topic_Slug);
+
+			$Topic_Slug = preg_replace('/[^a-z0-9]+/', '-', $Topic_Slug);
+
+			$Topic_Slug = strtr($Topic_Slug, 'àáâãäåòóôõöøèéêëðçìíîïùúûüñšž', 'aaaaaaooooooeeeeeciiiiuuuunsz');
+			$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
+
+			$Topic_Slug = trim($Topic_Slug, '-');
+
 			$Time = time();
 			$Topic_Status = 'Public';
 
-			$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+			$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 			if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
-			
-			// TODO $Decision = generatedSlugs OR IDs (?)
-			// TODO Fetch $Decision
 
-			// TODO If $Topic_Post add Post to Topic
-
-			header('Location: /forum/topic?topic='.$Topic_ID, TRUE, 302);
+			header('Location: /forum/topic?topic='.$Topic_Slug, TRUE, 302);
 			die();
 
 		}
@@ -67,7 +78,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
 				</div>
 				<div class="col span_2_of_12">
-					<input type="submit" value="Create	">
+					<input type="submit" value="Create">
 				</div>
 			</div>
 		</form>';

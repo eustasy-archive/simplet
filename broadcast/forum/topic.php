@@ -12,9 +12,9 @@
 
 if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
-	$Topic_ID = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
+	$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
 
-	$Topic_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `ID`='$Topic_ID' LIMIT 0, 1", MYSQLI_STORE_RESULT);
+	$Topic_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Slug`='$Topic_Slug' LIMIT 0, 1", MYSQLI_STORE_RESULT);
 	if(!$Topic_Check) exit('Invalid Query (Topic_Check): '.mysqli_error($MySQL_Connection));
 
 	$Topic_Count = mysqli_num_rows($Topic_Check);
@@ -51,7 +51,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		$TextTitle = $Topic_Title;
 		$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
-		$Canonical = 'forum/topic?topic='.$Topic_ID;
+		$Canonical = 'forum/topic?topic='.$Topic_Slug;
 		$Description = $Topic_Title;
 		$Keywords = $Topic_Title.' topic forum';
 
@@ -60,7 +60,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		echo '
 		<h2>'.$Topic_Title.'</h2>';
 
-		$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_ID`='$Topic_ID' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+		$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
 		if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
 
 		$Replies_Members_IDs = array();
@@ -130,7 +130,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		<div class="clear"></div>
 		<div class="section group">
 			<form action="reply" method="post">
-				<input type="hidden" name="topic_id" value="'.$Topic_ID.'" />
+				<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
 				<div class="col span_2_of_12"><br></div>
 				<div class="col span_10_of_12">
 					<h3>Post a Reply</h3>
