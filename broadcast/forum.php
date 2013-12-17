@@ -18,7 +18,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 	if(isset($_POST['action'])) {
 
 		if(!$Member_Auth) {
-				$Error = 'You are not logged in.';
+    		header('HTTP/1.1 401 Unauthorized');
+			$Error = 'You are not logged in.';
 
 		} else if($_POST['action']=='reply') {
 
@@ -125,6 +126,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		$Topic_Count = mysqli_num_rows($Topic_Check);
 		if($Topic_Count==0) {
+			header('HTTP/1.1 404 Not Found');
 			require $Header;
 			echo '
 			<h2>Error: Topic does not exist</h2>
@@ -141,125 +143,127 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topic_Modified = $Topic_Fetch['Modified'];
 
 			if($Topic_Status=='Hidden'){
+				header('HTTP/1.1 403 Forbidden');
 				require $Header;
 				echo '
 				<h2>Error: Topic is Hidden</h2>
 				<p class="textcenter">You may never know what is here...</p>';
 				require $Footer;
 			} else if($Topic_Status=='Private' && !$Member_Auth) {
+    			header('HTTP/1.1 401 Unauthorized');
 				require $Header;
 				echo '
 				<h2>Error: Topic is private</h2>
 				<p class="textcenter">You need to login.</p>';
 				require $Footer;
+			} else {
 
-			}
+				$TextTitle = $Topic_Title;
+				$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
+				$Canonical = $Canonical.'?topic='.$Topic_Slug;
+				$Description = $Topic_Title;
+				$Keywords = $Topic_Title.' topic forum';
 
-			$TextTitle = $Topic_Title;
-			$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
-			$Canonical = $Canonical.'?topic='.$Topic_Slug;
-			$Description = $Topic_Title;
-			$Keywords = $Topic_Title.' topic forum';
+				require $Header;
 
-			require $Header;
+				echo '
+				<h2>'.$Topic_Title.'</h2>';
 
-			echo '
-			<h2>'.$Topic_Title.'</h2>';
+				$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+				if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
 
-			$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
-			if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
+				$Replies_Members_IDs = array();
+				$Replies_Members_Names = array();
+				$Replies_Members_Avatar = array();
 
-			$Replies_Members_IDs = array();
-			$Replies_Members_Names = array();
-			$Replies_Members_Avatar = array();
+				while($Replies_Fetch = mysqli_fetch_assoc($Replies)) {
 
-			while($Replies_Fetch = mysqli_fetch_assoc($Replies)) {
+					$Reply_Member_ID = $Replies_Fetch['Member_ID'];
+					$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
+					$Reply_Created = date('d M, Y H:i', $Replies_Fetch['Created']);
+					$Reply_Modified = $Replies_Fetch['Modified'];
 
-				$Reply_Member_ID = $Replies_Fetch['Member_ID'];
-				$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
-				$Reply_Created = date('d M, Y H:i', $Replies_Fetch['Created']);
-				$Reply_Modified = $Replies_Fetch['Modified'];
-
-				if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
-					$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);
-					echo '
-			<div class="section group darkrow">
-				<div class="col span_2_of_12 textcenter"><p>'.$Replies_Members_Names[$Replies_Members_Num].'</p></div>
-				<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
-			</div>
-			<div class="section group reply">
-				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Replies_Members_Avatar[$Replies_Members_Num].'?s=248&d=identicon"></div>
-				<div class="col span_10_of_12">
-					'.$Reply_Post.'
-				</div>
-			</div>';
-				} else {
-					$Reply_Member = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `ID`='$Reply_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
-					if (!$Reply_Member) exit('Invalid Query (Reply_Member): '.mysqli_error($MySQL_Connection));
-					$Reply_Member_Count = mysqli_num_rows($Reply_Member);
-					if($Reply_Member_Count == 0) {
+					if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
+						$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);
 						echo '
-			<div class="section group darkrow">
-				<div class="col span_2_of_12 textcenter"><p>Deactivated</p></div>
-				<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
-			</div>
-			<div class="section group reply">
-				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/deactivated?s=248&d=mm"></div>
-				<div class="col span_10_of_12">
-					'.$Reply_Post.'
+				<div class="section group darkrow">
+					<div class="col span_2_of_12 textcenter"><p>'.$Replies_Members_Names[$Replies_Members_Num].'</p></div>
+					<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
 				</div>
-			</div>';
+				<div class="section group reply">
+					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Replies_Members_Avatar[$Replies_Members_Num].'?s=248&d=identicon"></div>
+					<div class="col span_10_of_12">
+						'.$Reply_Post.'
+					</div>
+				</div>';
 					} else {
-						$Replies_Members_ID[] = $Reply_Member_ID;
-						$Reply_Member_Fetch = mysqli_fetch_assoc($Reply_Member);
-						$Reply_Member_Fetch_Name = $Reply_Member_Fetch['Name'];
-						$Replies_Members_Names[] = $Reply_Member_Fetch_Name;
-						$Reply_Member_Fetch_Avatar = md5($Reply_Member_Fetch['Mail']);
-						$Replies_Members_Avatar[] = $Reply_Member_Fetch_Avatar;
-						echo '
-			<div class="section group darkrow">
-				<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_Fetch_Name.'</p></div>
-				<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
-			</div>
-			<div class="section group reply">
-				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Reply_Member_Fetch_Avatar.'?s=248&d=identicon"></div>
-				<div class="col span_10_of_12">
-					'.$Reply_Post.'
+						$Reply_Member = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `ID`='$Reply_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+						if (!$Reply_Member) exit('Invalid Query (Reply_Member): '.mysqli_error($MySQL_Connection));
+						$Reply_Member_Count = mysqli_num_rows($Reply_Member);
+						if($Reply_Member_Count == 0) {
+							echo '
+				<div class="section group darkrow">
+					<div class="col span_2_of_12 textcenter"><p>Deactivated</p></div>
+					<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
 				</div>
-			</div>';
+				<div class="section group reply">
+					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/deactivated?s=248&d=mm"></div>
+					<div class="col span_10_of_12">
+						'.$Reply_Post.'
+					</div>
+				</div>';
+						} else {
+							$Replies_Members_ID[] = $Reply_Member_ID;
+							$Reply_Member_Fetch = mysqli_fetch_assoc($Reply_Member);
+							$Reply_Member_Fetch_Name = $Reply_Member_Fetch['Name'];
+							$Replies_Members_Names[] = $Reply_Member_Fetch_Name;
+							$Reply_Member_Fetch_Avatar = md5($Reply_Member_Fetch['Mail']);
+							$Replies_Members_Avatar[] = $Reply_Member_Fetch_Avatar;
+							echo '
+				<div class="section group darkrow">
+					<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_Fetch_Name.'</p></div>
+					<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
+				</div>
+				<div class="section group reply">
+					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Reply_Member_Fetch_Avatar.'?s=248&d=identicon"></div>
+					<div class="col span_10_of_12">
+						'.$Reply_Post.'
+					</div>
+				</div>';
+						}
 					}
 				}
-			}
 
-			if($Member_Auth) {
-				echo '
-			<div class="clear"></div>
-			<div class="section group">
-				<form action="" method="post">
-					<input type="hidden" name="action" value="reply" />
-					<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
-					<div class="col span_2_of_12"><br></div>
-					<div class="col span_10_of_12">
-						<h3>Post a Reply</h3>
-						<textarea name="post" required></textarea>
-					</div>
-					<div class="col span_2_of_12"><br></div>
-					<div class="col span_8_of_12">
-						<p><small>If you wish, you can use Markdown for formatting.<br>
-						Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-						<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-					</div>
-					<div class="col span_2_of_12">
-						<input type="submit" value="Reply" />
-					</div>
-				</form>
-			</div>';
-			} else {
-				echo '
-			<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
-			}
+				if($Member_Auth) {
+					echo '
+				<div class="clear"></div>
+				<div class="section group">
+					<form action="" method="post">
+						<input type="hidden" name="action" value="reply" />
+						<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
+						<div class="col span_2_of_12"><br></div>
+						<div class="col span_10_of_12">
+							<h3>Post a Reply</h3>
+							<textarea name="post" required></textarea>
+						</div>
+						<div class="col span_2_of_12"><br></div>
+						<div class="col span_8_of_12">
+							<p><small>If you wish, you can use Markdown for formatting.<br>
+							Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+							<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+						</div>
+						<div class="col span_2_of_12">
+							<input type="submit" value="Reply" />
+						</div>
+					</form>
+				</div>';
+				} else {
+					echo '
+				<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
+				}
 
-			require $Footer;
+				require $Footer;
+			}
 		}
 
 	} else if(isset($_GET['category']) && !empty($_GET['category'])) {
@@ -277,10 +281,12 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Categories_Count = mysqli_num_rows($Categories);
 		if ($Categories_Count == 0) {
 			if($Member_Auth) {
+				header('HTTP/1.1 404 Not Found');
 				require $Header;
 				echo '<h3>There is no such Category: "'.$Category_Slug.'".</h3>';
 				require $Footer;
 			} else {
+				header('HTTP/1.1 403 Forbidden');
 				require $Header;
 				echo '<h3>There is no such public Category: "'.$Category_Slug.'".</h3>';
 				require $Footer;
@@ -410,6 +416,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Categories_Count = mysqli_num_rows($Categories);
 		if ($Categories_Count == 0) {
 			if($Member_Auth) {
+    			header('HTTP/1.1 404 Not Found');
 				echo '
 				<h3>There are no Categories.</h3>';
 			} else {
