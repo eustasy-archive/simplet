@@ -68,10 +68,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
 					$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
 
-					if(!isset($_POST['post']) || empty($_POST['post'])) {
+					if(isset($_POST['post']) || !empty($_POST['post'])) {
+						$Topic_Run = true;
 						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 					} else {
-						$Topic_Post = false;
+						$Topic_Run = false;
 					}
 
 					$Topic_Slug = strtolower($_POST['title']);
@@ -80,14 +81,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Topic_Slug = html_entity_decode($Topic_Slug, ENT_QUOTES, 'UTF-8');
 					$Topic_Slug = strip_tags($Topic_Slug);
 					$Topic_Slug = stripslashes($Topic_Slug);
-
 					$Topic_Slug = str_replace('\'', '', $Topic_Slug);
-
+					$Topic_Slug = str_replace('"', '', $Topic_Slug);
 					$Topic_Slug = preg_replace('/[^a-z0-9]+/', '-', $Topic_Slug);
-
 					$Topic_Slug = strtr($Topic_Slug, 'àáâãäåòóôõöøèéêëðçìíîïùúûüñšž', 'aaaaaaooooooeeeeeciiiiuuuunsz');
 					$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
-
 					$Topic_Slug = trim($Topic_Slug, '-');
 
 					$Time = time();
@@ -98,7 +96,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
-					// TODO If $Topic_Post add Post to Topic
+					if($Topic_Run) {
+						$Reply_Status = 'Public';
+						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
+					}
 
 					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
 					die();
