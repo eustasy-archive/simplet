@@ -58,7 +58,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
 			// TODO If $Topic_Post add Post to Topic
 
-			header('Location: /forum/topic?topic='.$Topic_Slug, TRUE, 302);
+			header('Location: /forum/?topic='.$Topic_Slug, TRUE, 302);
 			die();
 
 		}

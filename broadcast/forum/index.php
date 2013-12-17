@@ -216,7 +216,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				require '../../parsedown.php';
 
 				echo '
-				<h2>'.$Category_Title.'</h2>';
+				<h2>'.$Category_Title.'</h2>
+				<p>'.$Category_Description;
+				if($Member_Auth) echo '<a class="floatright" href="new">New Topic</a>';
+				echo '</p>';
 
 				echo '
 				<div class="section group darkrow">
