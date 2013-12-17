@@ -2,17 +2,121 @@
 
 	$TextTitle = 'Forum';
 	$WebTitle = 'Forum';
-	$Canonical = 'forum/';
+	$Canonical = 'forum';
 	$PostType = 'Forum';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'forum';
 
-	require_once '../../request.php';
+	require_once '../request.php';
+	$Header = '../header.php';
+	$Footer = '../footer.php';
+	$Parsedown = '../parsedown.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
-	if(isset($_GET['topic']) && !empty($_GET['topic'])) {
+	if(isset($_POST['action'])) {
+
+		if(!$Member_Auth) {
+				$Error = 'You are not logged in.';
+
+		} else if($_POST['action']=='reply') {
+
+			if(!isset($_POST['topic_slug']) || empty($_POST['topic_slug'])) {
+				$Error = 'No Topic Slug Set.';
+
+			} else if(!isset($_POST['post']) || empty($_POST['post'])) {
+				$Error = 'You didn\'t enter a reply.';
+
+			} else {
+
+				$Topic_Slug = trim(htmlentities($_POST['topic_slug'], ENT_QUOTES, 'UTF-8'));
+				$Reply_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
+
+				if(empty($Topic_Slug)) {
+					$Error = 'No Topic Slug Set.';
+
+				} else if(empty($Reply_Post)) {
+					$Error = 'You didn\'t enter a reply.';
+
+				} else {
+
+					$Time = time();
+					$Reply_Status = 'Public';
+
+					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					if (!$Reply_New) exit('Invalid Query (Reply_New): '.mysqli_error($MySQL_Connection));
+
+					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
+					die();
+
+				}
+
+			}
+
+		} else if($_POST['action']=='topic') {
+
+			if(!isset($_POST['title']) || empty($_POST['title'])) {
+				$Error = 'No Topic Set.';
+
+			} else if(!isset($_POST['category']) || empty($_POST['category'])) {
+				$Error = 'No Category Set.';
+
+			} else {
+
+					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
+					$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
+
+					if(!isset($_POST['post']) || empty($_POST['post'])) {
+						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
+					} else {
+						$Topic_Post = false;
+					}
+
+					$Topic_Slug = strtolower($_POST['title']);
+					$Topic_Slug = htmlentities($Topic_Slug, ENT_QUOTES, 'UTF-8');
+					$Topic_Slug = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $Topic_Slug);
+					$Topic_Slug = html_entity_decode($Topic_Slug, ENT_QUOTES, 'UTF-8');
+					$Topic_Slug = strip_tags($Topic_Slug);
+					$Topic_Slug = stripslashes($Topic_Slug);
+
+					$Topic_Slug = str_replace('\'', '', $Topic_Slug);
+
+					$Topic_Slug = preg_replace('/[^a-z0-9]+/', '-', $Topic_Slug);
+
+					$Topic_Slug = strtr($Topic_Slug, 'àáâãäåòóôõöøèéêëðçìíîïùúûüñšž', 'aaaaaaooooooeeeeeciiiiuuuunsz');
+					$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
+
+					$Topic_Slug = trim($Topic_Slug, '-');
+
+					$Time = time();
+					$Topic_Status = 'Public';
+
+					// TODO Uniqueness check $Topic_Slug
+
+					$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
+
+					// TODO If $Topic_Post add Post to Topic
+
+					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
+					die();
+
+				}
+
+		}
+
+		if(isset($Error) && $Error) {
+			require $Header;
+			echo '<h2>Error: ';
+			if(isset($Error) && $Error) echo $Error;
+			else echo 'Simplet can\'t tell what went wrong.';
+			echo '</h2>';
+			echo '<h3>Simplet encountered an error processing your reply.</h3>';
+			require $Footer;
+		}
+
+	} else if(isset($_GET['topic']) && !empty($_GET['topic'])) {
 
 		$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
 
@@ -21,14 +125,14 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 		$Topic_Count = mysqli_num_rows($Topic_Check);
 		if($Topic_Count==0) {
-			require '../../header.php';
+			require $Header;
 			echo '
 			<h2>Error: Topic does not exist</h2>
 			<p class="textcenter">Try the forum.</p>';
-			require '../../footer.php';
+			require $Footer;
 		} else {
 
-			require '../../parsedown.php';
+			require $Parsedown;
 
 			$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
 			$Topic_Status = $Topic_Fetch['Status'];
@@ -37,27 +141,27 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topic_Modified = $Topic_Fetch['Modified'];
 
 			if($Topic_Status=='Hidden'){
-				require '../../header.php';
+				require $Header;
 				echo '
 				<h2>Error: Topic is Hidden</h2>
 				<p class="textcenter">You may never know what is here...</p>';
-				require '../../footer.php';
+				require $Footer;
 			} else if($Topic_Status=='Private' && !$Member_Auth) {
-				require '../../header.php';
+				require $Header;
 				echo '
 				<h2>Error: Topic is private</h2>
 				<p class="textcenter">You need to login.</p>';
-				require '../../footer.php';
+				require $Footer;
 
 			}
 
 			$TextTitle = $Topic_Title;
 			$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
-			$Canonical = 'forum/topic?topic='.$Topic_Slug;
+			$Canonical = $Canonical.'?topic='.$Topic_Slug;
 			$Description = $Topic_Title;
 			$Keywords = $Topic_Title.' topic forum';
 
-			require '../../header.php';
+			require $Header;
 
 			echo '
 			<h2>'.$Topic_Title.'</h2>';
@@ -131,7 +235,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				echo '
 			<div class="clear"></div>
 			<div class="section group">
-				<form action="reply" method="post">
+				<form action="" method="post">
+					<input type="hidden" name="action" value="reply" />
 					<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
 					<div class="col span_2_of_12"><br></div>
 					<div class="col span_10_of_12">
@@ -154,7 +259,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
 			}
 
-			require '../../footer.php';
+			require $Footer;
 		}
 
 	} else if(isset($_GET['category']) && !empty($_GET['category'])) {
@@ -172,13 +277,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Categories_Count = mysqli_num_rows($Categories);
 		if ($Categories_Count == 0) {
 			if($Member_Auth) {
-				require '../../header.php';
+				require $Header;
 				echo '<h3>There is no such Category: "'.$Category_Slug.'".</h3>';
-				require '../../footer.php';
+				require $Footer;
 			} else {
-				require '../../header.php';
+				require $Header;
 				echo '<h3>There is no such public Category: "'.$Category_Slug.'".</h3>';
-				require '../../footer.php';
+				require $Footer;
 			}
 		} else {
 
@@ -188,13 +293,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 			$TextTitle = $Category_Title;
 			$WebTitle = $Category_Title.' &nbsp;&middot;&nbsp; Forum';
-			$Canonical = 'forum/?category='.$Category_Slug;
+			$Canonical = $Canonical.'?category='.$Category_Slug;
 			$PostType = 'Forum';
 			$FeaturedImage = '';
 			$Description = $Category_Description;
 			$Keywords = $Category_Title.' category topics forum '.$Category_Description;
 
-			require '../../header.php';
+			require $Header;
 
 			if($Member_Auth) {
 				$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden' AND `Category`='$Category_Slug' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
@@ -213,12 +318,12 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				}
 			} else {
 
-				require '../../parsedown.php';
+				require $Parsedown;
 
 				echo '
 				<h2>'.$Category_Title.'</h2>
 				<p>'.$Category_Description;
-				if($Member_Auth) echo '<a class="floatright" href="new">New Topic</a>';
+				if($Member_Auth) echo '<a class="floatright" href="?new">New Topic</a>';
 				echo '</p>';
 
 				echo '
@@ -259,13 +364,37 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				}
 			}
 
-			require '../../footer.php';
+			require $Footer;
 
 		}
 
+	} else if(isset($_GET['new'])) {
+		require $Header;
+
+		echo '
+				<h2>Post a new Topic</h2>
+				<form action="" method="post">
+					<input type="hidden" name="action" value="topic" required />
+					<input type="hidden" name="category" value="Plans" required />
+					<input type="text" name="title" value="" placeholder="What is a Forum?" required />
+					<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
+					<div class="section group">
+						<div class="col span_10_of_12">
+							<p><small>If you wish, you can use Markdown for formatting.<br>
+							Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+							<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+						</div>
+						<div class="col span_2_of_12">
+							<input type="submit" value="Create">
+						</div>
+					</div>
+				</form>';
+
+		require $Footer;
+
 	} else {
 
-		require '../../header.php';
+		require $Header;
 
 		echo '
 		<h2>Forum</h2>';
@@ -331,7 +460,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			}
 		}
 
-		require '../../footer.php';
+		require $Footer;
 
 	}
 
