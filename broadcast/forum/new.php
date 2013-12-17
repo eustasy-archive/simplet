@@ -53,6 +53,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 			$Time = time();
 			$Topic_Status = 'Public';
 
+			// TODO Uniqueness check $Topic_Slug
+
 			$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 			if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
