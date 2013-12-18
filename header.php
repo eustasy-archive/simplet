@@ -31,7 +31,7 @@
 	</script>
 
 	<script async src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/modernizr.min.js"></script>
-	<!--[if (lt IE 9) & (!IEMobile)]><script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/selectivizr.min.js"></script><![endif]-->
+	<!--[if (lt IE 9) & (!IEMobile)]><script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/selectivizr.min.js"></script><![endif]-->
 
 </head>
 
