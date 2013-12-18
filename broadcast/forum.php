@@ -442,6 +442,18 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					<div class="col span_2_of_12 textcenter faded"><p>Most Recent</p></div>
 				</div>';
 
+			if($Member_Auth) {
+				$Topic_Count = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' GROUP BY `Category`", MYSQLI_STORE_RESULT);
+			} else {
+				$Topic_Count = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Category`", MYSQLI_STORE_RESULT);
+			}
+			if (!$Topic_Count) exit('Invalid Query (Topic_Count): '.mysqli_error($MySQL_Connection));
+			$Topic_Counts = array();
+
+			while($Topic_Count_Fetch = mysqli_fetch_assoc($Topic_Count)) {
+				$Topic_Counts[$Topic_Count_Fetch['Category']] = $Topic_Count_Fetch['Count'];
+			}
+
 			while($Category_Fetch = mysqli_fetch_assoc($Categories)) {
 
 				$Category_Slug = $Category_Fetch['Slug'];
@@ -449,29 +461,25 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				$Category_Description = html_entity_decode($Category_Fetch['Description'], ENT_QUOTES, 'UTF-8');
 				$Category_Status = $Category_Fetch['Status'];
 
-				if($Category_Status == 'Public') {
+				if($Category_Status == 'Public'||$Category_Status == 'Private' && $Member_Auth) {
 					echo '
-				<a href="?category='.$Category_Slug.'" class="section group category topic">
+				<a href="?category='.$Category_Slug.'" class="section group category topic';
+					if($Category_Status == 'Private') echo ' private';
+					echo '">
 					<div class="col span_1_of_12"><li class="icon unread"></li></div>
 					<div class="col span_7_of_12">
 						<p class="title">'.$Category_Title.'</p>
 						<p>'.$Category_Description.'</p>
 					</div>
-					<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
+					<div class="col span_2_of_12 textcenter"><p><span>';
+					if(isset($Topic_Counts[$Category_Slug])) {
+						echo $Topic_Counts[$Category_Slug];
+					} else {
+						echo '0';
+					}
+					echo '<span></p></div>
 					<div class="col span_2_of_12 textcenter"><p><span>11 Dec, 2014</span></p></div>
-				</a>'; // TODO Unread/Read, Topics Count, Most Recent
-
-				} else if($Category_Status == 'Private' && $Member_Auth) {
-					echo '
-				<a href="?category='.$Category_Slug.'" class="section group category topic private">
-					<div class="col span_1_of_12"><li class="icon unread"></li></div>
-					<div class="col span_7_of_12">
-						<p class="title">'.$Category_Title.'</p>
-						<p>'.$Category_Description.'</p>
-					</div>
-					<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>11 Dec, 2014</span></p></div>
-				</a>'; // TODO Unread/Read, Topics Count, Most Recent
+				</a>'; // TODO Unread/Read, Most Recent
 				}
 			}
 		}
