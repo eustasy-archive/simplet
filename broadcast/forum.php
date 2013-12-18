@@ -358,9 +358,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				$Reply_Prefetch_Modified = array();
 				$Reply_Prefetch_Counts = array();
 
-				while($Topic_Prefetch_Fetch = mysqli_fetch_assoc($Reply_Prefetch)) {
-					$Reply_Prefetch_Modified[$Topic_Prefetch_Fetch['Topic_Slug']] = $Topic_Prefetch_Fetch['Modified'];
-					$Reply_Prefetch_Counts[$Topic_Prefetch_Fetch['Topic_Slug']] = $Topic_Prefetch_Fetch['Count'];
+				while($Reply_Prefetch_Fetch = mysqli_fetch_assoc($Reply_Prefetch)) {
+					$Reply_Prefetch_Modified[$Reply_Prefetch_Fetch['Topic_Slug']] = $Reply_Prefetch_Fetch['Modified'];
+					$Reply_Prefetch_Counts[$Reply_Prefetch_Fetch['Topic_Slug']] = $Reply_Prefetch_Fetch['Count'];
 				}
 
 				while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
@@ -392,7 +392,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 							echo date('d M, Y', $Topics_Modified);
 						}
 						echo '</span></p></div>
-				</a>'; 
+				</a>';
 					}
 
 				}
@@ -461,15 +461,15 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				</div>';
 
 			if($Member_Auth) {
-				$Topic_Count = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' GROUP BY `Category`", MYSQLI_STORE_RESULT);
+				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' GROUP BY `Category`", MYSQLI_STORE_RESULT);
 			} else {
-				$Topic_Count = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Category`", MYSQLI_STORE_RESULT);
+				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Category`", MYSQLI_STORE_RESULT);
 			}
-			if (!$Topic_Count) exit('Invalid Query (Topic_Count): '.mysqli_error($MySQL_Connection));
-			$Topic_Counts = array();
+			if (!$Topic_Prefetch) exit('Invalid Query (Topic_Prefetch): '.mysqli_error($MySQL_Connection));
+			$Topic_Prefetch_Count = array();
 
-			while($Topic_Count_Fetch = mysqli_fetch_assoc($Topic_Count)) {
-				$Topic_Counts[$Topic_Count_Fetch['Category']] = $Topic_Count_Fetch['Count'];
+			while($Topic_Prefetch_Fetch = mysqli_fetch_assoc($Topic_Prefetch)) {
+				$Topic_Prefetch_Count[$Topic_Prefetch_Fetch['Category']] = $Topic_Prefetch_Fetch['Count'];
 			}
 
 			while($Category_Fetch = mysqli_fetch_assoc($Categories)) {
@@ -494,8 +494,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 						<p>'.$Category_Description.'</p>
 					</div>
 					<div class="col span_2_of_12 textcenter"><p><span>';
-					if(isset($Topic_Counts[$Category_Slug])) {
-						echo $Topic_Counts[$Category_Slug];
+					if(isset($Topic_Prefetch_Count[$Category_Slug])) {
+						echo $Topic_Prefetch_Count[$Category_Slug];
 					} else {
 						echo '0';
 					}
