@@ -305,7 +305,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$FeaturedImage = '';
 			$Description = $Category_Description;
 			$Keywords = $Category_Title.' category topics forum '.$Category_Description;
-
 			require $Header;
 
 			if($Member_Auth) {
@@ -346,39 +345,58 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					<div class="col span_1_of_12"><br></div>
 					<div class="col span_7_of_12"><p>Topic</p></div>
 					<div class="col span_2_of_12 textcenter faded"><p>Replies</p></div>
-					<div class="col span_2_of_12 textcenter faded"><p>Posted</p></div>
+					<div class="col span_2_of_12 textcenter faded"><p>Last Activity</p></div>
 				</div>';
 
+				if($Member_Auth) {
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+				} else {
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+				}
+
+				if (!$Reply_Prefetch) exit('Invalid Query (Reply_Prefetch): '.mysqli_error($MySQL_Connection));
+				$Reply_Prefetch_Modified = array();
+				$Reply_Prefetch_Counts = array();
+
+				while($Topic_Prefetch_Fetch = mysqli_fetch_assoc($Reply_Prefetch)) {
+					$Reply_Prefetch_Modified[$Topic_Prefetch_Fetch['Topic_Slug']] = $Topic_Prefetch_Fetch['Modified'];
+					$Reply_Prefetch_Counts[$Topic_Prefetch_Fetch['Topic_Slug']] = $Topic_Prefetch_Fetch['Count'];
+				}
+
 				while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
-
-					$Topics_Slug = $Topics_Fetch['Slug'];
 					$Topics_Status = $Topics_Fetch['Status'];
-					$Topics_Title = html_entity_decode($Topics_Fetch['Title'], ENT_QUOTES, 'UTF-8');
-					$Topics_Created = date('d M, Y', $Topics_Fetch['Created']);
-					$Topics_Modified = $Topics_Fetch['Modified'];
 
-					if($Topics_Status == 'Public') {
+					if($Topics_Status == 'Public' || $Topics_Status == 'Private' && $Member_Auth) {
+
+						$Topics_Slug = $Topics_Fetch['Slug'];
+						$Topics_Modified = $Topics_Fetch['Modified']; // TODO Use $Topics_Modified and Cookies to label Unread/Read
+						$Topics_Title = html_entity_decode($Topics_Fetch['Title'], ENT_QUOTES, 'UTF-8');
+
 						echo '
-				<a href="?topic='.$Topics_Slug.'" class="section group topic">
+				<a href="?topic='.$Topics_Slug.'" class="section group topic';
+						if($Topics_Status == 'Private') echo ' private';
+						echo '">
 					<div class="col span_1_of_12"><li class="icon unread"></li></div>
 					<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>'.$Topics_Created.'</span></p></div>
-				</a>'; // TODO Unread/Read, Reply Count
-
-					} else if($Topics_Status == 'Private' && $Member_Auth) {
-						echo '
-				<a href="?topic='.$Topics_Slug.'" class="section group topic private">
-					<div class="col span_1_of_12"><li class="icon unread"></li></div>
-					<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>14<span></p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>'.$Topics_Created.'</span></p></div>
-				</a>'; // TODO Unread/Read, Reply Count
+					<div class="col span_2_of_12 textcenter"><p><span>';
+						if(isset($Reply_Prefetch_Counts[$Topics_Slug])) {
+							echo $Reply_Prefetch_Counts[$Topics_Slug];
+						} else {
+							echo '0';
+						}
+						echo '<span></p></div>
+					<div class="col span_2_of_12 textcenter"><p><span>';
+						if(isset($Reply_Prefetch_Modified[$Topics_Slug])) {
+							echo date('d M, Y', $Reply_Prefetch_Modified[$Topics_Slug]);
+						} else {
+							echo date('d M, Y', $Topics_Modified);
+						}
+						echo '</span></p></div>
+				</a>'; 
 					}
 
 				}
 			}
-
 			require $Footer;
 
 		}
@@ -425,7 +443,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		$Categories_Count = mysqli_num_rows($Categories);
 		if ($Categories_Count == 0) {
 			if($Member_Auth) {
-    			header('HTTP/1.1 404 Not Found');
+				header('HTTP/1.1 404 Not Found');
 				echo '
 				<h3>There are no Categories.</h3>';
 			} else {
@@ -460,6 +478,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				$Category_Title = html_entity_decode($Category_Fetch['Title'], ENT_QUOTES, 'UTF-8');
 				$Category_Description = html_entity_decode($Category_Fetch['Description'], ENT_QUOTES, 'UTF-8');
 				$Category_Status = $Category_Fetch['Status'];
+				// TODO Unread/Read, Most Recent
+				// Both will probably require changing the topics modified time for every reply.
+				// Another option is a new field called something more descriptive like `Last Activity`
+				// This should not change the modified time.
 
 				if($Category_Status == 'Public'||$Category_Status == 'Private' && $Member_Auth) {
 					echo '
@@ -479,7 +501,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					}
 					echo '<span></p></div>
 					<div class="col span_2_of_12 textcenter"><p><span>11 Dec, 2014</span></p></div>
-				</a>'; // TODO Unread/Read, Most Recent
+				</a>';
 				}
 			}
 		}
