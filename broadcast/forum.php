@@ -319,9 +319,17 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topics_Count = mysqli_num_rows($Topics);
 			if ($Topics_Count == 0) {
 				if($Member_Auth) {
-					echo '<h3>There are no Topics in the Category '.$Category_Title.'.</h3>';
+					echo '<h3';
+					if($Member_Auth) echo ' class="textleft"';
+					echo '>There are no Topics in the Category '.$Category_Title;
+					if($Member_Auth) echo '<a class="floatright" href="?new">New Topic</a>';
+					echo '</h3>';
 				} else {
-					echo '<h3>There are no Public Topics in the Category '.$Category_Title.'.</h3>';
+					echo '<h3';
+					if($Member_Auth) echo ' class="textleft"';
+					echo '>There are no Public Topics in the Category '.$Category_Title;
+					if($Member_Auth) echo '<a class="floatright" href="?new">New Topic</a>';
+					echo '</h3>';
 				}
 			} else {
 
