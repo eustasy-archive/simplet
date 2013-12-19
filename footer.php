@@ -21,6 +21,10 @@
 		<script>window.jQuery || document.write('<script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/jquery-2.0.3.min.js"><\/script>');</script>
 	<!--<![endif]-->
 	<script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/jquery.equalize.min.js"></script>
+	<script>
+		$(function(){equalize()});
+		window.onresize=function(){equalize()}
+	</script>
 
 </body>
 </html>
