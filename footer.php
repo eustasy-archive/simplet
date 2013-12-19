@@ -17,7 +17,7 @@
 		<script type="text/javascript">window.jQuery || document.write('<script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/jquery-1.10.2.min.js"><\/script>');</script>
 	<![endif]-->
 	<!--[if IE 9]><!-->
-		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/jquery-2.0.3.min.js"><\/script>');</script>
 	<!--<![endif]-->
 	<script src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/jquery.equalize.min.js"></script>
