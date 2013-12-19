@@ -181,15 +181,23 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 					$Reply_Member_ID = $Replies_Fetch['Member_ID'];
 					$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
-					$Reply_Created = date('d M, Y H:i', $Replies_Fetch['Created']);
+					$Reply_Created = $Replies_Fetch['Created'];
 					$Reply_Modified = $Replies_Fetch['Modified'];
+
+					// TODO
+					// The following code has three main blocks for handling replies
+					// One for Members in the cache, which itself should be changed to Object Oriented codem
+					// one for deactivated members and another for first time posters in this thread.
+
 
 					if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
 						$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);
 						echo '
 				<div class="section group darkrow">
 					<div class="col span_2_of_12 textcenter"><p>'.$Replies_Members_Names[$Replies_Members_Num].'</p></div>
-					<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
+					<div class="col span_10_of_12 textright"><p>';
+					if($Reply_Modified > $Reply_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reply_Modified).' &nbsp;&middot;&nbsp; </span>';
+					echo date('d M, Y H:i', $Reply_Created).'</p></div>
 				</div>
 				<div class="section group reply">
 					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Replies_Members_Avatar[$Replies_Members_Num].'?s=248&d=identicon"></div>
@@ -205,7 +213,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 							echo '
 				<div class="section group darkrow">
 					<div class="col span_2_of_12 textcenter"><p>Deactivated</p></div>
-					<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
+					<div class="col span_10_of_12 textright"><p>';
+					if($Reply_Modified > $Reply_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reply_Modified).' &nbsp;&middot;&nbsp; </span>';
+					echo date('d M, Y H:i', $Reply_Created).'</p></div>
 				</div>
 				<div class="section group reply">
 					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/deactivated?s=248&d=mm"></div>
@@ -223,7 +233,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 							echo '
 				<div class="section group darkrow">
 					<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_Fetch_Name.'</p></div>
-					<div class="col span_10_of_12 faded textright"><p>'.$Reply_Created.'</p></div>
+					<div class="col span_10_of_12 textright"><p>';
+					if($Reply_Modified > $Reply_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reply_Modified).' &nbsp;&middot;&nbsp; </span>';
+					echo date('d M, Y H:i', $Reply_Created).'</p></div>
 				</div>
 				<div class="section group reply">
 					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Reply_Member_Fetch_Avatar.'?s=248&d=identicon"></div>
@@ -349,9 +361,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				</div>';
 
 				if($Member_Auth) {
-					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
 				} else {
-					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
 				}
 
 				if (!$Reply_Prefetch) exit('Invalid Query (Reply_Prefetch): '.mysqli_error($MySQL_Connection));
@@ -386,7 +398,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 						}
 						echo '<span></p></div>
 					<div class="col span_2_of_12 textcenter"><p><span>';
-						if(isset($Reply_Prefetch_Modified[$Topics_Slug])) {
+						if(isset($Reply_Prefetch_Modified[$Topics_Slug]) && $Reply_Prefetch_Modified[$Topics_Slug] > $Topics_Modified) {
 							echo date('d M, Y', $Reply_Prefetch_Modified[$Topics_Slug]);
 						} else {
 							echo date('d M, Y', $Topics_Modified);
