@@ -186,65 +186,46 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 					// TODO
 					// The following code has three main blocks for handling replies
-					// One for Members in the cache, which itself should be changed to Object Oriented codem
+					// One for Members in the cache, which itself should be changed to Object Oriented code
 					// one for deactivated members and another for first time posters in this thread.
 
 
 					if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
 						$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);
-						echo '
-				<div class="section group darkrow">
-					<div class="col span_2_of_12 textcenter"><p>'.$Replies_Members_Names[$Replies_Members_Num].'</p></div>
-					<div class="col span_10_of_12 textright"><p>';
-					if($Reply_Modified > $Reply_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reply_Modified).' &nbsp;&middot;&nbsp; </span>';
-					echo date('d M, Y H:i', $Reply_Created).'</p></div>
-				</div>
-				<div class="section group reply">
-					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Replies_Members_Avatar[$Replies_Members_Num].'?s=248&d=identicon"></div>
-					<div class="col span_10_of_12">
-						'.$Reply_Post.'
-					</div>
-				</div>';
+						$Reply_Store_Name = $Replies_Members_Names[$Replies_Members_Num];
+						$Reply_Store_Avatar = $Replies_Members_Avatar[$Replies_Members_Num];
 					} else {
 						$Reply_Member = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `ID`='$Reply_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 						if (!$Reply_Member) exit('Invalid Query (Reply_Member): '.mysqli_error($MySQL_Connection));
 						$Reply_Member_Count = mysqli_num_rows($Reply_Member);
 						if($Reply_Member_Count == 0) {
-							echo '
-				<div class="section group darkrow">
-					<div class="col span_2_of_12 textcenter"><p>Deactivated</p></div>
-					<div class="col span_10_of_12 textright"><p>';
-					if($Reply_Modified > $Reply_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reply_Modified).' &nbsp;&middot;&nbsp; </span>';
-					echo date('d M, Y H:i', $Reply_Created).'</p></div>
-				</div>
-				<div class="section group reply">
-					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/deactivated?s=248&d=mm"></div>
-					<div class="col span_10_of_12">
-						'.$Reply_Post.'
-					</div>
-				</div>';
+							$Reply_Store_Name = 'Deactivated';
+							$Reply_Store_Avatar = 'http://www.gravatar.com/avatar/deactivated?s=248&d=mm';
 						} else {
 							$Replies_Members_ID[] = $Reply_Member_ID;
 							$Reply_Member_Fetch = mysqli_fetch_assoc($Reply_Member);
-							$Reply_Member_Fetch_Name = $Reply_Member_Fetch['Name'];
-							$Replies_Members_Names[] = $Reply_Member_Fetch_Name;
-							$Reply_Member_Fetch_Avatar = md5($Reply_Member_Fetch['Mail']);
-							$Replies_Members_Avatar[] = $Reply_Member_Fetch_Avatar;
-							echo '
+							$Reply_Store_Name = $Reply_Member_Fetch['Name'];
+							$Reply_Store_Avatar = 'http://www.gravatar.com/avatar/'.md5($Reply_Member_Fetch['Mail']).'?s=248&d=identicon';
+							$Replies_Members_Names[] = $Reply_Store_Name;
+							$Replies_Members_Avatar[] = $Reply_Store_Avatar;
+						}
+					}
+
+					echo '
 				<div class="section group darkrow">
-					<div class="col span_2_of_12 textcenter"><p>'.$Reply_Member_Fetch_Name.'</p></div>
+					<div class="col span_2_of_12 textcenter';
+					if($Reply_Store_Name === 'Deactivated') echo ' faded';
+					echo '"><p>'.$Reply_Store_Name.'</p></div>
 					<div class="col span_10_of_12 textright"><p>';
 					if($Reply_Modified > $Reply_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reply_Modified).' &nbsp;&middot;&nbsp; </span>';
 					echo date('d M, Y H:i', $Reply_Created).'</p></div>
 				</div>
 				<div class="section group reply">
-					<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.$Reply_Member_Fetch_Avatar.'?s=248&d=identicon"></div>
+					<div class="col span_2_of_12"><img class="avatar" src="'.$Reply_Store_Avatar.'"></div>
 					<div class="col span_10_of_12">
 						'.$Reply_Post.'
 					</div>
 				</div>';
-						}
-					}
 				}
 
 				if($Member_Auth) {
