@@ -18,20 +18,33 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
     - Change Mail
     - Change Pass
     - Reset Pass
+- Forums
+    - Categories
+    - Topics
+    - SEO Friendly Slugs
+    - Markdown Posts
 - Open Source
 - Quotes Douglas Adams
 
 ##Roadmap
 - Forum
-- Captcha
+    - Ability to Edit Posts
 - Comments for Blogs (and Pages)
+    - Markdown
+    - Editing (Time Lock)
+- Captcha
+    - Global Options for Comments, Forum Posts and Signup
+    - Unqiue per Funtion Overrides
 - Admin Interface
     - User Management
         - Edit/Lock/Delete
         - Mail
         - Reset Pass
-    - Forum Topic Edit/Lock/Delete
-    - Blog Comments Edit/Lock/Delte
+    - Forum
+        - Category Creation
+        - Edit/Private/Hide/Lock/Delete Categories
+        - Edit/Private/Hide/Lock/Delete Topics
+    - Blog Comments Edit/Hide/Delete
 - Inter-User Messaging
 - Gravatar Avatars
 - User Profiles
