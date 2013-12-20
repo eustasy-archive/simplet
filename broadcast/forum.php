@@ -185,10 +185,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Reply_Modified = $Replies_Fetch['Modified'];
 
 					// TODO
-					// The following code has three main blocks for handling replies
-					// One for Members in the cache, which itself should be changed to Object Oriented code
-					// one for deactivated members and another for first time posters in this thread.
-
+					// The Members in the cache should be changed to Object Oriented code
 
 					if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
 						$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);
@@ -202,13 +199,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 							$Reply_Store_Name = 'Deactivated';
 							$Reply_Store_Avatar = 'http://www.gravatar.com/avatar/deactivated?s=248&d=mm';
 						} else {
-							$Replies_Members_ID[] = $Reply_Member_ID;
 							$Reply_Member_Fetch = mysqli_fetch_assoc($Reply_Member);
 							$Reply_Store_Name = $Reply_Member_Fetch['Name'];
 							$Reply_Store_Avatar = 'http://www.gravatar.com/avatar/'.md5($Reply_Member_Fetch['Mail']).'?s=248&d=identicon';
-							$Replies_Members_Names[] = $Reply_Store_Name;
-							$Replies_Members_Avatar[] = $Reply_Store_Avatar;
 						}
+						$Replies_Members_ID[] = $Reply_Member_ID;
+						$Replies_Members_Names[] = $Reply_Store_Name;
+						$Replies_Members_Avatar[] = $Reply_Store_Avatar;
 					}
 
 					echo '
@@ -230,30 +227,56 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 				if($Member_Auth) {
 					echo '
-				<div class="clear"></div>
-				<div class="section group">
-					<form action="" method="post">
-						<input type="hidden" name="action" value="reply" />
-						<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
-						<div class="col span_2_of_12"><br></div>
-						<div class="col span_10_of_12">
-							<h3>Post a Reply</h3>
-							<textarea name="post" required></textarea>
-						</div>
-						<div class="col span_2_of_12"><br></div>
-						<div class="col span_8_of_12">
-							<p><small>If you wish, you can use Markdown for formatting.<br>
-							Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-							<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-						</div>
-						<div class="col span_2_of_12">
-							<input type="submit" value="Reply" />
-						</div>
-					</form>
-				</div>';
+							<div class="clear"></div>
+							<div class="section group">
+								<form action="" method="post">
+									<input type="hidden" name="action" value="comment" />
+									<input type="hidden" name="canonical" value="'.$Canonical.'" />';
+					if($Comments_Count==0) {
+						echo '
+									<div class="col span_1_of_12"><br></div>
+									<div class="col span_10_of_12">';
+					} else {
+						echo '
+									<div class="col span_2_of_12"><br></div>
+									<div class="col span_10_of_12">';
+					}
+					echo '
+										<h3>Post a Comment</h3>
+										<textarea name="post" required></textarea>
+									</div>';
+					if($Comments_Count==0) {
+						echo '
+									<div class="col span_1_of_12"><br></div>
+								</div>
+								<div class="section group">
+									<div class="col span_1_of_12"><br></div>
+									<div class="col span_8_of_12">';
+					} else {
+						echo '
+								</div>
+								<div class="section group">
+									<div class="col span_2_of_12"><br></div>
+									<div class="col span_8_of_12">';
+					}
+					echo '
+										<p><small>If you wish, you can use Markdown for formatting.<br>
+										Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+										<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+									</div>
+									<div class="col span_2_of_12">
+										<input type="submit" value="Comment" />
+									</div>';
+					if($Comments_Count==0) {
+						echo '
+									<div class="col span_1_of_12"><br></div>';
+					}
+					echo '
+								</form>
+							</div>';
 				} else {
 					echo '
-				<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
+							<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
 				}
 
 				require $Footer;
