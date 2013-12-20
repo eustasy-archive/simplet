@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
--- Create Table for Replies
+-- Create Table for Comments
 CREATE TABLE IF NOT EXISTS `Comments` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
   `Member_ID` varchar(12) NOT NULL,
