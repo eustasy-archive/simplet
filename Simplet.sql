@@ -13,7 +13,9 @@ CREATE TABLE IF NOT EXISTS `Members` (
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   `Status` varchar(100) NOT NULL,
-  UNIQUE KEY `ID` (`ID`)
+  UNIQUE KEY `ID` (`ID`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- Create Table for Sessions
 CREATE TABLE IF NOT EXISTS `Sessions` (
@@ -26,7 +28,9 @@ CREATE TABLE IF NOT EXISTS `Sessions` (
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
-  KEY `Member_ID` (`Member_ID`)
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 -- Create Table for Password Resets
 CREATE TABLE IF NOT EXISTS `Resets` (
@@ -38,7 +42,9 @@ CREATE TABLE IF NOT EXISTS `Resets` (
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `Key` (`Key`),
-  KEY `Member_ID` (`Member_ID`)
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- Create Table for Failed Logins
 CREATE TABLE IF NOT EXISTS `Failures` (
@@ -48,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `Failures` (
   `IP` varchar(255) NOT NULL,
   `Created` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
-  KEY `Member_ID` (`Member_ID`)
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Created` (`Created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- Create Table for Categories
 CREATE TABLE IF NOT EXISTS `Categories` (
@@ -63,7 +70,9 @@ CREATE TABLE IF NOT EXISTS `Categories` (
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`),
   KEY `Title` (`Title`),
-  KEY `Slug` (`Slug`)
+  KEY `Slug` (`Slug`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
 -- Create Table for Topics
 CREATE TABLE IF NOT EXISTS `Topics` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -74,7 +83,9 @@ CREATE TABLE IF NOT EXISTS `Topics` (
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
-  KEY `Member_ID` (`Member_ID`)
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- Create Table for Replies
 CREATE TABLE IF NOT EXISTS `Replies` (
@@ -87,6 +98,22 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`),
-  KEY `Topic_ID` (`Topic_ID`)
+  KEY `Topic_ID` (`Topic_ID`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+-- Create Table for Replies
+CREATE TABLE IF NOT EXISTS `Comments` (
+  `ID` int(255) NOT NULL AUTO_INCREMENT,
+  `Member_ID` varchar(12) NOT NULL,
+  `Canonical` varchar(255) NOT NULL,
+  `Status` varchar(12) NOT NULL,
+  `Post` MEDIUMTEXT NOT NULL,
+  `Created` int(11) NOT NULL,
+  `Modified` int(11) NOT NULL,
+  UNIQUE KEY `ID` (`ID`),
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Canonical` (`Canonical`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
