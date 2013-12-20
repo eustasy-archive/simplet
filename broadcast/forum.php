@@ -228,52 +228,30 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				if($Member_Auth) {
 					echo '
 							<div class="clear"></div>
-							<div class="section group">
-								<form action="" method="post">
-									<input type="hidden" name="action" value="comment" />
-									<input type="hidden" name="canonical" value="'.$Canonical.'" />';
-					if($Comments_Count==0) {
-						echo '
+							<form action="" method="post">
+								<div class="section group">
+									<input type="hidden" name="action" value="reply" />
+									<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
 									<div class="col span_1_of_12"><br></div>
-									<div class="col span_10_of_12">';
-					} else {
-						echo '
-									<div class="col span_2_of_12"><br></div>
-									<div class="col span_10_of_12">';
-					}
-					echo '
-										<h3>Post a Comment</h3>
+									<div class="col span_10_of_12">
+										<h3>Post a Reply</h3>
 										<textarea name="post" required></textarea>
-									</div>';
-					if($Comments_Count==0) {
-						echo '
+									</div>
 									<div class="col span_1_of_12"><br></div>
 								</div>
 								<div class="section group">
 									<div class="col span_1_of_12"><br></div>
-									<div class="col span_8_of_12">';
-					} else {
-						echo '
-								</div>
-								<div class="section group">
-									<div class="col span_2_of_12"><br></div>
-									<div class="col span_8_of_12">';
-					}
-					echo '
+									<div class="col span_8_of_12">
 										<p><small>If you wish, you can use Markdown for formatting.<br>
 										Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
 										<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
 									</div>
 									<div class="col span_2_of_12">
-										<input type="submit" value="Comment" />
-									</div>';
-					if($Comments_Count==0) {
-						echo '
-									<div class="col span_1_of_12"><br></div>';
-					}
-					echo '
-								</form>
-							</div>';
+										<input type="submit" value="Reply" />
+									</div>
+									<div class="col span_1_of_12"><br></div>
+								</div>
+							</form>';
 				} else {
 					echo '
 							<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
@@ -419,16 +397,23 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	} else if(isset($_GET['new'])) {
 		require $Header;
-
+		// TODO Catch Category Variable
 		echo '
 				<h2>Post a new Topic</h2>
 				<form action="" method="post">
 					<input type="hidden" name="action" value="topic" required />
 					<input type="hidden" name="category" value="Plans" required />
-					<input type="text" name="title" value="" placeholder="What is a Forum?" required />
-					<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
 					<div class="section group">
+						<div class="col span_1_of_12"><br></div>
 						<div class="col span_10_of_12">
+							<input type="text" name="title" value="" placeholder="What is a Forum?" required />
+							<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
+						</div>
+						<div class="col span_1_of_12"><br></div>
+					</div>
+					<div class="section group">
+						<div class="col span_1_of_12"><br></div>
+						<div class="col span_8_of_12">
 							<p><small>If you wish, you can use Markdown for formatting.<br>
 							Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
 							<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
@@ -436,6 +421,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 						<div class="col span_2_of_12">
 							<input type="submit" value="Create">
 						</div>
+						<div class="col span_1_of_12"><br></div>
 					</div>
 				</form>';
 

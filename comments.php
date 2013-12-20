@@ -106,54 +106,30 @@
 			<hr>';
 		echo '
 			<div class="clear"></div>
-			<div class="section group">
-				<form action="" method="post">
+			<form action="" method="post">
+				<div class="section group">
 					<input type="hidden" name="action" value="comment" />
 					<input type="hidden" name="canonical" value="'.$Canonical.'" />
-					<div class="section group">';
-		if($Comments_Count==0) {
-			echo '
 					<div class="col span_1_of_12"><br></div>
-					<div class="col span_10_of_12">';
-		} else {
-			echo '
-					<div class="col span_2_of_12"><br></div>
-					<div class="col span_10_of_12">';
-		}
-		echo '
+					<div class="col span_10_of_12">
 						<h3>Post a Comment</h3>
 						<textarea name="post" required></textarea>
-					</div>';
-		if($Comments_Count==0) {
-			echo '
-						<div class="col span_1_of_12"><br></div>
 					</div>
-					<div class="section group">
-						<div class="col span_1_of_12"><br></div>
-						<div class="col span_8_of_12">';
-		} else {
-			echo '
+					<div class="col span_1_of_12"><br></div>
+				</div>
+				<div class="section group">
+					<div class="col span_1_of_12"><br></div>
+					<div class="col span_8_of_12">
+						<p><small>If you wish, you can use Markdown for formatting.<br>
+						Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+						<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
 					</div>
-					<div class="section group">
-						<div class="col span_2_of_12"><br></div>
-						<div class="col span_8_of_12">';
-		}
-		echo '
-							<p><small>If you wish, you can use Markdown for formatting.<br>
-							Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-							<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-						</div>
-						<div class="col span_2_of_12">
-							<input type="submit" value="Comment" />
-						</div>';
-		if($Comments_Count==0) {
-			echo '
-						<div class="col span_1_of_12"><br></div>';
-		}
-		echo '
+					<div class="col span_2_of_12">
+						<input type="submit" value="Comment" />
 					</div>
-				</form>
-			</div>';
+					<div class="col span_1_of_12"><br></div>
+				</div>
+			</form>';
 	} else {
 		echo '
 				<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
