@@ -26,12 +26,16 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			if(!isset($_POST['topic_slug']) || empty($_POST['topic_slug'])) {
 				$Error = 'No Topic Slug Set.';
 
+			} else if(!isset($_POST['topic_status']) || empty($_POST['topic_status'])) {
+				$Error = 'No Topic Status Set.';
+
 			} else if(!isset($_POST['post']) || empty($_POST['post'])) {
 				$Error = 'You didn\'t enter a reply.';
 
 			} else {
 
 				$Topic_Slug = trim(htmlentities($_POST['topic_slug'], ENT_QUOTES, 'UTF-8'));
+				$Topic_Status = trim(htmlentities($_POST['topic_status'], ENT_QUOTES, 'UTF-8'));
 				$Reply_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 
 				if(empty($Topic_Slug)) {
@@ -43,9 +47,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				} else {
 
 					$Time = time();
-					$Reply_Status = 'Public';
+					// TODO Add Option to override Status for Moderation.
 
-					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Topic_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Reply_New) exit('Invalid Query (Reply_New): '.mysqli_error($MySQL_Connection));
 
 					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
@@ -88,6 +92,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Topic_Slug = trim($Topic_Slug, '-');
 
 					$Time = time();
+					// TODO Add Option to override Status for Moderation.
 					$Topic_Status = 'Public';
 
 					// TODO Uniqueness check $Topic_Slug
@@ -96,6 +101,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
 					if($Topic_Post) {
+						// TODO Again, Add Option to override Status for Moderation.
 						$Reply_Status = 'Public';
 						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
