@@ -140,24 +140,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
 			$Topic_Status = $Topic_Fetch['Status'];
 			$Topic_Title = html_entity_decode($Topic_Fetch['Title'], ENT_QUOTES, 'UTF-8');
-			$Topic_Created = date('d M, Y H:i', $Topic_Fetch['Created']);
+			$Topic_Created = $Topic_Fetch['Created'];
 			$Topic_Modified = $Topic_Fetch['Modified'];
 
-			if($Topic_Status=='Hidden'){
-				header('HTTP/1.1 403 Forbidden');
-				require $Header;
-				echo '
-				<h2>Error: Topic is Hidden</h2>
-				<p class="textcenter">You may never know what is here...</p>';
-				require $Footer;
-			} else if($Topic_Status=='Private' && !$Member_Auth) {
-    			header('HTTP/1.1 401 Unauthorized');
-				require $Header;
-				echo '
-				<h2>Error: Topic is private</h2>
-				<p class="textcenter">You need to login.</p>';
-				require $Footer;
-			} else {
+			if($Topic_Status=='Public' || $Topic_Status=='Private' && $Member_Auth) {
 
 				$TextTitle = $Topic_Title;
 				$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
@@ -170,7 +156,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				echo '
 				<h2>'.$Topic_Title.'</h2>';
 
-				$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+				if($Topic_Status=='Private' && $Member_Auth) {
+					$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' OR `Status`='Private' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+				} else if($Topic_Status=='Public') {
+					$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+				}
 				if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
 
 				$Replies_Members_IDs = array();
@@ -232,6 +222,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 								<div class="section group">
 									<input type="hidden" name="action" value="reply" />
 									<input type="hidden" name="topic_slug" value="'.$Topic_Slug.'" />
+									<input type="hidden" name="topic_status" value="'.$Topic_Status.'" />
 									<div class="col span_1_of_12"><br></div>
 									<div class="col span_10_of_12">
 										<h3>Post a Reply</h3>
@@ -257,6 +248,34 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 							<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
 				}
 
+				require $Footer;
+			} else if($Topic_Status=='Private' && !$Member_Auth) {
+    			header('HTTP/1.1 401 Unauthorized');
+				require $Header;
+				echo '
+				<h2>Error: Topic is private</h2>
+				<p class="textcenter">You need to login.</p>';
+				require $Footer;
+			} else if($Topic_Status=='Pending') {
+				header('HTTP/1.1 403 Forbidden');
+				require $Header;
+				echo '
+				<h2>Error: Topic is Pending</h2>
+				<p class="textcenter">This topic is pending approval by moderators.</p>';
+				require $Footer;
+			} else if($Topic_Status=='Hidden') {
+				header('HTTP/1.1 403 Forbidden');
+				require $Header;
+				echo '
+				<h2>Error: Topic is Hidden</h2>
+				<p class="textcenter">You may never know what is here...</p>';
+				require $Footer;
+			} else {
+				header('HTTP/1.1 403 Forbidden');
+				require $Header;
+				echo '
+				<h2>Unknown Error: Topic Status is Unknown</h2>
+				<p class="textcenter">Please contact the site owner if possible.</p>';
 				require $Footer;
 			}
 		}
@@ -302,9 +321,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			require $Header;
 
 			if($Member_Auth) {
-				$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden' AND `Category`='$Category_Slug' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
+				$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Category`='$Category_Slug' AND NOT `Status`='Hidden' AND NOT `Status`='Pending' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
 			} else {
-				$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' AND `Category`='$Category_Slug' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
+				$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Category`='$Category_Slug' AND NOT `Status`='Hidden' AND NOT `Status`='Pending' AND NOT `Status`='Private' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
 			}
 
 			if (!$Topics) exit('Invalid Query (Topics): '.mysqli_error($MySQL_Connection));
@@ -312,17 +331,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topics_Count = mysqli_num_rows($Topics);
 			if ($Topics_Count == 0) {
 				if($Member_Auth) {
-					echo '<h3';
-					if($Member_Auth) echo ' class="textleft"';
-					echo '>There are no Topics in the Category '.$Category_Title;
-					if($Member_Auth) echo '<a class="floatright" href="?new">New Topic</a>';
-					echo '</h3>';
+					echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new">New Topic</a></h3>';
 				} else {
-					echo '<h3';
-					if($Member_Auth) echo ' class="textleft"';
-					echo '>There are no Public Topics in the Category '.$Category_Title;
-					if($Member_Auth) echo '<a class="floatright" href="?new">New Topic</a>';
-					echo '</h3>';
+					echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
 				}
 			} else {
 
@@ -343,9 +354,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				</div>';
 
 				if($Member_Auth) {
-					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
 				} else {
-					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' AND NOT `Status`='Private' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
 				}
 
 				if (!$Reply_Prefetch) exit('Invalid Query (Reply_Prefetch): '.mysqli_error($MySQL_Connection));
@@ -463,9 +474,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				</div>';
 
 			if($Member_Auth) {
-				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' GROUP BY `Category`", MYSQLI_STORE_RESULT);
+				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Category`", MYSQLI_STORE_RESULT);
 			} else {
-				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' GROUP BY `Category`", MYSQLI_STORE_RESULT);
+				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' AND NOT `Status`='Private' GROUP BY `Category`", MYSQLI_STORE_RESULT);
 			}
 			if (!$Topic_Prefetch) exit('Invalid Query (Topic_Prefetch): '.mysqli_error($MySQL_Connection));
 			$Topic_Prefetch_Count = array();
