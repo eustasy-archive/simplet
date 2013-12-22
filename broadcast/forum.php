@@ -419,7 +419,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				<h2>Post a new Topic</h2>
 				<form action="" method="post">
 					<input type="hidden" name="action" value="topic" required />
-					<input type="hidden" name="category" value="Plans" required />
+					<input type="hidden" name="category" value="plans" required />
 					<div class="section group">
 						<div class="col span_1_of_12"><br></div>
 						<div class="col span_10_of_12">
