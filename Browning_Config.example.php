@@ -8,6 +8,9 @@
 	// This should be more than adequate for Password Resets.
 	// If you are not using accounts, or intend to replace the mailing system, this is not required.
 
+	// Enable or Disable Browning Mail
+	$Browning = true;
+
 	// Mailgun API URL
 	// Replace example.com with your domain after signing up at
 	// $Browning_URL = 'https://api.mailgun.net/v2/example.com/messages';

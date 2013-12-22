@@ -12,12 +12,14 @@
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 
+	require_once '../../Browning_Config.php';
+
 	if ($Member_Auth) { // Logged In
 
 		header('Location: /account/', TRUE, 302);
 		die();
 
-	} elseif(isset($Mail)&&$Mail==true) {
+	} elseif(isset($Browning)&&$Browning==true) {
 
 		if(isset($_GET['key'])) { // Enter Password
 
@@ -118,12 +120,12 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 				$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Member_ID`, `Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Member_ID', '$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
 				if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
-				require '../../Browning_Send.php';
+				require_once '../../Browning_Send.php';
 
 				$Mail_Response = Browning_Send(
 					$Reset_Mail,
 					'Password Reset',
-					'Hello '.$Member_Name.', you wanted to reset your password? '.$Request['scheme'].'://'.$Request['host'].'/account/reset?key='.$Reset_Key,
+					'Hello '.$Member_Name.', you wanted to reset your password? '.$Request['scheme'].'://'.$Request['host'].'/account/reset?key='.$Reset_Key
 				);
 
 				if($Mail_Response) {
