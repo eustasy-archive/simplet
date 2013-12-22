@@ -35,7 +35,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			} else {
 
 				$Topic_Slug = trim(htmlentities($_POST['topic_slug'], ENT_QUOTES, 'UTF-8'));
-				$Topic_Status = trim(htmlentities($_POST['topic_status'], ENT_QUOTES, 'UTF-8'));
 				$Reply_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 
 				if(empty($Topic_Slug)) {
@@ -47,9 +46,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				} else {
 
 					$Time = time();
-					// TODO Add Option to override Status for Moderation.
+					if($Forum_Reply_Inherit) {
+						$Reply_Status = trim(htmlentities($_POST['topic_status'], ENT_QUOTES, 'UTF-8'));
+					} else {
+						$Reply_Status = $Forum_Reply_Default;
+					}
 
-					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Topic_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Reply_New) exit('Invalid Query (Reply_New): '.mysqli_error($MySQL_Connection));
 
 					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
@@ -70,7 +73,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			} else {
 
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
-					$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
+					$Topic_Category = trim(htmlentities($_POST['category_slug'], ENT_QUOTES, 'UTF-8'));
 
 					if(isset($_POST['post']) || !empty($_POST['post'])) {
 						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
@@ -92,8 +95,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					$Topic_Slug = trim($Topic_Slug, '-');
 
 					$Time = time();
-					// TODO Add Option to override Status for Moderation.
-					$Topic_Status = 'Public';
+					if($Forum_Topic_Inherit) {
+						$Topic_Status = trim(htmlentities($_POST['category_status'], ENT_QUOTES, 'UTF-8'));
+					} else {
+						$Topic_Status = $Forum_Topic_Default;
+					}
 
 					// TODO Uniqueness check $Topic_Slug
 
@@ -101,8 +107,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
 					if($Topic_Post) {
-						// TODO Again, Add Option to override Status for Moderation.
-						$Reply_Status = 'Public';
+						if($Forum_Reply_Inherit) {
+							$Reply_Status = $Topic_Status;
+						} else {
+							$Reply_Status = $Forum_Reply_Default;
+						}
 						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
 					}
@@ -415,11 +424,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 	} else if(isset($_GET['new'])) {
 		require $Header;
 		// TODO Catch Category Variable
+		// Set category_slug and category_status
 		echo '
 				<h2>Post a new Topic</h2>
 				<form action="" method="post">
 					<input type="hidden" name="action" value="topic" required />
-					<input type="hidden" name="category" value="plans" required />
+					<input type="hidden" name="category_slug" value="plans" required />
+					<input type="hidden" name="category_status" value="Public" required />
 					<div class="section group">
 						<div class="col span_1_of_12"><br></div>
 						<div class="col span_10_of_12">
