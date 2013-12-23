@@ -67,7 +67,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			if(!isset($_POST['title']) || empty($_POST['title'])) {
 				$Error = 'No Topic Set.';
 
-			} else if(!isset($_POST['category']) || empty($_POST['category'])) {
+			} else if(!isset($_POST['category_slug']) || empty($_POST['category_slug'])) {
 				$Error = 'No Category Set.';
 
 			} else {
