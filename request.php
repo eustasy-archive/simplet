@@ -10,4 +10,6 @@
 		header ('Location: '.$Request['scheme']['host'].$Canonical);
 	}
 
+	require 'connect.php';
+
 	require 'is-auth.php';

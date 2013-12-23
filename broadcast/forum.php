@@ -158,7 +158,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			$Topic_Created = $Topic_Fetch['Created'];
 			$Topic_Modified = $Topic_Fetch['Modified'];
 
-			if($Topic_Status=='Public' || $Topic_Status=='Private' && $Member_Auth) {
+			if($Topic_Status=='Public' || $Topic_Status=='Locked' || $Topic_Status=='Private' && $Member_Auth) {
 
 				$TextTitle = $Topic_Title;
 				$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
@@ -173,7 +173,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 				if($Topic_Status=='Private' && $Member_Auth) {
 					$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' OR `Status`='Private' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
-				} else if($Topic_Status=='Public') {
+				} else if($Topic_Status=='Public' || $Topic_Status=='Locked') {
 					$Replies = mysqli_query($MySQL_Connection, "SELECT * FROM `Replies` WHERE `Topic_Slug`='$Topic_Slug' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
 				}
 				if (!$Replies) exit('Invalid Query (Replies): '.mysqli_error($MySQL_Connection));
@@ -230,7 +230,10 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				</div>';
 				}
 
-				if($Member_Auth) {
+				if($Topic_Status == 'Locked') {
+					echo '
+							<h3>You cannot reply, this topic is locked.</h3>';
+				} else if($Member_Auth) {
 					echo '
 							<div class="clear"></div>
 							<form action="" method="post">
@@ -386,7 +389,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 				while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
 					$Topics_Status = $Topics_Fetch['Status'];
 
-					if($Topics_Status == 'Public' || $Topics_Status == 'Private' && $Member_Auth) {
+					if($Topics_Status == 'Public' || $Topics_Status == 'Locked' || $Topics_Status == 'Private' && $Member_Auth) {
 
 						$Topics_Slug = $Topics_Fetch['Slug'];
 						$Topics_Modified = $Topics_Fetch['Modified']; // TODO Use $Topics_Modified and Cookies to label Unread/Read

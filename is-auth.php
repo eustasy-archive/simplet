@@ -1,8 +1,5 @@
 <?php
 
-// Create a MySQL Connection
-require 'connect.php';
-
 // Set a default timezone.
 date_default_timezone_set('UTC');
 // Note: GMT is deprecated. Use UTC instead.
