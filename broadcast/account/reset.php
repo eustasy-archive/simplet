@@ -76,7 +76,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/'.$Canonical) {
 								<p>Remembered it? &nbsp; <a href="login">Login</a></p>
 							</div>
 							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="hidden" name="key" value="<?php echo $Key; ?>" /><input type="submit" value="Reset" /></div>
+							<div class="col span_1_of_2">
+								<input type="submit" value="Reset" />
+							</div>
 						</div>
 					</form>
 					<div class="clear"></div>
