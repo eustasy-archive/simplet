@@ -1,9 +1,9 @@
 <?php
 
-	$TextTitle = 'Simplet';
-	$WebTitle = 'a simple, file-based, cms framework written in php';
+	$TextTitle = 'RSS Feed';
+	$WebTitle = 'RSS Feed';
 	$Canonical = 'blog/rss';
-	$PostType = 'Index';
+	$PostType = 'RSS';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = '';
@@ -32,7 +32,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			foreach($items as $entry) {
 				if($entry!='rss.php') {
 					require $entry;
-					if($PostType=='Post'){
+					if($PostType=='Post') {
 						$PostLink = $Request['scheme'].'://'.$Request['host'].'/'.$Canonical;
 						echo '
 		<item>

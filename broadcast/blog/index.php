@@ -3,7 +3,7 @@
 	$TextTitle = 'Blog';
 	$WebTitle = 'Blog';
 	$Canonical = 'blog/';
-	$PostType = 'Index';
+	$PostType = 'Blog';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'blog';
