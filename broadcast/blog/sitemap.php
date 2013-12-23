@@ -12,7 +12,6 @@
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
-	$Date = date('Y-m-d');
 
 	header('Content-Type: application/xml');
 	echo '<?xml version="1.0" encoding="utf-8"?>';
