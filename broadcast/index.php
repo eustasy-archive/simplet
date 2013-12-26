@@ -16,7 +16,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
 	<div class="content spanpage clouds">
 		<a href="https://github.com/eustasy/simplet">
-			<img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Simplet on GitHub" class="tr-banner">
+			<img src="assets/images/forkme.png" alt="Simplet on GitHub" class="tr-banner">
 		</a>
 		<div class="bubble">
 			<h3>a simple, modular, cms framework written in php</h3>

@@ -10,6 +10,7 @@
 	<meta itemprop="image" content="<?php echo $FeaturedImage; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="cleartype" content="on">
+	<meta name=viewport content="width=device-width, initial-scale=1">
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 
@@ -37,7 +38,7 @@
 
 <body>
 
-	<div id="skiptomain"><a href="#content">skip to main content</a></div>
+	<div id="skiptomain"><p><a href="#content">skip to main content</a></p></div>
 
 	<header class="group">
 		<div class="col span_1_of_2">
