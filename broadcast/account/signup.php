@@ -17,15 +17,23 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 		header('Location: /account/', TRUE, 302);
 		die();
 
-	} elseif(isset($_POST['name']) || isset($_POST['mail']) || isset($_POST['pass'])) {
+	} else if(!$Sitewide_Signups) {
+
+		require '../../header.php';
+
+		echo '<h2>Sorry, Signups are not allowed at this time.</h2>';
+
+		require '../../footer.php';
+
+	} else if(isset($_POST['name']) || isset($_POST['mail']) || isset($_POST['pass'])) {
 
 		if(!isset($_POST['name']) || empty($_POST['name'])) {
 			$Error = 'We really need an name.';
 
-		} elseif(!isset($_POST['mail']) || empty($_POST['mail'])) {
+		} else if(!isset($_POST['mail']) || empty($_POST['mail'])) {
 			$Error = 'We really need an email.';
 
-		} elseif(!isset($_POST['pass']) || empty($_POST['pass'])) {
+		} else if(!isset($_POST['pass']) || empty($_POST['pass'])) {
 			$Error = 'You really need a password.';
 
 		} else {
