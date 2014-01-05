@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `Categories` (
   KEY `Slug` (`Slug`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- Create Table for Topics
 CREATE TABLE IF NOT EXISTS `Topics` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,

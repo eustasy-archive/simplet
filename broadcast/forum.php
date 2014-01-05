@@ -11,7 +11,7 @@
 	require_once '../request.php';
 	$Header = '../header.php';
 	$Footer = '../footer.php';
-	$Parsedown = '../parsedown.php';
+	$Parsedown = '../libs/parsedown.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 
