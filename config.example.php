@@ -16,6 +16,10 @@
 	// Allow or disallow Signups
 	$Sitewide_Signups = true;
 
+	// Enable or Disable Browning Mail
+	// Requires Setup in libs
+	$Browning = false;
+
 
 	// Database Configuration
 

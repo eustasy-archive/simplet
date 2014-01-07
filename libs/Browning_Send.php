@@ -2,13 +2,13 @@
 
 /*
 
-Browning: A Mailgun Script
+Browning: A Mailgun Script (v0.23)
 https://github.com/eustasy/browning-a-mailgun-script
 ==========================
 
 Browning is a tiny PHP function to send emails with Mailgun, that uses CURL instead of Mailgun's (slightly porky) library.
 
-Copyright (c) 2013 eustasy under the MIT License
+Copyright (c) 2014 eustasy under the MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -30,24 +30,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 */
 
-function Browning_Send($Dear, $Subject, $Message, $Regards=false, $ReplyTo=false, $Recaptcha=false, $Debug=false){
+function Browning_Send($Dear, $Subject, $Message, $Regards=false, $ReplyTo=false, $Debug=false){
 
 	if(!isset($Dear)) return 'No email address defined for recipient.';
 	if(!isset($Subject)) return 'No subject for message.';
 	if(!isset($Message)) return 'You must enter a message, to send a message.';
 
 	require 'Browning_Config.php';
-
-	if($Recaptcha) {
-		require('recaptchalib.php');
-		$Recaptcha_Response = recaptcha_check_answer(
-			$Recaptcha_Secret,
-			$_SERVER['REMOTE_ADDR'],
-			$_POST['recaptcha_challenge_field'],
-			$_POST['recaptcha_response_field']
-		);
-		if (!$Recaptcha_Response->is_valid) return 'The reCAPTCHA wasn\'t entered correctly. Go back and try it again. (reCAPTCHA said: '.$Recaptcha_Response->error.')';
-	}
 
 	$Browning_Dear = $Dear;
 	$Browning_Subject = $Subject;
