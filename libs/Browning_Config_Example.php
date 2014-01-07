@@ -1,15 +1,12 @@
 <?php
 
-	// Browning: A Mailgun Script
+	// Browning: A Mailgun Script (v0.23)
 	// https://github.com/eustasy/browning-a-mailgun-script
 
 	// Sign up at https://mailgun.com/signup
 	// First 10,00 mails a month free.
 	// This should be more than adequate for Password Resets.
 	// If you are not using accounts, or intend to replace the mailing system, this is not required.
-
-	// Enable or Disable Browning Mail
-	$Browning = true;
 
 	// Mailgun API URL
 	// Replace example.com with your domain after signing up at
