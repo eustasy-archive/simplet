@@ -55,7 +55,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 
 ###PHP
 - [Browning (0.23)](https://github.com/eustasy/browning-a-mailgun-script)
-- [Parsedown (0.7.0)](https://github.com/erusev/parsedown)
+- [Parsedown (0.8.0)](https://github.com/erusev/parsedown)
 - [Recaptcha (1.11)](https://www.google.com/recaptcha/admin)
 - [Sweet Captcha (1.1.0)](http://sweetcaptcha.com/)
 

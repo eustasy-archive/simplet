@@ -45,7 +45,7 @@
 			<hr>
 			<h3>'.$Comments_Count.' Comments</h3>';
 
-		require 'libs/parsedown.php';
+		require 'libs/Parsedown.php';
 
 		$Comments_Members_IDs = array();
 		$Comments_Members_Names = array();

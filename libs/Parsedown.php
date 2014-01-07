@@ -1,11 +1,16 @@
 <?php
 
 #
+#
 # Parsedown
 # http://parsedown.org
 #
 # (c) Emanuil Rusev
 # http://erusev.com
+#
+# For the full license information, please view the LICENSE file that was
+# distributed with this source code.
+#
 #
 
 class Parsedown
@@ -27,6 +32,19 @@ class Parsedown
 	}
 
 	private static $instances = array();
+
+	#
+	# Setters
+	#
+
+	private $break_marker = "  \n";
+
+	function set_breaks_enabled($breaks_enabled)
+	{
+		$this->break_marker = $breaks_enabled ? "\n" : "  \n";
+
+		return $this;
+	}
 
 	#
 	# Fields
@@ -86,6 +104,8 @@ class Parsedown
 			$text = str_replace($code, $escape_sequence[1], $text);
 		}
 
+		# ~
+
 		$text = rtrim($text, "\n");
 
 		return $text;
@@ -105,7 +125,6 @@ class Parsedown
 
 		foreach ($lines as $line)
 		{
-			#
 			# fenced elements
 
 			switch ($element['type'])
@@ -163,7 +182,6 @@ class Parsedown
 				continue;
 			}
 
-			#
 			# composite elements
 
 			switch ($element['type'])
@@ -218,6 +236,8 @@ class Parsedown
 
 							$element['lines'] []= $line;
 
+							unset($element['interrupted']);
+
 							continue 2;
 						}
 					}
@@ -233,7 +253,6 @@ class Parsedown
 					break;
 			}
 
-			#
 			# indentation sensitive types
 
 			$deindented_line = $line;
@@ -331,7 +350,6 @@ class Parsedown
 					break;
 			}
 
-			#
 			# indentation insensitive types
 
 			switch ($deindented_line[0])
@@ -396,11 +414,18 @@ class Parsedown
 
 					# reference
 
-					if (preg_match('/^\[(.+?)\]:[ ]*([^ ]+)/', $deindented_line, $matches))
+					if (preg_match('/^\[(.+?)\]:[ ]*(.+?)(?:[ ]+[\'"](.+?)[\'"])?[ ]*$/', $deindented_line, $matches))
 					{
 						$label = strtolower($matches[1]);
 
-						$this->reference_map[$label] = trim($matches[2], '<>');;
+						$this->reference_map[$label] = array(
+							'»' => trim($matches[2], '<>'),
+						);
+
+						if (isset($matches[3]))
+						{
+							$this->reference_map[$label]['#'] = $matches[3];
+						}
 
 						continue 2;
 					}
@@ -532,8 +557,6 @@ class Parsedown
 
 					$text = $this->parse_span_elements($element['text']);
 
-					$text = preg_replace('/[ ]{2}\n/', '<br />'."\n", $text);
-
 					if ($context === 'li' and $markup === '')
 					{
 						if (isset($element['interrupted']))
@@ -563,11 +586,15 @@ class Parsedown
 				case 'code_block':
 				case 'fenced_code_block':
 
-					$text = htmlentities($element['text'], ENT_NOQUOTES);
+					$text = htmlspecialchars($element['text'], ENT_NOQUOTES, 'UTF-8');
 
 					strpos($text, "\x1A\\") !== FALSE and $text = strtr($text, $this->escape_sequence_map);
 
-					$markup .= '<pre><code>'.$text.'</code></pre>'."\n";
+					$markup .= isset($element['language'])
+						? '<pre><code class="language-'.$element['language'].'">'.$text.'</code></pre>'
+						: '<pre><code>'.$text.'</code></pre>';
+
+					$markup .= "\n";
 
 					break;
 
@@ -607,6 +634,12 @@ class Parsedown
 
 					break;
 
+				case 'markup':
+
+					$markup .= $this->parse_span_elements($element['text'])."\n";
+
+					break;
+
 				default:
 
 					$markup .= $element['text']."\n";
@@ -616,176 +649,343 @@ class Parsedown
 		return $markup;
 	}
 
-	private function parse_span_elements($text)
+	# ~
+
+	private $strong_regex = array(
+		'*' => '/^[*]{2}([^*]+?)[*]{2}(?![*])/s',
+		'_' => '/^__([^_]+?)__(?!_)/s',
+	);
+
+	private $em_regex = array(
+		'*' => '/^[*]([^*]+?)[*](?![*])/s',
+		'_' => '/^_([^_]+?)[_](?![_])\b/s',
+	);
+
+	private $strong_em_regex = array(
+		'*' => '/^[*]{2}(.*?)[*](.+?)[*](.*?)[*]{2}/s',
+		'_' => '/^__(.*?)_(.+?)_(.*?)__/s',
+	);
+
+	private $em_strong_regex = array(
+		'*' => '/^[*](.*?)[*]{2}(.+?)[*]{2}(.*?)[*]/s',
+		'_' => '/^_(.*?)__(.+?)__(.*?)_/s',
+	);
+
+	private function parse_span_elements($text, $markers = array('![', '&', '*', '<', '[', '_', '`', 'http', '~~'))
 	{
-		$map = array();
-
-		$index = 0;
-
-		# code span
-
-		if (strpos($text, '`') !== FALSE and preg_match_all('/`(.+?)`/', $text, $matches, PREG_SET_ORDER))
+		if (isset($text[2]) === false or $markers === array())
 		{
-			foreach ($matches as $matches)
-			{
-				$element_text = $matches[1];
-				$element_text = htmlentities($element_text, ENT_NOQUOTES);
-
-				# decodes escape sequences
-
-				$this->escape_sequence_map
-					and strpos($element_text, "\x1A") !== FALSE
-					and $element_text = strtr($element_text, $this->escape_sequence_map);
-
-				# composes element
-
-				$element = '<code>'.$element_text.'</code>';
-
-				# encodes element
-
-				$code = "\x1A".'$'.$index;
-
-				$text = str_replace($matches[0], $code, $text);
-
-				$map[$code] = $element;
-
-				$index ++;
-			}
+			return $text;
 		}
 
-		# inline link or image
+		# ~
 
-		if (strpos($text, '](') !== FALSE and preg_match_all('/(!?)(\[((?:[^\[\]]|(?2))*)\])\((.*?)\)/', $text, $matches, PREG_SET_ORDER)) # inline
+		$markup = '';
+
+		while ($markers)
 		{
-			foreach ($matches as $matches)
+			$closest_marker = null;
+			$closest_marker_index = 0;
+			$closest_marker_position = null;
+
+			foreach ($markers as $index => $marker)
 			{
-				$url = $matches[4];
+				$marker_position = strpos($text, $marker);
 
-				strpos($url, '&') !== FALSE and $url = preg_replace('/&(?!#?\w+;)/', '&amp;', $url);
-
-				if ($matches[1]) # image
+				if ($marker_position === false)
 				{
-					$element = '<img alt="'.$matches[3].'" src="'.$url.'">';
-				}
-				else
-				{
-					$element_text = $this->parse_span_elements($matches[3]);
+					unset($markers[$index]);
 
-					$element = '<a href="'.$url.'">'.$element_text.'</a>';
+					continue;
 				}
 
-				# ~
-
-				$code = "\x1A".'$'.$index;
-
-				$text = str_replace($matches[0], $code, $text);
-
-				$map[$code] = $element;
-
-				$index ++;
+				if ($closest_marker === null or $marker_position < $closest_marker_position)
+				{
+					$closest_marker = $marker;
+					$closest_marker_index = $index;
+					$closest_marker_position = $marker_position;
+				}
 			}
-		}
 
-		# reference link or image
+			# ~
 
-		if ($this->reference_map and strpos($text, '[') !== FALSE and preg_match_all('/(!?)\[(.+?)\](?:\n?[ ]?\[(.*?)\])?/ms', $text, $matches, PREG_SET_ORDER))
-		{
-			foreach ($matches as $matches)
+			if ($closest_marker === null or isset($text[$closest_marker_position + 2]) === false)
 			{
-				$link_definition = isset($matches[3]) && $matches[3]
-					? $matches[3]
-					: $matches[2]; # implicit
+				$markup .= $text;
 
-				$link_definition = strtolower($link_definition);
+				break;
+			}
+			else
+			{
+				$markup .= substr($text, 0, $closest_marker_position);
+			}
 
-				if (isset($this->reference_map[$link_definition]))
-				{
-					$url = $this->reference_map[$link_definition];
+			$text = substr($text, $closest_marker_position);
 
-					strpos($url, '&') !== FALSE and $url = preg_replace('/&(?!#?\w+;)/', '&amp;', $url);
+			# ~
 
-					if ($matches[1]) # image
+			unset($markers[$closest_marker_index]);
+
+			# ~
+
+			switch ($closest_marker)
+			{
+				case '![':
+				case '[':
+
+					if (strpos($text, ']') and preg_match('/\[((?:[^][]|(?R))*)\]/', $text, $matches))
 					{
-						$element = '<img alt="'.$matches[2].'" src="'.$url.'">';
+						$element = array(
+							'!' => $text[0] === '!',
+							'a' => $matches[1],
+						);
+
+						$offset = strlen($matches[0]);
+
+						$element['!'] and $offset++;
+
+						$remaining_text = substr($text, $offset);
+
+						if ($remaining_text[0] === '(' and preg_match('/\([ ]*(.*?)(?:[ ]+[\'"](.+?)[\'"])?[ ]*\)/', $remaining_text, $matches))
+						{
+							$element['»'] = $matches[1];
+
+							if (isset($matches[2]))
+							{
+								$element['#'] = $matches[2];
+							}
+
+							$offset += strlen($matches[0]);
+						}
+						elseif ($this->reference_map)
+						{
+							$reference = $element['a'];
+
+							if (preg_match('/^\s*\[(.*?)\]/', $remaining_text, $matches))
+							{
+								$reference = $matches[1] ? $matches[1] : $element['a'];
+
+								$offset += strlen($matches[0]);
+							}
+
+							$reference = strtolower($reference);
+
+							if (isset($this->reference_map[$reference]))
+							{
+								$element['»'] = $this->reference_map[$reference]['»'];
+
+								if (isset($this->reference_map[$reference]['#']))
+								{
+									$element['#'] = $this->reference_map[$reference]['#'];
+								}
+							}
+							else
+							{
+								unset($element);
+							}
+						}
+						else
+						{
+							unset($element);
+						}
 					}
-					else # anchor
-					{
-						$element_text = $this->parse_span_elements($matches[2]);
 
-						$element = '<a href="'.$url.'">'.$element_text.'</a>';
+					if (isset($element))
+					{
+						$element['»'] = str_replace('&', '&amp;', $element['»']);
+						$element['»'] = str_replace('<', '&lt;', $element['»']);
+
+						if ($element['!'])
+						{
+							$markup .= '<img alt="'.$element['a'].'" src="'.$element['»'].'" />';
+						}
+						else
+						{
+							$element['a'] = $this->parse_span_elements($element['a'], $markers);
+
+							$markup .= isset($element['#'])
+								? '<a href="'.$element['»'].'" title="'.$element['#'].'">'.$element['a'].'</a>'
+								: '<a href="'.$element['»'].'">'.$element['a'].'</a>';
+						}
+
+						unset($element);
+					}
+					else
+					{
+						$markup .= $closest_marker;
+
+						$offset = $closest_marker === '![' ? 2 : 1;
 					}
 
-					# ~
+					break;
 
-					$code = "\x1A".'$'.$index;
+				case '&':
 
-					$text = str_replace($matches[0], $code, $text);
+					$markup .= '&amp;';
 
-					$map[$code] = $element;
+					$offset = substr($text, 0, 5) === '&amp;' ? 5 : 1;
 
-					$index ++;
-				}
-			}
-		}
+					break;
 
-		if (strpos($text, '://') !== FALSE)
-		{
-			switch (TRUE)
-			{
-				case preg_match_all('{<(https?:[/]{2}[^\s]+)>}i', $text, $matches, PREG_SET_ORDER):
-				case preg_match_all('{\b(https?:[/]{2}[^\s]+)\b}i', $text, $matches, PREG_SET_ORDER):
+				case '*':
+				case '_':
 
-					foreach ($matches as $matches)
+					if ($text[1] === $closest_marker and preg_match($this->strong_regex[$closest_marker], $text, $matches))
 					{
-						$url = $matches[1];
+						$matches[1] = $this->parse_span_elements($matches[1], $markers);
 
-						strpos($url, '&') !== FALSE and $url = preg_replace('/&(?!#?\w+;)/', '&amp;', $url);
+						$markup .= '<strong>'.$matches[1].'</strong>';
+					}
+					elseif (preg_match($this->em_regex[$closest_marker], $text, $matches))
+					{
+						$matches[1] = $this->parse_span_elements($matches[1], $markers);
 
-						$element = '<a href=":href">:text</a>';
-						$element = str_replace(':text', $url, $element);
-						$element = str_replace(':href', $url, $element);
+						$markup .= '<em>'.$matches[1].'</em>';
+					}
+					elseif ($text[1] === $closest_marker and preg_match($this->strong_em_regex[$closest_marker], $text, $matches))
+					{
+						$matches[2] = $this->parse_span_elements($matches[2], $markers);
 
-						# ~
+						$matches[1] and $matches[1] = $this->parse_span_elements($matches[1], $markers);
+						$matches[3] and $matches[3] = $this->parse_span_elements($matches[3], $markers);
 
-						$code = "\x1A".'$'.$index;
+						$markup .= '<strong>'.$matches[1].'<em>'.$matches[2].'</em>'.$matches[3].'</strong>';
+					}
+					elseif (preg_match($this->em_strong_regex[$closest_marker], $text, $matches))
+					{
+						$matches[2] = $this->parse_span_elements($matches[2], $markers);
 
-						$text = str_replace($matches[0], $code, $text);
+						$matches[1] and $matches[1] = $this->parse_span_elements($matches[1], $markers);
+						$matches[3] and $matches[3] = $this->parse_span_elements($matches[3], $markers);
 
-						$map[$code] = $element;
+						$markup .= '<em>'.$matches[1].'<strong>'.$matches[2].'</strong>'.$matches[3].'</em>';
+					}
 
-						$index ++;
+					if (isset($matches) and $matches)
+					{
+						$offset = strlen($matches[0]);
+					}
+					else
+					{
+						$markup .= $closest_marker;
+
+						$offset = 1;
+					}
+
+					break;
+
+				case '<':
+
+					if (strpos($text, '>') !== false)
+					{
+						if ($text[1] === 'h' and preg_match('/^<(https?:[\/]{2}[^\s]+?)>/i', $text, $matches))
+						{
+							$element_url = $matches[1];
+							$element_url = str_replace('&', '&amp;', $element_url);
+							$element_url = str_replace('<', '&lt;', $element_url);
+
+							$markup .= '<a href="'.$element_url.'">'.$element_url.'</a>';
+
+							$offset = strlen($matches[0]);
+						}
+						elseif (preg_match('/^<\/?\w.*?>/', $text, $matches))
+						{
+							$markup .= $matches[0];
+
+							$offset = strlen($matches[0]);
+						}
+						else
+						{
+							$markup .= '&lt;';
+
+							$offset = 1;
+						}
+					}
+					else
+					{
+						$markup .= '&lt;';
+
+						$offset = 1;
+					}
+
+					break;
+
+				case '`':
+
+					if (preg_match('/^`(.+?)`/', $text, $matches))
+					{
+						$element_text = $matches[1];
+						$element_text = htmlspecialchars($element_text, ENT_NOQUOTES, 'UTF-8');
+
+						if ($this->escape_sequence_map and strpos($element_text, "\x1A") !== false)
+						{
+							$element_text = strtr($element_text, $this->escape_sequence_map);
+						}
+
+						$markup .= '<code>'.$element_text.'</code>';
+
+						$offset = strlen($matches[0]);
+					}
+					else
+					{
+						$markup .= '`';
+
+						$offset = 1;
+					}
+
+					break;
+
+				case 'http':
+
+					if (preg_match('/^https?:[\/]{2}[^\s]+\b/i', $text, $matches))
+					{
+						$element_url = $matches[0];
+						$element_url = str_replace('&', '&amp;', $element_url);
+						$element_url = str_replace('<', '&lt;', $element_url);
+
+						$markup .= '<a href="'.$element_url.'">'.$element_url.'</a>';
+
+						$offset = strlen($matches[0]);
+					}
+					else
+					{
+						$markup .= 'http';
+
+						$offset = 4;
+					}
+
+					break;
+
+				case '~~':
+
+					if (preg_match('/^~~(?=\S)(.+?)(?<=\S)~~/', $text, $matches))
+					{
+						$matches[1] = $this->parse_span_elements($matches[1], $markers);
+
+						$markup .= '<del>'.$matches[1].'</del>';
+
+						$offset = strlen($matches[0]);
+					}
+					else
+					{
+						$markup .= '~~';
+
+						$offset = 2;
 					}
 
 					break;
 			}
+
+			if (isset($offset))
+			{
+				$text = substr($text, $offset);
+			}
+
+			$markers[$closest_marker_index] = $closest_marker;
 		}
 
-		# ~
+		$markup = str_replace($this->break_marker, '<br />'."\n", $markup);
 
-		strpos($text, '&') !== FALSE and $text = preg_replace('/&(?!#?\w+;)/', '&amp;', $text);
-		strpos($text, '<') !== FALSE and $text = preg_replace('/<(?!\/?\w.*?>)/', '&lt;', $text);
-
-		# ~
-
-		if (strpos($text, '~~') !== FALSE)
-		{
-			$text = preg_replace('/~~(?=\S)(.+?)(?<=\S)~~/s', '<del>$1</del>', $text);
-		}
-
-		if (strpos($text, '_') !== FALSE)
-		{
-			$text = preg_replace('/__(?=\S)(.+?)(?<=\S)__(?!_)/s', '<strong>$1</strong>', $text);
-			$text = preg_replace('/\b_(?=\S)(.+?)(?<=\S)_\b/s', '<em>$1</em>', $text);
-		}
-
-		if (strpos($text, '*') !== FALSE)
-		{
-			$text = preg_replace('/\*\*(?=\S)(.+?)(?<=\S)\*\*(?!\*)/s', '<strong>$1</strong>', $text);
-			$text = preg_replace('/\*(?=\S)(.+?)(?<=\S)\*/s', '<em>$1</em>', $text);
-		}
-
-		$text = strtr($text, $map);
-
-		return $text;
+		return $markup;
 	}
 }
