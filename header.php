@@ -16,10 +16,10 @@
 
 	<title><?php echo $WebTitle . ' &nbsp;&middot;&nbsp; ' . $Sitewide_Title; ?></title>
 
-	<link rel="canonical" href="<?php echo $Request['scheme'].'://'.$Request['host'].'/'.$Canonical; ?>">
-	<link rel="icon" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/favicon.ico">
-	<link rel="shortcut icon" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/favicon.ico">
-	<link rel="stylesheet" media="all" href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/css/combined.min.css">
+	<link rel="canonical" href="<?php echo $Sitewide_Root.$Canonical; ?>">
+	<link rel="icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
+	<link rel="shortcut icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/combined.min.css">
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -29,7 +29,7 @@
 		ga('create', 'UA-45667989-3', 'eustasy.org');
 		ga('send', 'pageview');
 	</script>
-	
+
 	<script>
 		WebFontConfig = {
 			google: {
@@ -50,8 +50,8 @@
 		})();
 	</script>
 
-	<script async src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/modernizr.min.js"></script>
-	<!--[if (lt IE 9) & (!IEMobile)]><script async src="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/assets/js/selectivizr.min.js"></script><![endif]-->
+	<script async src="<?php echo $Sitewide_Root; ?>assets/js/modernizr.min.js"></script>
+	<!--[if (lt IE 9) & (!IEMobile)]><script async src="<?php echo $Sitewide_Root; ?>assets/js/selectivizr.min.js"></script><![endif]-->
 
 </head>
 
@@ -61,26 +61,26 @@
 
 	<header class="group">
 		<div class="col span_1_of_2">
-			<h1><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>"><!--<img src=""> --><?php echo $Sitewide_Title; ?></a></h1>
+			<h1><a href="<?php echo $Sitewide_Root; ?>"><!--<img src=""> --><?php echo $Sitewide_Title; ?></a></h1>
 		</div>
 		<nav class="col span_1_of_2">
 			<ul>
-				<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>">home</a></li>
-				<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/page">page</a></li>
-				<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/blog/">blog</a></li>
-				<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/contact">contact</a></li>
+				<li><a href="<?php echo $Sitewide_Root; ?>">home</a></li>
+				<li><a href="<?php echo $Sitewide_Root; ?>page">page</a></li>
+				<li><a href="<?php echo $Sitewide_Root; ?>blog/">blog</a></li>
+				<li><a href="<?php echo $Sitewide_Root; ?>contact">contact</a></li>
 			</ul>
 			<ul>
-				<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/forum">forum</a></li>
+				<li><a href="<?php echo $Sitewide_Root; ?>forum">forum</a></li>
 				<?php if (isset($Member_Auth) && $Member_Auth == true) { ?>
-					<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/account/">account</a></li>
-					<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/account/logout">logout</a></li>
+					<li><a href="<?php echo $Sitewide_Root; ?>account/">account</a></li>
+					<li><a href="<?php echo $Sitewide_Root; ?>account/logout">logout</a></li>
 				<?php } else { ?>
-					<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/account/login">login</a></li>
-					<li><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/account/signup">signup</a></li>
+					<li><a href="<?php echo $Sitewide_Root; ?>account/login">login</a></li>
+					<li><a href="<?php echo $Sitewide_Root; ?>account/signup">signup</a></li>
 				<?php } ?>
 			</ul>
 		</nav>
 	</header>
 
-	<?php if ($Request['path'] != '/') echo '<div class="content">';
+	<?php if ($Canonical != '') echo '<div class="content">';

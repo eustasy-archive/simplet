@@ -10,7 +10,7 @@
 
 	require_once '../../request.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
+if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
 
 	header('Content-Type: application/rss+xml');
 	echo '<?xml version="1.0" encoding="utf-8"?>

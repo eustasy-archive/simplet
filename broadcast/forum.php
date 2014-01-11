@@ -13,7 +13,7 @@
 	$Footer = '../footer.php';
 	$Parsedown = '../libs/Parsedown.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
+if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
 
 	if(isset($_POST['action'])) {
 

@@ -10,7 +10,7 @@
 
 	require_once '../request.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
+if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
 
 	require '../header.php'; ?>
 
@@ -36,9 +36,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
 			</div>
 			<div class="col span_1_of_2">
 				<h3>Pieces</h3>
-				<h3><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/blog/">Blog</a></h3>
-				<h3><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/forum/">Forum</a></h3>
-				<h3><a href="<?php echo $Request['scheme'].'://'.$Request['host']; ?>/account/">Members</a></h3>
+				<h3><a href="<?php echo $Sitewide_Root; ?>/blog/">Blog</a></h3>
+				<h3><a href="<?php echo $Sitewide_Root; ?>/forum/">Forum</a></h3>
+				<h3><a href="<?php echo $Sitewide_Root; ?>/account/">Members</a></h3>
 			</div>
 		</div>
 	</div>

@@ -10,7 +10,7 @@
 
 	require_once '../../request.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == '/' . $Canonical) {
+if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
 
 	if (!$Member_Auth) { // Are you logged out already?
 		$Error = 'We can\'t log you out, you weren\'t logged in.';

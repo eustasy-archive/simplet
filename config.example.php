@@ -9,9 +9,9 @@
 	$Sitewide_Tagline = 'The Tagline of your site.';
 
 	// This is the Base URL of your Site
-	// Don't include a trailing slash
+	// Do include a trailing slash
 	// Do include a http:// or https://
-	$Sitewide_Root = 'http://example.com';
+	$Sitewide_Root = 'http://example.com/';
 
 	// Allow or disallow Signups
 	$Sitewide_Signups = true;

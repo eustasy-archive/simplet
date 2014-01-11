@@ -2,7 +2,9 @@
 
 	require 'config.php';
 
-	$Request = parse_url($Sitewide_Root.$_SERVER['REQUEST_URI']);
+	$Place = parse_url($Sitewide_Root);
+
+	$Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
 
 	// This is a per-page 301 to strip trailing php extensions
 	if (substr($Request['path'], -4, 4) == '.php') {
