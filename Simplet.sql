@@ -2,21 +2,27 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `Simplet` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `Simplet`;
+
 -- Create Table for Members
 CREATE TABLE IF NOT EXISTS `Members` (
   `ID` varchar(12) NOT NULL,
   `Mail` varchar(250) NOT NULL,
   `Name` varchar(250) NOT NULL,
+  `Admin` int(1) NOT NULL,
+  `Status` varchar(100) NOT NULL,
   `Pass` varchar(1000) NOT NULL,
   `Salt` varchar(64) NOT NULL,
-  `Admin` int(1) NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
-  `Status` varchar(100) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
+  KEY `Mail` (`Mail`),
+  KEY `Name` (`Name`),
+  KEY `Admin` (`Name`),
+  KEY `Status` (`Name`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- Create Table for Sessions
 CREATE TABLE IF NOT EXISTS `Sessions` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -29,9 +35,13 @@ CREATE TABLE IF NOT EXISTS `Sessions` (
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`),
+  KEY `IP` (`IP`),
+  KEY `Cookie` (`Cookie`),
+  KEY `Active` (`Active`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 -- Create Table for Password Resets
 CREATE TABLE IF NOT EXISTS `Resets` (
   `Member_ID` varchar(12) NOT NULL,
@@ -43,9 +53,11 @@ CREATE TABLE IF NOT EXISTS `Resets` (
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `Key` (`Key`),
   KEY `Member_ID` (`Member_ID`),
+  KEY `Active` (`Active`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- Create Table for Failed Logins
 CREATE TABLE IF NOT EXISTS `Failures` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -56,10 +68,10 @@ CREATE TABLE IF NOT EXISTS `Failures` (
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`),
   KEY `Created` (`Created`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 -- Create Table for Categories
 CREATE TABLE IF NOT EXISTS `Categories` (
-  `ID` int(255) NOT NULL AUTO_INCREMENT,
   `Member_ID` varchar(12) NOT NULL,
   `Status` varchar(12) NOT NULL,
   `Title` varchar(255) NOT NULL,
@@ -67,49 +79,51 @@ CREATE TABLE IF NOT EXISTS `Categories` (
   `Description` varchar(255) NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
-  UNIQUE KEY `ID` (`ID`),
+  PRIMARY KEY (`Slug`),
   KEY `Member_ID` (`Member_ID`),
   KEY `Title` (`Title`),
-  KEY `Slug` (`Slug`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- Create Table for Topics
 CREATE TABLE IF NOT EXISTS `Topics` (
-  `ID` int(255) NOT NULL AUTO_INCREMENT,
   `Member_ID` varchar(12) NOT NULL,
   `Status` varchar(12) NOT NULL,
   `Category` varchar(255) NOT NULL,
+  `Slug` varchar(500) NOT NULL,
   `Title` varchar(500) NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
-  UNIQUE KEY `ID` (`ID`),
+  PRIMARY KEY (`Slug`),
   KEY `Member_ID` (`Member_ID`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- Create Table for Replies
 CREATE TABLE IF NOT EXISTS `Replies` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
   `Member_ID` varchar(12) NOT NULL,
-  `Topic_ID` varchar(255) NOT NULL,
+  `Topic_Slug` varchar(500) NOT NULL,
   `Status` varchar(12) NOT NULL,
-  `Post` MEDIUMTEXT NOT NULL,
+  `Post` mediumtext NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`),
-  KEY `Topic_ID` (`Topic_ID`),
+  KEY `Topic_ID` (`Topic_Slug`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
 -- Create Table for Comments
 CREATE TABLE IF NOT EXISTS `Comments` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
   `Member_ID` varchar(12) NOT NULL,
-  `Canonical` varchar(255) NOT NULL,
+  `Canonical` varchar(500) NOT NULL,
   `Status` varchar(12) NOT NULL,
-  `Post` MEDIUMTEXT NOT NULL,
+  `Post` mediumtext NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
