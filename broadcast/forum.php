@@ -9,11 +9,13 @@
 	$Keywords = 'forum';
 
 	require_once '../request.php';
+
+	$Forum = $Canonical;
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 	$Parsedown = '../libs/Parsedown.php';
 
-if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
+if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
 
 	if(isset($_POST['action'])) {
 
@@ -55,7 +57,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Reply_New) exit('Invalid Query (Reply_New): '.mysqli_error($MySQL_Connection));
 
-					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
+					header('Location: ?topic='.$Topic_Slug, TRUE, 302);
 					die();
 
 				}
@@ -116,7 +118,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
 					}
 
-					header('Location: /'.$Canonical.'?topic='.$Topic_Slug, TRUE, 302);
+					header('Location: ?topic='.$Topic_Slug, TRUE, 302);
 					die();
 
 				}
@@ -125,10 +127,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 		if(isset($Error) && $Error) {
 			require $Header;
-			echo '<h2>Error: ';
-			if(isset($Error) && $Error) echo $Error;
-			else echo 'Simplet can\'t tell what went wrong.';
-			echo '</h2>';
+			echo '<h2>Error: '.$Error.'</h2>';
 			echo '<h3>Simplet encountered an error processing your reply.</h3>';
 			require $Footer;
 		}
@@ -162,7 +161,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 				$TextTitle = $Topic_Title;
 				$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
-				$Canonical = $Canonical.'?topic='.$Topic_Slug;
+				$Canonical = $Forum.'?topic='.$Topic_Slug;
 				$Description = $Topic_Title;
 				$Keywords = $Topic_Title.' topic forum';
 
@@ -318,7 +317,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 				echo '<h3>There is no such Category: "'.$Category_Slug.'".</h3>';
 				require $Footer;
 			} else {
-				header('HTTP/1.1 403 Forbidden');
+				header('HTTP/1.1 404 Not Found');
 				require $Header;
 				echo '<h3>There is no such public Category: "'.$Category_Slug.'".</h3>';
 				require $Footer;
@@ -331,7 +330,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 			$TextTitle = $Category_Title;
 			$WebTitle = $Category_Title.' &nbsp;&middot;&nbsp; Forum';
-			$Canonical = $Canonical.'?category='.$Category_Slug;
+			$Canonical = $Forum.'?category='.$Category_Slug;
 			$PostType = 'Forum';
 			$FeaturedImage = '';
 			$Description = $Category_Description;
@@ -425,38 +424,49 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		}
 
 	} else if(isset($_GET['new'])) {
-		require $Header;
-		// TODO Catch Category Variable
-		// Set category_slug and category_status
-		echo '
-				<h2>Post a new Topic</h2>
-				<form action="" method="post">
-					<input type="hidden" name="action" value="topic" required />
-					<input type="hidden" name="category_slug" value="plans" required />
-					<input type="hidden" name="category_status" value="Public" required />
-					<div class="section group">
-						<div class="col span_1_of_12"><br></div>
-						<div class="col span_10_of_12">
-							<input type="text" name="title" value="" placeholder="What is a Forum?" required />
-							<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
-						</div>
-						<div class="col span_1_of_12"><br></div>
-					</div>
-					<div class="section group">
-						<div class="col span_1_of_12"><br></div>
-						<div class="col span_8_of_12">
-							<p><small>If you wish, you can use Markdown for formatting.<br>
-							Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-							<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-						</div>
-						<div class="col span_2_of_12">
-							<input type="submit" value="Create">
-						</div>
-						<div class="col span_1_of_12"><br></div>
-					</div>
-				</form>';
 
-		require $Footer;
+		if(!$Member_Auth) {
+    		header('HTTP/1.1 401 Unauthorized');
+			require $Header;
+			echo '<h2>Error: You are not logged in.</h2>';
+			echo '<h3></h3>'; // TODO Better Error
+			require $Footer;
+		} else {
+
+			require $Header;
+			// TODO Catch Category Variable
+			// Set category_slug and category_status
+			echo '
+					<h2>Post a new Topic</h2>
+					<form action="" method="post">
+						<input type="hidden" name="action" value="topic" required />
+						<input type="hidden" name="category_slug" value="plans" required />
+						<input type="hidden" name="category_status" value="Public" required />
+						<div class="section group">
+							<div class="col span_1_of_12"><br></div>
+							<div class="col span_10_of_12">
+								<input type="text" name="title" value="" placeholder="What is a Forum?" required />
+								<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
+							</div>
+							<div class="col span_1_of_12"><br></div>
+						</div>
+						<div class="section group">
+							<div class="col span_1_of_12"><br></div>
+							<div class="col span_8_of_12">
+								<p><small>If you wish, you can use Markdown for formatting.<br>
+								Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+								<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+							</div>
+							<div class="col span_2_of_12">
+								<input type="submit" value="Create">
+							</div>
+							<div class="col span_1_of_12"><br></div>
+						</div>
+					</form>';
+
+			require $Footer;
+
+		}
 
 	} else {
 
@@ -475,8 +485,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 		$Categories_Count = mysqli_num_rows($Categories);
 		if ($Categories_Count == 0) {
+			header('HTTP/1.1 404 Not Found');
 			if($Member_Auth) {
-				header('HTTP/1.1 404 Not Found');
 				echo '
 				<h3>There are no Categories.</h3>';
 			} else {
