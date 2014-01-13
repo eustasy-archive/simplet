@@ -7,15 +7,16 @@
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'forum';
+	$Forum = $Canonical;
 
 	require_once '../request.php';
 
-	$Forum = $Canonical;
+if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
+
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 	$Parsedown = '../libs/Parsedown.php';
-
-if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
+	$Time = time();
 
 	if(isset($_POST['action'])) {
 
@@ -47,7 +48,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 
 				} else {
 
-					$Time = time();
+
 					if($Forum_Reply_Inherit) {
 						$Reply_Status = trim(htmlentities($_POST['topic_status'], ENT_QUOTES, 'UTF-8'));
 					} else {
@@ -69,13 +70,13 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 			if(!isset($_POST['title']) || empty($_POST['title'])) {
 				$Error = 'No Topic Set.';
 
-			} else if(!isset($_POST['category_slug']) || empty($_POST['category_slug'])) {
+			} else if(!isset($_POST['category']) || empty($_POST['category'])) {
 				$Error = 'No Category Set.';
 
 			} else {
 
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
-					$Topic_Category = trim(htmlentities($_POST['category_slug'], ENT_QUOTES, 'UTF-8'));
+					$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
 
 					if(isset($_POST['post']) || !empty($_POST['post'])) {
 						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
@@ -96,9 +97,9 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 					$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
 					$Topic_Slug = trim($Topic_Slug, '-');
 
-					$Time = time();
 					if($Forum_Topic_Inherit) {
-						$Topic_Status = trim(htmlentities($_POST['category_status'], ENT_QUOTES, 'UTF-8'));
+						// TODO Inherit
+						$Topic_Status = 'Public';
 					} else {
 						$Topic_Status = $Forum_Topic_Default;
 					}
@@ -130,6 +131,48 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 			echo '<h2>Error: '.$Error.'</h2>';
 			echo '<h3>Simplet encountered an error processing your reply.</h3>';
 			require $Footer;
+		}
+
+	} else if(isset($_GET['new'])) {
+
+		if(!$Member_Auth) {
+    		header('HTTP/1.1 401 Unauthorized');
+			require $Header;
+			echo '<h2>Error: You are not logged in.</h2>';
+			echo '<h3></h3>'; // TODO Better Error
+			require $Footer;
+		} else {
+
+			require $Header;
+			echo '
+					<h2>Post a new Topic</h2>
+					<form action="" method="post">
+						<input type="hidden" name="action" value="topic" required />
+						<input type="hidden" name="category" value="'.htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8').'" required />
+						<div class="section group">
+							<div class="col span_1_of_12"><br></div>
+							<div class="col span_10_of_12">
+								<input type="text" name="title" value="" placeholder="What is a Forum?" required />
+								<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
+							</div>
+							<div class="col span_1_of_12"><br></div>
+						</div>
+						<div class="section group">
+							<div class="col span_1_of_12"><br></div>
+							<div class="col span_8_of_12">
+								<p><small>If you wish, you can use Markdown for formatting.<br>
+								Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+								<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+							</div>
+							<div class="col span_2_of_12">
+								<input type="submit" value="Create">
+							</div>
+							<div class="col span_1_of_12"><br></div>
+						</div>
+					</form>';
+
+			require $Footer;
+
 		}
 
 	} else if(isset($_GET['topic']) && !empty($_GET['topic'])) {
@@ -359,7 +402,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 				echo '
 				<h2>'.$Category_Title.'</h2>
 				<p>'.$Category_Description;
-				if($Member_Auth) echo '<a class="floatright" href="?new">New Topic</a>';
+				if($Member_Auth) echo '<a class="floatright" href="?new&category='.$Category_Slug.'">New Topic</a>';
 				echo '</p>';
 
 				echo '
@@ -419,51 +462,6 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 
 				}
 			}
-			require $Footer;
-
-		}
-
-	} else if(isset($_GET['new'])) {
-
-		if(!$Member_Auth) {
-    		header('HTTP/1.1 401 Unauthorized');
-			require $Header;
-			echo '<h2>Error: You are not logged in.</h2>';
-			echo '<h3></h3>'; // TODO Better Error
-			require $Footer;
-		} else {
-
-			require $Header;
-			// TODO Catch Category Variable
-			// Set category_slug and category_status
-			echo '
-					<h2>Post a new Topic</h2>
-					<form action="" method="post">
-						<input type="hidden" name="action" value="topic" required />
-						<input type="hidden" name="category_slug" value="plans" required />
-						<input type="hidden" name="category_status" value="Public" required />
-						<div class="section group">
-							<div class="col span_1_of_12"><br></div>
-							<div class="col span_10_of_12">
-								<input type="text" name="title" value="" placeholder="What is a Forum?" required />
-								<textarea name="post" placeholder="This bit is optional, but guarantees you get first post."></textarea>
-							</div>
-							<div class="col span_1_of_12"><br></div>
-						</div>
-						<div class="section group">
-							<div class="col span_1_of_12"><br></div>
-							<div class="col span_8_of_12">
-								<p><small>If you wish, you can use Markdown for formatting.<br>
-								Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-								<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-							</div>
-							<div class="col span_2_of_12">
-								<input type="submit" value="Create">
-							</div>
-							<div class="col span_1_of_12"><br></div>
-						</div>
-					</form>';
-
 			require $Footer;
 
 		}
