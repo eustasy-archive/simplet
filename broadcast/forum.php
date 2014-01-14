@@ -75,8 +75,21 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 
 			} else {
 
+				$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
+
+				$Category = mysqli_query($MySQL_Connection, "SELECT * FROM `Categories` WHERE `Slug`='$Topic_Category' AND NOT `Status`='Hidden' ORDER BY `Modified` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+				if (!$Category) exit('Invalid Query (Category): '.mysqli_error($MySQL_Connection));
+
+				$Category_Count = mysqli_num_rows($Category);
+				if ($Category_Count == 0) {
+					// TODO Error: Not a Category
+					// Note: Errors may not be caught for this section yet.
+					echo 'Not a Category';
+				} else {
+					$Category_Fetch = mysqli_fetch_assoc($Category);
+					$Category_Status = $Category_Fetch['Status'];
+
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
-					$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
 
 					if(isset($_POST['post']) || !empty($_POST['post'])) {
 						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
@@ -98,13 +111,20 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 					$Topic_Slug = trim($Topic_Slug, '-');
 
 					if($Forum_Topic_Inherit) {
-						// TODO Inherit
-						$Topic_Status = 'Public';
+						$Topic_Status = $Category_Status;
 					} else {
 						$Topic_Status = $Forum_Topic_Default;
 					}
 
-					// TODO Uniqueness check $Topic_Slug
+					// TODO: Uniqueness check $Topic_Slug before inserting.
+					//
+					// Increment as:
+					// slug
+					// slug-1
+					// slug-2
+					//
+					// Note: Original left unscathed,
+					// subsequent duplicates numbered from one.
 
 					$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
@@ -121,8 +141,9 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 
 					header('Location: ?topic='.$Topic_Slug, TRUE, 302);
 					die();
-
 				}
+
+			}
 
 		}
 
