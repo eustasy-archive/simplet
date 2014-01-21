@@ -27,9 +27,11 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Quotes Douglas Adams
 
 ##Roadmap
-- Ability to Edit Forum Posts
-- Ability to Edit Comments
-- Configuration Option for Time Locking Editing
+- Editing Abilities
+    - Forum Posts
+    - Comments
+    - Reviews
+    - Configuration Option for Time Locking
 - Captcha and SweetCaptcha
     - Global Configuration Options for:
         - Comments
@@ -48,8 +50,11 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
         - Create/Edit/Private/Hide/Lock/Delete Categories
         - Edit/Private/Hide/Lock/Delete Topics
     - Blog Comments Edit/Hide/Delete
+    - Reviews Comments Edit/Hide/Delete
+- Rate Reviews Helpful or Unhelpful
 - User Profiles
 - Inter-User Messaging
+- Apache Config File (with Extensionless PHP)
 
 ##Libraries
 
