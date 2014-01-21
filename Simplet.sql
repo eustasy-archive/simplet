@@ -132,3 +132,20 @@ CREATE TABLE IF NOT EXISTS `Comments` (
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Create Table for Reviews
+CREATE TABLE IF NOT EXISTS `Reviews` (
+  `ID` int(255) NOT NULL AUTO_INCREMENT,
+  `Member_ID` varchar(12) NOT NULL,
+  `Canonical` varchar(500) NOT NULL,
+  `Status` varchar(12) NOT NULL,
+  `Rating` int(12) NOT NULL,
+  `Post` mediumtext NOT NULL,
+  `Created` int(11) NOT NULL,
+  `Modified` int(11) NOT NULL,
+  UNIQUE KEY `ID` (`ID`),
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Canonical` (`Canonical`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
