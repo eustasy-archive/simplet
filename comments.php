@@ -3,7 +3,7 @@
 	if(isset($_POST['action']) && $_POST['action']=='comment') {
 
 		if(!$Member_Auth) {
-			$Error = 'You cannot comment, you are not logged in.';
+			$Error = 'You cannot leave a comment, you are not logged in.';
 		} else {
 			if(!isset($_POST['canonical']) || empty($_POST['canonical'])) {
 				$Error = 'Could not determine which post you wanted to comment on.';
@@ -15,7 +15,7 @@
 				$Comment_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 
 				if(empty($Comment_Canonical)) {
-					$Error = 'Could not determine which post you wanted to comment on.';
+					$Error = 'Could not determine which post you wanted to leave a comment on.';
 				} else if(empty($Comment_Post)) {
 					$Error = 'You didn\'t enter a comment.';
 				} else {
@@ -112,7 +112,7 @@
 					<input type="hidden" name="canonical" value="'.$Canonical.'" />
 					<div class="col span_1_of_12"><br></div>
 					<div class="col span_10_of_12">
-						<h3>Post a Comment</h3>
+						<h3>Leave a Comment</h3>
 						<textarea name="post" required></textarea>
 					</div>
 					<div class="col span_1_of_12"><br></div>
@@ -132,5 +132,5 @@
 			</form>';
 	} else {
 		echo '
-				<h3>You must <a href="'.$Request['scheme'].'://'.$Request['host'].'/account/login">login</a> to post a reply.</h3>';
+				<h3>You must <a href="'.$Sitewide_Root.'account?login">login</a> to post a comment.</h3>';
 	}
