@@ -35,7 +35,7 @@
 		}
 	}
 
-	$Reviews = mysqli_query($MySQL_Connection, "SELECT * FROM `Reviews` WHERE `Canonical`='$Canonical' AND `Status`='Public' ORDER BY `Created` ASC", MYSQLI_STORE_RESULT);
+	$Reviews = mysqli_query($MySQL_Connection, "SELECT * FROM `Reviews` WHERE `Canonical`='$Canonical' AND `Status`='Public' ORDER BY `Helpfulness` DESC, `Created` ASC", MYSQLI_STORE_RESULT);
 	if(!$Reviews) exit('Invalid Query (Reviews): '.mysqli_error($MySQL_Connection));
 
 	$Reviews_Count = mysqli_num_rows($Reviews);
@@ -66,8 +66,10 @@
 
 		while($Reviews_Fetch = mysqli_fetch_assoc($Reviews)) {
 
+			$Reviews_ID = $Reviews_Fetch['ID'];
 			$Reviews_Member_ID = $Reviews_Fetch['Member_ID'];
 			$Reviews_Rating = $Reviews_Fetch['Rating'];
+			$Reviews_Helpfulness = $Reviews_Fetch['Helpfulness'];
 			$Reviews_Post = Parsedown::instance()->parse(html_entity_decode($Reviews_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
 			$Reviews_Created = $Reviews_Fetch['Created'];
 			$Reviews_Modified = $Reviews_Fetch['Modified'];
@@ -98,15 +100,41 @@
 					<div class="col span_2_of_12 textcenter';
 			if($Reviews_Store_Name === 'Deactivated') echo ' faded';
 			echo '"><p>'.$Reviews_Store_Name.'</p></div>
-					<div class="col span_10_of_12 textright"><p>';
+					<div class="col span_8_of_12"><br></div>
+					<div class="col span_2_of_12 textcenter"><p>';
 			if($Reviews_Modified > $Reviews_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reviews_Modified).' &nbsp;&middot;&nbsp; </span>';
 			echo date('d M, Y H:i', $Reviews_Created).'</p></div>
 				</div>
 				<div class="section group reply">
 					<div class="col span_2_of_12"><img class="avatar" src="'.$Reviews_Store_Avatar.'"></div>
-					<div class="col span_10_of_12">
-						<p>'.$Reviews_Rating.' Stars</p>
+					<div class="col span_8_of_12">
 						'.$Reviews_Post.'
+					</div>
+					<div class="col span_2_of_12">
+						<p>'.$Reviews_Rating.' Stars</p>
+						<p>'.number_format($Reviews_Helpfulness).' Helpful</p>';
+			$Helpfulness = mysqli_query($MySQL_Connection, "SELECT * FROM `Helpfulness` WHERE `Review_Canonical`='$Canonical' AND `Review_ID`='$Reviews_ID' AND `Member_ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+			if (!$Helpfulness) exit('Invalid Query (Helpfulness): '.mysqli_error($MySQL_Connection));
+			$Helpfulness_Count = mysqli_num_rows($Helpfulness);
+			// TODO API for Helpfullness
+			if($Helpfulness_Count == 0) {
+				echo '
+						<div class="helpfulness"><img class="faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
+			} else {
+				$Helpfulness_Fetch = mysqli_fetch_assoc($Helpfulness);
+				$Helpfulness_Vote = $Helpfulness_Fetch['Helpfulness'];
+				if ($Helpfulness_Vote === '-1') {
+					echo '
+						<div class="helpfulness"><img class="voted" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
+				} else if ($Helpfulness_Vote === '1') {
+					echo '
+						<div class="helpfulness"><img class="faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="voted" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
+				} else {
+					echo '
+						<div class="helpfulness"><img class="faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
+				}
+			}
+			echo '
 					</div>
 				</div>';
 		}

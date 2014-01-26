@@ -19,7 +19,9 @@
 	<link rel="canonical" href="<?php echo $Sitewide_Root.$Canonical; ?>">
 	<link rel="icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
 	<link rel="shortcut icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
-	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/combined.min.css">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/reset.min.css">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/col.min.css">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/simplet.css">
 
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
