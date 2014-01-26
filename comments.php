@@ -58,9 +58,6 @@
 			$Comments_Created = $Comments_Fetch['Created'];
 			$Comments_Modified = $Comments_Fetch['Modified'];
 
-			// TODO
-			// The Members in the cache should be changed to Object Oriented code
-
 			if(in_array($Comments_Member_ID, $Comments_Members_IDs)) {
 				$Comments_Members_Num = array_search($Comments_Member_ID, $Comments_Members_IDs);
 				$Comments_Store_Name = $Comments_Members_Names[$Comments_Members_Num];

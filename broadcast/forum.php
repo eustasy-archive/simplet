@@ -15,6 +15,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';
+	$Account = 'account';
 	$Parsedown = '../libs/Parsedown.php';
 	$Time = time();
 
@@ -82,9 +83,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 
 				$Category_Count = mysqli_num_rows($Category);
 				if ($Category_Count == 0) {
-					// TODO Error: Not a Category
-					// Note: Errors may not be caught for this section yet.
-					echo 'Not a Category';
+					$Error = 'Not a valid Category.';
 				} else {
 					$Category_Fetch = mysqli_fetch_assoc($Category);
 					$Category_Status = $Category_Fetch['Status'];
@@ -160,7 +159,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
     		header('HTTP/1.1 401 Unauthorized');
 			require $Header;
 			echo '<h2>Error: You are not logged in.</h2>';
-			echo '<h3></h3>'; // TODO Better Error
+			echo '<h3 class="textleft">You cannot post a topic if you are not logged in. <a class="floatright" href="'.$Account.'?login">Log In</a></h3>';
 			require $Footer;
 		} else {
 
@@ -251,9 +250,6 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum)
 					$Reply_Post = Parsedown::instance()->parse(html_entity_decode($Replies_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
 					$Reply_Created = $Replies_Fetch['Created'];
 					$Reply_Modified = $Replies_Fetch['Modified'];
-
-					// TODO
-					// The Members in the cache should be changed to Object Oriented code
 
 					if(in_array($Reply_Member_ID, $Replies_Members_IDs)) {
 						$Replies_Members_Num = array_search($Reply_Member_ID, $Replies_Members_IDs);

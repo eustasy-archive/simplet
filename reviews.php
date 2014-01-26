@@ -72,9 +72,6 @@
 			$Reviews_Created = $Reviews_Fetch['Created'];
 			$Reviews_Modified = $Reviews_Fetch['Modified'];
 
-			// TODO
-			// The Members in the cache should be changed to Object Oriented code
-
 			if(in_array($Reviews_Member_ID, $Reviews_Members_IDs)) {
 				$Reviews_Members_Num = array_search($Reviews_Member_ID, $Reviews_Members_IDs);
 				$Reviews_Store_Name = $Reviews_Members_Names[$Reviews_Members_Num];
