@@ -32,6 +32,9 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
     - Comments
     - Reviews
     - Configuration Option for Time Locking
+- Reply
+	- Comments
+	- Reviews
 - Captcha and SweetCaptcha
     - Global Configuration Options for:
         - Comments
