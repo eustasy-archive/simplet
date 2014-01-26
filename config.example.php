@@ -20,6 +20,10 @@
 	// Requires Setup in libs
 	$Browning = false;
 
+	// Strip .php Extensions
+	// IMPORTANT: Requires additional server-side setup.
+	$PHP_Strip = true;
+
 
 	// Database Configuration
 

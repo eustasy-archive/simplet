@@ -6,10 +6,9 @@
 
 	$Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
 
-	// This is a per-page 301 to strip trailing php extensions
-	if (substr($Request['path'], -4, 4) == '.php') {
+	if($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
 		header ('HTTP/1.1 301 Moved Permanently');
-		header ('Location: '.$Request['scheme']['host'].$Canonical);
+		header ('Location: '.$Sitewide_Root.$Canonical);
 	}
 
 	require 'connect.php';
