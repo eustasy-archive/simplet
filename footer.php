@@ -12,19 +12,5 @@
 		</nav>
 	</footer>
 
-	<!--[if lt IE 9]>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript">window.jQuery || document.write('<script src="<?php echo $Sitewide_Root; ?>assets/js/jquery-1.10.2.min.js"><\/script>');</script>
-	<![endif]-->
-	<!--[if IE 9]><!-->
-		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="<?php echo $Sitewide_Root; ?>assets/js/jquery-2.0.3.min.js"><\/script>');</script>
-	<!--<![endif]-->
-	<script src="<?php echo $Sitewide_Root; ?>assets/js/jquery.equalize.min.js"></script>
-	<script>
-		$(function(){equalize()});
-		window.onresize=function(){equalize()}
-	</script>
-
 </body>
 </html>

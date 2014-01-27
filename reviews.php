@@ -105,38 +105,40 @@
 			if($Reviews_Modified > $Reviews_Created) echo '<span class="faded edited">edited '.date('d M, Y H:i', $Reviews_Modified).' &nbsp;&middot;&nbsp; </span>';
 			echo date('d M, Y H:i', $Reviews_Created).'</p></div>
 				</div>
-				<div class="section group reply">
+				<div class="section group review '.$Reviews_ID.'">
 					<div class="col span_2_of_12"><img class="avatar" src="'.$Reviews_Store_Avatar.'"></div>
 					<div class="col span_8_of_12">
 						'.$Reviews_Post.'
 					</div>
 					<div class="col span_2_of_12">
 						<p>'.$Reviews_Rating.' Stars</p>
-						<p>'.number_format($Reviews_Helpfulness).' Helpful</p>';
-			$Helpfulness = mysqli_query($MySQL_Connection, "SELECT * FROM `Helpfulness` WHERE `Review_Canonical`='$Canonical' AND `Review_ID`='$Reviews_ID' AND `Member_ID`='$Member_ID'", MYSQLI_STORE_RESULT);
-			if (!$Helpfulness) exit('Invalid Query (Helpfulness): '.mysqli_error($MySQL_Connection));
-			$Helpfulness_Count = mysqli_num_rows($Helpfulness);
-			// TODO API for Helpfullness
-			if($Helpfulness_Count == 0) {
-				echo '
-						<div class="helpfulness"><img class="faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
-			} else {
-				$Helpfulness_Fetch = mysqli_fetch_assoc($Helpfulness);
-				$Helpfulness_Vote = $Helpfulness_Fetch['Helpfulness'];
-				if ($Helpfulness_Vote === '-1') {
-					echo '
-						<div class="helpfulness"><img class="voted" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
-				} else if ($Helpfulness_Vote === '1') {
-					echo '
-						<div class="helpfulness"><img class="faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="voted" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
-				} else {
-					echo '
-						<div class="helpfulness"><img class="faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>';
-				}
-			}
-			echo '
+						<p>'.number_format($Reviews_Helpfulness).' Helpful</p>
+						<div class="helpfulness"><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>
 					</div>
-				</div>';
+				</div>
+				<script async>
+					$(function(){
+						$.get(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Canonical.'&id='.$Reviews_ID.'\', function(data) {
+							if (data == \'false\') {
+								console.log(\'No Vote on '.$Reviews_ID.'\');
+							} else if (data == \'1\') {
+								console.log(\'Up Vote on '.$Reviews_ID.'\');
+								$(\'.review.'.$Reviews_ID.' .up\').removeClass(\'faded\');
+							} else if (data == \'-1\') {
+								console.log(\'Down Vote on '.$Reviews_ID.'\');
+								$(\'.review.'.$Reviews_ID.' .down\').removeClass(\'faded\');
+							}
+						});
+					});
+				</script>';
+			// TODO Set
+			//  false	= no vote
+			//  1		= up voted
+			// -1		= down voted
+			$Vote = '0';
+			$Vote = '1';
+			$Vote = '-1';
+			$Sitewide_Root.'api?helpfulness&set&canonical='.$Canonical.'&id='.$Reviews_ID.'&vote='.$Vote;
 		}
 
 	}
