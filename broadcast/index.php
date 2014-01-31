@@ -14,7 +14,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 	require '../header.php'; ?>
 
-	<div class="content spanpage clouds">
+	<div class="content spanpage wild">
 		<a href="https://github.com/eustasy/simplet">
 			<img src="assets/images/forkme.png" alt="Simplet on GitHub" class="tr-banner">
 		</a>
@@ -23,7 +23,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			<hr>
 			<p class="italic faded textcenter">with members, forums, and blogging built in</p>
 		</div>
-		<div class="credit"><p>Background by <a href="http://bo0xvn.deviantart.com/">bo0xVn</a></p></div>
+		<!--<div class="credit"><p>Background by <a href="http://creditlink.com/">Person</a></p></div>-->
 		<div class="clear"></div>
 	</div>
 
@@ -43,7 +43,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		</div>
 	</div>
 
-	<div class="content spanpage rocks">
+	<div class="content spanpage sunset">
 		<div class="section group">
 			<div class="col span_5_of_11">
 				<div class="bubble equalize">
@@ -62,7 +62,6 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 				</div>
 			</div>
 		</div>
-		<div class="credit"><p>Another background by <a href="http://bo0xvn.deviantart.com/">bo0xVn</a></p></div>
 		<div class="clear"></div>
 	</div>
 

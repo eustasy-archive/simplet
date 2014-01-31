@@ -525,26 +525,19 @@ input::-moz-focus-inner {
 
 
 
-
-
-
-
-
-
-
-
 .spanpage {
 	display: block;
 	position: relative;
-}
-.spanpage.clouds {
-	background: #ddd url(../images/clouds.jpg) no-repeat top center fixed;
+	background-color: #ddd;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: bottom center;
 	background-size: cover;
 }
-.spanpage.rocks {
-	background: #ddd url(../images/rocks.jpg) no-repeat top center fixed;
-	background-size: cover;
-}
+.spanpage.climb { background-image: url(../images/Climb.jpg); }
+.spanpage.rocks { background-image: url(../images/Rocks.jpg); }
+.spanpage.sunset { background-image: url(../images/Sunset.jpg); }
+.spanpage.wild { background-image: url(../images/Wild.jpg); }
 
 .spanpage .credit {
 	background: #ffffff;

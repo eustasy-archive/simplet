@@ -11,16 +11,14 @@
 	require_once '../request.php';
 
 	$Account = 'account';
-	$Header = '../header.php';
-	$Footer = '../footer.php';
 	$Lib_Browning_Config = '../libs/Browning_Config.php';
 	$Lib_Browning_Send = '../libs/Browning_Send.php';
 
 if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
 
+	header('X-Frame-Options: SAMEORIGIN');
+
 	$Time = time();
-
-
 
 	// Helpfulness API
 	//  false	= no vote

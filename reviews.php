@@ -96,7 +96,7 @@
 			}
 
 			echo '
-				<div class="section group darkrow">
+				<div class="section group darkrow" id="review_'.$Reviews_ID.'">
 					<div class="col span_2_of_12 textcenter';
 			if($Reviews_Store_Name === 'Deactivated') echo ' faded';
 			echo '"><p>'.$Reviews_Store_Name.'</p></div>
@@ -131,6 +131,7 @@
 						});
 					});
 				</script>';
+			// TODO Runonce
 			// TODO Set
 			//  false	= no vote
 			//  1		= up voted

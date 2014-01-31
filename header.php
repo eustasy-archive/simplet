@@ -16,11 +16,6 @@
 
 	<title><?php echo $WebTitle . ' &nbsp;&middot;&nbsp; ' . $Sitewide_Title; ?></title>
 
-	<link rel="canonical" href="<?php echo $Sitewide_Root.$Canonical; ?>">
-	<link rel="icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
-	<link rel="shortcut icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
-	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/combined.min.css">
-
 	<script async>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -67,6 +62,11 @@
 			window.onresize=function(){equalize()}
 		})
 	</script>
+
+	<link rel="canonical" href="<?php echo $Sitewide_Root.$Canonical; ?>">
+	<link rel="icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
+	<link rel="shortcut icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/combined.min.css">
 
 </head>
 

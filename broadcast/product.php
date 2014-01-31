@@ -18,7 +18,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		<h2>Example Product</h2>
 		<div class="section group">
 			<div class="col span_5_of_11">
-				<img src="assets/images/rocks.jpg" class="round">
+				<img src="assets/images/Rocks.jpg" class="round">
 			</div>
 			<div class="col span_1_of_11"><br></div>
 			<div class="col span_5_of_11">
