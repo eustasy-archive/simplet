@@ -16,7 +16,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 		<h2>Example Page</h2>
 		<p>Simplet is a small, simple PHP Framework for building file-based that includes a responsive, HTML5 website layout with 12 fluid width columns and an integrated database-managed user system.</p>
-		<p>This page will present some of the default styles to show </p>
+		<p>This page will present some of the default styles to show how Simplet will typically look on a clean install. What follows is a standard page break, which only extends the width of the text. All subsequent page-breaks are made by ending <code>.content</code> and starting a new one.</p>
 
 		<hr>
 
@@ -35,7 +35,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			</div>
 		</div>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<div class="section group">
 			<div class="col span_1_of_3">
@@ -80,12 +81,14 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			</div>
 		</div>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<h3>Code Snippets</h3>
 		<code>( Lines of Code ) / 42 = ( Total Number of Bugs )</code>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<h3>Text</h3>
 
@@ -94,7 +97,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		<p class="textright">This text is aligned to the right.</p>
 		<p class="textcenter">This text is centered horizontally.</p>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<h3>Images</h3>
 
@@ -104,7 +108,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		<img class="floatleft" style="max-width:33%;" src="http://lewisgoddard.eustasy.org/images/faces/circular-red-small-compressed.png" alt="CSS &vert; God's Language" />
 		<p>Lorem ipsum dolor sit amet, <a href="#" title="test link">test link</a> adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p><p>Lorem ipsum dolor sit amet, <em>emphasis</em> consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<h3>Fieldsets, Legends, and Form Elements</h3>
 		<fieldset>
@@ -124,41 +129,37 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			</div>
 			<div class="section group">
 				<div class="col span_1_of_4">
-					<h3><label for="password">Password:</label></h3>
+					<h3><label for="password">Password</label></h3>
 				</div>
 				<div class="col span_3_of_4">
 					<input type="password" class="password" name="password" id="password" />
 				</div>
 			</div>
 			<div class="section group">
-				<div class="col span_3_of_4"><br></div>
-				<div class="col span_1_of_4">
-					<input class="button" type="submit" value="Login" />
+				<div class="col span_1_of_1">
+					<h3><label for="text_area">Text Area</label></h3>
+					<textarea id="text_area"></textarea>
 				</div>
 			</div>
-			<h3><label for="text_area">Text Area</label></h3>
-			<textarea id="text_area"></textarea>
 			<div class="section group">
 				<div class="col span_1_of_4">
 					<h4><label for="select_element">Select Element</label></h4>
-					<p>
-						<select name="select_element" id="select_element">
-							<optgroup label="Option Group 1">
-								<option value="1">Option 1</option>
-								<option value="2">Option 2</option>
-								<option value="3">Option 3</option>
-							</optgroup>
-							<optgroup label="Option Group 2">
-								<option value="1">Option 1</option>
-								<option value="2">Option 2</option>
-								<option value="3">Option 3</option>
-							</optgroup>
-						</select>
-					</p>
+					<select name="select_element" id="select_element">
+						<optgroup label="Option Group 1">
+							<option value="1">Option 1</option>
+							<option value="2">Option 2</option>
+							<option value="3">Option 3</option>
+						</optgroup>
+						<optgroup label="Option Group 2">
+							<option value="1">Option 1</option>
+							<option value="2">Option 2</option>
+							<option value="3">Option 3</option>
+						</optgroup>
+					</select>
 				</div>
 				<div class="col span_1_of_4">
 					<h4><label for="file">File Input</label></h4>
-					<p><input type="file" class="file" name="file" id="file" /></p>
+					<input type="file" class="file" name="file" id="file" />
 				</div>
 				<div class="col span_1_of_4">
 					<h4><label for="radio_button">Radio Buttons</label></h4>
@@ -168,26 +169,30 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 				</div>
 				<div class="col span_1_of_4">
 					<h4><label for="checkboxes">Checkboxes</label></h4>
-					<p><input type="checkbox" id="checkboxes" class="checkbox" name="checkboxes" value="check_1" /> Radio 1<br>
-					<input type="checkbox" class="checkbox" name="checkboxes" value="check_2" /> Radio 2<br>
-					<input type="checkbox" class="checkbox" name="checkboxes" value="check_3" /> Radio 3</p>
+					<p><input type="checkbox" id="checkboxes" class="checkbox" name="checkboxes" value="check_1" /> Checkbox 1<br>
+					<input type="checkbox" class="checkbox" name="checkboxes" value="check_2" /> Checkbox 2<br>
+					<input type="checkbox" class="checkbox" name="checkboxes" value="check_3" /> Checkbox 3</p>
+				</div>
+			</div>
+			<div class="section group">
+				<div class="col span_1_of_4">
+					<input class="button red" type="reset" value="Clear" />
+				</div>
+				<div class="col span_2_of_4"><br></div>
+				<div class="col span_1_of_4">
+					<input type="button" value="Default" />
 				</div>
 			</div>
 			<div class="section group">
 				<div class="col span_3_of_4"><br></div>
 				<div class="col span_1_of_4">
-					<input class="button" type="reset" value="Clear" />
-				</div>
-			</div>
-			<div class="section group">
-				<div class="col span_3_of_4"><br></div>
-				<div class="col span_1_of_4">
-					<input class="button" type="submit" value="Submit" />
+					<input type="submit" value="Submit" />
 				</div>
 			</div>
 		</form>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<h3 id="tables">Tables</h3>
 		<table>
@@ -213,7 +218,8 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			</tr>
 		</table>
 
-		<hr>
+	</div>
+	<div class="content">
 
 		<h3>Misc Stuff - abbr, acronym, pre, code, sub, sup, etc.</h3>
 		<p>Lorem <sup>superscript</sup> dolor <sub>subscript</sub> amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. <cite>cite</cite>. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. <abbr title="National Basketball Association">NBA</abbr> Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. <abbr title="Avenue">AVE</abbr></p>
