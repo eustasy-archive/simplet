@@ -73,6 +73,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 ###JavaScript
 - [Modernizr (2.7.1)](http://modernizr.com/download/#-fontface-backgroundsize-borderradius-opacity-rgba-generatedcontent-csstransitions-printshiv-mq-teststyles-testprop-testallprops-prefixes-domprefixes)
 - [Selectivizr (1.0.2)](https://github.com/keithclark/selectivizr)
-- [jQuery (1.10.2 and 2.0.3)](http://jquery.com/)
+- [jQuery (1.11.0 and 2.1.0)](http://jquery.com/)
 - [jQuery.equalize (1.4)](http://labs.eustasy.org/jquery.equalize)
 - [jQuery Cookie (1.4.0)](https://github.com/carhartl/jquery-cookie)
