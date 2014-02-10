@@ -25,7 +25,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 				if($PostType=='Post'){
 					echo '
 			<div class="col span_5_of_12">
-				<h2><a href="'.$Request['scheme'].'://'.$Request['host'].'/'.$Canonical.'">' . $TextTitle . '</a></h2>
+				<h2><a href="'.$Sitewide_Root.$Canonical.'">' . $TextTitle . '</a></h2>
 				<p class="textright faded"><small>' . date ('d/m/Y', filemtime($entry)) .'</small></p>
 				<p>' . $Description . '</p>
 			</div>';

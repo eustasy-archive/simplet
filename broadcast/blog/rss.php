@@ -19,7 +19,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<atom:link href="<?php echo $Request['scheme'].'://'.$Request['host'].'/'.$Canonical; ?>" rel="self" type="application/rss+xml" />
+		<atom:link href="<?php echo $Sitewide_Root.$Canonical; ?>" rel="self" type="application/rss+xml" />
 		<title><?php echo $Sitewide_Title; ?></title>
 		<description><?php echo $Sitewide_Tagline; ?></description>
 		<link><?php echo $Sitewide_Root; ?></link>
@@ -33,7 +33,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 				if($entry!='rss.php') {
 					require $entry;
 					if($PostType=='Post') {
-						$PostLink = $Request['scheme'].'://'.$Request['host'].'/'.$Canonical;
+						$PostLink = $Sitewide_Root.$Canonical;
 						echo '
 		<item>
 			<title>'.$WebTitle.'</title>

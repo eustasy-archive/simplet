@@ -118,28 +118,81 @@
 				</div>
 				<script async>
 					$(function(){
+						vote_'.$Reviews_ID.' = \'none\';
 						$.get(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Canonical.'&id='.$Reviews_ID.'\', function(data) {
-							if (data == \'false\') {
-								console.log(\'No Vote on '.$Reviews_ID.'\');
-							} else if (data == \'1\') {
-								console.log(\'Up Vote on '.$Reviews_ID.'\');
+							if (data == \'none\') {
+								console.log(\'Has No Vote on '.$Reviews_ID.'\');
+								var vote_'.$Reviews_ID.' = \'none\';
+							} else if (data == \'up\') {
+								console.log(\'Has Up Vote on '.$Reviews_ID.'\');
 								$(\'.review.'.$Reviews_ID.' .up\').removeClass(\'faded\');
-							} else if (data == \'-1\') {
-								console.log(\'Down Vote on '.$Reviews_ID.'\');
+								var vote_'.$Reviews_ID.' = \'up\';
+							} else if (data == \'down\') {
+								console.log(\'Has Down Vote on '.$Reviews_ID.'\');
 								$(\'.review.'.$Reviews_ID.' .down\').removeClass(\'faded\');
+								var vote_'.$Reviews_ID.' = \'down\';
+							} else if (data == \'invalid\') {
+								console.log(\'Invalid on '.$Reviews_ID.'\');
+								var vote_'.$Reviews_ID.' = \'none\';
+							} else {
+								console.log(\'Error on '.$Reviews_ID.'\');
+								var vote_'.$Reviews_ID.' = \'none\';
 							}
+							$(\'.review.'.$Reviews_ID.' .up\').click(function() {
+								console.log(\'Initiate Up '.$Reviews_ID.'\');
+								if (vote_'.$Reviews_ID.' == \'up\') {
+									console.log(\'Clear '.$Reviews_ID.'\');
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Canonical.'&id='.$Reviews_ID.'\', { vote: \'none\' }).done(function(data) {
+										console.log(data);
+										if (data == \'true\') {
+											vote_'.$Reviews_ID.' = \'none\';
+											console.log(\'Complete Clear '.$Reviews_ID.'\');
+											$(\'.review.'.$Reviews_ID.' .up\').addClass(\'faded\');
+											$(\'.review.'.$Reviews_ID.' .down\').addClass(\'faded\');
+										}
+									});
+								} else {
+									console.log(\'Up '.$Reviews_ID.'\');
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Canonical.'&id='.$Reviews_ID.'\', { vote: \'up\' }).done(function(data) {
+										console.log(data);
+										if (data == \'true\') {
+											vote_'.$Reviews_ID.' = \'up\';
+											console.log(\'Complete Up '.$Reviews_ID.'\');
+											$(\'.review.'.$Reviews_ID.' .up\').removeClass(\'faded\');
+											$(\'.review.'.$Reviews_ID.' .down\').addClass(\'faded\');
+										}
+									});
+								}
+							});
+							$(\'.review.'.$Reviews_ID.' .down\').click(function() {
+								console.log(\'Initiate Down '.$Reviews_ID.'\');
+								if (vote_'.$Reviews_ID.' == \'down\') {
+									console.log(\'Clear '.$Reviews_ID.'\');
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Canonical.'&id='.$Reviews_ID.'\', { vote: \'none\' }).done(function(data) {
+										console.log(data);
+										if (data == \'true\') {
+											vote_'.$Reviews_ID.' = \'none\';
+											console.log(\'Complete Clear '.$Reviews_ID.'\');
+											$(\'.review.'.$Reviews_ID.' .down\').addClass(\'faded\');
+											$(\'.review.'.$Reviews_ID.' .up\').addClass(\'faded\');
+										}
+									});
+								} else {
+									console.log(\'Down '.$Reviews_ID.'\');
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Canonical.'&id='.$Reviews_ID.'\', { vote: \'down\' }).done(function(data) {
+										console.log(data);
+										if (data == \'true\') {
+											vote_'.$Reviews_ID.' = \'down\';
+											console.log(\'Complete Down '.$Reviews_ID.'\');
+											$(\'.review.'.$Reviews_ID.' .down\').removeClass(\'faded\');
+											$(\'.review.'.$Reviews_ID.' .up\').addClass(\'faded\');
+										}
+									});
+								}
+							});
 						});
 					});
 				</script>';
-			// TODO Runonce
-			// TODO Set
-			//  false	= no vote
-			//  1		= up voted
-			// -1		= down voted
-			$Vote = '0';
-			$Vote = '1';
-			$Vote = '-1';
-			$Sitewide_Root.'api?helpfulness&set&canonical='.$Canonical.'&id='.$Reviews_ID.'&vote='.$Vote;
 		}
 
 	}

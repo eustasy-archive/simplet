@@ -26,7 +26,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		if($entry!='sitemap.php') {
 			require $entry;
 			if($PostType=='Post'||$PostType=='Page'||$PostType=='Blog'||$PostType=='Forum') {
-				$PostLink = $Request['scheme'].'://'.$Request['host'].'/'.$Canonical;
+				$PostLink = $Sitewide_Root.$Canonical;
 				echo '
 		<url>
 			<loc>'.$PostLink.'</loc>
