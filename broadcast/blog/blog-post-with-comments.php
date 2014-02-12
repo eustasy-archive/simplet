@@ -18,6 +18,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 	<p>This is a Blog Post with Comments powered by Markdown.</p>
 
 <?php
-	require '../../comments.php';
+	require '../../responses.php';
+	Responses();
 	require '../../footer.php';
 }

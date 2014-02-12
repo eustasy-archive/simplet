@@ -47,4 +47,5 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			}
 		?>
 	</channel>
-</rss><?php } ?>
+</rss><?php
+}
