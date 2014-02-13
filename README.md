@@ -27,8 +27,9 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Quotes Douglas Adams
 
 ##Roadmap
+
 ### Global
-- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
+- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
 - Captcha and SweetCaptcha
 	- Comments
 	- Forum Replies
@@ -36,16 +37,20 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Signups
 	- Logins
 	- Resets
+
 ### Accounts
 - User Profiles
 - Inter-User Messaging
 - Delete Option
+
 ### Responses
-- Make Comments / Topic Replies / Ratings one thing (Responses)
-- Rate Helpful or Unhelpful
+- Move Topic Replies into Responses
+- Order by Helpfulness, Replies, Recency
 - Editing
 	- jQuery Form Submission and Post Addition (without refresh)
 	- Configuration Option for Time Locking
+- Replies
+
 ### Admin Interface
 - User Management
 	- Edit/Lock/Delete
@@ -55,6 +60,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Create/Edit/Private/Hide/Lock/Delete Categories
 	- Edit/Private/Hide/Lock/Delete Topics
 - Responses Edit/Hide/Delete
+
 ### Backend
 - API
 - Feeds
@@ -80,8 +86,8 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - [HTML5 Reset (30/11/13)](https://github.com/murtaugh/HTML5-Reset)
 
 ###JavaScript
-- [Modernizr (2.7.1)](http://modernizr.com/download/#-fontface-backgroundsize-borderradius-opacity-rgba-generatedcontent-csstransitions-printshiv-mq-teststyles-testprop-testallprops-prefixes-domprefixes)
-- [Selectivizr (1.0.2)](https://github.com/keithclark/selectivizr)
-- [jQuery (1.11.0 and 2.1.0)](http://jquery.com/)
-- [jQuery.equalize (1.4)](http://labs.eustasy.org/jquery.equalize)
-- [jQuery Cookie (1.4.0)](https://github.com/carhartl/jquery-cookie)
+- [Selectivizr](https://github.com/keithclark/selectivizr)
+- [Modernizr](http://modernizr.com/download/#-fontface-backgroundsize-borderradius-opacity-rgba-generatedcontent-csstransitions-printshiv-mq-teststyles-testprop-testallprops-prefixes-domprefixes)
+- [jQuery](http://jquery.com/)
+- [jQuery.equalize](http://labs.eustasy.org/jquery.equalize)
+- [jQuery Cookie](https://github.com/carhartl/jquery-cookie)

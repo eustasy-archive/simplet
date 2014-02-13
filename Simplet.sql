@@ -117,39 +117,6 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
--- Create Table for Comments
-CREATE TABLE IF NOT EXISTS `Comments` (
-  `ID` int(255) NOT NULL AUTO_INCREMENT,
-  `Member_ID` varchar(12) NOT NULL,
-  `Canonical` varchar(500) NOT NULL,
-  `Status` varchar(12) NOT NULL,
-  `Post` mediumtext NOT NULL,
-  `Created` int(11) NOT NULL,
-  `Modified` int(11) NOT NULL,
-  UNIQUE KEY `ID` (`ID`),
-  KEY `Member_ID` (`Member_ID`),
-  KEY `Canonical` (`Canonical`),
-  KEY `Created` (`Created`),
-  KEY `Modified` (`Modified`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Create Table for Reviews
-CREATE TABLE IF NOT EXISTS `Reviews` (
-  `ID` int(255) NOT NULL AUTO_INCREMENT,
-  `Member_ID` varchar(12) NOT NULL,
-  `Canonical` varchar(500) NOT NULL,
-  `Status` varchar(12) NOT NULL,
-  `Rating` int(12) NOT NULL,
-  `Post` mediumtext NOT NULL,
-  `Created` int(11) NOT NULL,
-  `Modified` int(11) NOT NULL,
-  UNIQUE KEY `ID` (`ID`),
-  KEY `Member_ID` (`Member_ID`),
-  KEY `Canonical` (`Canonical`),
-  KEY `Created` (`Created`),
-  KEY `Modified` (`Modified`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- Create Table for Responses
 CREATE TABLE IF NOT EXISTS `Responses` (
   `ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -168,3 +135,21 @@ CREATE TABLE IF NOT EXISTS `Responses` (
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Creat Table for Helpfulness
+CREATE TABLE IF NOT EXISTS `Helpfulness` (
+  `ID` int(255) NOT NULL AUTO_INCREMENT,
+  `Response_Canonical` varchar(500) NOT NULL,
+  `Response_ID` int(255) NOT NULL,
+  `Member_ID` varchar(12) NOT NULL,
+  `Helpfulness` varchar(4) NOT NULL,
+  `Created` int(12) NOT NULL,
+  `Modified` int(12) NOT NULL,
+  UNIQUE KEY `ID` (`ID`),
+  KEY `Response_Canonical` (`Response_Canonical`),
+  KEY `Response_ID` (`Response_ID`),
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Helpfulness` (`Helpfulness`),
+  KEY `Created` (`Created`),
+  KEY `Modified` (`Modified`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;

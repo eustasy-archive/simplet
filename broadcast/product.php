@@ -28,6 +28,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 		</div>
 
 	<?php
-	require '../reviews.php';
+	require '../responses.php';
+	Responses('Review');
 	require '../footer.php';
 }

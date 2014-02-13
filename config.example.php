@@ -68,3 +68,5 @@
 	$Forum_Reply_Default = 'Pending';
 
 
+	$Sitewide_Comments_Helpful = true;
+	$Sitewide_Posts_Helpful = true;
