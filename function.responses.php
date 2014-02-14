@@ -286,25 +286,35 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 						});
 					</script>';
 			}
-			if ($Responses_Count > 0) echo '
-				<hr>';
 
 			// Pagination
-			$Page_Wayback = $Page-2;
-			$Page_Previous = $Page-1;
-			$Page_Next = $Page+1;
-			$Page_Far = $Page+2;
+			if ($Page_Max != 1) {
 
-			echo '<p class="textcenter">';
-			if ($Page > 3) echo '<span class="floatleft"><a href="?page=1&show='.$Show.'">1</a> &emsp; &hellip; &emsp; </span>';
-			if ($Page > 2) echo '<a href="?page='.$Page_Wayback.'&show='.$Show.'">'.$Page_Wayback.'</a> &emsp; <a href="?page='.$Page_Previous.'">'.$Page_Previous.'</a> &emsp; ';
-			if ($Page === 2) echo '<a href="?page='.$Page_Previous.'&show='.$Show.'">'.$Page_Previous.'</a> &emsp; ';
-			echo $Page;
-			if ($Page_Next <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Next.'&show='.$Show.'">'.$Page_Next.'</a>';
-			if ($Page_Far <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Far.'&show='.$Show.'">'.$Page_Far.'</a>';
-			if ($Page_Far < $Page_Max) echo '<span class="floatright"> &emsp; &hellip; &emsp; <a href="?page='.$Page_Max.'&show='.$Show.'">'.$Page_Max.'</a></span>';
+				if ($Responses_Count > 0) echo '
+				<hr>';
 
-			echo '</p>';
+				$Page_Wayback = $Page-2;
+				$Page_Previous = $Page-1;
+				$Page_Next = $Page+1;
+				$Page_Far = $Page+2;
+
+				echo '<p class="textcenter">';
+
+				if ($Page > 3) echo '<span class="floatleft"><a href="?page=1&show='.$Show.'">1</a> &emsp; &hellip; &emsp; </span>';
+
+				if ($Page >= 3) echo '<a href="?page='.$Page_Wayback.'&show='.$Show.'">'.$Page_Wayback.'</a> &emsp; ';
+				if ($Page >= 2) echo '<a href="?page='.$Page_Previous.'&show='.$Show.'">'.$Page_Previous.'</a> &emsp; ';
+
+				echo $Page;
+
+				if ($Page_Next <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Next.'&show='.$Show.'">'.$Page_Next.'</a>';
+				if ($Page_Far <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Far.'&show='.$Show.'">'.$Page_Far.'</a>';
+
+				if ($Page_Far < $Page_Max) echo '<span class="floatright"> &emsp; &hellip; &emsp; <a href="?page='.$Page_Max.'&show='.$Show.'">'.$Page_Max.'</a></span>';
+
+				echo '</p>';
+
+			}
 
 		}
 
