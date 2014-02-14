@@ -234,7 +234,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 				// TODO Paginate
 				// Here? In responses?
 				// It's an everywhere thing, so responses.
-				require '../responses.php';
 				Responses('Post',10,1,$Topic_Slug);
 
 				require $Footer;

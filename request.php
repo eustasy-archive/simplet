@@ -11,6 +11,8 @@
 		header ('Location: '.$Sitewide_Root.$Canonical);
 	}
 
-	require 'connect.php';
+	require 'once.connect.php';
+	require 'once.auth.php';
+	require 'function.responses.php';
 
-	require 'is-auth.php';
+	// TODO Move parsedown require here
