@@ -178,11 +178,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 				$Response_Canonical = trim(htmlentities($_POST['canonical'], ENT_QUOTES, 'UTF-8'));
 				$Response_Type = trim(htmlentities($_POST['type'], ENT_QUOTES, 'UTF-8'));
 				$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
-				if ($Response_Type == 'review') {
-					if(!isset($_POST['rating']) || empty($_POST['rating'])) {
-						echo 'Error: You didn\'t choose a rating.';
-					} else {
+				if ($Response_Type == 'Review') {
+					if(isset($_POST['rating'])) {
 						$Response_Rating = strval(htmlentities($_POST['rating'], ENT_QUOTES, 'UTF-8'));
+					} else {
+						echo 'Error: You didn\'t choose a rating.';
 					}
 				} else {
 					$Response_Rating = 0;

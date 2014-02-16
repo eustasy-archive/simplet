@@ -365,8 +365,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 						$(\'#respond\').submit(function(event){
 							event.preventDefault();';
 			if ($Type === 'Review') echo '
-							var rating = $(\'#respond select[name="rating"]\').val();
-								rating = $form.find(\'select\').val(),';
+							var rating = $(\'#respond select[name="rating"]\').val();';
 			echo '
 							var post = $(\'#respond textarea[name="post"]\').val();
 							var respond = $.post(
