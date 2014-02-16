@@ -3,7 +3,7 @@
 function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 
 	// Set some Globals
-	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $MySQL_Connection, $Sitewide_Root;
+	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $MySQL_Connection, $Sitewide_Root;
 
 	if ( !isset($Response_Canonical) || empty($Response_Canonical) ) $Response_Canonical = $Canonical;
 
@@ -120,8 +120,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 				}
 			}
 
-			// We'll need parsedown soon
-			require 'libs/Parsedown.php';
+			echo '<div id="responses">';
 
 			// Set up some arrays to act as a rudimentary user cache
 			$Responses_Members_IDs = array();
@@ -169,8 +168,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 						<div class="col span_2_of_12 textcenter';
 				if ($Responses_Store_Name === 'Deactivated') echo ' faded';
 				echo '"><p>'.$Responses_Store_Name.'</p></div>
-						<div class="col span_8_of_12"><br></div>
-						<div class="col span_2_of_12 textcenter"><p>';
+						<div class="col span_10_of_12 textright"><p>';
 				if ($Responses_Modified > $Responses_Created) echo '<span class="faded edited-time">edited '.date('d M, Y H:i', $Responses_Modified).' &nbsp;&middot;&nbsp; </span>';
 				echo date('d M, Y H:i', $Responses_Created).'</p></div>
 					</div>
@@ -198,15 +196,19 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 				}
 			} // END While there is another Response
 
+			echo '</div>';
+
+			$Response_Canonical_Encoded = urlencode($Response_Canonical);
+
 			if ($Helpfulness_Show) {
 				echo '
-					<script async>
+					<script>
 						$(function(){
 							var Current_Votes = [];
 							$(\'.helpfulness\').each(function() {
 								var Response_ID = $(this).parent().parent().attr(\'id\').substring(9);
 								Current_Votes[Response_ID] = \'none\';
-								$.get(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical.'&id=\' + Response_ID, function(data) {
+								$.get(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, function(data) {
 									if (data == \'none\') {
 										console.log(\'Has No Vote on \' + Response_ID);
 										Current_Votes[Response_ID] = \'none\';
@@ -234,7 +236,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 								console.log(\'Initiate Up \' + Response_ID);
 								if (Current_Votes[Response_ID] == \'up\') {
 									console.log(\'Clear \' + Response_ID);
-									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID, { vote: \'none\' }).done(function(data) {
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'none\' }).done(function(data) {
 										console.log(data);
 										if (data == \'true\') {
 											Current_Votes[Response_ID] = \'none\';
@@ -245,7 +247,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 									});
 								} else {
 									console.log(\'Up \' + Response_ID);
-									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID, { vote: \'up\' }).done(function(data) {
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'up\' }).done(function(data) {
 										console.log(data);
 										if (data == \'true\') {
 											Current_Votes[Response_ID] = \'up\';
@@ -261,7 +263,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 								console.log(\'Initiate Down \' + Response_ID);
 								if (Current_Votes[Response_ID] == \'down\') {
 									console.log(\'Clear \' + Response_ID);
-									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID, { vote: \'none\' }).done(function(data) {
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'none\' }).done(function(data) {
 										console.log(data);
 										if (data == \'true\') {
 											Current_Votes[Response_ID] = \'none\';
@@ -272,7 +274,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 									});
 								} else {
 									console.log(\'Down \' + Response_ID);
-									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID, { vote: \'down\' }).done(function(data) {
+									$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'down\' }).done(function(data) {
 										console.log(data);
 										if (data == \'true\') {
 											Current_Votes[Response_ID] = \'down\';
@@ -320,13 +322,11 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 
 		if ($Member_Auth) {
 			if ($Responses_Count > 0) echo '
-				<hr>'; // TODO Fix Replies
+				<hr>';
 			echo '
 				<div class="clear"></div>
-				<form action="" method="post">
+				<form action="" method="post" id="respond">
 					<div class="section group">
-						<input type="hidden" name="response" value="'.$Type.'" />
-						<input type="hidden" name="canonical" value="'.$Response_Canonical.'" />
 						<div class="col span_1_of_12"><br></div>
 						<div class="col span_10_of_12">
 							<h3>Leave a '.$Type.'</h3>
@@ -359,7 +359,66 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 						</div>
 						<div class="col span_1_of_12"><br></div>
 					</div>
-				</form>';
+				</form>
+				<script>
+					$(function(){
+						$(\'#respond\').submit(function(event){
+							event.preventDefault();';
+			if ($Type === 'Review') echo '
+							var rating = $(\'#respond select[name="rating"]\').val();
+								rating = $form.find(\'select\').val(),';
+			echo '
+							var post = $(\'#respond textarea[name="post"]\').val();
+							var respond = $.post(
+								\''.$Sitewide_Root.'api?respond\',
+								{
+									type: \''.$Type.'\',
+									canonical: \''.$Response_Canonical.'\',';
+			if ($Type === 'Review') echo '
+									rating: rating,';
+			echo '
+									post: post
+								}
+							);
+							respond.done(function(data) {
+								console.log(data);
+								var json = $.parseJSON(data);
+								var toAppend = \'\
+					<div class="section group darkrow" id="header_\' + json.id + \'">\
+						<div class="col span_2_of_12 textcenter"><p>'.$Member_Name.'</p></div>\
+						<div class="col span_10_of_12 textright"><p>'.date('d M, Y H:i', $Time).'</p></div>\
+					</div>\
+					<div class="section group response \' + json.id + \'" id="response_\' + json.id + \'">\
+						<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.md5($Member_Mail).'?s=128&d=identicon"></div>';
+				if ($Helpfulness_Show) {
+					echo '\
+						<div class="col span_8_of_12">\
+							\' + json.post + \'\
+						</div>\
+						<div class="col span_2_of_12">';
+					if ($Type === 'Review') echo '\
+							<p>\' + rating + \' Stars</p>';
+					echo '\
+							<p>0 Helpful</p>\
+							<div class="helpfulness"><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>\
+						</div>\
+					</div>';
+				} else {
+					echo '\
+						<div class="col span_10_of_12">\
+							\' + json.post + \'\
+						</div>\
+					</div>';
+				}
+				echo '\';
+								$(\'#responses\').append(toAppend);
+							});
+						});
+					});
+				</script>';
+			// TODO Make Submit un-clickable to prevent double-posts.
+			// TODO Show Error on Error (and Re-instate Submit).
+			// TODO Clear (Reset) Form and Re-instate Submit.
 		} else {
 			echo '
 					<h3>You must <a href="'.$Sitewide_Root.'account?login">Log In</a> to '.$Type.'.</h3>';

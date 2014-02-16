@@ -13,6 +13,5 @@
 
 	require 'once.connect.php';
 	require 'once.auth.php';
+	require 'libs/Parsedown.php';
 	require 'function.responses.php';
-
-	// TODO Move parsedown require here
