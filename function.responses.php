@@ -39,7 +39,9 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 	$Responses_Count = $Responses_Fetch['Count'];
 	if ($Type === 'Review') {
 		$Responses_Rating_Sum = $Responses_Fetch['Sum'];
-		$Responses_Rating_Average = round($Responses_Rating_Sum/$Responses_Count);
+		if ($Responses_Count != 0) {
+			$Responses_Rating_Average = round($Responses_Rating_Sum/$Responses_Count);
+		}
 	}
 
 	// Check Count
@@ -77,11 +79,14 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		// Honor pagination
 		if ($Page === 1) {
 			$Responses_Query_Limit = ' LIMIT '.$Show;
-		} else if ($Page > $Page_Max) {
-			$Page = $Page_Max;
-			$Show_Start = ($Page-1)*$Show;
-			$Responses_Query_Limit = ' LIMIT '.$Show_Start.', '.$Show;
 		} else {
+			 if ($Page > $Page_Max) {
+				if ($Page_Max < 1) {
+					$Page = 1;
+				} else {
+					$Page = $Page_Max;
+				}
+			}
 			$Show_Start = ($Page-1)*$Show;
 			$Responses_Query_Limit = ' LIMIT '.$Show_Start.', '.$Show;
 		}
@@ -305,6 +310,8 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		<div class="breaker"></div>
 		<p class="textcenter">';
 
+				// TODO Fix Links on Forum
+
 				if ($Page > 3) echo '<span class="floatleft"><a href="?page=1&show='.$Show.'">1</a> &emsp; &hellip; &emsp; </span>';
 
 				if ($Page >= 3) echo '<a href="?page='.$Page_Wayback.'&show='.$Show.'">'.$Page_Wayback.'</a> &emsp; ';
@@ -420,6 +427,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 			// TODO Make Submit un-clickable to prevent double-posts.
 			// TODO Show Error on Error (and Re-instate Submit).
 			// TODO Clear (Reset) Form and Re-instate Submit.
+			// TODO Append even when first.
 		} else {
 			echo '
 		<h3>You must <a href="'.$Sitewide_Root.'account?login">Log In</a> to '.$Type.'.</h3>';

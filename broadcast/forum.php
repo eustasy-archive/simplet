@@ -11,7 +11,7 @@
 
 	require_once '../request.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
+// if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';
@@ -25,6 +25,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 			$Error = 'You are not logged in.';
 
 		} else if ($_POST['action']=='reply') {
+			// TODO Update to match API
+			// Possibly move to function so can be called equally.
 
 			if (!isset($_POST['topic_slug']) || empty($_POST['topic_slug'])) {
 				$Error = 'No Topic Slug Set.';
@@ -162,12 +164,16 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 			require $Footer;
 		} else {
 
-			require $Header;
-			echo '
+			if (isset($_GET['category'])) {
+
+				$Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+
+				require $Header;
+				echo '
 					<h2>Post a new Topic</h2>
 					<form action="" method="post">
 						<input type="hidden" name="action" value="topic" required />
-						<input type="hidden" name="category" value="'.htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8').'" required />
+						<input type="hidden" name="category" value="'.$Category_Slug.'" required />
 						<div class="section group">
 							<div class="col span_1_of_12"><br></div>
 							<div class="col span_10_of_12">
@@ -190,13 +196,23 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 						</div>
 					</form>';
 
-			require $Footer;
+				require $Footer;
+			} else {
+				require $Header; // TODO Check Category Existence / Privileges
+				echo '<h2>Error: No Category Set.</h2>';
+				echo '<h3 class="textleft">You cannot post to no category.</h3>';
+				require $Footer;
+			}
+
 
 		}
 
 	} else if (isset($_GET['topic']) && !empty($_GET['topic'])) {
 
 		$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
+		if (substr($Topic_Slug, 0, strlen($Forum)+1) == '/'.$Forum) {
+			$Topic_Slug = substr($Topic_Slug, 7);
+		}
 
 		$Topic_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Slug`='$Topic_Slug' LIMIT 0, 1", MYSQLI_STORE_RESULT);
 		if (!$Topic_Check) exit('Invalid Query (Topic_Check): '.mysqli_error($MySQL_Connection));
@@ -207,9 +223,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 			require $Header;
 			echo '
 			<h2>Error: Topic does not exist</h2>
-			<p class="textcenter">Try the forum.</p>';
+			<p class="textcenter">Try the forum, or search for something like '.$Topic_Slug.'.</p>';
 			require $Footer;
-		} else { 
+		} else {
 
 			$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
 			$Topic_Status = $Topic_Fetch['Status'];
@@ -229,7 +245,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 
 				echo '
 				<h2>'.$Topic_Title.'</h2>';
-				
+
 				// TODO Paginate
 				// Here? In responses?
 				// It's an everywhere thing, so responses.
@@ -269,7 +285,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 
 	} else if (isset($_GET['category']) && !empty($_GET['category'])) {
 
-		$Category_Slug = trim(htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8'));
+		$Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
 
 		if ($Member_Auth) {
 			$Categories = mysqli_query($MySQL_Connection, "SELECT * FROM `Categories` WHERE NOT `Status`='Hidden' AND `Slug`='$Category_Slug' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
@@ -317,7 +333,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 			$Topics_Count = mysqli_num_rows($Topics);
 			if ($Topics_Count == 0) {
 				if ($Member_Auth) {
-					echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new">New Topic</a></h3>';
+					echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Category_Slug.'">New Topic</a></h3>';
 				} else {
 					echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
 				}
@@ -474,4 +490,4 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 
 	}
 
-}
+// }

@@ -36,6 +36,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 		if (!$Member_Auth) {
 			echo 'false';
 
+		// TODO No need for canonical
 		} else if (!isset($_GET['canonical']) || empty($_GET['canonical'])) {
 			echo 'Error: No Canonical Defined.';
 
@@ -48,7 +49,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 			$Response_ID = strval(htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'));
 
 			// Check Response is Viewable
-			$Responses = mysqli_query($MySQL_Connection, 'SELECT * FROM `Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `ID`=\''.$Response_ID.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
+			$Responses = mysqli_query($MySQL_Connection, 'SELECT * FROM `Responses` WHERE `ID`=\''.$Response_ID.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
 			if (!$Responses) exit('error');
 			$Responses_Count = mysqli_num_rows($Responses);
 
@@ -61,7 +62,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 				$Responses_Fetch = mysqli_fetch_assoc($Responses);
 				$Responses_Helpfulness = $Responses_Fetch['Helpfulness'];
 
-				$Helpfulness = mysqli_query($MySQL_Connection, "SELECT * FROM `Helpfulness` WHERE `Response_Canonical`='$Response_Canonical' AND `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+				$Helpfulness = mysqli_query($MySQL_Connection, "SELECT * FROM `Helpfulness` WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 				if (!$Helpfulness) exit('error');
 				$Helpfulness_Count = mysqli_num_rows($Helpfulness);
 				if($Helpfulness_Count == 0) {
@@ -72,7 +73,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 					} else if (isset($_GET['set'])) {
 						$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
 						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
-							$Helpfulness_Insert = mysqli_query($MySQL_Connection, "INSERT INTO `Helpfulness` (`Response_Canonical`, `Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES ('$Response_Canonical', '$Response_ID', '$Member_ID', '$Response_Vote', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+							$Helpfulness_Insert = mysqli_query($MySQL_Connection, "INSERT INTO `Helpfulness` (`Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES ('$Response_ID', '$Member_ID', '$Response_Vote', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 							if (!$Helpfulness_Insert) exit('Error: Vote Failed.');
 							if ($Response_Vote == 'up') {
 								$Helpfulness_Change = 1;
@@ -107,7 +108,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 					} else if (isset($_GET['set'])) {
 						$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
 						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
-							$Helpfulness_Update = mysqli_query($MySQL_Connection, "UPDATE `Helpfulness` SET `Helpfulness`='$Response_Vote', `Modified`='$Time' WHERE `Response_Canonical`='$Response_Canonical' AND `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+							$Helpfulness_Update = mysqli_query($MySQL_Connection, "UPDATE `Helpfulness` SET `Helpfulness`='$Response_Vote', `Modified`='$Time' WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 							if (!$Helpfulness_Update) exit('Error: Vote Update Failed.');
 
 							if ($Helpfulness_Vote == $Response_Vote) {
