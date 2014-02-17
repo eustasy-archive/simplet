@@ -44,7 +44,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Delete Option
 
 ### Responses
-- Move Topic Replies into Responses
 - Order by Helpfulness, Replies, Recency
 - Editing
 	- jQuery Form Submission and Post Addition (without refresh)
@@ -62,7 +61,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Responses Edit/Hide/Delete
 
 ### Backend
-- API
 - Feeds
 	- Forum Topics
 	- Comments

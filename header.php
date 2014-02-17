@@ -68,13 +68,15 @@
 			</ul>
 			<ul>
 				<li><a href="<?php echo $Sitewide_Root; ?>forum">forum</a></li>
-				<?php if (isset($Member_Auth) && $Member_Auth == true) { ?>
-					<li><a href="<?php echo $Sitewide_Root; ?>account">account</a></li>
-					<li><a href="<?php echo $Sitewide_Root; ?>account?logout">logout</a></li>
-				<?php } else { ?>
-					<li><a href="<?php echo $Sitewide_Root; ?>account?login">login</a></li>
-					<li><a href="<?php echo $Sitewide_Root; ?>account?signup">signup</a></li>
-				<?php } ?>
+				<?php if (isset($Member_Auth) && $Member_Auth == true) {
+					echo '<li><a href="'.$Sitewide_Root.'account">account</a></li>
+				<li><a href="'.$Sitewide_Root.'account?logout">logout</a></li>
+';
+				} else {
+					echo '<li><a href="'.$Sitewide_Root.'account?login">login</a></li>
+					<li><a href="'.$Sitewide_Root.'account?signup">signup</a></li>
+';
+				} ?>
 			</ul>
 		</nav>
 	</header>

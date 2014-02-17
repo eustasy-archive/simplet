@@ -435,17 +435,28 @@ code, .code {
 .darkrow {
 	background: #222;
 	color: #fefefe;
-	margin: 5% 0 0;
-	-webkit-border-radius: 3px 3px 0 0;
-	border-radius: 3px 3px 0 0;
+}
+.darkrow:first-child {
+    -webkit-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    margin: 5% 0 0;
+}
+.response {
+	padding: 1% 0 3%;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.response:last-child {
+    border-radius: 0 0 3px 3px;
+    border-bottom: 1px solid #ccc;
 }
 .topic {
 	display: block;
 	color: #aaa;
 	margin: 0;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
 	padding: 30px 0;
 	-webkit-transition: all 300ms ease-in-out;
 	-moz-transition: all 300ms ease-in-out;

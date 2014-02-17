@@ -16,7 +16,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 	$Account = 'account';
-	$Parsedown = '../libs/Parsedown.php';
 	$Time = time();
 
 	if (isset($_POST['action'])) {
@@ -323,8 +322,6 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum
 					echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
 				}
 			} else {
-
-				require $Parsedown;
 
 				echo '
 				<h2>'.$Category_Title.'</h2>
