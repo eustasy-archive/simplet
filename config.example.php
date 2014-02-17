@@ -52,7 +52,7 @@
 
 	// Default Topic Status
 	// Set a custom Status for new Topics
-	// Eg. 'Pending' to hold all replies for moderation.
+	// Eg. 'Pending' to hold all topics for moderation.
 	// Not used if $Forum_Reply_Inherit is set to true.
 	$Forum_Topic_Default = 'Public';
 

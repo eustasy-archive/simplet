@@ -188,9 +188,13 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 					$Response_Rating = 0;
 				}
 
-				// TODO Default Status by Type and Config
-				// May require fetching status for Topics
-				$Response_Status = 'Public';
+				if ($Forum_Reply_Inherit === true) {
+					// TODO Default Status by Type and Config
+					// May require fetching status for Topics
+					$Response_Status = 'Public';
+				} else {
+					$Response_Status = $Forum_Reply_Default;
+				}
 
 				$Response_New = mysqli_query($MySQL_Connection, "INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Response_Canonical', '$Response_Type', '$Response_Status', '0', '$Response_Rating', '$Response_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 				if (!$Response_New) exit('Invalid Query (Review_New): '.mysqli_error($MySQL_Connection));
