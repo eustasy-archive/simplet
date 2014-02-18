@@ -3,7 +3,7 @@
 function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 
 	// Set some Globals
-	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $MySQL_Connection, $Sitewide_Root;
+	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $MySQL_Connection, $Sitewide_Root;
 
 	if ( !isset($Response_Canonical) || empty($Response_Canonical) ) $Response_Canonical = $Canonical;
 
@@ -310,19 +310,32 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		<div class="breaker"></div>
 		<p class="textcenter">';
 
-				// TODO Fix Links on Forum
+				$Paginate_End = '&show='.$Show;
 
-				if ($Page > 3) echo '<span class="floatleft"><a href="?page=1&show='.$Show.'">1</a> &emsp; &hellip; &emsp; </span>';
+				// Preserve Query Stings
+				if (isset($_GET)) {
+					foreach($_GET as $Get_Key => $Get_Value) {
+						// Ignore old page and show variables
+						if (strtolower($Get_Key) != 'page' && strtolower($Get_Key) != 'show' && strtolower($Get_Key) != 'topic') {
+							$Paginate_End .= '&'.$Get_Key.'='.$Get_Value;
+						} else if (strtolower($Get_Key) == 'topic') {
+							// Preserve Topic if Necessary
+							if (substr($Get_Value, 0, 1) != '/') $Paginate_End .= '&'.$Get_Key.'='.$Get_Value;
+						}
+					}
+				}
 
-				if ($Page >= 3) echo '<a href="?page='.$Page_Wayback.'&show='.$Show.'">'.$Page_Wayback.'</a> &emsp; ';
-				if ($Page >= 2) echo '<a href="?page='.$Page_Previous.'&show='.$Show.'">'.$Page_Previous.'</a> &emsp; ';
+				if ($Page > 3) echo '<span class="floatleft"><a href="?page=1'.$Paginate_End.'">1</a> &emsp; &hellip; &emsp; </span>';
+
+				if ($Page >= 3) echo '<a href="?page='.$Page_Wayback.'">'.$Page_Wayback.'</a> &emsp; ';
+				if ($Page >= 2) echo '<a href="?page='.$Page_Previous.$Paginate_End.'">'.$Page_Previous.'</a> &emsp; ';
 
 				echo $Page;
 
-				if ($Page_Next <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Next.'&show='.$Show.'">'.$Page_Next.'</a>';
-				if ($Page_Far <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Far.'&show='.$Show.'">'.$Page_Far.'</a>';
+				if ($Page_Next <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Next.$Paginate_End.'">'.$Page_Next.'</a>';
+				if ($Page_Far <= $Page_Max) echo ' &emsp; <a href="?page='.$Page_Far.$Paginate_End.'">'.$Page_Far.'</a>';
 
-				if ($Page_Far < $Page_Max) echo '<span class="floatright"> &emsp; &hellip; &emsp; <a href="?page='.$Page_Max.'&show='.$Show.'">'.$Page_Max.'</a></span>';
+				if ($Page_Far < $Page_Max) echo '<span class="floatright"> &emsp; &hellip; &emsp; <a href="?page='.$Page_Max.$Paginate_End.'">'.$Page_Max.'</a></span>';
 
 				echo '</p>
 		<div class="breaker"></div>';

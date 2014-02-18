@@ -246,9 +246,6 @@
 				echo '
 				<h2>'.$Topic_Title.'</h2>';
 
-				// TODO Paginate
-				// Here? In responses?
-				// It's an everywhere thing, so responses.
 				Responses('Post',10,1,$Topic_Slug);
 
 				require $Footer;
