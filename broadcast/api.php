@@ -165,46 +165,9 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 	} else if (isset($_GET['respond'])) {
 
 		if(!$Member_Auth) {
-			echo 'Error: Not Authenticated.';
+			echo json_encode(array('error' => 'Not Authenticated.'), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		} else {
-			// TODO Should Canonical and Type be post?
-			// Based on previous, they could be get.
-			if(!isset($_POST['canonical'])) {
-				echo 'Error: Could not determine which post you wanted to leave a response to.';
-			} else if(!isset($_POST['type'])) {
-				echo 'Error: Response type was not set correctly.';
-			} else if(!isset($_POST['post'])) {
-				echo 'Error: You didn\'t enter a post.';
-			} else {
-				$Response_Canonical = trim(htmlentities($_POST['canonical'], ENT_QUOTES, 'UTF-8'));
-				$Response_Type = trim(htmlentities($_POST['type'], ENT_QUOTES, 'UTF-8'));
-				$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
-				if ($Response_Type == 'Review') {
-					if(isset($_POST['rating'])) {
-						$Response_Rating = strval(htmlentities($_POST['rating'], ENT_QUOTES, 'UTF-8'));
-					} else {
-						echo 'Error: You didn\'t choose a rating.';
-					}
-				} else {
-					$Response_Rating = 0;
-				}
-
-				if ($Forum_Reply_Inherit === true) {
-					// TODO Default Status by Type and Config
-					// May require fetching status for Topics
-					$Response_Status = 'Public';
-				} else {
-					$Response_Status = $Forum_Reply_Default;
-				}
-
-				$Response_New = mysqli_query($MySQL_Connection, "INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Response_Canonical', '$Response_Type', '$Response_Status', '0', '$Response_Rating', '$Response_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
-				if (!$Response_New) exit('Invalid Query (Review_New): '.mysqli_error($MySQL_Connection));
-				$Response_ID = mysqli_insert_id($MySQL_Connection);
-				$Response_Parsed = Parsedown::instance()->parse(htmlentities($Response_Post, ENT_QUOTES, 'UTF-8'));
-				$Response_Return = array('id' => $Response_ID, 'post' => $Response_Parsed);
-				echo json_encode($Response_Return, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-
-			}
+			echo Respond();
 		}
 
 	} else {

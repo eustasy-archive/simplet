@@ -5,6 +5,16 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 	// Set some Globals
 	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $MySQL_Connection, $Sitewide_Root;
 
+	// Catch any responses that didn't go to the API
+	if (isset($_GET['respond'])) {
+		if(!$Member_Auth) {
+			// TODO Handle Not Authenticated Error on POST Without JavaScript
+			// echo json_encode(array('error' => array('Not Authenticated.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		} else {
+			echo Respond();
+		}
+	}
+
 	if ( !isset($Response_Canonical) || empty($Response_Canonical) ) $Response_Canonical = $Canonical;
 
 	if ($Type === 'Review' || ($Type === 'Comment' && $Comment_Helpful === true) || ($Type === 'Post' && $Forum_Reply_Helpful === true) ) {

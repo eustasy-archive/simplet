@@ -15,3 +15,4 @@
 	require 'once.auth.php';
 	require 'libs/Parsedown.php';
 	require 'function.responses.php';
+	require 'function.respond.php';
