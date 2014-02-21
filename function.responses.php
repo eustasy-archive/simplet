@@ -11,6 +11,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 			// TODO Handle Not Authenticated Error on POST Without JavaScript
 			// echo json_encode(array('error' => array('Not Authenticated.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		} else {
+			// TODO Handle JSON Response
 			echo Respond();
 		}
 	}
