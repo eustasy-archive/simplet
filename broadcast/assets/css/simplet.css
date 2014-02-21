@@ -497,7 +497,7 @@ code, .code {
 	color: #ddd;
 	font-size: 3em;
 	line-height: 1;
-	margin: 0 .5em;
+	margin: 0 0 0 1em;
 	list-style: circle;
 }
 .topic .icon.unread { list-style: disc; }

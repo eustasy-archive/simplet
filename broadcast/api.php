@@ -170,11 +170,11 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 		if(!$Member_Auth) {
 			echo json_encode(array('error' => array('Not Authenticated.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		} else {
-			echo Respond();
+			echo json_encode(Respond(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		}
 
 	} else {
 		// Error: Undefined
-		echo 'Error: No Valid API Action Defined.';
+		echo json_encode(array('error' => array('No Valid API Action Defined.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 	}
 }

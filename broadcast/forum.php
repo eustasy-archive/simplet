@@ -343,12 +343,13 @@
 				echo '</p>';
 
 				echo '
-				<div class="section group darkrow">
-					<div class="col span_1_of_12"><br></div>
-					<div class="col span_7_of_12"><p>Topic</p></div>
-					<div class="col span_2_of_12 textcenter faded"><p>Replies</p></div>
-					<div class="col span_2_of_12 textcenter faded"><p>Last Activity</p></div>
-				</div>';
+				<div id="topics">
+					<div class="section group darkrow">
+						<div class="col span_1_of_12"><br></div>
+						<div class="col span_7_of_12"><p>Topic</p></div>
+						<div class="col span_2_of_12 textcenter faded"><p>Replies</p></div>
+						<div class="col span_2_of_12 textcenter faded"><p>Last Activity</p></div>
+					</div>';
 
 				if ($Member_Auth) {
 					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
@@ -375,30 +376,34 @@
 						$Topics_Title = html_entity_decode($Topics_Fetch['Title'], ENT_QUOTES, 'UTF-8');
 
 						echo '
-				<a href="?topic='.$Topics_Slug.'" class="section group topic';
+					<a href="?topic='.$Topics_Slug.'" class="section group topic';
 						if ($Topics_Status == 'Private') echo ' private';
 						echo '">
-					<div class="col span_1_of_12"><li class="icon unread"></li></div>
-					<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>';
+						<div class="col span_1_of_12"><li class="icon unread"></li></div>
+						<div class="col span_7_of_12"><p class="title">'.$Topics_Title.'</p></div>
+						<div class="col span_2_of_12 textcenter"><p><span>';
 						if (isset($Reply_Prefetch_Counts[$Topics_Slug])) {
 							echo $Reply_Prefetch_Counts[$Topics_Slug];
 						} else {
 							echo '0';
 						}
 						echo '<span></p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>';
+						<div class="col span_2_of_12 textcenter"><p><span>';
 						if (isset($Reply_Prefetch_Modified[$Topics_Slug]) && $Reply_Prefetch_Modified[$Topics_Slug] > $Topics_Modified) {
 							echo date('d M, Y', $Reply_Prefetch_Modified[$Topics_Slug]);
 						} else {
 							echo date('d M, Y', $Topics_Modified);
 						}
 						echo '</span></p></div>
-				</a>';
+					</a>';
+
 					}
 
 				}
+				echo '
+				</div>';
 			}
+
 			require $Footer;
 
 		}
@@ -430,12 +435,13 @@
 		} else {
 
 			echo '
-				<div class="section group darkrow">
-					<div class="col span_1_of_12"><br></div>
-					<div class="col span_7_of_12"><p>Category</p></div>
-					<div class="col span_2_of_12 textcenter faded"><p>Topics</p></div>
-					<div class="col span_2_of_12 textcenter faded"><p>Most Recent</p></div>
-				</div>';
+				<div id="categories">
+					<div class="section group darkrow">
+						<div class="col span_1_of_12"><br></div>
+						<div class="col span_7_of_12"><p>Category</p></div>
+						<div class="col span_2_of_12 textcenter faded"><p>Topics</p></div>
+						<div class="col span_2_of_12 textcenter faded"><p>Most Recent</p></div>
+					</div>';
 
 			if ($Member_Auth) {
 				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Category`", MYSQLI_STORE_RESULT);
@@ -462,25 +468,27 @@
 
 				if ($Category_Status == 'Public' || ( $Category_Status == 'Private' && $Member_Auth ) ) {
 					echo '
-				<a href="?category='.$Category_Slug.'" class="section group category topic';
+					<a href="?category='.$Category_Slug.'" class="section group category topic';
 					if ($Category_Status == 'Private') echo ' private';
 					echo '">
-					<div class="col span_1_of_12"><li class="icon unread"></li></div>
-					<div class="col span_7_of_12">
-						<p class="title">'.$Category_Title.'</p>
-						<p>'.$Category_Description.'</p>
-					</div>
-					<div class="col span_2_of_12 textcenter"><p><span>';
+						<div class="col span_1_of_12"><li class="icon unread"></li></div>
+						<div class="col span_7_of_12">
+							<p class="title">'.$Category_Title.'</p>
+							<p>'.$Category_Description.'</p>
+						</div>
+						<div class="col span_2_of_12 textcenter"><p><span>';
 					if (isset($Topic_Prefetch_Count[$Category_Slug])) {
 						echo $Topic_Prefetch_Count[$Category_Slug];
 					} else {
 						echo '0';
 					}
 					echo '<span></p></div>
-					<div class="col span_2_of_12 textcenter"><p><span>11 Dec, 2014</span></p></div>
-				</a>';
+						<div class="col span_2_of_12 textcenter"><p><span>11 Dec, 2014</span></p></div>
+					</a>';
 				}
 			}
+			echo '
+				</div>';
 		}
 
 		require $Footer;

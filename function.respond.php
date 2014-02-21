@@ -9,6 +9,7 @@ function Respond($Status_Override = false) {
 	$Response_Return = array();
 	$Response_Return['error'] = array();
 
+	// TODO Should Canonical and Type be GET?
 	if(isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post'])) {
 
 		// Set Variables
@@ -32,12 +33,25 @@ function Respond($Status_Override = false) {
 			$Response_Status = $Status_Override;
 		} else if ($Response_Type == 'Post') {
 			if ($Forum_Reply_Inherit === true) {
-				// TODO Fetch Status of Topic
-				$Response_Status = 'Public';
+
+				// Fetch Status of Topic
+				$Topic_Status_Query = mysqli_query($MySQL_Connection, 'SELECT `Status` FROM `Topics` WHERE `Canonical`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
+				if (!$Topic_Status_Query) array_push($Response_Return['error'], 'Topic Status Query Error.');
+				$Topic_Status_Count = mysqli_num_rows($Topic_Status_Query);
+				if($Topic_Status_Count === 0) {
+					array_push($Response_Return['error'], 'Topic Status Check Error. Using Fallback.');
+					$Response_Status = $Forum_Reply_Default;
+				} else {
+					$Topic_Status_Fetch = mysqli_fetch_assoc($Topic_Status_Query);
+					$Response_Status = $Topic_Status_Fetch['Status'];
+				}
+				
 			} else {
 				$Response_Status = $Forum_Reply_Default;
 			}
+			
 		} else {
+			// TODO Set Default Status for Reviews and Comments
 			$Response_Status = 'Public';
 		}
 
@@ -63,5 +77,5 @@ function Respond($Status_Override = false) {
 		}
 	}
 
-	return json_encode($Response_Return, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+	return $Response_Return;
 }

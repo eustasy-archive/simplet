@@ -8,11 +8,18 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 	// Catch any responses that didn't go to the API
 	if (isset($_GET['respond'])) {
 		if(!$Member_Auth) {
-			// TODO Handle Not Authenticated Error on POST Without JavaScript
-			// echo json_encode(array('error' => array('Not Authenticated.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+			// Handle Not Authenticated Error on POST without JavaScript
+			echo '
+			<h3 class="warning red">Error: You cannot post a response as you are not logged in.</h3>';
 		} else {
-			// TODO Handle JSON Response
-			echo Respond();
+			// Handle Response (an array, not JSON) without JavaScript
+			$Response_Submit = Respond();
+			if (!empty($Response_Submit['error'])) {
+				foreach ($Response_Submit['error'] as $Response_Submit_Errors) {
+					echo '
+			<h3 class="warning red">Error: '.$Response_Submit_Errors.'</h3>';
+				}
+			}
 		}
 	}
 
@@ -52,6 +59,23 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		$Responses_Rating_Sum = $Responses_Fetch['Sum'];
 		if ($Responses_Count != 0) {
 			$Responses_Rating_Average = round($Responses_Rating_Sum/$Responses_Count);
+		}
+	}
+
+	// Preserve Query Stings
+	$Preserve_Query_Strings = '';
+	$Preserve_Pagination = '';
+	if (isset($_GET)) {
+		foreach($_GET as $Get_Key => $Get_Value) {
+			// Ignore old page and show variables
+			if (strtolower($Get_Key) != 'page' && strtolower($Get_Key) != 'show' && strtolower($Get_Key) != 'topic') {
+				$Preserve_Query_Strings .= '&'.$Get_Key.'='.$Get_Value;
+			} else if (strtolower($Get_Key) == 'topic') {
+				// Preserve Topic if Necessary
+				if (substr($Get_Value, 0, 1) != '/') $Preserve_Query_Strings .= '&'.$Get_Key.'='.$Get_Value;
+			} else {
+				$Preserve_Pagination .= '&'.$Get_Key.'='.$Get_Value;
+			}
 		}
 	}
 
@@ -321,20 +345,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		<div class="breaker"></div>
 		<p class="textcenter">';
 
-				$Paginate_End = '&show='.$Show;
-
-				// Preserve Query Stings
-				if (isset($_GET)) {
-					foreach($_GET as $Get_Key => $Get_Value) {
-						// Ignore old page and show variables
-						if (strtolower($Get_Key) != 'page' && strtolower($Get_Key) != 'show' && strtolower($Get_Key) != 'topic') {
-							$Paginate_End .= '&'.$Get_Key.'='.$Get_Value;
-						} else if (strtolower($Get_Key) == 'topic') {
-							// Preserve Topic if Necessary
-							if (substr($Get_Value, 0, 1) != '/') $Paginate_End .= '&'.$Get_Key.'='.$Get_Value;
-						}
-					}
-				}
+				$Paginate_End = '&show='.$Show.$Preserve_Query_Strings;
 
 				if ($Page > 3) echo '<span class="floatleft"><a href="?page=1'.$Paginate_End.'">1</a> &emsp; &hellip; &emsp; </span>';
 
@@ -358,12 +369,14 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		if ($Member_Auth) {
 			echo '
 		<div class="clear"></div>
-		<form action="" method="post" id="respond">
+		<form action="?respond'.$Preserve_Query_Strings.$Preserve_Pagination.'" method="post" id="respond">
 			<div class="section group">
 				<div class="col span_1_of_12"><br></div>
 				<div class="col span_10_of_12">
 					<h3>Leave a '.$Type.'</h3>
 					<textarea name="post" required></textarea>
+					<input type="hidden" name="type" value="'.$Type.'" />
+					<input type="hidden" name="canonical" value="'.$Response_Canonical.'" />
 				</div>
 				<div class="col span_1_of_12"><br></div>
 			</div>
