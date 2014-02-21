@@ -10,8 +10,7 @@
 
 	require_once '../../request.php';
 
-if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
-
+if($Request_Path_Entities == $Place['path'].$Canonical) {
 
 	header('Content-Type: application/xml');
 	echo '<?xml version="1.0" encoding="utf-8"?>';
@@ -28,12 +27,12 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 			if($PostType=='Post'||$PostType=='Page'||$PostType=='Blog'||$PostType=='Forum') {
 				$PostLink = $Sitewide_Root.$Canonical;
 				echo '
-		<url>
-			<loc>'.$PostLink.'</loc>
-			<lastmod>'.date('Y-m-d', filemtime($entry)).'</lastmod>
-			<priority>0.9</priority>
-			<changefreq>weekly</changefreq>
-		</url>';
+	<url>
+		<loc>'.$PostLink.'</loc>
+		<lastmod>'.date('Y-m-d', filemtime($entry)).'</lastmod>
+		<priority>0.9</priority>
+		<changefreq>weekly</changefreq>
+	</url>';
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 
 	require_once '../../request.php';
 
-if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
+if($Request_Path_Entities == $Place['path'].$Canonical) {
 
 	require '../../header.php';
 
@@ -48,4 +48,4 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 	require '../../footer.php';
 
-} ?>
+}

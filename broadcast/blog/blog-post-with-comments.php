@@ -10,14 +10,14 @@
 
 	require_once '../../request.php';
 
-if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
+if($Request_Path_Entities == $Place['path'].$Canonical) {
 
 	require '../../header.php'; ?>
 
 	<h2>A Blog Post with Comments</h2>
 	<p>This is a Blog Post with Comments powered by Markdown.</p>
 
-<?php
+	<?php
 	Responses();
 	require '../../footer.php';
 }

@@ -10,42 +10,56 @@
 
 	require_once '../../request.php';
 
-if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
+if($Request_Path_Entities == $Place['path'].$Canonical) {
 
+	// Send the right header for an RSS Feed
 	header('Content-Type: application/rss+xml');
-	echo '<?xml version="1.0" encoding="utf-8"?>
-';
 
-?>
+	// Set the doctype and some basic information
+	echo '<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<atom:link href="<?php echo $Sitewide_Root.$Canonical; ?>" rel="self" type="application/rss+xml" />
-		<title><?php echo $Sitewide_Title; ?></title>
-		<description><?php echo $Sitewide_Tagline; ?></description>
-		<link><?php echo $Sitewide_Root; ?></link>
+		<atom:link href="'.$Sitewide_Root.$Canonical.'" rel="self" type="application/rss+xml" />
+		<title>'.$Sitewide_Title.'</title>
+		<description>'. $Sitewide_Tagline.'</description>
+		<link>'. $Sitewide_Root.'</link>
 		<language>en</language>
-		<generator>Simplet</generator>
-		<?php
-			$loop = 0;
-			$items = glob('*.php', GLOB_NOSORT);
-			array_multisort(array_map('filemtime', $items), SORT_NUMERIC, SORT_DESC, $items);
-			foreach($items as $entry) {
-				if($entry!='rss.php') {
-					require $entry;
-					if($PostType=='Post') {
-						$PostLink = $Sitewide_Root.$Canonical;
-						echo '
+		<generator>Simplet</generator>';
+
+	// List all the files
+	$RSS_Items = glob('*.php', GLOB_NOSORT);
+
+	// Order them by time
+	array_multisort(array_map('filemtime', $RSS_Items), SORT_NUMERIC, SORT_DESC, $RSS_Items);
+
+	// FOREACH: For each Item
+	foreach($RSS_Items as $RSS_Item) {
+
+		// IFNOTTHIS: So long as it isn't this file
+		if($RSS_Item!='rss.php') {
+
+			// Require it
+			require $RSS_Item;
+
+			// IFPOST If it is a post (and hence has a time)
+			if($PostType=='Post') {
+
+				// Make the link
+				$PostLink = $Sitewide_Root.$Canonical;
+
+				// Echo out the details
+				echo '
 		<item>
 			<title>'.$WebTitle.'</title>
 			<description>'.$Description.'</description>
 			<link>'.$PostLink.'</link>
 			<guid>'.$PostLink.'</guid>
-			<pubDate>'.date('r', filemtime($entry)).'</pubDate>
+			<pubDate>'.date('r', filemtime($RSS_Item)).'</pubDate>
 		</item>';
-					}
-				}
-			}
-		?>
+			} // IFPOST
+		} // IFNOTTHIS
+	} // FOREACH
+	echo '
 	</channel>
-</rss><?php
+</rss>';
 }
