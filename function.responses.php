@@ -6,7 +6,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $MySQL_Connection, $Sitewide_Root;
 
 	// Catch any responses that didn't go to the API
-	if (isset($_GET['respond'])) {
+	if (isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply')) {
 		if(!$Member_Auth) {
 			// Handle Not Authenticated Error on POST without JavaScript
 			echo '
