@@ -24,49 +24,6 @@
     		header('HTTP/1.1 401 Unauthorized');
 			$Error = 'You are not logged in.';
 
-		} else if ($_POST['action']=='reply') {
-			// TODO Update to match API
-			// Possibly move to function so can be called equally.
-
-			if (!isset($_POST['topic_slug']) || empty($_POST['topic_slug'])) {
-				$Error = 'No Topic Slug Set.';
-
-			} else if (!isset($_POST['topic_status']) || empty($_POST['topic_status'])) {
-				$Error = 'No Topic Status Set.';
-
-			} else if (!isset($_POST['post']) || empty($_POST['post'])) {
-				$Error = 'You didn\'t enter a reply.';
-
-			} else {
-
-				$Topic_Slug = trim(htmlentities($_POST['topic_slug'], ENT_QUOTES, 'UTF-8'));
-				$Reply_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
-
-				if (empty($Topic_Slug)) {
-					$Error = 'No Topic Slug Set.';
-
-				} else if (empty($Reply_Post)) {
-					$Error = 'You didn\'t enter a reply.';
-
-				} else {
-
-
-					if ($Forum_Reply_Inherit) {
-						$Reply_Status = trim(htmlentities($_POST['topic_status'], ENT_QUOTES, 'UTF-8'));
-					} else {
-						$Reply_Status = $Forum_Reply_Default;
-					}
-
-					$Reply_New = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Reply_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
-					if (!$Reply_New) exit('Invalid Query (Reply_New): '.mysqli_error($MySQL_Connection));
-
-					header('Location: ?topic='.$Topic_Slug, TRUE, 302);
-					die();
-
-				}
-
-			}
-
 		} else if ($_POST['action']=='topic') {
 
 			if (!isset($_POST['title']) || empty($_POST['title'])) {
@@ -91,7 +48,7 @@
 
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
 
-					if (isset($_POST['post']) || !empty($_POST['post'])) {
+					if (isset($_POST['post'])) {
 						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 					} else {
 						$Topic_Post = false;
@@ -130,12 +87,13 @@
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
 					if ($Topic_Post) {
+						echo '1';
 						if ($Forum_Reply_Inherit) {
 							$Reply_Status = $Topic_Status;
 						} else {
 							$Reply_Status = $Forum_Reply_Default;
 						}
-						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Replies` (`Member_ID`, `Topic_Slug`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', 'Post', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
 					}
 
