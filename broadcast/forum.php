@@ -87,7 +87,6 @@
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
 
 					if ($Topic_Post) {
-						echo '1';
 						if ($Forum_Reply_Inherit) {
 							$Reply_Status = $Topic_Status;
 						} else {
