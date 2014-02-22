@@ -9,7 +9,6 @@ function Respond($Status_Override = false) {
 	$Response_Return = array();
 	$Response_Return['error'] = array();
 
-	// TODO Should Canonical and Type be GET?
 	if(isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post'])) {
 
 		// Set Variables
