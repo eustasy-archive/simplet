@@ -85,7 +85,8 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		echo '
 		<hr>
 		<h3>No '.$Type.'s to Display.</h3>
-		<hr>';
+		<hr>
+		<div id="responses"></div>';
 	} else {
 
 		// Select Everything
@@ -141,7 +142,8 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 			echo '
 		<hr>
 		<h3>No '.$Type.'s to Display.</h3>
-		<hr>';
+		<hr>
+		<div id="responses"></div>';
 
 		} else {
 
@@ -464,7 +466,6 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 			// TODO Make Submit un-clickable to prevent double-posts.
 			// TODO Show Error on Error (and Re-instate Submit).
 			// TODO Clear (Reset) Form and Re-instate Submit.
-			// TODO Append even when first.
 		} else {
 			echo '
 		<h3>You must <a href="'.$Sitewide_Root.'account?login">Log In</a> to '.$Type.'.</h3>';
