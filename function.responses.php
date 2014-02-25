@@ -282,7 +282,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 					});
 				});
 				$(\'.helpfulness .up\').click(function() {
-					var Response_ID = $(this).parent().parent().parent().attr(\'id\').substring(9);
+					var Response_ID = $(this).parent().parent().parent().parent().attr(\'id\').substring(9);
 					console.log(\'Initiate Up \' + Response_ID);
 					if (Current_Votes[Response_ID] == \'up\') {
 						console.log(\'Clear \' + Response_ID);
@@ -309,7 +309,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 					}
 				});
 				$(\'.helpfulness .down\').click(function() {
-					var Response_ID = $(this).parent().parent().parent().attr(\'id\').substring(9);
+					var Response_ID = $(this).parent().parent().parent().parent().attr(\'id\').substring(9);
 					console.log(\'Initiate Down \' + Response_ID);
 					if (Current_Votes[Response_ID] == \'down\') {
 					console.log(\'Clear \' + Response_ID);
