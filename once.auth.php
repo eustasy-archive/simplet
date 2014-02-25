@@ -85,18 +85,3 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 	$Member_Admin = false;
 
 }
-
-function stringGenerator($n=64) {
-	$String_Characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-	$String_Characters_Count = strlen( $String_Characters );
-	$String = '';
-	for( $i = 0; $i < $n; $i++ ) {
-		$String .= $String_Characters[ rand( 0, $String_Characters_Count - 1 ) ];
-	}
-	return $String;
-}
-
-function passHash($Pass, $Salt) {
-	$Hash_Method = 'sha512'; // Could also use sha1, sha512 etc, etc
-	return hash($Hash_Method, hash($Hash_Method, $Pass) . hash($Hash_Method, $Salt));
-}
