@@ -67,6 +67,8 @@
 	// Not used if $Forum_Reply_Inherit is set to true.
 	$Forum_Reply_Default = 'Pending';
 
+	$Response_Status_Reviews = 'Pending';
+	$Response_Status_Comments = 'Pending';
 
 	$Sitewide_Comments_Helpful = true;
 	$Sitewide_Posts_Helpful = true;

@@ -12,7 +12,7 @@ function Respond($Status_Override = false) {
 	if(isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post'])) {
 
 		// Set Variables
-		$Response_Canonical = urlencode(htmlentities($_POST['canonical'], ENT_QUOTES, 'UTF-8'));
+		$Response_Canonical = htmlentities($_POST['canonical'], ENT_QUOTES, 'UTF-8');
 		$Response_Type = htmlentities($_POST['type'], ENT_QUOTES, 'UTF-8');
 		$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 
@@ -44,13 +44,16 @@ function Respond($Status_Override = false) {
 					$Topic_Status_Fetch = mysqli_fetch_assoc($Topic_Status_Query);
 					$Response_Status = $Topic_Status_Fetch['Status'];
 				}
-				
+
 			} else {
 				$Response_Status = $Forum_Reply_Default;
 			}
-			
+
+		} else if ($Response_Type == 'Reviews') {
+			$Response_Status = $Response_Status_Reviews;
+		} else if ($Response_Type == 'Comments') {
+			$Response_Status = $Response_Status_Comments;
 		} else {
-			// TODO Set Default Status for Reviews and Comments
 			$Response_Status = 'Public';
 		}
 

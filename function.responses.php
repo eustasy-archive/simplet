@@ -24,6 +24,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 	}
 
 	if ( !isset($Response_Canonical) || empty($Response_Canonical) ) $Response_Canonical = $Canonical;
+	$Response_Canonical = urlencode($Response_Canonical);
 
 	if ($Type === 'Review' || ($Type === 'Comment' && $Comment_Helpful === true) || ($Type === 'Post' && $Forum_Reply_Helpful === true) ) {
 		$Helpfulness_Show = true;
@@ -226,10 +227,12 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 				</div>
 				<div class="col span_2_of_12">';
 					if ($Type === 'Review') echo '
-					<p>'.$Responses_Rating.' Stars</p>';
+					<p class="rating">'.$Responses_Rating.' Stars</p>';
 					echo '
-					<p>'.number_format($Responses_Helpfulness).' Helpful</p>
-					<div class="helpfulness"><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>
+					<div class="helpfulness hidden">
+						<p>'.number_format($Responses_Helpfulness).' Helpful</p>
+						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>
+					</div>
 				</div>
 			</div>';
 				} else {
@@ -272,9 +275,10 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 							console.log(\'Invalid on \' + Response_ID);
 							Current_Votes[Response_ID] = \'none\';
 						} else {
-							console.log(\'Error on \' + Response_ID);
+							console.log(\'Error on \' + Response_ID + \' \' + data);
 							Current_Votes[Response_ID] = \'none\';
 						}
+						$(\'.response.\' + Response_ID + \' .helpfulness\').removeClass(\'hidden\');
 					});
 				});
 				$(\'.helpfulness .up\').click(function() {
@@ -459,6 +463,8 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 				}
 				echo '\';
 						$(\'#responses\').append(toAppend);
+					});
+					respond.error(function() {
 					});
 				});
 			});
