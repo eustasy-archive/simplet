@@ -10,7 +10,7 @@
 
 	require_once '../../request.php';
 
-if($Request_Path_Entities == $Place['path'].$Canonical) {
+if ($Request_Path_Entities == $Place['path'].$Canonical) {
 
 	// Send the right header for an RSS Feed
 	header('Content-Type: application/rss+xml');
@@ -27,38 +27,43 @@ if($Request_Path_Entities == $Place['path'].$Canonical) {
 		<generator>Simplet</generator>';
 
 	// List all the files
-	$RSS_Items = glob('*.php', GLOB_NOSORT);
+	$Items = glob('*.php', GLOB_NOSORT);
 
 	// Order them by time
-	array_multisort(array_map('filemtime', $RSS_Items), SORT_NUMERIC, SORT_DESC, $RSS_Items);
+	array_multisort(array_map('filemtime', $Items), SORT_NUMERIC, SORT_DESC, $Items);
 
 	// FOREACH: For each Item
-	foreach($RSS_Items as $RSS_Item) {
+	foreach ($Items as $Item) {
 
 		// IFNOTTHIS: So long as it isn't this file
-		if($RSS_Item!='rss.php') {
+		if ($Item != 'rss.php') {
 
 			// Require it
-			require $RSS_Item;
+			require $Item;
 
 			// IFPOST If it is a post (and hence has a time)
-			if($PostType=='Post') {
+			if ($PostType == 'Post') {
 
 				// Make the link
 				$PostLink = $Sitewide_Root.$Canonical;
 
-				// Echo out the details
+				// Echo out the Item
 				echo '
 		<item>
 			<title>'.$WebTitle.'</title>
 			<description>'.$Description.'</description>
 			<link>'.$PostLink.'</link>
 			<guid>'.$PostLink.'</guid>
-			<pubDate>'.date('r', filemtime($RSS_Item)).'</pubDate>
+			<pubDate>'.date('r', filemtime($Item)).'</pubDate>
 		</item>';
+		
 			} // IFPOST
+			
 		} // IFNOTTHIS
+		
 	} // FOREACH
+	
+	// Fin
 	echo '
 	</channel>
 </rss>';

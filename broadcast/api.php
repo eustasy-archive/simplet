@@ -137,7 +137,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 						// On Vote Helpfulness Change Helpfulness on Response
 						$Responses_Helpfulness_New = $Responses_Helpfulness + $Helpfulness_Change;
 
-						$Helpfulness_Modify = mysqli_query($MySQL_Connection, "UPDATE `Responses` SET `Helpfulness`='$Responses_Helpfulness_New', `Modified`='$Time' WHERE `Canonical`='$Response_Canonical' AND `ID`='$Response_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+						$Helpfulness_Modify = mysqli_query($MySQL_Connection, "UPDATE `Responses` SET `Helpfulness`='$Responses_Helpfulness_New', `Modified`='$Time' WHERE `ID`='$Response_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 						if (!$Helpfulness_Modify) array_push($Helpfulness_Return['error'], 'Helpfulness Update Failed.');
 						echo 'true';
 					}
