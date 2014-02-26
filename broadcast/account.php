@@ -3,7 +3,7 @@
 	$TextTitle = 'Account';
 	$WebTitle = 'Account';
 	$Canonical = 'account';
-	$PostType = 'Page';
+	$PostType = 'Index';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'account';

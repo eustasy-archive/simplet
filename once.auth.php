@@ -79,6 +79,7 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 
 } else { // Even they don't think they're logged in
 
+	$User_Cookie = false;
 	$Member_Auth = false;
 	$Member_ID = false;
 	$Member_Name = false;
