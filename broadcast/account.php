@@ -1,15 +1,23 @@
 <?php
 
-	$TextTitle = 'Account';
-	$WebTitle = 'Account';
+	$Title_HTML = 'Account';
+	$Title_Plain = 'Account';
+
+	$Description_HTML = 'Account';
+	$Description_Plain = 'Account';
+
+	$Keywords = 'account password email';
+
+	$Featured_Image = '';
+
 	$Canonical = 'account';
-	$PostType = 'Index';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = 'account';
+
+	$Post_Type = 'Page';
+	$Post_Category = '';
 
 	require_once '../request.php';
 
+	// TODO Requires Produce Errors
 	$Account = $Canonical; // Canonical may change later, Account won't
 	$Header = '../header.php';
 	$Footer = '../footer.php';

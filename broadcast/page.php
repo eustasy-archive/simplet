@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'Example Page';
-	$WebTitle = 'Example Page';
-	$Canonical = 'page';
-	$PostType = 'Page';
-	$FeaturedImage = '';
-	$Description = '';
+	$Title_HTML = 'Example Page';
+	$Title_Plain = 'Example Page';
+
+	$Description_HTML = 'An example page to show default styles.';
+	$Description_Plain = 'An example page to show default styles.';
+
 	$Keywords = 'example page default styles';
+
+	$Featured_Image = '';
+
+	$Canonical = 'page';
+
+	$Post_Type = 'Page';
+	$Post_Category = '';
 
 	require_once '../request.php';
 

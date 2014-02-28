@@ -3,7 +3,7 @@
 	$TextTitle = 'Forum';
 	$WebTitle = 'Forum';
 	$Canonical = 'forum';
-	$PostType = 'Forum';
+	$Post_Type = 'Forum';
 	$FeaturedImage = '';
 	$Description = '';
 	$Keywords = 'forum';
@@ -11,7 +11,8 @@
 
 	require_once '../request.php';
 
-// if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
+// TODO Substring
+if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';
@@ -196,8 +197,11 @@
 				$TextTitle = $Topic_Title;
 				$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
 				$Canonical = $Forum.'?topic='.$Topic_Slug;
+				$Post_Type = 'Forum Topic';
 				$Description = $Topic_Title;
 				$Keywords = $Topic_Title.' topic forum';
+
+				ViewCount();
 
 				require $Header;
 
@@ -271,11 +275,13 @@
 			$TextTitle = $Category_Title;
 			$WebTitle = $Category_Title.' &nbsp;&middot;&nbsp; Forum';
 			$Canonical = $Forum.'?category='.$Category_Slug;
-			$PostType = 'Forum';
+			$PostType = 'Forum Category';
 			$FeaturedImage = '';
 			$Description = $Category_Description;
 			$Keywords = $Category_Title.' category topics forum '.$Category_Description;
 			require $Header;
+
+			ViewCount();
 
 			if ($Member_Auth) {
 				$Topics = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Category`='$Category_Slug' AND NOT `Status`='Hidden' AND NOT `Status`='Pending' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
@@ -453,4 +459,4 @@
 
 	}
 
-// }
+}

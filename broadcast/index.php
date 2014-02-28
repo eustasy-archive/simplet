@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'Simplet';
-	$WebTitle = 'a simple, modular, cms framework written in php';
+	$Title_HTML = 'Simplet';
+	$Title_Plain = 'Simplet';
+
+	$Description_HTML = 'a simple, modular, cms framework written in php';
+	$Description_Plain = 'a simple, modular, cms framework written in php';
+
+	$Keywords = 'blog posts';
+
+	$Featured_Image = '';
+
 	$Canonical = '';
-	$PostType = 'Index';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = '';
+
+	$Post_Type = 'Page';
+	$Post_Category = '';
 
 	require_once '../request.php';
 

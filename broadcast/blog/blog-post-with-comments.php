@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'A Blog Post with Comments';
-	$WebTitle = 'A Blog Post with Comments';
+	$Title_HTML = 'A Blog Post with Comments';
+	$Title_Plain = 'A Blog Post with Comments';
+	
+	$Description_HTML = 'This is a Blog Post with Comments powered by Markdown.';
+	$Description_Plain = 'This is a Blog Post with Comments powered by Markdown.';
+	
+	$Keywords = 'blog post comments markdown';
+	
+	$Featured_Image = '';
+	
 	$Canonical = 'blog/blog-post-with-comments';
-	$PostType = 'Post';
-	$FeaturedImage = '';
-	$Description = 'This is a Blog Post with Comments powered by Markdown.';
-	$Keywords = 'blog';
+	
+	$Post_Type = 'Blog Post';
+	$Post_Category = 'General';
 
 	require_once '../../request.php';
 

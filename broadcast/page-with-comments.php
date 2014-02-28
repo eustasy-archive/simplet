@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'A Page with Comments';
-	$WebTitle = 'A Page with Comments';
+	$Title_HTML = 'A Page with Comments';
+	$Title_Plain = 'A Page with Comments';
+
+	$Description_HTML = 'This is a Page with Comments powered by Markdown.';
+	$Description_Plain = 'This is a Page with Comments powered by Markdown.';
+
+	$Keywords = 'example page markdown comments';
+
+	$Featured_Image = '';
+
 	$Canonical = 'page-with-comments';
-	$PostType = 'Page';
-	$FeaturedImage = '';
-	$Description = 'This is a Page with Comments powered by Markdown.';
-	$Keywords = 'page comments markdown';
+
+	$Post_Type = 'Page';
+	$Post_Category = '';
 
 	require_once '../request.php';
 

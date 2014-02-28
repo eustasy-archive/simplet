@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'One more Blog Post';
-	$WebTitle = 'One more Blog Post';
+	$Title_HTML = 'One more <em>Blog</em> Post';
+	$Title_Plain = 'One more Blog Post';
+	
+	$Description_HTML = 'You <strong>can</strong> put HTML in this description.';
+	$Description_Plain = 'You shouldn\'t put HTML in this description.';
+	
+	$Keywords = 'blog post';
+	
+	$Featured_Image = '';
+	
 	$Canonical = 'blog/one-more-blog-post';
-	$PostType = 'Post';
-	$FeaturedImage = '';
-	$Description = 'You shouldn\'t put HTML in these descriptions, but you can if you want.';
-	$Keywords = 'blog';
+	
+	$Post_Type = 'Blog Post';
+	$Post_Category = 'General';
 
 	require_once '../../request.php';
 

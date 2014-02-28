@@ -15,6 +15,8 @@
 
 	$Time = time();
 
+	$Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
+
 	require 'once.connect.php';
 	require 'once.auth.php';
 
@@ -26,4 +28,4 @@
 	require 'function.respond.php';
 	require 'function.viewcount.php';
 
-	if ($PostType != 'Index' && $PostType != 'Forum' && $PostType != 'Blog' && $PostType != 'Sitemap' && $PostType != 'RSS' && $PostType != 'Store') ViewCount();
+	if ($Post_Type !== 'Forum') ViewCount();

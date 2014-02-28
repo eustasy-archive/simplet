@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'Blog';
-	$WebTitle = 'Blog';
+	$Title_HTML = 'Blog';
+	$Title_Plain = 'Blog';
+
+	$Description_HTML = 'Our blog.';
+	$Description_Plain = 'Our blog.';
+
+	$Keywords = 'blog posts';
+
+	$Featured_Image = '';
+
 	$Canonical = 'blog/';
-	$PostType = 'Blog';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = 'blog';
+
+	$Post_Type = 'Blog Index';
+	$Post_Category = '';
 
 	require_once '../../request.php';
 
@@ -36,20 +43,20 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 				require $Item;
 
 				// IFPOST If it is a post (and hence has a time)
-				if ($PostType == 'Post') {
+				if ($Post_Type == 'Blog Post') {
 
 					// Make the link
-					$PostLink = $Sitewide_Root.$Canonical;
+					$Post_Link = $Sitewide_Root.$Canonical;
 
 					// Echo out the Item
 					echo '
 			<div class="col span_5_of_12">
-				<h2><a href="'.$PostLink.'">' . $TextTitle . '</a></h2>
+				<h2><a href="'.$Post_Link.'">' . $Title_HTML . '</a></h2>
 				<p class="textright faded"><small>' . date ('d/m/Y', filemtime($Item)) .'</small></p>
-				<p>' . $Description . '</p>
+				<p>' . $Description_HTML . '</p>
 			</div>';
 
-					//
+					// Increment Looper and echo a break every other post.
 					$Looper += 1;
 					if (is_int($Looper/2)) {
 						echo '

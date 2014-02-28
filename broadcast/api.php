@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'API';
-	$WebTitle = 'API';
-	$Canonical = 'api';
-	$PostType = 'Processor';
-	$FeaturedImage = '';
-	$Description = '';
+	$Title_HTML = 'API';
+	$Title_Plain = 'API';
+
+	$Description_HTML = 'API';
+	$Description_Plain = 'API';
+
 	$Keywords = 'api';
+
+	$Featured_Image = '';
+
+	$Canonical = 'api';
+
+	$Post_Type = 'API';
+	$Post_Category = '';
 
 	require_once '../request.php';
 

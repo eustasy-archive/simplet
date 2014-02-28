@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'This is another Blog Post';
-	$WebTitle = 'This is another Blog Post';
+	$Title_HTML = 'This is another Blog Post';
+	$Title_Plain = 'This is another Blog Post';
+	
+	$Description_HTML = 'This is another description for a blog post.';
+	$Description_Plain = 'This is another description for a blog post.';
+	
+	$Keywords = 'blog post';
+	
+	$Featured_Image = '';
+	
 	$Canonical = 'blog/this-is-another-blog-post';
-	$PostType = 'Post';
-	$FeaturedImage = '';
-	$Description = 'This is another description for a blog post. It is used in the meta description on the page, and be used as an excerpt in the blog index.';
-	$Keywords = 'blog';
+	
+	$Post_Type = 'Blog Post';
+	$Post_Category = 'General';
 
 	require_once '../../request.php';
 

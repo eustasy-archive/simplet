@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'Example Product';
-	$WebTitle = 'Example Product';
+	$Title_HTML = 'Example Product';
+	$Title_Plain = 'Example Product';
+
+	$Description_HTML = 'An Example Product to demo Reviews.';
+	$Description_Plain = 'An Example Product to demo Reviews.';
+
+	$Keywords = 'product example rocks reviews demo';
+
+	$Featured_Image = '';
+
 	$Canonical = 'product';
-	$PostType = 'Product';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = 'example product';
+
+	$Post_Type = 'Page';
+	$Post_Category = '';
 
 	require_once '../request.php';
 

@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'Protected Page';
-	$WebTitle = 'Protected Page';
+	$Title_HTML = 'Protected Page';
+	$Title_Plain = 'Protected Page';
+
+	$Description_HTML = 'An example Protected Page.';
+	$Description_Plain = 'An example Protected Page.';
+
+	$Keywords = 'example demo protected page authorization members';
+
+	$Featured_Image = '';
+
 	$Canonical = 'protected-page';
-	$PostType = 'Protected';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = 'protected example page default styles';
+
+	$Post_Type = 'Protected';
+	$Post_Category = '';
 
 	require_once '../request.php';
 

@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'RSS Feed';
-	$WebTitle = 'RSS Feed';
+	$Title_HTML = 'RSS Feed';
+	$Title_Plain = 'RSS Feed';
+
+	$Description_HTML = 'Our RSS.';
+	$Description_Plain = 'Our RSS.';
+
+	$Keywords = 'blog posts rss';
+
+	$Featured_Image = '';
+
 	$Canonical = 'blog/rss';
-	$PostType = 'RSS';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = '';
+
+	$Post_Type = 'Blog RSS';
+	$Post_Category = '';
 
 	require_once '../../request.php';
 
@@ -42,27 +49,27 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 			require $Item;
 
 			// IFPOST If it is a post (and hence has a time)
-			if ($PostType == 'Post') {
+			if ($Post_Type == 'Blog Post') {
 
 				// Make the link
-				$PostLink = $Sitewide_Root.$Canonical;
+				$Post_Link = $Sitewide_Root.$Canonical;
 
 				// Echo out the Item
 				echo '
 		<item>
-			<title>'.$WebTitle.'</title>
-			<description>'.$Description.'</description>
-			<link>'.$PostLink.'</link>
-			<guid>'.$PostLink.'</guid>
+			<title>'.$Title_Plain.'</title>
+			<description>'.$Description_Plain.'</description>
+			<link>'.$Post_Link.'</link>
+			<guid>'.$Post_Link.'</guid>
 			<pubDate>'.date('r', filemtime($Item)).'</pubDate>
 		</item>';
-		
+
 			} // IFPOST
-			
+
 		} // IFNOTTHIS
-		
+
 	} // FOREACH
-	
+
 	// Fin
 	echo '
 	</channel>

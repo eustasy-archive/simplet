@@ -1,12 +1,19 @@
 <?php
 
-	$TextTitle = 'Sitemap';
-	$WebTitle = 'Sitemap';
+	$Title_HTML = 'Sitemap';
+	$Title_Plain = 'Sitemap';
+
+	$Description_HTML = 'Our Sitemap.';
+	$Description_Plain = 'Our Sitemap.';
+
+	$Keywords = 'sitemap';
+
+	$Featured_Image = '';
+
 	$Canonical = 'blog/sitemap';
-	$PostType = 'Sitemap';
-	$FeaturedImage = '';
-	$Description = '';
-	$Keywords = '';
+
+	$Post_Type = 'Sitemap';
+	$Post_Category = '';
 
 	require_once '../../request.php';
 
@@ -34,17 +41,17 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 			// Require it
 			require $Item;
 
-			// IFRECOGNISE If the PostType is Recognised
-			if ($PostType == 'Index' || $PostType=='Post' || $PostType=='Page' || $PostType=='Blog' || $PostType=='Forum') {
+			// IFRECOGNISE If the Post_Type is Recognized
+			if (in_array($Post_Type, $Post_Types)) {
 
 				// Make the link
-				$PostLink = $Sitewide_Root.$Canonical;
+				$Post_Link = $Sitewide_Root.$Canonical;
 
 				// Echo out the Item
 				echo '
 	<url>
-		<loc>'.$PostLink.'</loc>
-		<lastmod>'.date('Y-m-d', filemtime($entry)).'</lastmod>
+		<loc>'.$Post_Link.'</loc>
+		<lastmod>'.date('Y-m-d', filemtime($Item)).'</lastmod>
 		<priority>0.9</priority>
 		<changefreq>weekly</changefreq>
 	</url>';

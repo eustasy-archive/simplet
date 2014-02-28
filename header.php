@@ -3,18 +3,18 @@
 <head>
 
 	<meta charset="utf-8">
-	<meta name="description" content="<?php echo $Description; ?>">
+	<meta name="description" content="<?php echo $Description_Plain; ?>">
 	<meta name="keywords" content="<?php echo $Keywords . ' ' . $Sitewide_Title; ?>">
-	<meta itemprop="name" content="<?php echo $WebTitle; ?>">
-	<meta itemprop="description" content="<?php echo $Description; ?>">
-	<meta itemprop="image" content="<?php echo $FeaturedImage; ?>">
+	<meta itemprop="name" content="<?php echo $Title_Plain; ?>">
+	<meta itemprop="description" content="<?php echo $Description_Plain; ?>">
+	<meta itemprop="image" content="<?php echo $Featured_Image; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="cleartype" content="on">
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 
-	<title><?php echo $WebTitle . ' &nbsp;&middot;&nbsp; ' . $Sitewide_Title; ?></title>
+	<title><?php echo $Title_Plain . ' &nbsp;&middot;&nbsp; ' . $Sitewide_Title; ?></title>
 
 	<link rel="canonical" href="<?php echo $Sitewide_Root.$Canonical; ?>">
 	<link rel="icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
@@ -57,7 +57,7 @@
 
 	<header class="group">
 		<div class="col span_1_of_2">
-			<h1><a href="<?php echo $Sitewide_Root; ?>"><!--<img src=""> --><?php echo $Sitewide_Title; ?></a></h1>
+			<h1><a href="<?php echo $Sitewide_Root; ?>"><?php echo $Sitewide_Title; ?></a></h1>
 		</div>
 		<nav class="col span_1_of_2">
 			<ul>
