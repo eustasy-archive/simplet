@@ -1,6 +1,13 @@
-<?
+<?php
 
-	require 'config.php';
+	// Set a default timezone.
+	date_default_timezone_set('UTC');
+	// Note: GMT is deprecated. Use UTC instead.
+
+	// Include the Configuration
+	// This is not require because it might fail if not yet installed.
+	// `once.connect.php` will handle this, to some extent.
+	include 'config.php';
 
 	$Place = parse_url($Sitewide_Root);
 
@@ -28,4 +35,6 @@
 	require 'function.respond.php';
 	require 'function.viewcount.php';
 
+	// Count View
+	// Forums have Categories and Topics, and should be counted later.
 	if ($Post_Type !== 'Forum') ViewCount();

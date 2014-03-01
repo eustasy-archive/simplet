@@ -1,9 +1,5 @@
 <?php
 
-// Set a default timezone.
-date_default_timezone_set('UTC');
-// Note: GMT is deprecated. Use UTC instead.
-
 // We will need the IP to handle logins. Catch it every time.
 $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
