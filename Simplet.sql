@@ -149,7 +149,23 @@ CREATE TABLE IF NOT EXISTS `Replies` (
   `Modified` int(11) NOT NULL,
   UNIQUE KEY `ID` (`ID`),
   KEY `Member_ID` (`Member_ID`),
-  KEY `Topic_ID` (`Topic_Slug`),
+  KEY `Topic_Slug` (`Topic_Slug`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+
+-- Create Table for Views
+CREATE TABLE IF NOT EXISTS `Views` (
+  `Request` varchar(2500) NOT NULL,
+  `Canonical` varchar(2500) NOT NULL,
+  `Post_Type` varchar(255) NOT NULL,
+  `IP` varchar(255) NOT NULL,
+  `Cookie` varchar(64) NOT NULL,
+  `Auth` varchar(5) NOT NULL,
+  `Member_ID` varchar(12) NOT NULL,
+  `Admin` varchar(5) NOT NULL,
+  `Time` int(11) NOT NULL,
+  KEY `Canonical` (`Canonical`),
+  KEY `Member_ID` (`Member_ID`),
+  KEY `Post_Type` (`Post_Type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
