@@ -40,8 +40,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 		- Create/Edit/Private/Hide/Lock/Delete Categories
 		- Edit/Private/Hide/Lock/Delete Topics
 	- Responses Edit/Hide/Delete
-- API
-	- Change Helpfulness to JSON
 - Backend
 	- Feeds
 		- Topics
@@ -52,6 +50,9 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 		- Forum Categories
 		- Forum Topics
 		- Responses
+- Configuration
+	- Move Most to Database
+	- Move Database to `once.connect.php` (?)
 - Forum
 	- Unread, Read Icon
 	- Most Recent
@@ -64,6 +65,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Clear (Reset) Form and Re-instate Submit.
 	- Order by Helpfulness, Replies and Time (both ways)
 	- Configuration Option for Time Locking
+	- Change Helpfulness API to JSON
 	- Replies
 - Security Limits
 	- Time-and-Attempt-based
@@ -85,6 +87,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Document
 	- Add to API and return as JSON
 - User Accounts
+	- More Lenient Sessions (First half of IP match, Waning: IPv6)
 	- Delete Option
 	- Fix Password Resets
 
