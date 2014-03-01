@@ -4,7 +4,7 @@
 //
 //
 
-function Trending($Trend_Limit = 10, $Trend_Type = 'Post', $Trend_Strip = false, $Trend_Strict = false) {
+function Trending($Trend_Limit = 10, $Trend_Type = 'Post', $Trend_Strip = true, $Trend_Strict = false) {
 
 	// Set some Globals
 	global $MySQL_Connection, $Sitewide_Root, $Canonical;
@@ -20,8 +20,8 @@ function Trending($Trend_Limit = 10, $Trend_Type = 'Post', $Trend_Strip = false,
 	$Trending = mysqli_query($MySQL_Connection, $Query, MYSQLI_STORE_RESULT);
 	if (!$Trending) exit('Invalid Query (View): '.mysqli_error($MySQL_Connection));
 
-	// TODO If $Trend_Strip remove own page or input
+	// TODO If $Trend_Strip remove own page
 
-	// TODO Return Array (?)
+	// TODO Return Array
 
 }

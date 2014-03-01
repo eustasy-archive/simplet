@@ -1,18 +1,24 @@
 <?php
 
-	$TextTitle = 'Forum';
-	$WebTitle = 'Forum';
-	$Canonical = 'forum';
-	$Post_Type = 'Forum';
-	$FeaturedImage = '';
-	$Description = '';
+	$Title_HTML = 'Forum';
+	$Title_Plain = 'Forum';
+
+	$Description_HTML = 'Forum';
+	$Description_Plain = 'Forum';
+
 	$Keywords = 'forum';
+
+	$Featured_Image = '';
+
+	$Canonical = 'forum';
 	$Forum = $Canonical;
+
+	$Post_Type = 'Forum';
+	$Post_Category = '';
 
 	require_once '../request.php';
 
-// TODO Substring
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Forum) {
+if (substr($Request['path'], 0, strlen($Place['path'].$Forum)) == $Place['path'].$Forum) {
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';
