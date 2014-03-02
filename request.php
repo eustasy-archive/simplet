@@ -4,6 +4,10 @@
 	date_default_timezone_set('UTC');
 	// Note: GMT is deprecated. Use UTC instead.
 
+	// ini_set('include_path', dirname(__FILE__));
+	// set_include_path(dirname(__FILE__));
+	set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__).'/broadcast');
+
 	// Include the Configuration
 	// This is not require because it might fail if not yet installed.
 	// `once.connect.php` will handle this, to some extent.
@@ -34,6 +38,7 @@
 	require 'function.responses.php';
 	require 'function.respond.php';
 	require 'function.viewcount.php';
+	require 'function.trending.php';
 
 	// Count View
 	// Forums have Categories and Topics, and should be counted later.

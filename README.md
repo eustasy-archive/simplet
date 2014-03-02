@@ -50,10 +50,14 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 		- Forum Categories
 		- Forum Topics
 		- Responses
+- Blog
+	- Pagination
+	- View by Categories
 - Configuration
 	- Move Most to Database
 	- Move Database to `once.connect.php` (?)
 - Forum
+	- Category and Topic Pagination
 	- Unread, Read Icon
 	- Most Recent
 	- Fix Home with Trailing Slash
@@ -83,8 +87,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Replies
 - Trending
 	- If $Trend_Strip remove own page or input
-	- Return Array
-	- Document
 	- Add to API and return as JSON
 - User Accounts
 	- More Lenient Sessions (First half of IP match, Waning: IPv6)
