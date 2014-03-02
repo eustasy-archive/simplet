@@ -86,7 +86,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Responses
 	- Replies
 - Trending
-	- If $Trend_Strip remove own page or input
+	- Add Topics and Category Title Fetching
 	- Add to API and return as JSON
 - User Accounts
 	- More Lenient Sessions (First half of IP match, Waning: IPv6)
