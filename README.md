@@ -72,6 +72,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Configuration Option for Time Locking
 	- Change Helpfulness API to JSON
 	- Replies
+	- Fix Quotes on JSON Response
 - Security Limits
 	- Time-and-Attempt-based
 	- Option of System
