@@ -13,7 +13,7 @@
 	$Canonical = 'blog/this-is-another-blog-post';
 	
 	$Post_Type = 'Blog Post';
-	$Post_Category = 'General';
+	$Post_Category = 'Examples';
 
 	require_once '../../request.php';
 

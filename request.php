@@ -19,7 +19,7 @@
 
 	$Request_Path_Entities = htmlentities($Request['path'], ENT_QUOTES, 'UTF-8');
 
-	if($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
+	if ($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
 		header ('HTTP/1.1 301 Moved Permanently');
 		header ('Location: '.$Sitewide_Root.$Canonical);
 	}
@@ -39,6 +39,7 @@
 	require 'function.respond.php';
 	require 'function.viewcount.php';
 	require 'function.trending.php';
+	require 'function.categories.php';
 
 	// Count View
 	// Forums have Categories and Topics, and should be counted later.

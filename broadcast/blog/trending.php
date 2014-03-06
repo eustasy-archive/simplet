@@ -22,7 +22,7 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 	require '../../header.php';
 	echo '<h2>Trending</h2>';
 
-	$Trending = Trending('blog/trending');
+	$Trending = Trending(basename(__FILE__));
 	foreach ($Trending as $Trending_Canonical => $Trending_Count) {
 		if (substr($Trending_Canonical, -1) == '/') {
 			require $Trending_Canonical.'index.php';

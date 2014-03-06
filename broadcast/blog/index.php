@@ -24,6 +24,13 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 		echo '
 		<div class="section group posts">';
 
+		// IFCATEGORY
+		if (isset($_GET['category'])) {
+			$Category = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+		} else {
+			$Category = false;
+		}
+
 		// Set Looper to 0
 		$Looper = 0;
 
@@ -37,7 +44,7 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 		foreach ($Items as $Item) {
 
 			// IFNOTTHIS: So long as it isn't this file
-			if ($Item != 'index.php') {
+			if ($Item != basename(__FILE__)) {
 
 				// Require it
 				require $Item;
@@ -45,35 +52,65 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 				// IFPOST If it is a post (and hence has a time)
 				if ($Post_Type == 'Blog Post') {
 
-					// Make the link
-					$Post_Link = $Sitewide_Root.$Canonical;
+					// IFCHECKCATEGORY If no category or category matches
+					if (!$Category || ( $Category == $Post_Category )) {
 
-					// Echo out the Item
-					echo '
+						// Make the link
+						$Post_Link = $Sitewide_Root.$Canonical;
+
+						// Echo out the Item
+						echo '
 			<div class="col span_5_of_12">
 				<h2><a href="'.$Post_Link.'">' . $Title_HTML . '</a></h2>
 				<p class="textright faded"><small>' . date ('d/m/Y', filemtime($Item)) .'</small></p>
 				<p>' . $Description_HTML . '</p>
 			</div>';
 
-					// Increment Looper and echo a break every other post.
-					$Looper += 1;
-					if (is_int($Looper/2)) {
-						echo '
+						// Increment Looper and echo a break every other post.
+						$Looper += 1;
+						if (is_int($Looper/2)) {
+							echo '
 		</div>
 		<div class="breaker"></div>
 		<div class="section group">';
-					} else {
-						echo '
+						} else {
+							echo '
 			<div class="col span_2_of_12"><br></div>';
-					}
+						}
 
+					} // IFCHECKCATEGORY
 
 				} // IFPOST
 
 			} // IFNOTTHIS
 
 		} // FOREACH
+
+		// IFNOPOSTS
+		if ($Looper === 0) {
+			// IFNOPOSTSCATEGORY
+			if ($Category) {
+				echo '<h2>Sorry, no posts found in the Category &ldquo;'.$Category.'&rdquo;.</h2>';
+			} else {
+				echo '<h2>Sorry, no posts found.</h2>';
+			} // IFNOPOSTSCATEGORY
+		} // IFNOPOSTS
+
+		// IFCATEGORIES
+		if ($Category) {
+			$Categories = Categories(basename(__FILE__), $Category);
+		} else {
+			$Categories = Categories(basename(__FILE__));
+		} // IFCATEGORIES
+
+		// FORCATEGORIES
+		echo '
+		<div class="clear widget categories">
+			<h3>Categories</h3>';
+		foreach ($Categories as $Categories_Slug => $Categories_Count) echo '
+			<p><a href="?category='.$Categories_Slug.'">'.$Categories_Slug.'<span class="floatright">'.$Categories_Count.'</span></a></p>';
+		echo '
+		</div>';
 
 		// Fin
 		echo '

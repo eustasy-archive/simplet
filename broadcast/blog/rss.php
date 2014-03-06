@@ -43,7 +43,7 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 	foreach ($Items as $Item) {
 
 		// IFNOTTHIS: So long as it isn't this file
-		if ($Item != 'rss.php') {
+		if ($Item != basename(__FILE__)) {
 
 			// Require it
 			require $Item;

@@ -53,7 +53,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 		- Responses
 - Blog
 	- Pagination
-	- View by Categories
+	- Order By Newest, Oldest, Most Viewed
 - Configuration
 	- Move Most to Database
 	- Move Database to `once.connect.php` (?)

@@ -13,7 +13,7 @@
 	$Canonical = 'blog/blog-post-with-comments';
 	
 	$Post_Type = 'Blog Post';
-	$Post_Category = 'General';
+	$Post_Category = 'Comment';
 
 	require_once '../../request.php';
 
