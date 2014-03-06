@@ -39,6 +39,7 @@
 	require 'function.respond.php';
 	require 'function.viewcount.php';
 	require 'function.trending.php';
+	require 'function.blog.php';
 	require 'function.categories.php';
 
 	// Count View

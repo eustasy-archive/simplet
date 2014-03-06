@@ -1,6 +1,6 @@
 <?php
 
-function Categories($Caller = 'index.php', $Exclude = false) {
+function Categories($Caller, $Exclude = false) {
 
 	// Set some Globals so the required scripts don't error.
 	global $Place, $Request_Path_Entities;
@@ -8,6 +8,7 @@ function Categories($Caller = 'index.php', $Exclude = false) {
 	// List all the files
 	$Items = glob('*.php', GLOB_NOSORT);
 
+	// Make an empty array
 	$Categories_Return = array();
 
 	// Order them by time
@@ -39,7 +40,7 @@ function Categories($Caller = 'index.php', $Exclude = false) {
 	} // FOREACH
 
 	// Unset current page to avoid require problems
-	if ($Exclude) unset($Categories_Return['']);
+	unset($Categories_Return['']);
 	if ($Exclude) unset($Categories_Return[$Exclude]);
 
 	// Order by Count
