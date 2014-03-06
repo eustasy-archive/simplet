@@ -93,6 +93,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- More Lenient Sessions (First half of IP match, Waning: IPv6)
 	- Delete Option
 	- Fix Password Resets
+	- Redirect to previous on login.
 
 ### Future
 - User Accounts
