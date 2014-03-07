@@ -113,14 +113,15 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - [Browning (0.23)](https://github.com/eustasy/browning-a-mailgun-script)
 - [Parsedown (0.9.4)](https://github.com/erusev/parsedown)
 - [Recaptcha (1.11)](https://www.google.com/recaptcha/admin)
-- [Sweet Captcha (1.1.0)](http://sweetcaptcha.com/)
+- [Sweet Captcha (1.1.0)](https://github.com/sweetcaptcha/sweetcaptcha-sdk-php)
 
 ### CSS
-- [HTML5 Reset (30/11/13)](https://github.com/murtaugh/HTML5-Reset)
+- [HTML5 Reset (2.1.2)](https://github.com/murtaugh/HTML5-Reset)
 
 ### JavaScript
-- [Selectivizr](https://github.com/keithclark/selectivizr)
 - [Modernizr](http://modernizr.com/)
+- [Selectivizr](https://github.com/keithclark/selectivizr)
+- [PrefixFree](https://github.com/LeaVerou/prefixfree)
 - [jQuery](http://jquery.com/)
 - [jQuery.equalize](http://labs.eustasy.org/jquery.equalize)
 - [jQuery.Cookie](https://github.com/carhartl/jquery-cookie)
