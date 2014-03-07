@@ -4,12 +4,13 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 # It's not finished yet.
 
 ## Features
-- Basic Pages
-- File-Based Blog
 - Responsive Layout
-- Nginx Compatible
+- Server Side
+	- Nginx Compatible
+	- PHP 5.3+
+	- MySQL and MariaDB Tested
 - Members
-	- Signups
+	- Signup
 	- Login
 	- Logout
 	- Session Listing
@@ -23,6 +24,9 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Topics
 	- SEO Friendly Slugs
 	- Markdown Posts
+- File-Based Blog
+	- Categories
+	- Trending Posts
 - Open Source
 - Quotes Douglas Adams
 
@@ -97,13 +101,14 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - User Accounts
 	- User Profiles
 	- Inter-User Messaging
+- Database-Driven Blog
 - Apache Config File (with Extensionless PHP)
 
 ## Libraries
 
 ### PHP
 - [Browning (0.23)](https://github.com/eustasy/browning-a-mailgun-script)
-- [Parsedown (0.8.0)](https://github.com/erusev/parsedown)
+- [Parsedown (0.9.4)](https://github.com/erusev/parsedown)
 - [Recaptcha (1.11)](https://www.google.com/recaptcha/admin)
 - [Sweet Captcha (1.1.0)](http://sweetcaptcha.com/)
 
