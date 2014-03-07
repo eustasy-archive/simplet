@@ -51,12 +51,9 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 		- Forum Categories
 		- Forum Topics
 		- Responses
-- Blog
-	- Pagination
-	- Order By Newest, Oldest, Most Viewed
 - Configuration
-	- Move Most to Database
-	- Move Database to `once.connect.php` (?)
+	- Move Database Config to `once.connect.php` (?)
+	- Move Remaining to Database
 - Forum
 	- Category and Topic Pagination
 	- Unread, Read Icon
