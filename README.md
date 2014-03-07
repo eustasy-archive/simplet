@@ -35,6 +35,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 ### Version 4
 - Global
 	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
+	- Use Forum Canonical Matching Everywhere
 	- Update Legal
 - Admin Interface
 	- User Management
@@ -79,8 +80,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Option of System
 		- Captcha
 		- SweetCaptcha
-		- English (?)
-		- Maths (?)
 		- Block
 	- Signups
 	- Logins
@@ -101,6 +100,10 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - User Accounts
 	- User Profiles
 	- Inter-User Messaging
+- Security Limit Options
+	- English
+	- Maths
+	- Science
 - Database-Driven Blog
 - Apache Config File (with Extensionless PHP)
 
@@ -117,7 +120,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 
 ### JavaScript
 - [Selectivizr](https://github.com/keithclark/selectivizr)
-- [Modernizr](http://modernizr.com/download/#-fontface-backgroundsize-borderradius-opacity-rgba-generatedcontent-csstransitions-printshiv-mq-teststyles-testprop-testallprops-prefixes-domprefixes)
+- [Modernizr](http://modernizr.com/)
 - [jQuery](http://jquery.com/)
 - [jQuery.equalize](http://labs.eustasy.org/jquery.equalize)
-- [jQuery Cookie](https://github.com/carhartl/jquery-cookie)
+- [jQuery.Cookie](https://github.com/carhartl/jquery-cookie)
