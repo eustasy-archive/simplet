@@ -123,5 +123,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - [Selectivizr](https://github.com/keithclark/selectivizr)
 - [PrefixFree](https://github.com/LeaVerou/prefixfree)
 - [jQuery](http://jquery.com/)
-- [jQuery.equalize](http://labs.eustasy.org/jquery.equalize)
+- [jQuery.equalize](https://github.com/eustasy/jquery.equalize)
+- [jQuery.downBoy](https://github.com/eustasy/jquery.downboy)
 - [jQuery.Cookie](https://github.com/carhartl/jquery-cookie)
