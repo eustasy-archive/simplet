@@ -355,7 +355,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 
 				if ($Page > 3) echo '<span class="floatleft"><a href="?page=1'.$Paginate_End.'">1</a> &emsp; &hellip; &emsp; </span>';
 
-				if ($Page >= 3) echo '<a href="?page='.$Page_Wayback.'">'.$Page_Wayback.'</a> &emsp; ';
+				if ($Page >= 3) echo '<a href="?page='.$Page_Wayback.$Paginate_End.'">'.$Page_Wayback.'</a> &emsp; ';
 				if ($Page >= 2) echo '<a href="?page='.$Page_Previous.$Paginate_End.'">'.$Page_Previous.'</a> &emsp; ';
 
 				echo $Page;

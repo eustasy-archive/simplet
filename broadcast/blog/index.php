@@ -28,14 +28,10 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 			$Category = false;
 		}
 
-		echo '
-		<div class="section group posts">';
-
-			Blog(basename(__FILE__), $Category);
+		Blog(basename(__FILE__), $Category);
 
 		echo '
-		</div>
-		<div class="section group widgets">
+		<div class="section group widgets faded">
 			<div class="col span_5_of_11 widget categories">
 				<h3>Categories</h3>';
 
@@ -44,7 +40,7 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 
 				// FORCATEGORIES
 				foreach ($Categories as $Categories_Slug => $Categories_Count) echo '
-				<p><a href="?category='.$Categories_Slug.'">'.$Categories_Slug.'<span class="floatright">'.$Categories_Count.'</span></a></p>';
+				<p><a href="?category='.$Categories_Slug.'">'.$Categories_Slug.'<span class="floatright">'.number_format($Categories_Count).'</span></a></p>';
 				echo '
 			</div>
 			<div class="col span_1_of_11"><br></div>
@@ -59,7 +55,7 @@ if ($Request_Path_Entities == $Place['path'].$Canonical) {
 						require $Trending_Canonical.'.php';
 					}
 					echo '
-				<p><a href="'.$Sitewide_Root.$Trending_Canonical.'">'.$Title_HTML.'<span class="floatright">'.$Trending_Count.'</span></a></p>';
+				<p><a href="'.$Sitewide_Root.$Trending_Canonical.'">'.$Title_HTML.'<span class="floatright">'.number_format($Trending_Count).'</span></a></p>';
 				}
 
 		// Fin
