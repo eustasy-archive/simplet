@@ -24,7 +24,7 @@
 	$Lib_Browning_Config = '../libs/Browning_Config.php';
 	$Lib_Browning_Send = '../libs/Browning_Send.php';
 
-if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canonical) {
+if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
 
 	$Time = time();
 

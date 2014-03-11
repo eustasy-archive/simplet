@@ -17,7 +17,7 @@
 
 	require_once '../../request.php';
 
-if ($Request_Path_Entities == $Place['path'].$Canonical) {
+if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
 
 	// Send the right header for an RSS Feed
 	header('Content-Type: application/rss+xml');

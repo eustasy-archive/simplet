@@ -18,7 +18,7 @@
 
 	require_once '../request.php';
 
-if (substr($Request['path'], 0, strlen($Place['path'].$Forum)) == $Place['path'].$Forum) {
+if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';

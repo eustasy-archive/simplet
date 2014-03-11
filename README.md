@@ -35,8 +35,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 ### Version 4
 - Global
 	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
-	- Use Forum Canonical Matching Everywhere
-	- Update Legal
 - Admin Interface
 	- User Management
 		- Edit/Lock/Delete
@@ -93,7 +91,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - User Accounts
 	- Delete Option
 	- Fix Password Resets
-	- Redirect to previous on login.
 
 ### Future
 - User Accounts
