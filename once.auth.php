@@ -31,7 +31,25 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 		$Session_Fetch = mysqli_fetch_assoc($Session_Check);
 		$Session_IP = $Session_Fetch['IP'];
 
-		if(empty($Session_IP) || $User_IP == $Session_IP) {
+		if ($IP_Checking) {
+			if(empty($Session_IP)) $IP_Check = true;
+			else if ($IP_Checking === 'Partial') {
+				if (strpos($Session_IP, ':') === false && strpos($User_IP, ':') === false ) {
+					$Session_IP_Pieces = explode('.', $Session_IP);
+					$User_IP_Pieces = explode('.', $User_IP);
+				} else {
+					$Session_IP_Pieces = explode(':', $Session_IP);
+					$User_IP_Pieces = explode(':', $User_IP);
+				}
+				if ($User_IP_Pieces[0] == $Session_IP_Pieces[0] && $User_IP_Pieces[1] == $Session_IP_Pieces[1]) $IP_Check = true;
+				else $IP_Check = false;
+			} else {
+				if ($User_IP === $Session_IP) $IP_Check = true;
+				else $IP_Check = false;
+			}
+		} else $IP_Check = true;
+
+		if($IP_Check) {
 
 			$Member_ID = $Session_Fetch['Member_ID'];
 

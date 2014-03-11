@@ -23,6 +23,12 @@
 	// Strip .php Extensions
 	// IMPORTANT: Requires additional server-side setup.
 	$PHP_Strip = true;
+	
+	// Values:
+	// true = Full checking
+	// 'Partial' = First two segment checking
+	// false = No checking
+	$IP_Checking = 'Partial';
 
 
 	// Database Configuration
