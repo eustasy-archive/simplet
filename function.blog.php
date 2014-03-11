@@ -15,7 +15,7 @@
 function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10, $Page = 1) {
 
 	// Set some Globals so the required scripts don't error.
-	global $Sitewide_Root, $Place, $Request_Path_Entities;
+	global $Sitewide_Root, $Place, $Request;
 
 	echo '
 		<div class="section group posts">';

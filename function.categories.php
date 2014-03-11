@@ -3,7 +3,7 @@
 function Categories($Caller, $Exclude = false) {
 
 	// Set some Globals so the required scripts don't error.
-	global $Place, $Request_Path_Entities;
+	global $Place, $Request;
 
 	// List all the files
 	$Items = glob('*.php', GLOB_NOSORT);
