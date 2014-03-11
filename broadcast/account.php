@@ -82,7 +82,8 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 							if (!$Session_New) exit('Invalid Query (Session_New): '.mysqli_error($MySQL_Connection));
 
 							// Login Successful
-							header('Location: '.$Account, TRUE, 302);
+							if (isset($_GET['redirect'])) header('Location: /'.urldecode($_GET['redirect']), TRUE, 302);
+							else header('Location: '.$Account, TRUE, 302);
 							die(); // As in go away.
 
 						} else {
@@ -114,14 +115,16 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 				$Keywords = 'log in account';
 				require $Header;
 				echo '<h2>Login Error</h2>';
-				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login">Try Again</a></h3>';
+				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login';
+				if (isset($_GET['redirect'])) echo $_GET['redirect'];
+				echo '">Try Again</a></h3>';
 				require $Footer;
 			}
 
 		} else { // Login Form
 			$TextTitle = 'Log In';
 			$WebTitle = 'Log In &nbsp;&middot;&nbsp; Account';
-				$Canonical = $Account.'?login';
+			$Canonical = $Account.'?login';
 			$Keywords = 'log in account';
 			require $Header;
 			?>
@@ -297,7 +300,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 			$Keywords = 'change name account';
 
 			if (!$Member_Auth) { // Change Name Redirect
-				header('Location: ?login', TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Account.'?change=name'), TRUE, 302);
 				die();
 
 			} else if (isset($_POST['name'])) { // Change Name Process
@@ -343,7 +346,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 			$Keywords = 'change pass account';
 
 			if (!$Member_Auth) { // Change Pass Redirect
-				header('Location: ?login', TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Account.'?change=pass'), TRUE, 302);
 				die();
 
 			} else if (isset($_POST['pass'])) { // Change Pass Process
@@ -392,7 +395,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 			$Keywords = 'change mail account';
 
 			if (!$Member_Auth) { // Change Mail Redirect
-				header('Location: ?login', TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Account.'?change=mail'), TRUE, 302);
 				die();
 
 			} else if (isset($_POST['mail'])) { // Change Mail Process
@@ -444,7 +447,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 	} else if (isset($_GET['sessions'])) { // Sessions
 
 		if (!$Member_Auth) { // Session Redirect
-			header('Location: ?login', TRUE, 302);
+			header('Location: ?login&redirect='.urlencode($Account.'?sessions'), TRUE, 302);
 			die();
 
 		} else {
@@ -664,7 +667,7 @@ if (htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canon
 	} else {
 
 		if (!$Member_Auth) {
-			header('Location: ?login', TRUE, 302);
+			header('Location: ?login&redirect='.urlencode($Account), TRUE, 302);
 			die();
 
 		} else {

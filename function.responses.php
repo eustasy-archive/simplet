@@ -10,7 +10,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		if(!$Member_Auth) {
 			// Handle Not Authenticated Error on POST without JavaScript
 			echo '
-			<h3 class="warning red">Error: You cannot post a response as you are not logged in.</h3>';
+			<h3 class="warning red">Error: You cannot post a response as you are not <a href="account?login&redirect='.urlencode($Canonical).'">logged in</a>.</h3>';
 		} else {
 			// Handle Response (an array, not JSON) without JavaScript
 			$Response_Submit = Respond();
@@ -474,7 +474,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 			// TODO Clear (Reset) Form and Re-instate Submit.
 		} else {
 			echo '
-		<h3>You must <a href="'.$Sitewide_Root.'account?login">Log In</a> to '.$Type.'.</h3>';
+		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">Log In</a> to '.$Type.'.</h3>';
 		}
 	}
 	return true;

@@ -32,7 +32,7 @@ if(htmlentities($Request['path'], ENT_QUOTES, 'UTF-8') == $Place['path'].$Canoni
 
 		echo '
 		<h2>Protected Page</h2>
-		<p class="textcenter">Sorry, you need to log in to view this super secret content.</p>';
+		<p class="textcenter">Sorry, you need to <a href="account?login&redirect='.urlencode($Canonical).'">log in</a> to view this super secret content.</p>';
 
 	}
 

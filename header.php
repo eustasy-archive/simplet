@@ -67,7 +67,7 @@
 				<li><a href="'.$Sitewide_Root.'account?logout">logout</a></li>
 ';
 				} else {
-					echo '<li><a href="'.$Sitewide_Root.'account?login">login</a></li>
+					echo '<li><a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">login</a></li>
 					<li><a href="'.$Sitewide_Root.'account?signup">signup</a></li>
 ';
 				} ?>
