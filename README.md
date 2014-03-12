@@ -90,7 +90,6 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Add to API and return as JSON
 - User Accounts
 	- Delete Option
-	- Fix Password Resets
 
 ### Future
 - User Accounts
