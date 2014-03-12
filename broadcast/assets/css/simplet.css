@@ -245,7 +245,11 @@ select { padding: 1% 2%; }
 input[type='text'],
 input[type='password'],
 input[type='email'],
-input[type='file'] {
+input[type='file'],
+input[type='reset'],
+input[type='button'],
+input[type='submit'],
+.button {
 	width: 96%;
 }
 
@@ -263,7 +267,6 @@ input[type='reset'],
 input[type='button'],
 input[type='submit'],
 .button {
-	width: 100%;
 	font: 400 1.7em/1.4 'Raleway', 'RalewayLight', 'Raleway Light', 'RalewayThin', 'Raleway Thin', 'HelveticaNeue', 'Helvetica Neue', 'HelveticaNeueRoman', 'HelveticaNeue-Roman', 'Helvetica Neue Roman','HelveticaNeueLight', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'HelveticaNeueThin', 'HelveticaNeue-Thin', 'Helvetica Neue Thin', 'TeXGyreHerosRegular', 'Helvetica', 'Open Sans', 'Lucida Grande', 'Gill Sans', 'Lucida Grande', 'Tahoma', 'Geneva', 'Arial', sans-serif;
 	font-stretch: normal;
 	display: block;
