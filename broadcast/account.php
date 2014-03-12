@@ -17,7 +17,6 @@
 
 	require_once '../request.php';
 
-	// TODO Requires Produce Errors
 	$Account = $Canonical; // Canonical may change later, Account won't
 	$Header = '../header.php';
 	$Footer = '../footer.php';
@@ -602,18 +601,22 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 					$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Member_ID`, `Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Member_ID', '$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
 					if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
-					require_once $Lib_Browning_Send;
+					if (isset($Browning) && $Browning) {
+						require_once $Lib_Browning_Send;
 
-					$Mail_Response = Browning_Send(
-						$Reset_Mail,
-						'Password Reset',
-						'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Account.'?reset&key='.$Reset_Key
-					);
+						$Mail_Response = Browning_Send(
+							$Reset_Mail,
+							'Password Reset',
+							'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Account.'?reset&key='.$Reset_Key
+						);
 
-					if ($Mail_Response) {
-						$Reset_Message = 'A Password Reset has been initiated. Please check your email.';
+						if ($Mail_Response) {
+							$Reset_Message = 'A Password Reset has been initiated. Please check your email.';
+						} else {
+							$Error = 'Unable to send mail.';
+						}
 					} else {
-						$Error = 'Unable to send mail.';
+						$Error = 'Sorry, the administrator has not configured password resets..';
 					}
 
 				}
