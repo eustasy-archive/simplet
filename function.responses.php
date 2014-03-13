@@ -464,7 +464,8 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 				}
 				echo '\';
 						$(\'#responses\').append(toAppend);
-						$(\'#respond textarea\').val(\'\').
+						$(\'#respond textarea\').val(\'\');
+						$(\'#respond select\').val([]);
 						$(\'#respond input[type="submit"]\').removeAttr(\'disabled\');
 					});
 					respond.error(function() {
