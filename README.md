@@ -65,9 +65,7 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 	- Improve Category Error
 	- Uniqueness Check Topic Slug
 - Responses
-	- Make Submit un-clickable to prevent double-posts.
 	- Show Error on Error (and Re-instate Submit).
-	- Clear (Reset) Form and Re-instate Submit.
 	- Order by Helpfulness, Replies and Time (both ways)
 	- Configuration Option for Time Locking
 	- Change Helpfulness API to JSON

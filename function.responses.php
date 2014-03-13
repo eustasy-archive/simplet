@@ -415,7 +415,8 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 		<script>
 			$(function(){
 				$(\'#respond\').submit(function(event){
-					event.preventDefault();';
+					event.preventDefault();
+					$(\'#respond input[type="submit"]\').attr(\'disabled\',\'disabled\');';
 			if ($Type === 'Review') echo '
 					var rating = $(\'#respond select[name="rating"]\').val();';
 			echo '
@@ -463,15 +464,15 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 				}
 				echo '\';
 						$(\'#responses\').append(toAppend);
+						$(\'#respond textarea\').val(\'\').
+						$(\'#respond input[type="submit"]\').removeAttr(\'disabled\');
 					});
 					respond.error(function() {
 					});
 				});
 			});
 		</script>';
-			// TODO Make Submit un-clickable to prevent double-posts.
 			// TODO Show Error on Error (and Re-instate Submit).
-			// TODO Clear (Reset) Form and Re-instate Submit.
 		} else {
 			echo '
 		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">Log In</a> to '.$Type.'.</h3>';
