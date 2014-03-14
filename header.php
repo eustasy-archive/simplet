@@ -68,7 +68,7 @@
 ';
 				} else {
 					echo '<li><a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">login</a></li>
-					<li><a href="'.$Sitewide_Root.'account?signup">signup</a></li>
+					<li><a href="'.$Sitewide_Root.'account?register">register</a></li>
 ';
 				} ?>
 			</ul>
