@@ -60,7 +60,8 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - Forum
 	- Category and Topic Pagination
 	- Unread, Read Icon
-	- Most Recent
+	- Fix Most Recent
+	- Fix Topic Count
 	- Fix Home with Trailing Slash
 	- Improve Category Error
 	- Uniqueness Check Topic Slug
