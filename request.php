@@ -33,6 +33,7 @@
 
 	require 'function.stringgenerator.php';
 	require 'function.passhash.php';
+	require 'function.jsondo.php';
 	require 'function.responses.php';
 	require 'function.respond.php';
 	require 'function.viewcount.php';

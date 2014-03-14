@@ -161,7 +161,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			}
 		}
 
-		if (!empty($Helpfulness_Return['error'])) echo json_encode($Helpfulness_Return, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		if (!empty($Helpfulness_Return['error'])) echo JSONDo($Helpfulness_Return);
 
 	// Response API
 	//  true	= posted
@@ -175,13 +175,14 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 	} else if (isset($_GET['respond'])) {
 
 		if(!$Member_Auth) {
-			echo json_encode(array('error' => array('Not Authenticated.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+			echo JSONDo(array('error' => array('Not Authenticated.')));
+			
 		} else {
-			echo json_encode(Respond(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+			echo JSONDo(Respond());
 		}
 
 	} else {
 		// Error: Undefined
-		echo json_encode(array('error' => array('No Valid API Action Defined.')), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo JSONDo(array('error' => array('No Valid API Action Defined.')));
 	}
 }
