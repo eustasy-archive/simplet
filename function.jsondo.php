@@ -11,5 +11,5 @@ function JSONDo($Array) {
 	} else {
 		echo json_encode($Array);
 	}
-	
-{
+
+}
