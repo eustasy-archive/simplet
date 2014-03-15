@@ -522,6 +522,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 					$Error = 'Invalid Key.';
 				} else {
 
+					// TODO Check Key is for valid Member
+
 					if (isset($_POST['pass'])) { // Reset Key Process
 
 						$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
@@ -598,6 +600,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 					$Reset_Key = stringGenerator();
 
+					// TODO Move Reset Keys to Runonce Keys
 					$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Member_ID`, `Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Member_ID', '$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
 					if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
 
@@ -616,7 +619,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 							$Error = 'Unable to send mail.';
 						}
 					} else {
-						$Error = 'Sorry, the administrator has not configured password resets..';
+						$Error = 'Sorry, the administrator has not configured password resets.';
 					}
 
 				}
@@ -663,6 +666,41 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			?>
 			<h2>Sorry, this installation of Simplet does not support reseting passwords.</h2>
 			<h4>If you are the owner of this site, you need to set the Mailgun API URL and Key for your site.</h4>
+			<?php
+			require $Footer;
+		}
+
+	} else if (isset($_GET['delete'])) { // Delete
+
+		if (isset($_GET['once'])) {
+			// TODO Delete.
+			// Delete Record from `Members`
+			// Make sure others fallback to deactivated
+		} else {
+			require $Header;
+			// TODO Run-once key.
+			?>
+
+			<h2>Are you sure you want to delete your account?</h2>
+			<div class="section group">
+				<div class="col span_1_of_8"><br></div>
+				<div class="col span_6_of_8">
+					<p>This won't remove any of your posts, replies, reviews or comments, nor your helpfulness votes, but it will stop displaying your name and picture next to them.</p>
+					<p>You can change your <a href="?change=name">name</a> or <a href="?change=mail">mail</a> if you'd prefer.</p>
+					<br>
+					<div class="section group">
+						<div class="col span_5_of_11">
+							<a href="<?php echo $Account; ?>" class="button blue textleft">No, go back.</a>
+						</div>
+						<div class="col span_1_of_11"><br></div>
+						<div class="col span_5_of_11">
+							<a href="?delete&key=" class="button red textright">Yes, delete.</a>
+						</div>
+					</div>
+				</div>
+				<div class="col span_1_of_8"><br></div>
+			</div>
+
 			<?php
 			require $Footer;
 		}
