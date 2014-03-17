@@ -44,6 +44,8 @@ function Respond($Status_Override = false) {
 					$Topic_Status_Fetch = mysqli_fetch_assoc($Topic_Status_Query);
 					$Response_Status = $Topic_Status_Fetch['Status'];
 				}
+				// TODO Update Topic
+				// TODO Update Category
 
 			} else {
 				$Response_Status = $Forum_Reply_Default;

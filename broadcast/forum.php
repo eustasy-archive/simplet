@@ -428,6 +428,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				$Category_Title = html_entity_decode($Category_Fetch['Title'], ENT_QUOTES, 'UTF-8');
 				$Category_Description = html_entity_decode($Category_Fetch['Description'], ENT_QUOTES, 'UTF-8');
 				$Category_Status = $Category_Fetch['Status'];
+				$Category_Modified = $Category_Fetch['Modified'];
 				// TODO Unread/Read, Most Recent
 				// Both will probably require changing the topics modified time for every reply.
 				// Another option is a new field called something more descriptive like `Last Activity`
@@ -450,7 +451,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 						echo '0';
 					}
 					echo '<span></p></div>
-						<div class="col span_2_of_12 textcenter"><p><span>11 Dec, 2014</span></p></div>
+						<div class="col span_2_of_12 textcenter"><p><span>'.date('d M, Y', $Category_Modified).'</span></p></div>
 					</a>';
 				}
 			}
