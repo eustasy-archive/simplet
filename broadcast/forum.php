@@ -322,9 +322,9 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 					</div>';
 
 				if ($Member_Auth) {
-					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Canonical`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Responses` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Canonical`", MYSQLI_STORE_RESULT);
 				} else {
-					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Topic_Slug`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Replies` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' AND NOT `Status`='Private' GROUP BY `Topic_Slug` ORDER BY `Modified` DESC", MYSQLI_STORE_RESULT);
+					$Reply_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Canonical`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Responses` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' AND NOT `Status`='Private' GROUP BY `Canonical`", MYSQLI_STORE_RESULT);
 				}
 
 				if (!$Reply_Prefetch) exit('Invalid Query (Reply_Prefetch): '.mysqli_error($MySQL_Connection));
@@ -332,8 +332,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				$Reply_Prefetch_Counts = array();
 
 				while($Reply_Prefetch_Fetch = mysqli_fetch_assoc($Reply_Prefetch)) {
-					$Reply_Prefetch_Modified[$Reply_Prefetch_Fetch['Topic_Slug']] = $Reply_Prefetch_Fetch['Modified'];
-					$Reply_Prefetch_Counts[$Reply_Prefetch_Fetch['Topic_Slug']] = $Reply_Prefetch_Fetch['Count'];
+					$Reply_Prefetch_Modified[$Reply_Prefetch_Fetch['Canonical']] = $Reply_Prefetch_Fetch['Modified'];
+					$Reply_Prefetch_Counts[$Reply_Prefetch_Fetch['Canonical']] = $Reply_Prefetch_Fetch['Count'];
 				}
 
 				while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
@@ -359,11 +359,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 						}
 						echo '<span></p></div>
 						<div class="col span_2_of_12 textcenter"><p><span>';
-						if (isset($Reply_Prefetch_Modified[$Topics_Slug]) && $Reply_Prefetch_Modified[$Topics_Slug] > $Topics_Modified) {
-							echo date('d M, Y', $Reply_Prefetch_Modified[$Topics_Slug]);
-						} else {
-							echo date('d M, Y', $Topics_Modified);
-						}
+						if (isset($Reply_Prefetch_Modified[$Topics_Slug]) && $Reply_Prefetch_Modified[$Topics_Slug] > $Topics_Modified) echo date('d M, Y', $Reply_Prefetch_Modified[$Topics_Slug]);
+						else echo date('d M, Y', $Topics_Modified);
 						echo '</span></p></div>
 					</a>';
 
