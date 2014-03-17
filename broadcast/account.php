@@ -27,8 +27,6 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 	$Time = time();
 
-	// TODO Delete
-
 	if (isset($_GET['login'])) { // Login
 
 		if ($Member_Auth) { // Login Redirect
@@ -690,11 +688,11 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 					<br>
 					<div class="section group">
 						<div class="col span_5_of_11">
-							<a href="<?php echo $Account; ?>" class="button blue textleft">No, go back.</a>
+							<a href="<?php echo $Account; ?>" class="button blue textcenter">No, go back.</a>
 						</div>
 						<div class="col span_1_of_11"><br></div>
 						<div class="col span_5_of_11">
-							<a href="?delete&key=" class="button red textright">Yes, delete.</a>
+							<a href="?delete&key=" class="button red textcenter">Yes, delete.</a>
 						</div>
 					</div>
 				</div>
