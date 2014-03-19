@@ -23,7 +23,7 @@
 	// Strip .php Extensions
 	// IMPORTANT: Requires additional server-side setup.
 	$PHP_Strip = true;
-	
+
 	// Values:
 	// true = Full checking
 	// 'Partial' = First two segment checking
@@ -78,3 +78,12 @@
 
 	$Sitewide_Comments_Helpful = true;
 	$Sitewide_Posts_Helpful = true;
+
+	$Sitewide_Security_Limit = true; // Enable or disable Security Limits
+	$Sitewide_Security_Limit_Time = '300'; // Time in seconds to count attempts for
+	$Sitewide_Security_Limit_Attempts = '3'; // Number of attempts before blocking or requiring anti-spam
+	// Action to take when
+	// 'Captcha' = Require Captcha. (Requires ReCaptcha Keys)
+	// 'SweetCaptcha' = Require SweetCaptcha. (Requires SweetCaptcha Keys)
+	// 'Block' = Block attempts until the limit is passed
+	$Sitewide_Security_Limit_Action = 'Block';
