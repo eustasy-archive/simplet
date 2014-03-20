@@ -4,15 +4,15 @@
 //
 //
 
-function Trending($Canonical, $Trend_Type = 'Post', $Trend_Limit = 10, $Trend_Strict = false) {
+function Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Trend_Strict = false) {
 
 	// Set some Globals
-	global $MySQL_Connection, $Sitewide_Root;
+	global $MySQL_Connection, $Sitewide_Root, $Post_Types;
 
 	if (!isset($Canonical) || empty($Canonical)) return array();
 
 	// Make sure $Trend_Type is sensible
-	if ($Trend_Type != 'Post' && $Trend_Type != 'Page' && $Trend_Type != 'Forum Topic' && $Trend_Type != 'Forum Category' && $Trend_Type != 'Blog Category' && $Trend_Type != 'Blog Index') $Trend_Type = 'Post';
+	if (!in_array($Trend_Type, $Post_Types)) $Trend_Type = 'Blog Post';
 
 	// Build Query
 	if ($Trend_Strict) $Query = 'SELECT COUNT(DISTINCT `Member_ID`) AS `Count`,';

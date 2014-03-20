@@ -55,7 +55,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 						require $Trending_Canonical.'.php';
 					}
 					echo '
-				<p><a href="'.$Sitewide_Root.$Trending_Canonical.'">'.$Title_HTML.'<span class="floatright">'.number_format($Trending_Count).'</span></a></p>';
+				<p class="textcenter"><a href="'.$Sitewide_Root.$Trending_Canonical.'">'.$Title_HTML.'</a></p>';
 				}
 
 		// Fin
