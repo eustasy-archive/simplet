@@ -28,7 +28,7 @@ function Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Tre
 
 	// Add each item.
 	while($Trending_Fetch = mysqli_fetch_assoc($Trending)) {
-		$Trending_Return[htmlentities($Trending_Fetch['Canonical'], ENT_QUOTES, 'UTF-8')] = $Trending_Fetch['Count'];
+		$Trending_Return[$Trending_Fetch['Canonical']] = $Trending_Fetch['Count'];
 	}
 
 	// Unset current page to avoid require problems
