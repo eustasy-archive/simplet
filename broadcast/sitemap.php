@@ -15,7 +15,7 @@
 	$Post_Type = 'Sitemap';
 	$Post_Category = '';
 
-	require_once '../request.php';
+	require_once __DIR__.'/../request.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
 
@@ -27,7 +27,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
 	// List all the files
-	$Items = glob('*.php');
+	$Items = globRecursive('*.php');
 
 	// Order them by time
 	array_multisort(array_map('filemtime', $Items), SORT_NUMERIC, SORT_DESC, $Items);

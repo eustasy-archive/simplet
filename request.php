@@ -1,24 +1,36 @@
 <?php
 
-// Set a default timezone.
-date_default_timezone_set('UTC');
-// Note: GMT is deprecated. Use UTC instead.
 
-// Set the inclusion path
+
+////   Set the Default Timezone.
+
+// Note: GMT is deprecated. Use UTC instead.
+date_default_timezone_set('UTC');
+
+
+
+////   Set the Inclusion Path
+
+// Add Windows Support
 if (!defined('PATH_SEPARATOR')) {
 	if (strpos($_ENV['OS'], 'Win') !== false) define('PATH_SEPARATOR', ';');
 	else define('PATH_SEPARATOR', ':');
 }
-$Include_Path = get_include_path().PATH_SEPARATOR.dirname(__FILE__).PATH_SEPARATOR.dirname(__FILE__).DIRECTORY_SEPARATOR.'broadcast'.PATH_SEPARATOR.dirname(__FILE__).DIRECTORY_SEPARATOR.'public_html';
-if (version_compare(PHP_VERSION, '4.3.0', '>=')) set_include_path($Include_Path);
-else ini_set('include_path', $Include_Path);
+
+// Set Include_Path
+$Include_Path = get_include_path().PATH_SEPARATOR.__DIR__.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'broadcast'.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'public_html';
+set_include_path($Include_Path);
 
 
-// Include the Configuration
-// This is not require because it might fail if not yet installed.
-// `once.connect.php` will handle this, to some extent.
+
+//// Include the Configuration
 include 'config.php';
+// This is not require because it might fail if not yet installed.
+// `once.connect.php` will handle failures, to some extent.
 
+
+
+//
 $Place = parse_url($Sitewide_Root);
 
 $Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);

@@ -67,7 +67,6 @@ The upcoming release.
 		- Responses
 		- Replies
 	- Sitemaps
-		- Recursive (only one needed)
 		- Forum Categories
 		- Forum Topics
 		- Responses

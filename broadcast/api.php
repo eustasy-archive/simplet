@@ -15,7 +15,7 @@
 	$Post_Type = 'API';
 	$Post_Category = '';
 
-	require_once '../request.php';
+	require_once __DIR__.'/../request.php';
 
 	$Account = 'account';
 
