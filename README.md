@@ -101,8 +101,6 @@ The upcoming release.
 	- Forum Topics
 	- Responses
 	- Replies
-- Trending
-	- Add to API and return as JSON
 - User Accounts
 	- Delete Option
 

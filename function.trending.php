@@ -9,8 +9,6 @@ function Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Tre
 	// Set some Globals
 	global $MySQL_Connection, $Sitewide_Root, $Post_Types;
 
-	if (!isset($Canonical) || empty($Canonical)) return array();
-
 	// Make sure $Trend_Type is sensible
 	if (!in_array($Trend_Type, $Post_Types)) $Trend_Type = 'Blog Post';
 

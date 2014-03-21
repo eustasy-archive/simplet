@@ -163,6 +163,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 		if (!empty($Helpfulness_Return['error'])) echo JSONDo($Helpfulness_Return);
 
+
+
 	// Response API
 	//  true	= posted
 	//  double	= declined, double post
@@ -174,12 +176,23 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 	} else if (isset($_GET['respond'])) {
 
-		if(!$Member_Auth) {
-			echo JSONDo(array('error' => array('Not Authenticated.')));
-			
-		} else {
-			echo JSONDo(Respond());
-		}
+		if(!$Member_Auth) echo JSONDo(array('error' => array('Not Authenticated.')));
+		else echo JSONDo(Respond());
+
+
+
+	// Trending API
+	//
+	// api?trending
+	// "api?trending&type=Blog Category"
+
+	} else if (isset($_GET['trending'])) {
+
+		if (isset($_GET['type'])) echo JSONDo(Trending('', $_GET['type']));
+		else echo JSONDo(Trending(''));
+
+
+
 
 	} else {
 		// Error: Undefined
