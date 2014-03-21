@@ -17,7 +17,7 @@
 
 	require_once '../request.php';
 
-if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
+if ($Request['path'] === $Place['path'].$Canonical) {
 
 	// Send the right header for a Sitemap
 	header('Content-Type: application/xml');
@@ -27,7 +27,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
 	// List all the files
-	$Items = glob('*.php', GLOB_NOSORT);
+	$Items = glob('*.php');
 
 	// Order them by time
 	array_multisort(array_map('filemtime', $Items), SORT_NUMERIC, SORT_DESC, $Items);

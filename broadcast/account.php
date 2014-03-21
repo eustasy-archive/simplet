@@ -23,7 +23,7 @@
 	$Lib_Browning_Config = '../libs/Browning_Config.php';
 	$Lib_Browning_Send = '../libs/Browning_Send.php';
 
-if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
+if ($Request['path'] === $Place['path'].$Canonical) {
 
 	$Time = time();
 

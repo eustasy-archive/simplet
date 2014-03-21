@@ -46,6 +46,7 @@ require 'function.viewcount.php';
 require 'function.trending.php';
 require 'function.blog.php';
 require 'function.categories.php';
+require 'function.globrecursive.php';
 
 // Count View
 // Forums have Categories and Topics, and should be counted later.

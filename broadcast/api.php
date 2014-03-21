@@ -19,7 +19,7 @@
 
 	$Account = 'account';
 
-if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
+if ($Request['path'] === $Place['path'].$Canonical) {
 
 	header('X-Frame-Options: SAMEORIGIN');
 
