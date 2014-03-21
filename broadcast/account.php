@@ -25,8 +25,6 @@
 
 if ($Request['path'] === $Place['path'].$Canonical) {
 
-	$Time = time();
-
 	if (isset($_GET['login'])) { // Login
 
 		if ($Member_Auth) { // Login Redirect
@@ -505,24 +503,17 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			header('Location: '.$Account, TRUE, 302);
 			die();
 
-			require_once $Lib_Browning_Config;
-
 		} else if (isset($Browning) && $Browning) {
+
+			require $Header;
 
 			if (isset($_GET['key'])) { // Reset Process
 
-				$Reset_Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
+				$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 
-				$Key_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Resets` WHERE `Key`='$Reset_Key' AND `Active`='1' LIMIT 0, 1", MYSQLI_STORE_RESULT);
-				if (!$Key_Check) exit('Invalid Query (Key_Check): '.mysqli_error($MySQL_Connection));
-				$Key_Count = mysqli_num_rows($Key_Check);
-				if ($Key_Count == 0) {
-					$Error = 'Invalid Key.';
-				} else {
+				if (runonceCheck($Key, '*')) {
 
-					// TODO Check Key is for valid Member
-
-					if (isset($_POST['pass'])) { // Reset Key Process
+					if (isset($_POST['pass'])) { // Reset Password Process
 
 						$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
@@ -539,15 +530,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0', `Modified`='$Time' WHERE `Key`='$Reset_Key'", MYSQLI_STORE_RESULT);
 						if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($MySQL_Connection));
 
-						require $Header;
-
 						echo '<h2>Password Reset Successfully</h2>';
 						echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
 
-						require $Footer;
-
-					} else { // Reset Key Form
-						require $Header;
+					} else { // Reset Password Form
 						?>
 						<form class="col span_1_of_1" action="" method="post">
 							<h2>Reset Password</h2>
@@ -569,15 +555,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						</form>
 						<div class="clear"></div>
 						<?php
-						require $Footer;
 					}
-				}
 
-				if (isset($Error) && $Error) {
-					require $Header;
-					echo '<h2>Password Reset Error</h2>';
-					echo '<h3>'.$Error.'</h3>';
-					require $Footer;
+				} else {
+					echo '
+					<h2>Error: Invalid Key</h2>
+					<h3><a href="?reset">Try again</a></h3>';
 				}
 
 			} else if (isset($_POST['mail'])) { // Reset Mail Process
@@ -589,53 +572,44 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Member_Count = mysqli_num_rows($Member_Check);
 				if ($Member_Count == 0) {
-					$Error = 'There is no user registered with that mail.';
+					echo '
+					<h2>Error: There is no user registered with that mail.</h2>
+					<h3><a href="?reset">Try again</a></h3>';
 				} else {
 
 					$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
 					$Member_ID = $Fetch_Member['ID'];; // Number
 					$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
 
-					$Reset_Key = stringGenerator();
-
-					// TODO Move Reset Keys to Runonce Keys
-					$Reset_New = mysqli_query($MySQL_Connection, "INSERT INTO `Resets` (`Member_ID`, `Mail`, `Key`, `Active`, `IP`, `Created`, `Modified`) VALUES ('$Member_ID', '$Reset_Mail', '$Reset_Key', '1', '$User_IP', '$Time', '$Time');", MYSQLI_STORE_RESULT);
-					if (!$Reset_New) exit('Invalid Query (Reset_New): '.mysqli_error($WriteConnection));
-
 					if (isset($Browning) && $Browning) {
+
+						$Key = runonceCreate('', '*');
+
 						require_once $Lib_Browning_Send;
 
 						$Mail_Response = Browning_Send(
 							$Reset_Mail,
 							'Password Reset',
-							'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Account.'?reset&key='.$Reset_Key
+							'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Account.'?reset&key='.$Key['Key']
 						);
 
 						if ($Mail_Response) {
-							$Reset_Message = 'A Password Reset has been initiated. Please check your email.';
+							echo '
+							<h2>A Password Reset has been initiated.</h2>
+							<h3>Please check your email.</h3>';
 						} else {
-							$Error = 'Unable to send mail.';
+							echo '
+							<h2>Error: Unable to send reset mail.</h2>
+							<h3><a href="?reset">Try again</a></h3>';
 						}
 					} else {
-						$Error = 'Sorry, the administrator has not configured password resets.';
+						echo '
+						<h2>Sorry, the administrator has not configured password resets.</h2>';
 					}
 
 				}
 
-				require $Header;
-
-				if (isset($Error) && $Error) {
-					echo '<h2>Password Reset Failed</h2>';
-					echo '<h3>'.$Error.'</h3>';
-				} else {
-					echo '<h2>Password Reset Initiated</h2>';
-					echo '<h3>An email has been sent to '.$Reset_Mail.'</h3>';
-				}
-
-				require $Footer;
-
 			} else { // Reset Form
-				require $Header;
 				?>
 				<form class="col span_1_of_1" action="" method="post">
 					<h2>Reset Password</h2>
@@ -655,9 +629,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				</form>
 				<div class="clear"></div>
 				<?php
-				require $Footer;
-
 			}
+
+			require $Footer;
 
 		} else {
 			require $Header;
@@ -669,14 +643,30 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		}
 
 	} else if (isset($_GET['delete'])) { // Delete
+		require $Header;
 
-		if (isset($_GET['once'])) {
-			// TODO Delete.
-			// Delete Record from `Members`
-			// Make sure others fallback to deactivated
+		if (isset($_GET['key'])) {
+
+			$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
+			if (runonceCheck($Key, $Member_ID)) {
+
+				// TODO Delete.
+				// Delete Record from `Members`
+				// Make sure others fallback to deactivated
+
+				echo '
+				<h2>User Deleted</h2>
+				<h3>You no longer exist. Bye.</h3>';
+
+			} else {
+				echo '
+				<h2>Error: Invalid Key</h2>
+				<h3><a href="?delete">Try again</a></h3>';
+			}
+
 		} else {
-			require $Header;
-			// TODO Run-once key.
+
+			$Key = runonceCreate();
 			?>
 
 			<h2>Are you sure you want to delete your account?</h2>
@@ -692,7 +682,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						</div>
 						<div class="col span_1_of_11"><br></div>
 						<div class="col span_5_of_11">
-							<a href="?delete&key=" class="button red textcenter">Yes, delete.</a>
+							<a href="?delete&key=<?php echo $Key['Key']; ?>" class="button red textcenter">Yes, delete.</a>
 						</div>
 					</div>
 				</div>
@@ -700,9 +690,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			</div>
 
 			<?php
-			require $Footer;
 		}
 
+		require $Footer;
 	} else {
 
 		if (!$Member_Auth) {

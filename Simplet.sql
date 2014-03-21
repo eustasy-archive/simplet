@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 13, 2014 at 11:19 PM
+-- Generation Time: Mar 21, 2014 at 09:52 PM
 -- Server version: 5.5.36
 -- PHP Version: 5.5.9-1+sury.org~precise+1
 
@@ -13,7 +13,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `Simplet`
 --
-CREATE DATABASE `Simplet` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `Simplet` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `Simplet`;
 
 -- --------------------------------------------------------
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `Helpfulness` (
   `Created` int(12) NOT NULL,
   `Modified` int(12) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -160,7 +160,23 @@ CREATE TABLE IF NOT EXISTS `Responses` (
   KEY `Canonical` (`Canonical`),
   KEY `Created` (`Created`),
   KEY `Modified` (`Modified`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=58 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=60 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Runonce`
+--
+
+CREATE TABLE IF NOT EXISTS `Runonce` (
+  `Member_ID` varchar(12) NOT NULL,
+  `Key` varchar(64) NOT NULL,
+  `Status` varchar(12) NOT NULL,
+  `IP` varchar(64) NOT NULL,
+  `Created` int(11) NOT NULL,
+  `Modified` int(11) NOT NULL,
+  `Notes` mediumtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
