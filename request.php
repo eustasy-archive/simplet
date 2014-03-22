@@ -59,8 +59,8 @@ require 'function.trending.php';
 require 'function.blog.php';
 require 'function.categories.php';
 require 'function.globrecursive.php';
-require 'function.runoncecheck.php';
-require 'function.runoncecreate.php';
+require 'function.runonce.check.php';
+require 'function.runonce.create.php';
 
 // Count View
 // Forums have Categories and Topics, and should be counted later.

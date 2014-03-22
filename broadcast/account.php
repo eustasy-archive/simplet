@@ -517,18 +517,19 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-						$Key_Fetch = mysqli_fetch_assoc($Key_Check); // Bring them to me. Alive.
-						$Member_ID = $Key_Fetch['Member_ID'];
+						//$Key_Fetch = mysqli_fetch_assoc($Key_Check); // Bring them to me. Alive.
+						//$Member_ID = $Key_Fetch['Member_ID'];
 
 						$Salt = stringGenerator();
 
 						$Pass_Hash = passHash($Pass_New, $Salt);
 
+						// TODO Add Key Types
 						// TODO memberExists
 						// TODO memberChangePass
 						// TODO runonceDestroy
-						$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
-						if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
+					//	$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+						//if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
 
 					///	$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0', `Modified`='$Time' WHERE `Key`='$Reset_Key'", MYSQLI_STORE_RESULT);
 					//	if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($MySQL_Connection));
