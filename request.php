@@ -44,23 +44,23 @@ $Time = time();
 
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
-require 'once.connect.php';
-require 'once.auth.php';
+require 'onces/once.connect.php';
+require 'onces/once.auth.php';
 
 require 'libs/Parsedown.php';
 
-require 'function.stringgenerator.php';
-require 'function.passhash.php';
-require 'function.jsondo.php';
-require 'function.responses.php';
-require 'function.respond.php';
-require 'function.viewcount.php';
-require 'function.trending.php';
-require 'function.blog.php';
-require 'function.categories.php';
-require 'function.globrecursive.php';
-require 'function.runonce.check.php';
-require 'function.runonce.create.php';
+require 'functions/function.stringgenerator.php';
+require 'functions/function.passhash.php';
+require 'functions/function.jsondo.php';
+require 'functions/function.responses.php';
+require 'functions/function.respond.php';
+require 'functions/function.viewcount.php';
+require 'functions/function.trending.php';
+require 'functions/function.blog.php';
+require 'functions/function.categories.php';
+require 'functions/function.globrecursive.php';
+require 'functions/function.runonce.check.php';
+require 'functions/function.runonce.create.php';
 
 // Count View
 // Forums have Categories and Topics, and should be counted later.
