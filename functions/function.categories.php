@@ -1,12 +1,20 @@
 <?php
 
+// ### Blog Categories Function ###
+//
+// Returns the Categories of posts in the caller directory and below,
+// along with the counts for each, sorted by most first.
+//
+// Categories(__DIR__);
+// Categories(__DIR__, 'exclude-this-canonical');
+
 function Categories($Caller, $Exclude = false) {
 
 	// Set some Globals so the required scripts don't error.
 	global $Place, $Request;
 
 	// List all the files
-	$Items = glob('*.php', GLOB_NOSORT);
+	$Items = globRecursive('*.php', GLOB_NOSORT);
 
 	// Make an empty array
 	$Categories_Return = array();

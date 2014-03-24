@@ -9,8 +9,8 @@
 // and $Category is a Category or false.
 // $PerLine should be an integer: 1, 2, or 3.
 //
-// Blog(basename(__FILE__), $Category);
-// Blog(basename(__FILE__), $Category, 1);
+// Blog(__DIR__, $Category);
+// Blog(__DIR__, $Category, 1);
 
 function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10, $Page = 1) {
 
