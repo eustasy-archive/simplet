@@ -8,7 +8,6 @@ function runonceCheck($Key, $Key_Owner = '', $Timeout = '', $Timecount = false) 
 	if (empty($Key_Owner)) $Key_Owner = $Member_ID;
 	if (empty($Timeout)) $Timeout = 0;
 	if ($Timecount) $Timeout = $Timeout - $Time;
-	
 
 	$Key_Check = mysqli_query($MySQL_Connection, 'SELECT `Status` FROM `Runonce` WHERE `Member_ID`=\''.$Key_Owner.'\' AND `Key`=\''.$Key.'\' AND `Status`=\'Active\' AND `Created` > \''.$Timeout.'\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 	if (!$Key_Check) exit('Invalid Query (Key_Check): '.mysqli_error($MySQL_Connection));

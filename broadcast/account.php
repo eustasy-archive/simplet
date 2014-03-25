@@ -660,6 +660,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Member_Delete = mysqli_query($MySQL_Connection, 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 				if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($MySQL_Connection));
+				
+				runonceDelete($Key, $Member_ID);
 
 				echo '
 				<h2>User Deleted</h2>

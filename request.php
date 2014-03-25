@@ -49,18 +49,24 @@ require 'onces/once.auth.php';
 
 require 'libs/Parsedown.php';
 
+require 'functions/function.globrecursive.php';
+
 require 'functions/function.stringgenerator.php';
 require 'functions/function.passhash.php';
+
 require 'functions/function.jsondo.php';
+
 require 'functions/function.responses.php';
 require 'functions/function.respond.php';
+
 require 'functions/function.viewcount.php';
 require 'functions/function.trending.php';
 require 'functions/function.blog.php';
 require 'functions/function.categories.php';
-require 'functions/function.globrecursive.php';
-require 'functions/function.runonce.check.php';
+
 require 'functions/function.runonce.create.php';
+require 'functions/function.runonce.check.php';
+require 'functions/function.runonce.delete.php';
 
 // Count View
 // Forums have Categories and Topics, and should be counted later.
