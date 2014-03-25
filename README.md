@@ -100,8 +100,6 @@ The upcoming release.
 	- Forum Topics
 	- Responses
 	- Replies
-- User Accounts
-	- Delete Option
 
 ### Future
 - User Accounts

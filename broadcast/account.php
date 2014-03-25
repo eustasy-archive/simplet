@@ -20,8 +20,8 @@
 	$Account = $Canonical; // Canonical may change later, Account won't
 	$Header = '../header.php';
 	$Footer = '../footer.php';
-	$Lib_Browning_Config = '../libs/Browning_Config.php';
-	$Lib_Browning_Send = '../libs/Browning_Send.php';
+	$Lib_Browning_Config = __DIR__.'/../libs/Browning_Config.php';
+	$Lib_Browning_Send = __DIR__.'/../libs/Browning_Send.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
 
@@ -654,9 +654,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 			if (runonceCheck($Key, $Member_ID)) {
 
-				// TODO Delete.
-				// Delete Record from `Members`
-				// Make sure others fallback to deactivated
+				$Member_Delete = mysqli_query($MySQL_Connection, 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
+				if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($MySQL_Connection));
 
 				echo '
 				<h2>User Deleted</h2>
