@@ -647,14 +647,18 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		}
 
 	} else if (isset($_GET['delete'])) { // Delete
-		require $Header;
 
-		if (isset($_GET['key'])) {
+		if (!$Member_Auth) { // Login Redirect
+			header('Location: ?login&redirect='.urlencode($Account.'?delete'), TRUE, 302);
+			die();
+
+		} else if (isset($_GET['key'])) {
+			require $Header;
 
 			$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 			if (runonceCheck($Key, $Member_ID)) {
 
-				$Member_Delete = mysqli_query($MySQL_Connection, 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
+				$Member_Delete = mysqli_query($MySQL_Connection, 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 				if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($MySQL_Connection));
 
 				echo '
@@ -667,7 +671,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				<h3><a href="?delete">Try again</a></h3>';
 			}
 
+			require $Footer;
+
 		} else {
+			require $Header;
 
 			$Key = runonceCreate();
 			?>
@@ -693,9 +700,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			</div>
 
 			<?php
+			require $Footer;
 		}
 
-		require $Footer;
 	} else {
 
 		if (!$Member_Auth) {
