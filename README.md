@@ -130,4 +130,3 @@ The upcoming release.
 - [jQuery](http://jquery.com/)
 - [jQuery.equalize](https://github.com/eustasy/jquery.equalize)
 - [jQuery.downBoy](https://github.com/eustasy/jquery.downboy)
-- [jQuery.Cookie](https://github.com/carhartl/jquery-cookie)
