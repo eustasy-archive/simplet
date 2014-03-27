@@ -104,23 +104,34 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 
 			if (isset($Error) && !empty($Error)) { // Login Error
-				$TextTitle = 'Log In';
-				$WebTitle = 'Log In &nbsp;&middot;&nbsp; Account';
-				$Canonical = $Account.'?login';
+
+				$Title_HTML = 'Log In';
+				$Title_Plain = 'Log In';
+
 				$Keywords = 'log in account';
+
+				$Canonical = $Account.'?login';
+				
 				require $Header;
+				
 				echo '<h2>Login Error</h2>';
 				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login';
 				if (isset($_GET['redirect'])) echo $_GET['redirect'];
 				echo '">Try Again</a></h3>';
+				
 				require $Footer;
+				
 			}
 
 		} else { // Login Form
-			$TextTitle = 'Log In';
-			$WebTitle = 'Log In &nbsp;&middot;&nbsp; Account';
-			$Canonical = $Account.'?login';
+
+			$Title_HTML = 'Log In';
+			$Title_Plain = 'Log In';
+
 			$Keywords = 'log in account';
+
+			$Canonical = $Account.'?login';
+			
 			require $Header;
 			?>
 			<form class="col span_1_of_1" action="" method="post">
@@ -168,13 +179,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		}
 
-		$TextTitle = 'Log Out';
-		$WebTitle = 'Log Out &nbsp;&middot;&nbsp; Account';
-		$Canonical = 'account?logout';
-		$PostType = 'Page';
-		$FeaturedImage = '';
-		$Description = '';
+		$Title_HTML = 'Log Out';
+		$Title_Plain = 'Log Out';
+
 		$Keywords = 'log out account';
+
+		$Canonical = $Account.'?logout';
 
 		require $Header;
 
@@ -243,10 +253,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 
 			if (isset($Error) && !empty($Error)) { // Register Error
-				$TextTitle = 'Register';
-				$WebTitle = 'Register &nbsp;&middot;&nbsp; Account';
-				$Canonical = $Account.'?register';
+
+				$Title_HTML = 'Register';
+				$Title_Plain = 'Register';
+
 				$Keywords = 'register account';
+
+				$Canonical = $Account.'?register';
+				
 				require $Header;
 				echo '<h2>Registration Error</h2>';
 				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?register">Try Again</a></h3>';
@@ -289,10 +303,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'name') { // Change Name
 
-			$TextTitle = 'Change Name';
-			$WebTitle = 'Change Name &nbsp;&middot;&nbsp; Account';
-			$Canonical = $Account.'?change=name';
+			$Title_HTML = 'Change Name';
+			$Title_Plain = 'Change Name';
+
 			$Keywords = 'change name account';
+
+			$Canonical = $Account.'?change=name';
 
 			if (!$Member_Auth) { // Change Name Redirect
 				header('Location: ?login&redirect='.urlencode($Account.'?change=name'), TRUE, 302);
@@ -335,10 +351,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 		} else if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'pass') { // Change Pass
 
-			$TextTitle = 'Change Pass';
-			$WebTitle = 'Change Pass &nbsp;&middot;&nbsp; Account';
-			$Canonical = $Account.'?change=pass';
+			$Title_HTML = 'Change Pass';
+			$Title_Plain = 'Change Pass';
+
 			$Keywords = 'change pass account';
+
+			$Canonical = $Account.'?change=pass';
 
 			if (!$Member_Auth) { // Change Pass Redirect
 				header('Location: ?login&redirect='.urlencode($Account.'?change=pass'), TRUE, 302);
@@ -384,10 +402,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 		} else if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'mail') { // Change Mail
 
-			$TextTitle = 'Change Mail';
-			$WebTitle = 'Change Mail &nbsp;&middot;&nbsp; Account';
-			$Canonical = $Account.'?change=mail';
+			$Title_HTML = 'Change Mail';
+			$Title_Plain = 'Change Mail';
+
 			$Keywords = 'change mail account';
+
+			$Canonical = $Account.'?change=mail';
 
 			if (!$Member_Auth) { // Change Mail Redirect
 				header('Location: ?login&redirect='.urlencode($Account.'?change=mail'), TRUE, 302);
@@ -447,10 +467,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		} else {
 
-			$TextTitle = 'Sessions';
-			$WebTitle = 'Sessions &nbsp;&middot;&nbsp; Account';
+			$Title_HTML = 'Sessions';
+			$Title_Plain = 'Sessions';
+
+			$Keywords = 'sessions account';
+
 			$Canonical = $Account.'?sessions';
-			$Keywords = 'sessions manage account';
 
 			require $Header;
 
@@ -494,10 +516,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	} else if (isset($_GET['reset'])) { // Reset
 
-		$TextTitle = 'Password Reset';
-		$WebTitle = 'Password &nbsp;&middot;&nbsp; Account';
+		$Title_HTML = 'Password Reset';
+		$Title_Plain = 'Password Reset';
+
+		$Keywords = 'password teset account';
+
 		$Canonical = $Account.'?reset';
-		$Keywords = 'reset password account';
 
 		if ($Member_Auth) { // Reset Redirect
 			header('Location: '.$Account, TRUE, 302);
