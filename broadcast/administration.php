@@ -45,5 +45,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		require $Footer;
 
+	} else {
+
+		require $Header;
+
+		echo '<h2>Administration</h2>';
+
+		require $Footer;
+
 	}
 }
