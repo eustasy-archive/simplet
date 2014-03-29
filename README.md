@@ -83,7 +83,6 @@ The upcoming release.
 - Responses
 	- Show Error on Error (and Re-instate Submit).
 	- Order by Helpfulness, Replies and Time (both ways)
-	- Change Helpfulness API to JSON
 	- Editing
 	- Configuration Option for Time Locking Edits
 	- Replies

@@ -250,93 +250,116 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 			$Response_Canonical_Encoded = urlencode($Response_Canonical);
 
 			if ($Helpfulness_Show) {
-				echo '
+				?>
 		<script>
 			$(function(){
 				var Current_Votes = [];
-				$(\'.helpfulness\').each(function() {
-					var Response_ID = $(this).parent().parent().attr(\'id\').substring(9);
-					Current_Votes[Response_ID] = \'none\';
-					$.get(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, function(data) {
-						if (data == \'none\') {
-							console.log(\'Has No Vote on \' + Response_ID);
-							Current_Votes[Response_ID] = \'none\';
-						} else if (data == \'up\') {
-							console.log(\'Has Up Vote on \' + Response_ID);
-							$(\'.response.\' + Response_ID + \' .up\').removeClass(\'faded\');
-							$(\'.response.\' + Response_ID + \' .down\').addClass(\'faded\');
-							Current_Votes[Response_ID] = \'up\';
-						} else if (data == \'down\') {
-							console.log(\'Has Down Vote on \' + Response_ID);
-							$(\'.response.\' + Response_ID + \' .up\').addClass(\'faded\');
-							$(\'.response.\' + Response_ID + \' .down\').removeClass(\'faded\');
-							Current_Votes[Response_ID] = \'down\';
-						} else if (data == \'invalid\') {
-							console.log(\'Invalid on \' + Response_ID);
-							Current_Votes[Response_ID] = \'none\';
+				$('.helpfulness').each(function() {
+					var Response_ID = $(this).parent().parent().attr('id').substring(9);
+					Current_Votes[Response_ID] = 'none';
+					$.getJSON('<?php echo $Sitewide_Root; ?>api?helpfulness&fetch&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID, function(data) {
+						if (data.vote == 'none') {
+							console.log('Has No Vote on ' + Response_ID);
+							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
+							Current_Votes[Response_ID] = 'none';
+						} else if (data.vote == 'up') {
+							console.log('Has Up Vote on ' + Response_ID);
+							$('.response.' + Response_ID + ' .up').removeClass('faded');
+							$('.response.' + Response_ID + ' .down').addClass('faded');
+							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
+							Current_Votes[Response_ID] = 'up';
+						} else if (data.vote == 'down') {
+							console.log('Has Down Vote on ' + Response_ID);
+							$('.response.' + Response_ID + ' .up').addClass('faded');
+							$('.response.' + Response_ID + ' .down').removeClass('faded');
+							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
+							Current_Votes[Response_ID] = 'down';
+						} else if (data.vote == 'invalid') {
+							console.log('Invalid on ' + Response_ID);
+							Current_Votes[Response_ID] = 'none';
 						} else {
-							console.log(\'Error on \' + Response_ID + \' \' + data);
-							Current_Votes[Response_ID] = \'none\';
+							console.log('Error on ' + Response_ID + ' ' + data);
+							Current_Votes[Response_ID] = 'none';
 						}
-						$(\'.response.\' + Response_ID + \' .helpfulness\').removeClass(\'hidden\');
-					});
+					})
+					.fail(function() {
+						console.log('Error on ' + Response_ID + ' ' + data);
+						Current_Votes[Response_ID] = 'none';
+					})
 				});
-				$(\'.helpfulness .up\').click(function() {
-					var Response_ID = $(this).parent().parent().parent().parent().attr(\'id\').substring(9);
-					console.log(\'Initiate Up \' + Response_ID);
-					if (Current_Votes[Response_ID] == \'up\') {
-						console.log(\'Clear \' + Response_ID);
-						$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'none\' }).done(function(data) {
-							console.log(data);
-							if (data == \'true\') {
-								Current_Votes[Response_ID] = \'none\';
-								console.log(\'Complete Clear \' + Response_ID);
-								$(\'.response.\' + Response_ID + \' .up\').addClass(\'faded\');
-								$(\'.response.\' + Response_ID + \' .down\').addClass(\'faded\');
-							}
-						});
+				$('.helpfulness .up').click(function() {
+					var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
+					console.log('Initiate Up ' + Response_ID);
+					if (Current_Votes[Response_ID] == 'up') {
+						console.log('Clear ' + Response_ID);
+						$.post(
+							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+							{ vote: 'none' },
+							function( data ) {
+								if (data.vote == 'confirm') {
+									Current_Votes[Response_ID] = 'none';
+									console.log('Complete Clear ' + Response_ID);
+									$('.response.' + Response_ID + ' .up').addClass('faded');
+									$('.response.' + Response_ID + ' .down').addClass('faded');
+								} else console.log(data + data.vote);
+							},
+							'json'
+						);
 					} else {
-						console.log(\'Up \' + Response_ID);
-						$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'up\' }).done(function(data) {
-							console.log(data);
-							if (data == \'true\') {
-								Current_Votes[Response_ID] = \'up\';
-								console.log(\'Complete Up \' + Response_ID);
-								$(\'.response.\' + Response_ID + \' .up\').removeClass(\'faded\');
-								$(\'.response.\' + Response_ID + \' .down\').addClass(\'faded\');
-							}
-						});
+						console.log('Up ' + Response_ID);
+						$.post(
+							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+							{ vote: 'up' },
+							function( data ) {
+								if (data.vote == 'confirm') {
+									Current_Votes[Response_ID] = 'up';
+									console.log('Complete Up ' + Response_ID);
+									$('.response.' + Response_ID + ' .up').removeClass('faded');
+									$('.response.' + Response_ID + ' .down').addClass('faded');
+								} else console.log(data + data.vote);
+							},
+							'json'
+						);
 					}
 				});
-				$(\'.helpfulness .down\').click(function() {
-					var Response_ID = $(this).parent().parent().parent().parent().attr(\'id\').substring(9);
-					console.log(\'Initiate Down \' + Response_ID);
-					if (Current_Votes[Response_ID] == \'down\') {
-					console.log(\'Clear \' + Response_ID);
-						$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'none\' }).done(function(data) {
-							console.log(data);
-							if (data == \'true\') {
-								Current_Votes[Response_ID] = \'none\';
-								console.log(\'Complete Clear \' + Response_ID);
-								$(\'.response.\' + Response_ID + \' .down\').addClass(\'faded\');
-								$(\'.response.\' + Response_ID + \' .up\').addClass(\'faded\');
-							}
-						});
+				$('.helpfulness .down').click(function() {
+					var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
+					console.log('Initiate Down ' + Response_ID);
+					if (Current_Votes[Response_ID] == 'down') {
+						console.log('Clear ' + Response_ID);
+						$.post(
+							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+							{ vote: 'none' },
+							function( data ) {
+								if (data.vote == 'confirm') {
+									Current_Votes[Response_ID] = 'none';
+									console.log('Complete Clear ' + Response_ID);
+									$('.response.' + Response_ID + ' .down').addClass('faded');
+									$('.response.' + Response_ID + ' .up').addClass('faded');
+								} else console.log(data + data.vote);
+							},
+							'json'
+						);
 					} else {
-						console.log(\'Down \' + Response_ID);
-						$.post(\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, { vote: \'down\' }).done(function(data) {
-							console.log(data);
-							if (data == \'true\') {
-								Current_Votes[Response_ID] = \'down\';
-								console.log(\'Complete Down \' + Response_ID);
-								$(\'.response.\' + Response_ID + \' .down\').removeClass(\'faded\');
-								$(\'.response.\' + Response_ID + \' .up\').addClass(\'faded\');
-							}
-						});
+						console.log('Down ' + Response_ID);
+						$.post(
+							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+							{ vote: 'down' },
+							function( data ) {
+								if (data.vote == 'confirm') {
+									Current_Votes[Response_ID] = 'down';
+									console.log('Complete Down ' + Response_ID);
+									$('.response.' + Response_ID + ' .down').removeClass('faded');
+									$('.response.' + Response_ID + ' .up').addClass('faded');
+								} else console.log(data + data.vote);
+							},
+							'json'
+						);
 					}
 				});
 			});
-		</script>';
+		</script>
+				<?php
 			}
 
 			// Pagination
@@ -434,7 +457,7 @@ function Responses($Type='Comment', $Show=10, $Page=1, $Response_Canonical='') {
 					);
 					respond.done(function(data) {
 						console.log(data);
-						var json = $.parseJSON(data);
+						var data = $.parseJSON(data);
 						var toAppend = \'\
 			<div class="section group darkrow" id="header_\' + json.id + \'">\
 				<div class="col span_2_of_12 textcenter"><p>'.$Member_Name.'</p></div>\

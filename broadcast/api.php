@@ -41,13 +41,11 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	if (isset($_GET['helpfulness'])) {
 
-		// TODO Move Responses to JSON
-
 		$Helpfulness_Return = array();
 		$Helpfulness_Return['error'] = array();
 
 		if (!$Member_Auth) {
-			echo 'false';
+			$Helpfulness_Return['vote'] = 'false';
 
 		} else if (!isset($_GET['id']) || empty($_GET['id'])) {
 			array_push($Helpfulness_Return['error'], 'No Response ID Defined.');
@@ -77,7 +75,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					if (isset($_GET['fetch'])) {
 						// No Vote
-						echo 'none';
+						$Helpfulness_Return['vote'] =  'none';
 					} else if (isset($_GET['set'])) {
 						$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
 						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
@@ -103,13 +101,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Helpfulness_Vote = $Helpfulness_Fetch['Helpfulness'];
 
 					if (isset($_GET['fetch'])) {
-						// Echo Vote
 						if ($Helpfulness_Vote === 'up') {
-							echo 'up';
+							$Helpfulness_Return['vote'] =  'up';
 						} else if ($Helpfulness_Vote === 'down') {
-							echo 'down';
+							$Helpfulness_Return['vote'] =  'down';
 						} else if ($Helpfulness_Vote === 'none') {
-							echo 'none';
+							$Helpfulness_Return['vote'] =  'none';
 						} else {
 							array_push($Helpfulness_Return['error'], 'Invalid Vote in Database.');
 						}
@@ -146,7 +143,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Helpfulness_Modify = mysqli_query($MySQL_Connection, "UPDATE `Responses` SET `Helpfulness`='$Responses_Helpfulness_New', `Modified`='$Time' WHERE `ID`='$Response_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 						if (!$Helpfulness_Modify) array_push($Helpfulness_Return['error'], 'Helpfulness Update Failed.');
-						echo 'true';
+						$Helpfulness_Return['vote'] =  'confirm';
 					}
 				}
 			}
@@ -161,7 +158,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 		}
 
-		if (!empty($Helpfulness_Return['error'])) echo JSONDo($Helpfulness_Return);
+		echo JSONDo($Helpfulness_Return);
 
 
 
