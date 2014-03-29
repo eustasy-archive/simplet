@@ -325,7 +325,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			$PreserveQueryStrings = Pagination_PreserveQueryStrings();
 
 			// Paginate if necessary
-			if ($Pagination['Page Max'] !== 1) {
+			if ($Pagination['Page Max'] > 1) {
 				echo '<div class="breaker"></div>';
 				// TODO Why do these arrays need to be passed?
 				// Global doesn't seem to allow them
