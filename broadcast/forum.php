@@ -214,7 +214,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				echo '
 				<h2>'.$Topic_Title.'</h2>';
 
-				Responses('Post',10,1,$Topic_Slug);
+				Responses('Post', $Topic_Slug);
 
 				require $Footer;
 			} else if ($Topic_Status=='Private' && !$Member_Auth) {
@@ -382,82 +382,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 		echo '
 		<h2>Forum</h2>';
 
-		if ($Member_Auth) {
-			$Categories = mysqli_query($MySQL_Connection, "SELECT * FROM `Categories` WHERE NOT `Status`='Hidden' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
-		} else {
-			$Categories = mysqli_query($MySQL_Connection, "SELECT * FROM `Categories` WHERE NOT `Status`='Hidden' AND NOT `Status`='Private' ORDER BY `Created` DESC", MYSQLI_STORE_RESULT);
-		}
-		if (!$Categories) exit('Invalid Query (Categories): '.mysqli_error($MySQL_Connection));
-
-		$Categories_Count = mysqli_num_rows($Categories);
-		if ($Categories_Count == 0) {
-			header('HTTP/1.1 404 Not Found');
-			if ($Member_Auth) {
-				echo '
-				<h3>There are no Categories.</h3>';
-			} else {
-				echo '
-				<h3>There are no public Categories.</h3>';
-			}
-		} else {
-
-			echo '
-				<div id="categories">
-					<div class="section group darkrow">
-						<div class="col span_1_of_12"><br></div>
-						<div class="col span_7_of_12"><p>Category</p></div>
-						<div class="col span_2_of_12 textcenter faded"><p>Topics</p></div>
-						<div class="col span_2_of_12 textcenter faded"><p>Most Recent</p></div>
-					</div>';
-
-			if ($Member_Auth) {
-				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' GROUP BY `Category`", MYSQLI_STORE_RESULT);
-			} else {
-				$Topic_Prefetch = mysqli_query($MySQL_Connection, "SELECT `Category`, COUNT(*) AS `Count` FROM `Topics` WHERE NOT `Status`='Hidden' AND NOT `Status`='Pending' AND NOT `Status`='Private' GROUP BY `Category`", MYSQLI_STORE_RESULT);
-			}
-			if (!$Topic_Prefetch) exit('Invalid Query (Topic_Prefetch): '.mysqli_error($MySQL_Connection));
-			$Topic_Prefetch_Count = array();
-
-			while($Topic_Prefetch_Fetch = mysqli_fetch_assoc($Topic_Prefetch)) {
-				$Topic_Prefetch_Count[$Topic_Prefetch_Fetch['Category']] = $Topic_Prefetch_Fetch['Count'];
-			}
-
-			while($Category_Fetch = mysqli_fetch_assoc($Categories)) {
-
-				$Category_Slug = $Category_Fetch['Slug'];
-				$Category_Title = html_entity_decode($Category_Fetch['Title'], ENT_QUOTES, 'UTF-8');
-				$Category_Description = html_entity_decode($Category_Fetch['Description'], ENT_QUOTES, 'UTF-8');
-				$Category_Status = $Category_Fetch['Status'];
-				$Category_Modified = $Category_Fetch['Modified'];
-				// TODO Unread/Read, Most Recent
-				// Both will probably require changing the topics modified time for every reply.
-				// Another option is a new field called something more descriptive like `Last Activity`
-				// This should not change the modified time.
-
-				if ($Category_Status == 'Public' || ( $Category_Status == 'Private' && $Member_Auth ) ) {
-					echo '
-					<a href="?category='.$Category_Slug.'" class="section group category topic';
-					if ($Category_Status == 'Private') echo ' private';
-					echo '">
-						<div class="col span_1_of_12"><li class="icon unread"></li></div>
-						<div class="col span_7_of_12">
-							<p class="title">'.$Category_Title.'</p>
-							<p>'.$Category_Description.'</p>
-						</div>
-						<div class="col span_2_of_12 textcenter"><p><span>';
-					if (isset($Topic_Prefetch_Count[$Category_Slug])) {
-						echo $Topic_Prefetch_Count[$Category_Slug];
-					} else {
-						echo '0';
-					}
-					echo '<span></p></div>
-						<div class="col span_2_of_12 textcenter"><p><span>'.date('d M, Y', $Category_Modified).'</span></p></div>
-					</a>';
-				}
-			}
-			echo '
-				</div>';
-		}
+		Forum_Categories(1);
 
 		require $Footer;
 

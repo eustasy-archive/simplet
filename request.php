@@ -54,7 +54,13 @@ require 'functions/function.globrecursive.php';
 require 'functions/function.stringgenerator.php';
 require 'functions/function.passhash.php';
 
+require 'functions/function.pagination.preservequerystrings.php';
+require 'functions/function.pagination.pre.php';
+require 'functions/function.pagination.links.php';
+
 require 'functions/function.jsondo.php';
+
+require 'functions/function.forum.categories.php';
 
 require 'functions/function.responses.php';
 require 'functions/function.respond.php';
