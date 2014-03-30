@@ -65,10 +65,11 @@ require 'functions/function.forum.categories.php';
 require 'functions/function.responses.php';
 require 'functions/function.respond.php';
 
+require 'functions/function.blog.php';
+require 'functions/function.blog.categories.php';
+
 require 'functions/function.viewcount.php';
 require 'functions/function.trending.php';
-require 'functions/function.blog.php';
-require 'functions/function.categories.php';
 
 require 'functions/function.runonce.create.php';
 require 'functions/function.runonce.check.php';

@@ -8,7 +8,7 @@
 // Categories(__DIR__);
 // Categories(__DIR__, 'exclude-this-canonical');
 
-function Categories($Caller, $Exclude = false) {
+function Blog_Categories($Caller, $Exclude = false) {
 
 	// Set some Globals so the required scripts don't error.
 	global $Place, $Request;

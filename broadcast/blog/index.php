@@ -36,7 +36,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				<h3>Categories</h3>';
 
 				// GETCATEGORIES
-				$Categories = Categories(basename(__FILE__), $Category);
+				$Categories = Blog_Categories(basename(__FILE__), $Category);
 
 				// FORCATEGORIES
 				foreach ($Categories as $Categories_Slug => $Categories_Count) echo '

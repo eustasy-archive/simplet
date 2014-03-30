@@ -1,6 +1,12 @@
 <?php
 
-function Forum_Categories($Show = 10, $Page = 1) {
+// ### Forum Categories Function ###
+//
+// Echos the Forum Categories available to the user.
+//
+// Forum_Categories();
+
+function Forum_Categories() {
 
 	// Set some Globals
 	global $MySQL_Connection, $Member_Auth;
