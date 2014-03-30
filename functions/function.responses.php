@@ -87,6 +87,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		if ($Pagination['Page'] === 1) $Responses_Query_Limit = ' LIMIT '.$Pagination['Show'];
 		else $Responses_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
 
+		// Preserve Query Strings
+		$PreserveQueryStrings = Pagination_PreserveQueryStrings();
+
 		// Build Responses_Query
 		$Responses_Query = $Responses_Query_Select.$Responses_Query_Where.$Responses_Query_Status.$Responses_Query_Order.$Responses_Query_Limit;
 
@@ -320,9 +323,6 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		</script>
 				<?php
 			}
-
-			// Preserve Query Strings
-			$PreserveQueryStrings = Pagination_PreserveQueryStrings();
 
 			// Paginate if necessary
 			if ($Pagination['Page Max'] > 1) {

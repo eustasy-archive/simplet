@@ -69,12 +69,12 @@ The upcoming release.
 	- Sitemaps
 		- Forum Categories
 		- Forum Topics
-		- Responses
+		- Responses/Replies
 - Configuration
 	- Move Database Config to `once.connect.php` (?)
 	- Move Remaining to Database
 - Forum
-	- Topic Pagination
+	- Dynamic Titles for Categories and Topics
 	- Unread, Read Icon
 	- Add Cached Counts to Topics and Categories
 	- Fix Home with Trailing Slash
