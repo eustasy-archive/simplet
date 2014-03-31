@@ -61,6 +61,8 @@ require 'functions/function.pagination.links.php';
 require 'functions/function.jsondo.php';
 
 require 'functions/function.forum.categories.php';
+require 'functions/function.forum.category.check.php';
+require 'functions/function.forum.category.info.php';
 require 'functions/function.forum.topics.php';
 
 require 'functions/function.responses.php';

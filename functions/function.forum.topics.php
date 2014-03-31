@@ -12,34 +12,34 @@ function Forum_Topics() {
 	global $MySQL_Connection, $Member_Auth;
 
 	// Category to get Topic for
-	$Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+	$Forum_Topics_Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
 
-	// Count things first
-	$Category_Check_Query_Select = 'SELECT * FROM `Categories` WHERE `Slug`=\''.$Category_Slug.'\' AND';
+	$Forum_Topics_Category_Info = Forum_Category_Info($Forum_Topics_Category_Slug);
 
-	// Limit by Status
-	if ($Member_Auth) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-	else $Topics_Query_Status = ' `Status`=\'Public\'';
-
-	// Order by Creation
-	$Topics_Query_Order = ' ORDER BY `Modified` DESC';
-
-	// Build Responses_Query
-	$Category_Check_Query = $Category_Check_Query_Select.$Topics_Query_Status.$Topics_Query_Order;
-
-	// Get Responses
-	$Category_Check = mysqli_query($MySQL_Connection, $Category_Check_Query, MYSQLI_STORE_RESULT);
-	if (!$Category_Check) exit('Invalid Query (Category_Check): '.mysqli_error($MySQL_Connection));
-
-	$Category_Check_Count = mysqli_num_rows($Category_Check);
-
-	if ($Category_Check_Count == 0) {
+	if ($Forum_Topics_Category_Info === false) {
 		if ($Member_Auth) echo '
-			<h2>There is no such Category: "'.$Category_Slug.'".</h2>';
+			<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
 		else echo '
-			<h2>There is no such public Category: "'.$Category_Slug.'".</h2>';
-
+			<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
 	} else {
+
+		$Forum_Topics_Query_Select = 'SELECT * FROM `Categories` WHERE ';
+
+		// Limit by Status
+		if ($Member_Auth) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+		else $Topics_Query_Status = ' `Status`=\'Public\'';
+
+		// Order by Creation
+		$Topics_Query_Order = ' ORDER BY `Modified` DESC';
+
+		// Build Responses_Query
+		$Category_Check_Query = $Forum_Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order;
+
+		// Get Responses
+		$Category_Check = mysqli_query($MySQL_Connection, $Category_Check_Query, MYSQLI_STORE_RESULT);
+		if (!$Category_Check) exit('Invalid Query (Category_Check): '.mysqli_error($MySQL_Connection));
+
+		$Category_Check_Count = mysqli_num_rows($Category_Check);
 
 		$Category_Fetch = mysqli_fetch_assoc($Category_Check);
 		$Category_Title = $Category_Fetch['Title'];
@@ -49,13 +49,13 @@ function Forum_Topics() {
 		$Title_Plain = $Category_Title;
 		$Description_HTML = $Category_Description;
 		$Description_Plain = $Category_Description;
-		$Canonical = '?category='.$Category_Slug;
+		$Canonical = '?category='.$Forum_Topics_Category_Slug;
 		$Post_Type = 'Forum Category';
 		$Keywords = $Category_Title.' category topics forum '.$Category_Description;
 
 		ViewCount();
 
-		$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Category_Slug.'\' AND';
+		$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 
 		// Build Responses_Query
 		$Topics_Query = $Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order;
@@ -66,7 +66,7 @@ function Forum_Topics() {
 
 		$Topics_Count = mysqli_num_rows($Topics);
 		if ($Topics_Count == 0) {
-			if ($Member_Auth) echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Category_Slug.'">New Topic</a></h3>';
+			if ($Member_Auth) echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a></h3>';
 			else echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
 		} else {
 
@@ -89,7 +89,7 @@ function Forum_Topics() {
 			echo '
 				<h2>'.$Category_Title.'</h2>
 				<p>'.$Category_Description;
-			if ($Member_Auth) echo '<a class="floatright" href="?new&category='.$Category_Slug.'">New Topic</a>';
+			if ($Member_Auth) echo '<a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a>';
 			echo '</p>
 				<div id="topics">
 					<div class="section group darkrow">
@@ -99,7 +99,7 @@ function Forum_Topics() {
 						<div class="col span_2_of_12 textcenter faded"><p>Last Activity</p></div>
 					</div>';
 
-			$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Category_Slug.'\' AND';
+			$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 			if ($Pagination['Page'] === 1) $Topics_Query_Limit = ' LIMIT '.$Pagination['Show'];
 			else $Topics_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
 
