@@ -200,12 +200,19 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 			if ($Topic_Status=='Public' || $Topic_Status=='Locked' || $Topic_Status=='Private' && $Member_Auth) {
 
-				$TextTitle = $Topic_Title;
-				$WebTitle = $Topic_Title.' &nbsp;&middot;&nbsp; Topic &nbsp;&middot;&nbsp; Forum';
-				$Canonical = $Forum.'?topic='.$Topic_Slug;
-				$Post_Type = 'Forum Topic';
-				$Description = $Topic_Title;
+				$Title_HTML = $Topic_Title;
+				$Title_Plain = $Topic_Title;
+
+				$Description_HTML = $Topic_Title;
+				$Description_Plain = $Topic_Title;
+
 				$Keywords = $Topic_Title.' topic forum';
+
+				$Featured_Image = '';
+
+				$Canonical = 'forum';
+
+				$Post_Type = 'Forum Topic';
 
 				ViewCount();
 
@@ -250,11 +257,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 	} else if (isset($_GET['category']) && !empty($_GET['category'])) {
 
-		require $Header;
-
 		Forum_Topics();
-
-		require $Footer;
 
 	} else {
 

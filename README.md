@@ -74,7 +74,6 @@ The upcoming release.
 	- Move Database Config to `once.connect.php` (?)
 	- Move Remaining to Database
 - Forum
-	- Dynamic Titles for Categories and Topics
 	- Unread, Read Icon
 	- Add Cached Counts to Topics and Categories
 	- Fix Home with Trailing Slash

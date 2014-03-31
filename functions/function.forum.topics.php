@@ -9,7 +9,7 @@
 function Forum_Topics() {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth;
+	global $MySQL_Connection, $Member_Auth, $Header, $Footer, $Sitewide_Title, $Sitewide_Root;
 
 	// Category to get Topic for
 	$Forum_Topics_Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
@@ -17,10 +17,12 @@ function Forum_Topics() {
 	$Forum_Topics_Category_Info = Forum_Category_Info($Forum_Topics_Category_Slug);
 
 	if ($Forum_Topics_Category_Info === false) {
+		require $Header;
 		if ($Member_Auth) echo '
 			<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
 		else echo '
 			<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
+		require $Footer;
 	} else {
 
 		//
@@ -33,9 +35,12 @@ function Forum_Topics() {
 		$Description_Plain = $Category_Description;
 		$Canonical = '?category='.$Forum_Topics_Category_Slug;
 		$Post_Type = 'Forum Category';
+		$Featured_Image = '';
 		$Keywords = $Category_Title.' category topics forum '.$Category_Description;
 
 		ViewCount();
+
+		require $Header;
 
 		// Select Topics
 		$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
@@ -135,12 +140,12 @@ function Forum_Topics() {
 				// TODO Why do these arrays need to be passed?
 				// Global doesn't seem to allow them
 				Pagination_Links($Pagination, $PreserveQueryStrings);
-				echo '<div class="breaker"></div>';
 			}
 
 			echo '
 			</div>';
 
 		}
+		require $Footer;
 	}
 }
