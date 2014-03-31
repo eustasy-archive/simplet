@@ -23,27 +23,9 @@ function Forum_Topics() {
 			<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
 	} else {
 
-		$Forum_Topics_Query_Select = 'SELECT * FROM `Categories` WHERE ';
-
-		// Limit by Status
-		if ($Member_Auth) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-		else $Topics_Query_Status = ' `Status`=\'Public\'';
-
-		// Order by Creation
-		$Topics_Query_Order = ' ORDER BY `Modified` DESC';
-
-		// Build Responses_Query
-		$Category_Check_Query = $Forum_Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order;
-
-		// Get Responses
-		$Category_Check = mysqli_query($MySQL_Connection, $Category_Check_Query, MYSQLI_STORE_RESULT);
-		if (!$Category_Check) exit('Invalid Query (Category_Check): '.mysqli_error($MySQL_Connection));
-
-		$Category_Check_Count = mysqli_num_rows($Category_Check);
-
-		$Category_Fetch = mysqli_fetch_assoc($Category_Check);
-		$Category_Title = $Category_Fetch['Title'];
-		$Category_Description = $Category_Fetch['Description'];
+		//
+		$Category_Title = $Forum_Topics_Category_Info['Title'];
+		$Category_Description = $Forum_Topics_Category_Info['Description'];
 
 		$Title_HTML = $Category_Title;
 		$Title_Plain = $Category_Title;
@@ -55,12 +37,20 @@ function Forum_Topics() {
 
 		ViewCount();
 
+		// Select Topics
 		$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 
-		// Build Responses_Query
+		// Limit by Status
+		if ($Member_Auth) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+		else $Topics_Query_Status = ' `Status`=\'Public\'';
+
+		// Order by Creation
+		$Topics_Query_Order = ' ORDER BY `Modified` DESC';
+
+		// Build Topics_Query
 		$Topics_Query = $Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order;
 
-		// Get Responses
+		// Get Topics
 		$Topics = mysqli_query($MySQL_Connection, $Topics_Query, MYSQLI_STORE_RESULT);
 		if (!$Topics) exit('Invalid Query (Category_Check): '.mysqli_error($MySQL_Connection));
 
