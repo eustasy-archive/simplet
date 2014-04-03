@@ -176,7 +176,18 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 		$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
 		if (substr($Topic_Slug, 0, strlen($Forum)+1) == '/'.$Forum) {
 			$Topic_Slug = substr($Topic_Slug, 7);
-			if (empty($Topic_Slug)) echo 'home'; // TODO
+			if (empty($Topic_Slug)) { // HOME
+
+				require $Header;
+
+				echo '
+				<h2>Forum</h2>';
+
+				Forum_Categories();
+
+				require $Footer;
+
+			}
 		}
 
 		$Topic_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Slug`='$Topic_Slug' LIMIT 0, 1", MYSQLI_STORE_RESULT);

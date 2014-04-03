@@ -64,7 +64,6 @@ The upcoming release.
 - Forum
 	- Unread, Read Icon
 	- Add Cached Counts to Topics and Categories
-	- Fix Home with Trailing Slash
 	- Improve Category Error
 	- Uniqueness Check Topic Slug
 - Responses
@@ -74,7 +73,7 @@ The upcoming release.
 	- Configuration Option for Time Locking Edits
 	- Replies
 	- Fix Blockquotes on JSON Response
-	
+
 ### 4.1
 - Admin Interface
 	- User Management
@@ -101,7 +100,7 @@ The upcoming release.
 	- Responses
 	- Replies
 - Responses to Responses
-	
+
 ### Future
 - User Accounts
 	- User Profiles
