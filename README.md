@@ -66,9 +66,6 @@ The upcoming release.
 - Responses
 	- Show Error on Error (and Re-instate Submit).
 	- Order by Helpfulness, Replies and Time (both ways)
-	- Editing
-	- Configuration Option for Time Locking Edits
-	- Replies
 	- Fix Blockquotes on JSON Response
 
 ### 4.1
@@ -96,7 +93,10 @@ The upcoming release.
 	- Forum Topics
 	- Responses
 	- Replies
-- Responses to Responses
+- Responsed
+	- Responses to Responses
+	- Editing
+	- Configuration Option for Time Locking Edits
 
 ### Future
 - User Accounts
