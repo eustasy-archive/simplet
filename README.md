@@ -49,18 +49,9 @@ The upcoming release.
 
 ## Roadmap
 
-### Version 4
+### 4
 - Global
 	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
-- Admin Interface
-	- User Management
-		- Edit/Lock/Delete
-		- Mail
-		- Reset Pass
-	- Forum
-		- Create/Edit/Private/Hide/Lock/Delete Categories
-		- Edit/Private/Hide/Lock/Delete Topics
-	- Responses Edit/Hide/Delete
 - Backend
 	- Feeds
 		- Topics
@@ -70,9 +61,6 @@ The upcoming release.
 		- Forum Categories
 		- Forum Topics
 		- Responses/Replies
-- Configuration
-	- Move Database Config to `once.connect.php` (?)
-	- Move Remaining to Database
 - Forum
 	- Unread, Read Icon
 	- Add Cached Counts to Topics and Categories
@@ -86,6 +74,20 @@ The upcoming release.
 	- Configuration Option for Time Locking Edits
 	- Replies
 	- Fix Blockquotes on JSON Response
+	
+### 4.1
+- Admin Interface
+	- User Management
+		- Edit/Lock/Delete
+		- Mail
+		- Reset Pass
+	- Forum
+		- Create/Edit/Private/Hide/Lock/Delete Categories
+		- Edit/Private/Hide/Lock/Delete Topics
+	- Responses Edit/Hide/Delete
+- Configuration
+	- Move Database Config to `once.connect.php` (?)
+	- Move Remaining to Database
 - Security Limits
 	- Time-and-Attempt-based
 	- Option of System
@@ -98,7 +100,8 @@ The upcoming release.
 	- Forum Topics
 	- Responses
 	- Replies
-
+- Responses to Responses
+	
 ### Future
 - User Accounts
 	- User Profiles
