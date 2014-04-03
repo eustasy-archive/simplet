@@ -19,9 +19,11 @@ function Forum_Topics() {
 	if ($Forum_Topics_Category_Info === false) {
 		require $Header;
 		if ($Member_Auth) echo '
-			<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
+			<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>
+			<p><a href="?category=">Return to the Forum Index</a></p>';
 		else echo '
-			<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>';
+			<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>
+			<p><a href="?category=">Return to the Forum Index</a></p>';
 		require $Footer;
 	} else {
 

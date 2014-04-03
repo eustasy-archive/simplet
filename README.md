@@ -56,15 +56,12 @@ The upcoming release.
 	- Feeds
 		- Topics
 		- Responses
-		- Replies
 	- Sitemaps
 		- Forum Categories
 		- Forum Topics
-		- Responses/Replies
 - Forum
-	- Unread, Read Icon
+	- Unread, Read Icon (Database AND Cookies)
 	- Add Cached Counts to Topics and Categories
-	- Improve Category Error
 	- Uniqueness Check Topic Slug
 - Responses
 	- Show Error on Error (and Re-instate Submit).
