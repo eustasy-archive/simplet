@@ -3,10 +3,10 @@
 // We will need the IP to handle logins. Catch it every time.
 $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
-if (isset($_COOKIE['l'])) { // If they might be logged in
+if (isset($_COOKIE[$Cookie_Session])) { // If they might be logged in
 
 	// Make a note of their Cookie
-	$User_Cookie = htmlentities($_COOKIE['l'], ENT_QUOTES, 'UTF-8');
+	$User_Cookie = htmlentities($_COOKIE[$Cookie_Session], ENT_QUOTES, 'UTF-8');
 
 	// Check if the Cookie and IP have an active session in the database
 	$Session_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Sessions` WHERE `Cookie`='$User_Cookie' AND `Active`='1' LIMIT 0, 1", MYSQLI_STORE_RESULT);
@@ -17,9 +17,9 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 
 	if ($Session_Count === 0) { // That Cookie doesn't exist or isn't active.
 
-		setcookie('l', '', 1); // Clear the Cookie
-		setcookie('l', false); // Definitely
-		unset($_COOKIE['l']); // Absolutely
+		setcookie($Cookie_Session, '', 1); // Clear the Cookie
+		setcookie($Cookie_Session, false); // Definitely
+		unset($_COOKIE[$Cookie_Session]); // Absolutely
 
 		$Member_Auth = false; // You shall not pass.
 		$Member_ID = false;
@@ -49,7 +49,7 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 			}
 		} else $IP_Check = true;
 
-		if($IP_Check) {
+		if ($IP_Check) {
 
 			$Member_ID = $Session_Fetch['Member_ID'];
 
@@ -78,9 +78,9 @@ if (isset($_COOKIE['l'])) { // If they might be logged in
 
 		} else { // Not even close
 
-			setcookie('l', '', 1);
-			setcookie('l', false);
-			unset($_COOKIE['l']);
+			setcookie($Cookie_Session, '', 1);
+			setcookie($Cookie_Session, false);
+			unset($_COOKIE[$Cookie_Session]);
 
 			$Member_Auth = false;
 			$Member_ID = false;

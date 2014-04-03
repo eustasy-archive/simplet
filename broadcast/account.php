@@ -71,7 +71,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							$Member_Cookie = stringGenerator();
 
-							setcookie('l', $Member_Cookie, time()+60*60*24*28, '/', $Place['host']);
+							setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Place['host']);
 
 							$Session_New = mysqli_query($MySQL_Connection, "INSERT INTO `Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES ('$Member_ID', '$Login_Mail', '$Member_Cookie', '$User_IP', '1', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 							if (!$Session_New) exit('Invalid Query (Session_New): '.mysqli_error($MySQL_Connection));
@@ -86,9 +86,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 							$Failures_New = mysqli_query($MySQL_Connection, "INSERT INTO `Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES ('$Member_ID', '$Login_Mail', '$User_IP', '$Time')", MYSQLI_STORE_RESULT);
 							if (!$Failures_New) exit('Invalid Query (Failures_New): '.mysqli_error($MySQL_Connection));
 
-							setcookie ('l', '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
-							setcookie ('l', false, time() - 3600, '/', $Place['host'], 1); // Definitely
-							unset($_COOKIE['l']); // Absolutely
+							setcookie ($Cookie_Session, '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
+							setcookie ($Cookie_Session, false, time() - 3600, '/', $Place['host'], 1); // Definitely
+							unset($_COOKIE[$Cookie_Session]); // Absolutely
 
 							$Member_Auth = false;
 							$Member_ID = false;
@@ -170,9 +170,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Session_End = mysqli_query($MySQL_Connection, "UPDATE `Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_Cookie' AND `IP`='$User_IP'", MYSQLI_STORE_RESULT);
 			if (!$Session_End) exit('Invalid Query (Session_End): '.mysqli_error($MySQL_Connection));
 
-			setcookie ('l', '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
-			setcookie ('l', false, time() - 3600, '/', $Place['host'], 1); // Definitely
-			unset($_COOKIE['l']); // Absolutely
+			setcookie ($Cookie_Session, '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
+			setcookie ($Cookie_Session, false, time() - 3600, '/', $Place['host'], 1); // Definitely
+			unset($_COOKIE[$Cookie_Session]); // Absolutely
 
 			$Member_Auth = false; // Not at all
 			$Member_ID = false; // You're not even human

@@ -41,6 +41,7 @@ if ($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
 }
 
 $Time = time();
+$Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
