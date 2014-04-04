@@ -14,7 +14,14 @@ function runonceCheck($Key, $Key_Owner = '', $Timeout = '', $Timecount = false) 
 
 	$Key_Count = mysqli_num_rows($Key_Check);
 
-	if ($Key_Count == 0) return false;
-	else return true;
+	if ($Key_Count > 0) {
+
+		$Key_Check_Fetch = mysqli_fetch_assoc($Key_Check);
+		if ($Key_Check_Fetch['Status'] == 'Active') return true;
+
+	}
+
+	// IF NOT EXIST OR NOT 'Status'='Active'
+	return false;
 
 }
