@@ -52,6 +52,7 @@ The upcoming release.
 ### 4
 - Global
 	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
+	- Check MySQL_Connection before attempts
 - Backend
 	- Feeds
 		- Topics
