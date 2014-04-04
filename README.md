@@ -65,7 +65,7 @@ The upcoming release.
 	- Uniqueness Check Topic Slug
 - Responses
 	- Show Error on Error (and Re-instate Submit).
-	- Order by Helpfulness, Replies and Time (both ways)
+	- Order by Helpfulness, Recency and Age
 	- Fix Blockquotes on JSON Response
 
 ### 4.1
@@ -92,11 +92,11 @@ The upcoming release.
 	- Resets
 	- Forum Topics
 	- Responses
-	- Replies
-- Responsed
-	- Responses to Responses
+- Responses
 	- Editing
-	- Configuration Option for Time Locking Edits
+		- Configuration Option for Time Locking Edits
+	- Responses to Responses
+	- Order by Responses to Responses
 
 ### Future
 - User Accounts
