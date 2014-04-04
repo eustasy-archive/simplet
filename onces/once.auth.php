@@ -3,7 +3,7 @@
 // We will need the IP to handle logins. Catch it every time.
 $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
-if (isset($_COOKIE[$Cookie_Session])) { // If they might be logged in
+if ($MySQL_Connection && isset($_COOKIE[$Cookie_Session])) { // If they might be logged in
 
 	// Make a note of their Cookie
 	$User_Cookie = htmlentities($_COOKIE[$Cookie_Session], ENT_QUOTES, 'UTF-8');
