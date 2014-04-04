@@ -12,7 +12,7 @@
 // Blog(__DIR__, $Category);
 // Blog(__DIR__, $Category, 1);
 
-function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10, $Page = 1) {
+function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10) {
 
 	// Set some Globals so the required scripts don't error.
 	global $Sitewide_Root, $Place, $Request;
@@ -60,7 +60,7 @@ function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10, $Page = 1) {
 	// (Show the last if it's over, first if negative)
 	$Posts_Count = count($Posts_Return);
 
-	$Pagination = Pagination_Pre($Posts_Count, $Show, $Page);
+	$Pagination = Pagination_Pre($Posts_Count, $Show);
 
 	$Posts_Return = array_slice($Posts_Return, $Pagination['Start'], $Pagination['Show'], true);
 
