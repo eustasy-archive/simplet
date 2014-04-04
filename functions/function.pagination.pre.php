@@ -30,7 +30,7 @@ function Pagination_Pre($Count, $Show = 10, $Page = 1) {
 			}
 		}
 		$Pagination['Start'] = ($Pagination['Page'] - 1) * $Pagination['Show'];
-	}
+	} else $Pagination['Start'] = 0;
 
 	return $Pagination;
 

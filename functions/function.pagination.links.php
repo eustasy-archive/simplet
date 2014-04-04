@@ -1,5 +1,8 @@
 <?php
 
+// TODO Why do these arrays need to be passed?
+// Global doesn't seem to allow them
+
 function Pagination_Links($Pagination, $PreserveQueryStrings) {
 
 	$Page_Wayback = $Pagination['Page'] - 2;
