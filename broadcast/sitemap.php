@@ -55,6 +55,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			} // IFRECOGNISE
 
+			$Post_Type = 'INVALID';
+
 		} // IFNOTTHIS
 
 	} // FOREACH
