@@ -55,8 +55,8 @@ The upcoming release.
 	- Check MySQL_Connection before attempts
 - Backend
 	- Feeds
-		- Topics
-		- Responses
+		- Responses to Forum Topics
+		- Responses to File-based Posts
 - Forum
 	- Unread, Read Icon (Database AND Cookies)
 	- Add Cached Counts to Topics and Categories
