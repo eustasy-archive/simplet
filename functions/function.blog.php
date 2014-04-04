@@ -52,6 +52,8 @@ function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10) {
 			} else unset($Posts_Return[$Key]);
 			// IFPOST
 
+			$Post_Type = 'INVALID';
+
 		} // IFCALLER
 
 	} // FORITEM
