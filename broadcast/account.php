@@ -17,7 +17,6 @@
 
 	require_once __DIR__.'/../request.php';
 
-	$Account = $Canonical; // Canonical may change later, Account won't
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 	$Lib_Browning_Config = __DIR__.'/../libs/Browning_Config.php';
@@ -78,7 +77,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							// Login Successful
 							if (isset($_GET['redirect'])) header('Location: /'.urldecode($_GET['redirect']), TRUE, 302);
-							else header('Location: '.$Account, TRUE, 302);
+							else header('Location: '.$Sitewide_Account, TRUE, 302);
 							die(); // As in go away.
 
 						} else {
@@ -110,7 +109,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Keywords = 'log in account';
 
-				$Canonical = $Account.'?login';
+				$Canonical = $Sitewide_Account.'?login';
 				
 				require $Header;
 				
@@ -130,7 +129,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Keywords = 'log in account';
 
-			$Canonical = $Account.'?login';
+			$Canonical = $Sitewide_Account.'?login';
 			
 			require $Header;
 			?>
@@ -184,7 +183,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		$Keywords = 'log out account';
 
-		$Canonical = $Account.'?logout';
+		$Canonical = $Sitewide_Account.'?logout';
 
 		require $Header;
 
@@ -200,7 +199,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	} else if (isset($_GET['register'])) { // Register
 
 		if ($Member_Auth) { // Register Redirect
-			header('Location: '.$Account, TRUE, 302);
+			header('Location: '.$Sitewide_Account, TRUE, 302);
 			die();
 
 		} else if (!$Sitewide_Signups) { // Register Check
@@ -259,7 +258,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Keywords = 'register account';
 
-				$Canonical = $Account.'?register';
+				$Canonical = $Sitewide_Account.'?register';
 				
 				require $Header;
 				echo '<h2>Registration Error</h2>';
@@ -308,10 +307,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Keywords = 'change name account';
 
-			$Canonical = $Account.'?change=name';
+			$Canonical = $Sitewide_Account.'?change=name';
 
 			if (!$Member_Auth) { // Change Name Redirect
-				header('Location: ?login&redirect='.urlencode($Account.'?change=name'), TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=name'), TRUE, 302);
 				die();
 
 			} else if (isset($_POST['name'])) { // Change Name Process
@@ -325,7 +324,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Name_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Name`='$Name_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Name_Change) exit('Invalid Query (Name_Change): '.mysqli_error($MySQL_Connection));
 
-					header('Location: '.$Account, TRUE, 302);
+					header('Location: '.$Sitewide_Account, TRUE, 302);
 					die();
 
 				}
@@ -356,10 +355,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Keywords = 'change pass account';
 
-			$Canonical = $Account.'?change=pass';
+			$Canonical = $Sitewide_Account.'?change=pass';
 
 			if (!$Member_Auth) { // Change Pass Redirect
-				header('Location: ?login&redirect='.urlencode($Account.'?change=pass'), TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=pass'), TRUE, 302);
 				die();
 
 			} else if (isset($_POST['pass'])) { // Change Pass Process
@@ -376,7 +375,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Pass_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Pass_Change) exit('Invalid Query (Pass_Change): '.mysqli_error($MySQL_Connection));
 
-					header('Location: '.$Account, TRUE, 302);
+					header('Location: '.$Sitewide_Account, TRUE, 302);
 					die();
 
 				}
@@ -407,10 +406,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Keywords = 'change mail account';
 
-			$Canonical = $Account.'?change=mail';
+			$Canonical = $Sitewide_Account.'?change=mail';
 
 			if (!$Member_Auth) { // Change Mail Redirect
-				header('Location: ?login&redirect='.urlencode($Account.'?change=mail'), TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=mail'), TRUE, 302);
 				die();
 
 			} else if (isset($_POST['mail'])) { // Change Mail Process
@@ -424,7 +423,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Mail_Change = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Mail`='$Mail_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Mail_Change) exit('Invalid Query (Mail_Change): '.mysqli_error($MySQL_Connection));
 
-					header('Location: '.$Account, TRUE, 302);
+					header('Location: '.$Sitewide_Account, TRUE, 302);
 					die();
 
 				}
@@ -462,7 +461,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	} else if (isset($_GET['sessions'])) { // Sessions
 
 		if (!$Member_Auth) { // Session Redirect
-			header('Location: ?login&redirect='.urlencode($Account.'?sessions'), TRUE, 302);
+			header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?sessions'), TRUE, 302);
 			die();
 
 		} else {
@@ -472,7 +471,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Keywords = 'sessions account';
 
-			$Canonical = $Account.'?sessions';
+			$Canonical = $Sitewide_Account.'?sessions';
 
 			require $Header;
 
@@ -521,10 +520,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		$Keywords = 'password teset account';
 
-		$Canonical = $Account.'?reset';
+		$Canonical = $Sitewide_Account.'?reset';
 
 		if ($Member_Auth) { // Reset Redirect
-			header('Location: '.$Account, TRUE, 302);
+			header('Location: '.$Sitewide_Account, TRUE, 302);
 			die();
 
 		} else if (isset($Browning) && $Browning) {
@@ -618,7 +617,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						$Mail_Response = Browning_Send(
 							$Reset_Mail,
 							'Password Reset',
-							'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Account.'?reset&key='.$Key['Key']
+							'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
 						);
 
 						if ($Mail_Response) {
@@ -673,7 +672,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	} else if (isset($_GET['delete'])) { // Delete
 
 		if (!$Member_Auth) { // Login Redirect
-			header('Location: ?login&redirect='.urlencode($Account.'?delete'), TRUE, 302);
+			header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?delete'), TRUE, 302);
 			die();
 
 		} else if (isset($_GET['key'])) {
@@ -714,7 +713,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					<br>
 					<div class="section group">
 						<div class="col span_5_of_11">
-							<a href="<?php echo $Account; ?>" class="button blue textcenter">No, go back.</a>
+							<a href="<?php echo $Sitewide_Account; ?>" class="button blue textcenter">No, go back.</a>
 						</div>
 						<div class="col span_1_of_11"><br></div>
 						<div class="col span_5_of_11">
@@ -732,7 +731,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	} else {
 
 		if (!$Member_Auth) {
-			header('Location: ?login&redirect='.urlencode($Account), TRUE, 302);
+			header('Location: ?login&redirect='.urlencode($Sitewide_Account), TRUE, 302);
 			die();
 
 		} else {

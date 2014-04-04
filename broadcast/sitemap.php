@@ -44,16 +44,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			// IFRECOGNISE If the Post_Type is Recognized
 			if (in_array($Post_Type, $Post_Types)) {
 
-				// Make the link
-				$Post_Link = $Sitewide_Root.$Canonical;
-
 				// Echo out the Item
 				echo '
 	<url>
-		<loc>'.$Post_Link.'</loc>
+		<loc>'.$Sitewide_Root.$Canonical.'</loc>
 		<lastmod>'.date('Y-m-d', filemtime($Item)).'</lastmod>
-		<priority>0.9</priority>
-		<changefreq>weekly</changefreq>
+		<priority>1</priority>
+		<changefreq>daily</changefreq>
 	</url>';
 
 			} // IFRECOGNISE
@@ -61,6 +58,55 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		} // IFNOTTHIS
 
 	} // FOREACH
+
+	// IF CONNECTION
+	if ($MySQL_Connection) {
+
+		if (Database_Table_Exists('Categories')) {
+
+			$Forum_Categories = mysqli_query($MySQL_Connection, 'SELECT `Slug`, `Modified` FROM `Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
+			if (!$Forum_Categories) echo 'Invalid Query (Forum_Categories): '.mysqli_error($MySQL_Connection);
+
+			$Forum_Categories_Count = mysqli_num_rows($Forum_Categories);
+
+			if ($Forum_Categories_Count != 0) {
+				while($Forum_Categories_Fetch = mysqli_fetch_assoc($Forum_Categories)) {
+					// Echo out the Item
+					echo '
+	<url>
+		<loc>'.$Sitewide_Root.$Sitewide_Forum.'?category='.$Forum_Categories_Fetch['Slug'].'</loc>
+		<lastmod>'.date('Y-m-d', $Forum_Categories_Fetch['Modified']).'</lastmod>
+		<priority>1</priority>
+		<changefreq>daily</changefreq>
+	</url>';
+				}
+			}
+
+		}
+
+		if (Database_Table_Exists('Topics')) {
+
+			$Forum_Topics = mysqli_query($MySQL_Connection, 'SELECT `Slug`, `Modified` FROM `Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
+			if (!$Forum_Topics) echo 'Invalid Query (Forum_Topics): '.mysqli_error($MySQL_Connection);
+
+			$Forum_Topics_Count = mysqli_num_rows($Forum_Topics);
+
+			if ($Forum_Topics_Count != 0) {
+				while($Forum_Topics_Fetch = mysqli_fetch_assoc($Forum_Topics)) {
+					// Echo out the Item
+					echo '
+	<url>
+		<loc>'.$Sitewide_Root.$Sitewide_Forum.'?topic='.$Forum_Topics_Fetch['Slug'].'</loc>
+		<lastmod>'.date('Y-m-d', $Forum_Topics_Fetch['Modified']).'</lastmod>
+		<priority>1</priority>
+		<changefreq>daily</changefreq>
+	</url>';
+				}
+			}
+
+		}
+
+	} // IF CONNECTION
 
 	// Fin
 	echo '

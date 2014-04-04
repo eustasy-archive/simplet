@@ -56,9 +56,6 @@ The upcoming release.
 	- Feeds
 		- Topics
 		- Responses
-	- Sitemaps
-		- Forum Categories
-		- Forum Topics
 - Forum
 	- Unread, Read Icon (Database AND Cookies)
 	- Add Cached Counts to Topics and Categories

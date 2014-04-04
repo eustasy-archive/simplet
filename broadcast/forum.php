@@ -11,7 +11,6 @@
 	$Featured_Image = '';
 
 	$Canonical = 'forum';
-	$Forum = $Canonical;
 
 	$Post_Type = 'Forum';
 	$Post_Category = '';
@@ -22,8 +21,6 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';
-	$Account = 'account';
-	$Time = time();
 
 	if (isset($_POST['action'])) {
 
@@ -124,7 +121,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
     		header('HTTP/1.1 401 Unauthorized');
 			require $Header;
 			echo '<h2>Error: You are not logged in.</h2>';
-			echo '<h3 class="textleft">You cannot post a topic if you are not logged in. <a class="floatright" href="'.$Account.'?login">Log In</a></h3>';
+			echo '<h3 class="textleft">You cannot post a topic if you are not logged in. <a class="floatright" href="'.$Sitewide_Account.'?login">Log In</a></h3>';
 			require $Footer;
 		} else {
 
