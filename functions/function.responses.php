@@ -399,16 +399,16 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						console.log(data);
 						var data = $.parseJSON(data);
 						var toAppend = \'\
-			<div class="section group darkrow" id="header_\' + json.id + \'">\
+			<div class="section group darkrow" id="header_\' + data.id + \'">\
 				<div class="col span_2_of_12 textcenter"><p>'.$Member_Name.'</p></div>\
 				<div class="col span_10_of_12 textright"><p>'.date('d M, Y H:i', $Time).'</p></div>\
 			</div>\
-			<div class="section group response \' + json.id + \'" id="response_\' + json.id + \'">\
+			<div class="section group response \' + data.id + \'" id="response_\' + data.id + \'">\
 				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.md5($Member_Mail).'?s=128&d=identicon"></div>';
 				if ($Helpfulness_Show) {
 					echo '\
 				<div class="col span_8_of_12">\
-					\' + json.post + \'\
+					\' + data.post + \'\
 				</div>\
 				<div class="col span_2_of_12">';
 					if ($Type === 'Review') echo '\
@@ -421,7 +421,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				} else {
 					echo '\
 			<div class="col span_10_of_12">\
-				\' + json.post + \'\
+				\' + data.post + \'\
 			</div>\
 		</div>';
 				}
