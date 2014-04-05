@@ -61,9 +61,10 @@ The upcoming release.
 	- Unread, Read Icon (Database AND Cookies)
 	- Add Cached Counts to Topics and Categories
 - Responses
-	- Show Error on Error (and Re-instate Submit).
-	- Order by Helpfulness, Recency and Age
-	- Fix Blockquotes on JSON Response
+	- Bug: Show Error on Error
+	- Bug: Fix Blockquotes and Apostrophes on JSON Response
+	- Bug: Fix Voting on appended Responses
+	- Feature: Order by Helpfulness, Recency and Age
 
 ### 4.1
 - Admin Interface

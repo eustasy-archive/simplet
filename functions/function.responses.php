@@ -327,8 +327,6 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			// Paginate if necessary
 			if ($Pagination['Page Max'] > 1) {
 				echo '<div class="breaker"></div>';
-				// TODO Why do these arrays need to be passed?
-				// Global doesn't seem to allow them
 				Pagination_Links($Pagination, $PreserveQueryStrings);
 				echo '<div class="breaker"></div>';
 			}
@@ -336,16 +334,16 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		}
 
 		if ($Member_Auth) {
-			echo '
+			?>
 		<div class="clear"></div>
-		<form action="?respond'.$PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic'].'&page='.$Pagination['Page'].'&show='.$Pagination['Show'].'" method="post" id="respond">
+		<form action="?respond<?php echo $PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic']; ?>&page=<?php echo $Pagination['Page']; ?>&show=<?php echo $Pagination['Show']; ?>" method="post" id="respond">
 			<div class="section group">
 				<div class="col span_1_of_12"><br></div>
 				<div class="col span_10_of_12">
-					<h3>Leave a '.$Type.'</h3>
+					<h3>Leave a <?php echo $Type; ?></h3>
 					<textarea name="post" required></textarea>
-					<input type="hidden" name="type" value="'.$Type.'" />
-					<input type="hidden" name="canonical" value="'.$Response_Canonical.'" />
+					<input type="hidden" name="type" value="<?php echo $Type; ?>" />
+					<input type="hidden" name="canonical" value="<?php echo $Response_Canonical; ?>" />
 				</div>
 				<div class="col span_1_of_12"><br></div>
 			</div>
@@ -354,8 +352,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				<div class="col span_7_of_12">
 					<p class="floatleft"><small>If you wish, you can use Markdown for formatting.<br>
 					Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>';
-			if ($Type === 'Review') {
+					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+			<?php if ($Type === 'Review') {
 				echo '
 					<select name="rating" class="floatright">
 						<option value="1">1</option>
@@ -364,79 +362,84 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						<option value="4">4</option>
 						<option value="5">5</option>
 					</select>';
-			}
-			echo '
+			} ?>
 					<div class="clear"></div>
 				</div>
 				<div class="col span_1_of_12"><br></div>
 				<div class="col span_2_of_12">
-					<input type="submit" value="'.$Type.'" />
+					<input type="submit" value="<?php echo $Type; ?>" />
 				</div>
 				<div class="col span_1_of_12"><br></div>
 				</div>
 		</form>
 		<script>
 			$(function(){
-				$(\'#respond\').submit(function(event){
+				$('#respond').submit(function(event){
 					event.preventDefault();
-					$(\'#respond input[type="submit"]\').attr(\'disabled\',\'disabled\');';
-			if ($Type === 'Review') echo '
-					var rating = $(\'#respond select[name="rating"]\').val();';
-			echo '
-					var post = $(\'#respond textarea[name="post"]\').val();
+					$('#respond input[type="submit"]').attr('disabled','disabled');
+					var postType = '<?php echo $Type; ?>';
+					if (postType == 'Review') {
+						var rating = $('#respond select[name="rating"]').val();
+					} else {
+						var rating = 0;
+					}
+					var post = $('#respond textarea[name="post"]').val();
 					var respond = $.post(
-						\''.$Sitewide_Root.'api?respond\',
+						'<?php echo $Sitewide_Root; ?>api?respond',
 						{
-							type: \''.$Type.'\',
-							canonical: \''.$Response_Canonical.'\',';
-			if ($Type === 'Review') echo '
-							rating: rating,';
-			echo '
+							type: postType,
+							canonical: '<?php echo $Response_Canonical; ?>',
+							rating: rating,
 							post: post
 						}
 					);
 					respond.done(function(data) {
 						console.log(data);
 						var data = $.parseJSON(data);
-						var toAppend = \'\
-			<div class="section group darkrow" id="header_\' + data.id + \'">\
-				<div class="col span_2_of_12 textcenter"><p>'.$Member_Name.'</p></div>\
-				<div class="col span_10_of_12 textright"><p>'.date('d M, Y H:i', $Time).'</p></div>\
+						var toAppend = '\
+			<div class="section group darkrow" id="header_' + data.id + '">\
+				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
+				<div class="col span_10_of_12 textright"><p><?php echo date('d M, Y H:i', $Time); ?></p></div>\
 			</div>\
-			<div class="section group response \' + data.id + \'" id="response_\' + data.id + \'">\
-				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/'.md5($Member_Mail).'?s=128&d=identicon"></div>';
-				if ($Helpfulness_Show) {
-					echo '\
-				<div class="col span_8_of_12">\
+			<div class="section group response ' + data.id + '" id="response_' + data.id + '">\
+				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/<?php echo md5($Member_Mail); ?>?s=128&d=identicon"></div>\
+				<?php if ($Helpfulness_Show) {
+					echo '<div class="col span_8_of_12">\
 					\' + data.post + \'\
 				</div>\
-				<div class="col span_2_of_12">';
-					if ($Type === 'Review') echo '\
-					<p>\' + rating + \' Stars</p>';
-					echo '\
-					<p>0 Helpful</p>\
+				<div class="col span_2_of_12">\
+';
+					if ($Type === 'Review') echo '					<p>\' + rating + \' Stars</p>\
+';
+					echo '					<p>0 Helpful</p>\
 					<div class="helpfulness"><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>\
 				</div>\
-			</div>';
+			</div>\';
+';
 				} else {
 					echo '\
 			<div class="col span_10_of_12">\
-				\' + data.post + \'\
+				' + data.post + '\
 			</div>\
-		</div>';
+		</div>\';
+';
 				}
-				echo '\';
-						$(\'#responses\').append(toAppend);
-						$(\'#respond textarea\').val(\'\');
-						$(\'#respond select\').val([]);
-						$(\'#respond input[type="submit"]\').removeAttr(\'disabled\');
+				?>
+						$('#responses').append(toAppend);
+						$('#respond textarea').val('');
+						$('#respond select').val([]);
+						$('#respond input[type="submit"]').removeAttr('disabled');
 					});
 					respond.error(function() {
+						$('#respond input[type="submit"]').removeAttr('disabled');
 					});
 				});
 			});
-		</script>';
-			// TODO Show Error on Error (and Re-instate Submit).
+		</script>
+			<?php
+			// TODO Bug: Show Error on Error
+			// TODO Bug: Fix Voting on appended Responses
+			// TODO Bug: Fix Blockquotes and Apostorphes on JSON Response
 		} else {
 			echo '
 		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">Log In</a> to '.$Type.'.</h3>';
