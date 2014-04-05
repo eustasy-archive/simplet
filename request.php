@@ -67,6 +67,8 @@ require 'functions/function.forum.categories.php';
 require 'functions/function.forum.category.check.php';
 require 'functions/function.forum.category.info.php';
 require 'functions/function.forum.topics.php';
+require 'functions/function.forum.topic.check.php';
+require 'functions/function.forum.topic.slug.php';
 
 require 'functions/function.responses.php';
 require 'functions/function.respond.php';

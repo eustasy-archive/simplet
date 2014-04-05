@@ -60,7 +60,6 @@ The upcoming release.
 - Forum
 	- Unread, Read Icon (Database AND Cookies)
 	- Add Cached Counts to Topics and Categories
-	- Uniqueness Check Topic Slug
 - Responses
 	- Show Error on Error (and Re-instate Submit).
 	- Order by Helpfulness, Recency and Age

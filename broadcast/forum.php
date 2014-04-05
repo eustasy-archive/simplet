@@ -40,6 +40,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 				$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
 
+				// TODO Caterogry Info Function
 				$Category = mysqli_query($MySQL_Connection, "SELECT * FROM `Categories` WHERE `Slug`='$Topic_Category' AND NOT `Status`='Hidden' ORDER BY `Modified` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 				if (!$Category) exit('Invalid Query (Category): '.mysqli_error($MySQL_Connection));
 
@@ -52,40 +53,13 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
 
-					if (isset($_POST['post'])) {
-						$Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
-					} else {
-						$Topic_Post = false;
-					}
+					if (isset($_POST['post'])) $Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
+					else $Topic_Post = false;
 
-					$Topic_Slug = strtolower($_POST['title']);
-					$Topic_Slug = htmlentities($Topic_Slug, ENT_QUOTES, 'UTF-8');
-					$Topic_Slug = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $Topic_Slug);
-					$Topic_Slug = html_entity_decode($Topic_Slug, ENT_QUOTES, 'UTF-8');
-					$Topic_Slug = strip_tags($Topic_Slug);
-					$Topic_Slug = stripslashes($Topic_Slug);
-					$Topic_Slug = str_replace('\'', '', $Topic_Slug);
-					$Topic_Slug = str_replace('"', '', $Topic_Slug);
-					$Topic_Slug = preg_replace('/[^a-z0-9]+/', '-', $Topic_Slug);
-					$Topic_Slug = strtr($Topic_Slug, 'àáâãäåòóôõöøèéêëðçìíîïùúûüñšž', 'aaaaaaooooooeeeeeciiiiuuuunsz');
-					$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
-					$Topic_Slug = trim($Topic_Slug, '-');
+					if ($Forum_Topic_Inherit) $Topic_Status = $Category_Status;
+					else $Topic_Status = $Forum_Topic_Default;
 
-					if ($Forum_Topic_Inherit) {
-						$Topic_Status = $Category_Status;
-					} else {
-						$Topic_Status = $Forum_Topic_Default;
-					}
-
-					// TODO: Uniqueness check $Topic_Slug before inserting.
-					//
-					// Increment as:
-					// slug
-					// slug-1
-					// slug-2
-					//
-					// Note: Original left unscathed,
-					// subsequent duplicates numbered from one.
+					$Topic_Slug = Forum_Topic_Slug($_POST['title']);
 
 					$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
@@ -171,7 +145,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 	} else if (isset($_GET['topic']) && !empty($_GET['topic'])) {
 
 		$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
-		if (substr($Topic_Slug, 0, strlen($Forum)+1) == '/'.$Forum) {
+		if (substr($Topic_Slug, 0, strlen($Sitewide_Forum)+1) == '/'.$Sitewide_Forum) {
 			$Topic_Slug = substr($Topic_Slug, 7);
 			if (empty($Topic_Slug)) { // HOME
 
