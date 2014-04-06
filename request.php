@@ -50,38 +50,43 @@ require 'onces/once.auth.php';
 
 require 'libs/Parsedown.php';
 
-require 'functions/function.globrecursive.php';
+require 'functions/globrecursive.php';
 
-require 'functions/function.stringgenerator.php';
-require 'functions/function.passhash.php';
+require 'functions/stringgenerator.php';
+require 'functions/passhash.php';
 
-require 'functions/function.pagination.preservequerystrings.php';
-require 'functions/function.pagination.pre.php';
-require 'functions/function.pagination.links.php';
+require 'functions/pagination.preservequerystrings.php';
+require 'functions/pagination.pre.php';
+require 'functions/pagination.links.php';
 
-require 'functions/function.jsondo.php';
+require 'functions/jsondo.php';
 
-require 'functions/function.database.table.exists.php';
+require 'functions/database.table.exists.php';
 
-require 'functions/function.forum.categories.php';
-require 'functions/function.forum.category.check.php';
-require 'functions/function.forum.category.info.php';
-require 'functions/function.forum.topics.php';
-require 'functions/function.forum.topic.check.php';
-require 'functions/function.forum.topic.slug.php';
+require 'functions/forum.categories.php';
+require 'functions/forum.category.check.php';
+require 'functions/forum.category.info.php';
+require 'functions/forum.category.modified.php';
 
-require 'functions/function.responses.php';
-require 'functions/function.respond.php';
+require 'functions/forum.topics.php';
+require 'functions/forum.topic.slug.php';
+require 'functions/forum.topic.check.php';
+require 'functions/forum.topic.info.php';
+require 'functions/forum.topic.count.php';
+require 'functions/forum.topic.increment.php';
 
-require 'functions/function.blog.php';
-require 'functions/function.blog.categories.php';
+require 'functions/responses.php';
+require 'functions/respond.php';
 
-require 'functions/function.viewcount.php';
-require 'functions/function.trending.php';
+require 'functions/blog.php';
+require 'functions/blog.categories.php';
 
-require 'functions/function.runonce.create.php';
-require 'functions/function.runonce.check.php';
-require 'functions/function.runonce.delete.php';
+require 'functions/viewcount.php';
+require 'functions/trending.php';
+
+require 'functions/runonce.create.php';
+require 'functions/runonce.check.php';
+require 'functions/runonce.delete.php';
 
 // Count View
 // Forums have Categories and Topics, and should be counted later.

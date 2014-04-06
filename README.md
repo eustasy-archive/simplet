@@ -59,7 +59,7 @@ The upcoming release.
 		- Responses to File-based Posts
 - Forum
 	- Unread, Read Icon (Database AND Cookies)
-	- Add Cached Counts to Topics and Categories
+	- Add Cached Counts to Categories
 - Responses
 	- Bug: Show Error on Error
 	- Bug: Fix Blockquotes and Apostrophes on JSON Response

@@ -44,8 +44,6 @@ function Respond($Status_Override = false) {
 					$Topic_Status_Fetch = mysqli_fetch_assoc($Topic_Status_Query);
 					$Response_Status = $Topic_Status_Fetch['Status'];
 				}
-				// TODO Update Topic
-				// TODO Update Category
 
 			} else {
 				$Response_Status = $Forum_Reply_Default;
@@ -57,6 +55,14 @@ function Respond($Status_Override = false) {
 			$Response_Status = $Response_Status_Comments;
 		} else {
 			$Response_Status = 'Public';
+		}
+
+		if ($Response_Status === 'Public') {
+			// Update Topic
+			Forum_Topic_Increment($Response_Canonical);
+			// Update Category
+			$Topic_Info = Forum_Topic_Info($Response_Canonical);
+			Forum_Category_Modified($Topic_Info['Category']);
 		}
 
 		// Query
