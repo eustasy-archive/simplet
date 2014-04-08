@@ -396,6 +396,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					respond.done(function(data) {
 						console.log(data);
 						var data = $.parseJSON(data);
+						// if data.error then error
 						var toAppend = '\
 			<div class="section group darkrow" id="header_' + data.id + '">\
 				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
@@ -432,6 +433,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					});
 					respond.error(function() {
 						$('#respond input[type="submit"]').removeAttr('disabled');
+						$('#responses').append('<div class="warning"><h3>Sorry, posting failed. Please try again in a moment.</h3></div>');
 					});
 				});
 			});

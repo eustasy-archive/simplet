@@ -55,11 +55,11 @@ The upcoming release.
 	- Check MySQL_Connection before attempts
 - Backend
 	- Feeds
-		- Responses to Forum Topics
-		- Responses to File-based Posts
+		- Feature: Responses to Forum Topics
+		- Feature: Responses to File-based Posts
 - Forum
-	- Unread, Read Icon (Database AND Cookies)
-	- Add Cached Counts to Categories
+	- Feature: Unread, Read Icon (Database AND Cookies)
+	- Improvement: Add Cached Counts to Categories
 - Responses
 	- Bug: Show Error on Error
 	- Bug: Fix Blockquotes and Apostrophes on JSON Response
@@ -77,7 +77,7 @@ The upcoming release.
 		- Edit/Private/Hide/Lock/Delete Topics
 	- Responses Edit/Hide/Delete
 - Configuration
-	- Move Database Config to `once.connect.php` (?)
+	- Move Database Config to `once/connect.php` (?)
 	- Move Remaining to Database
 - Security Limits
 	- Time-and-Attempt-based
@@ -98,13 +98,14 @@ The upcoming release.
 
 ### Future
 - User Accounts
+	- Groups
 	- User Profiles
 	- Inter-User Messaging
 - Security Limit Options
 	- English
 	- Maths
 	- Science
-- Database-Driven Blog
+- Database-Driven Blog & Pages
 - Apache Config File (with Extensionless PHP)
 
 ## Libraries
