@@ -328,13 +328,13 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			if ($Pagination['Page Max'] > 1) {
 				echo '<div class="breaker"></div>';
 				Pagination_Links($Pagination, $PreserveQueryStrings);
-				echo '<div class="breaker"></div>';
 			}
 
 		}
 
 		if ($Member_Auth) {
 			?>
+		<div class="breaker"></div>
 		<div class="clear"></div>
 		<form action="?respond<?php echo $PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic']; ?>&page=<?php echo $Pagination['Page']; ?>&show=<?php echo $Pagination['Show']; ?>" method="post" id="respond">
 			<div class="section group">
@@ -395,8 +395,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					);
 					respond.done(function(data) {
 						console.log(data);
-						var data = $.parseJSON(data);
-						// if data.error then error
+						var data = $.parseJSON(data)
+						// TODO if data.error then error
 						var toAppend = '\
 			<div class="section group darkrow" id="header_' + data.id + '">\
 				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
@@ -430,17 +430,19 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						$('#respond textarea').val('');
 						$('#respond select').val([]);
 						$('#respond input[type="submit"]').removeAttr('disabled');
+						// TODO Bug: Fix Voting on appended Responses
+						// TODO Add to Current_Votes
+						// TODO Re-run $('.helpfulness').click commands
 					});
 					respond.error(function() {
 						$('#respond input[type="submit"]').removeAttr('disabled');
+						// TODO Bug: Show Error on Error
 						$('#responses').append('<div class="warning"><h3>Sorry, posting failed. Please try again in a moment.</h3></div>');
 					});
 				});
 			});
 		</script>
 			<?php
-			// TODO Bug: Show Error on Error
-			// TODO Bug: Fix Voting on appended Responses
 			// TODO Bug: Fix Blockquotes and Apostorphes on JSON Response
 		} else {
 			echo '
