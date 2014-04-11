@@ -420,7 +420,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				} else {
 					echo '\
 			<div class="col span_10_of_12">\
-				' + data.post + '\
+				\' + data.post + \'\
 			</div>\
 		</div>\';
 ';
@@ -443,7 +443,6 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			});
 		</script>
 			<?php
-			// TODO Bug: Fix Blockquotes and Apostorphes on JSON Response
 		} else {
 			echo '
 		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">Log In</a> to '.$Type.'.</h3>';

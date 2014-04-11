@@ -72,7 +72,7 @@ function Respond($Status_Override = false) {
 
 		// Prepare statements to be returned.
 		$Response_ID = mysqli_insert_id($MySQL_Connection);
-		$Response_Parsed = Parsedown::instance()->parse(htmlentities($Response_Post, ENT_QUOTES, 'UTF-8'));
+		$Response_Parsed = Parsedown::instance()->parse($Response_Post, ENT_QUOTES, 'UTF-8');
 		$Response_Return['id'] = $Response_ID;
 		$Response_Return['post'] = $Response_Parsed;
 

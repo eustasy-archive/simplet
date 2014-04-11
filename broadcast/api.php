@@ -23,8 +23,6 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	header('X-Frame-Options: SAMEORIGIN');
 
-	$Time = time();
-
 	// Helpfulness API
 	//  false	= no vote
 	//  1		= up voted

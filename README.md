@@ -62,7 +62,6 @@ The upcoming release.
 	- Improvement: Add Cached Counts to Categories
 - Responses
 	- Bug: Show Error on Error
-	- Bug: Fix Blockquotes and Apostrophes on JSON Response
 	- Bug: Fix Voting on appended Responses
 	- Feature: Order by Helpfulness, Recency and Age
 
