@@ -209,12 +209,60 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			echo '
 		</div>';
 
-			$Response_Canonical_Encoded = urlencode($Response_Canonical);
+			// Paginate if necessary
+			if ($Pagination['Page Max'] > 1) {
+				echo '<div class="breaker"></div>';
+				Pagination_Links($Pagination, $PreserveQueryStrings);
+			}
 
-			if ($Helpfulness_Show) {
-				?>
+		}
+
+		if ($Member_Auth) {
+			?>
+		<div class="breaker"></div>
+		<div class="clear"></div>
+		<form action="?respond<?php echo $PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic']; ?>&page=<?php echo $Pagination['Page']; ?>&show=<?php echo $Pagination['Show']; ?>" method="post" id="respond">
+			<div class="section group">
+				<div class="col span_1_of_12"><br></div>
+				<div class="col span_10_of_12">
+					<h3>Leave a <?php echo $Type; ?></h3>
+					<textarea name="post" required></textarea>
+					<input type="hidden" name="type" value="<?php echo $Type; ?>" />
+					<input type="hidden" name="canonical" value="<?php echo $Response_Canonical; ?>" />
+				</div>
+				<div class="col span_1_of_12"><br></div>
+			</div>
+			<div class="section group">
+				<div class="col span_1_of_12"><br></div>
+				<div class="col span_7_of_12">
+					<p class="floatleft"><small>If you wish, you can use Markdown for formatting.<br>
+					Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
+			<?php if ($Type === 'Review') {
+				echo '
+					<select name="rating" class="floatright">
+						<option value="5" selected="selected">5</option>
+						<option value="4">4</option>
+						<option value="3">3</option>
+						<option value="2">2</option>
+						<option value="1">1</option>
+					</select>';
+			} ?>
+					<div class="clear"></div>
+				</div>
+				<div class="col span_1_of_12"><br></div>
+				<div class="col span_2_of_12">
+					<input type="submit" value="<?php echo $Type; ?>" />
+				</div>
+				<div class="col span_1_of_12"><br></div>
+				</div>
+		</form>
 		<script>
 			$(function(){
+			<?php
+				$Response_Canonical_Encoded = urlencode($Response_Canonical);
+
+				if ($Helpfulness_Show) { ?>
 				var Current_Votes = [];
 				$('.helpfulness').each(function() {
 					var Response_ID = $(this).parent().parent().attr('id').substring(9);
@@ -249,131 +297,82 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						Current_Votes[Response_ID] = 'none';
 					})
 				});
-				$('.helpfulness .up').click(function() {
-					var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
-					console.log('Initiate Up ' + Response_ID);
-					if (Current_Votes[Response_ID] == 'up') {
-						console.log('Clear ' + Response_ID);
-						$.post(
-							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-							{ vote: 'none' },
-							function( data ) {
-								if (data.vote == 'confirm') {
-									Current_Votes[Response_ID] = 'none';
-									console.log('Complete Clear ' + Response_ID);
-									$('.response.' + Response_ID + ' .up').addClass('faded');
-									$('.response.' + Response_ID + ' .down').addClass('faded');
-								} else console.log(data + data.vote);
-							},
-							'json'
-						);
-					} else {
-						console.log('Up ' + Response_ID);
-						$.post(
-							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-							{ vote: 'up' },
-							function( data ) {
-								if (data.vote == 'confirm') {
-									Current_Votes[Response_ID] = 'up';
-									console.log('Complete Up ' + Response_ID);
-									$('.response.' + Response_ID + ' .up').removeClass('faded');
-									$('.response.' + Response_ID + ' .down').addClass('faded');
-								} else console.log(data + data.vote);
-							},
-							'json'
-						);
-					}
-				});
-				$('.helpfulness .down').click(function() {
-					var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
-					console.log('Initiate Down ' + Response_ID);
-					if (Current_Votes[Response_ID] == 'down') {
-						console.log('Clear ' + Response_ID);
-						$.post(
-							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-							{ vote: 'none' },
-							function( data ) {
-								if (data.vote == 'confirm') {
-									Current_Votes[Response_ID] = 'none';
-									console.log('Complete Clear ' + Response_ID);
-									$('.response.' + Response_ID + ' .down').addClass('faded');
-									$('.response.' + Response_ID + ' .up').addClass('faded');
-								} else console.log(data + data.vote);
-							},
-							'json'
-						);
-					} else {
-						console.log('Down ' + Response_ID);
-						$.post(
-							'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-							{ vote: 'down' },
-							function( data ) {
-								if (data.vote == 'confirm') {
-									Current_Votes[Response_ID] = 'down';
-									console.log('Complete Down ' + Response_ID);
-									$('.response.' + Response_ID + ' .down').removeClass('faded');
-									$('.response.' + Response_ID + ' .up').addClass('faded');
-								} else console.log(data + data.vote);
-							},
-							'json'
-						);
-					}
-				});
-			});
-		</script>
-				<?php
-			}
-
-			// Paginate if necessary
-			if ($Pagination['Page Max'] > 1) {
-				echo '<div class="breaker"></div>';
-				Pagination_Links($Pagination, $PreserveQueryStrings);
-			}
-
-		}
-
-		if ($Member_Auth) {
-			?>
-		<div class="breaker"></div>
-		<div class="clear"></div>
-		<form action="?respond<?php echo $PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic']; ?>&page=<?php echo $Pagination['Page']; ?>&show=<?php echo $Pagination['Show']; ?>" method="post" id="respond">
-			<div class="section group">
-				<div class="col span_1_of_12"><br></div>
-				<div class="col span_10_of_12">
-					<h3>Leave a <?php echo $Type; ?></h3>
-					<textarea name="post" required></textarea>
-					<input type="hidden" name="type" value="<?php echo $Type; ?>" />
-					<input type="hidden" name="canonical" value="<?php echo $Response_Canonical; ?>" />
-				</div>
-				<div class="col span_1_of_12"><br></div>
-			</div>
-			<div class="section group">
-				<div class="col span_1_of_12"><br></div>
-				<div class="col span_7_of_12">
-					<p class="floatleft"><small>If you wish, you can use Markdown for formatting.<br>
-					Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
-					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-			<?php if ($Type === 'Review') {
-				echo '
-					<select name="rating" class="floatright">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>';
-			} ?>
-					<div class="clear"></div>
-				</div>
-				<div class="col span_1_of_12"><br></div>
-				<div class="col span_2_of_12">
-					<input type="submit" value="<?php echo $Type; ?>" />
-				</div>
-				<div class="col span_1_of_12"><br></div>
-				</div>
-		</form>
-		<script>
-			$(function(){
+				function HelpfulnessClick() {
+					$('.helpfulness .up').click(function() {
+						var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
+						// TODO Bug: Voting does not get ID for appended Responses
+						console.log('Initiate Up ' + Response_ID);
+						if (Current_Votes[Response_ID] == 'up') {
+							console.log('Clear ' + Response_ID);
+							$.post(
+								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+								{ vote: 'none' },
+								function( data ) {
+									if (data.vote == 'confirm') {
+										Current_Votes[Response_ID] = 'none';
+										console.log('Complete Clear ' + Response_ID);
+										$('.response.' + Response_ID + ' .up').addClass('faded');
+										$('.response.' + Response_ID + ' .down').addClass('faded');
+									} else console.log(data + data.vote);
+								},
+								'json'
+							);
+						} else {
+							console.log('Up ' + Response_ID);
+							$.post(
+								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+								{ vote: 'up' },
+								function( data ) {
+									if (data.vote == 'confirm') {
+										Current_Votes[Response_ID] = 'up';
+										console.log('Complete Up ' + Response_ID);
+										$('.response.' + Response_ID + ' .up').removeClass('faded');
+										$('.response.' + Response_ID + ' .down').addClass('faded');
+									} else console.log(data + data.vote);
+								},
+								'json'
+							);
+						}
+					});
+					$('.helpfulness .down').click(function() {
+						var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
+						console.log('Initiate Down ' + Response_ID);
+						if (Current_Votes[Response_ID] == 'down') {
+							console.log('Clear ' + Response_ID);
+							$.post(
+								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+								{ vote: 'none' },
+								function( data ) {
+									if (data.vote == 'confirm') {
+										Current_Votes[Response_ID] = 'none';
+										console.log('Complete Clear ' + Response_ID);
+										$('.response.' + Response_ID + ' .down').addClass('faded');
+										$('.response.' + Response_ID + ' .up').addClass('faded');
+									} else console.log(data + data.vote);
+								},
+								'json'
+							);
+						} else {
+							console.log('Down ' + Response_ID);
+							$.post(
+								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+								{ vote: 'down' },
+								function( data ) {
+									if (data.vote == 'confirm') {
+										Current_Votes[Response_ID] = 'down';
+										console.log('Complete Down ' + Response_ID);
+										$('.response.' + Response_ID + ' .down').removeClass('faded');
+										$('.response.' + Response_ID + ' .up').addClass('faded');
+									} else console.log(data + data.vote);
+								},
+								'json'
+							);
+						}
+					});
+					console.log('Helpfulness Click Ready');
+				}
+				HelpfulnessClick();
+			<?php } ?>
 				$('#respond').submit(function(event){
 					event.preventDefault();
 					$('#respond input[type="submit"]').attr('disabled','disabled');
@@ -394,9 +393,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						}
 					);
 					respond.done(function(data) {
-						console.log(data);
 						var data = $.parseJSON(data)
-						// TODO if data.error then error
+						// TODO Bug: Show Error on Error
+						// TODO if data.error is not empty then error
 						var toAppend = '\
 			<div class="section group darkrow" id="header_' + data.id + '">\
 				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
@@ -410,7 +409,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				</div>\
 				<div class="col span_2_of_12">\
 ';
-					if ($Type === 'Review') echo '					<p>\' + rating + \' Stars</p>\
+					if ($Type === 'Review') echo '					<p>\' + data.rating + \' Stars</p>\
 ';
 					echo '					<p>0 Helpful</p>\
 					<div class="helpfulness"><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>\
@@ -427,10 +426,15 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				}
 				?>
 						$('#responses').append(toAppend);
+						if (typeof(HelpfulnessClick) === 'function') {
+							Current_Votes[data.id] = 'none';
+							console.log(data.id);
+							console.log(Current_Votes);
+							HelpfulnessClick();
+						} else console.log(typeof(HelpfulnessClick));
 						$('#respond textarea').val('');
 						$('#respond select').val([]);
 						$('#respond input[type="submit"]').removeAttr('disabled');
-						// TODO Bug: Fix Voting on appended Responses
 						// TODO Add to Current_Votes
 						// TODO Re-run $('.helpfulness').click commands
 					});

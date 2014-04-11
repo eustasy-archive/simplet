@@ -75,6 +75,7 @@ function Respond($Status_Override = false) {
 		$Response_Parsed = Parsedown::instance()->parse($Response_Post, ENT_QUOTES, 'UTF-8');
 		$Response_Return['id'] = $Response_ID;
 		$Response_Return['post'] = $Response_Parsed;
+		$Response_Return['rating'] = $Response_Rating;
 
 	} else {
 		// Catch errors

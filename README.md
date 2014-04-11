@@ -64,7 +64,7 @@ The upcoming release.
 	- Improvement: Add Cached Counts to Categories
 - Responses
 	- Bug: Show Error on Error
-	- Bug: Fix Voting on appended Responses
+	- Bug: Voting does not get ID for appended Responses
 	- Feature: Order by Helpfulness, Recency and Age
 
 ### 4.1
