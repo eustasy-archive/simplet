@@ -45,8 +45,8 @@ $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
-require 'onces/once.connect.php';
-require 'onces/once.auth.php';
+require 'onces/connect.php';
+require 'onces/isauth.php';
 
 require 'libs/Parsedown.php';
 
