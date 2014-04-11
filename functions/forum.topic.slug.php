@@ -26,7 +26,7 @@ function Forum_Topic_Slug($Topic_Slug, $Strict = true) {
 		$Topic_Slug_Last = count($Topic_Slug_Parts) - 1;
 		$Topic_Slug_Last = $Topic_Slug_Parts[$Topic_Slug_Last];
 		if (is_numeric($Topic_Slug_Last)) {
-			$Topic_Slug_Last_Length = count($Topic_Slug_Last) - 1;
+			$Topic_Slug_Last_Length = count($Topic_Slug_Last);
 			$Topic_Slug_End = $Topic_Slug_Last + 1;
 			$Topic_Slug = substr($Topic_Slug, 0, -$Topic_Slug_Last_Length).$Topic_Slug_End;
 			return Forum_Topic_Slug($Topic_Slug, false);
