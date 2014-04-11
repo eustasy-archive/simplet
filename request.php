@@ -63,6 +63,9 @@ require 'functions/jsondo.php';
 
 require 'functions/database.table.exists.php';
 
+require 'functions/feed.header.php';
+require 'functions/feed.forum.php';
+
 require 'functions/forum.categories.php';
 require 'functions/forum.category.check.php';
 require 'functions/forum.category.info.php';

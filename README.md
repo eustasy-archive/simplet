@@ -95,6 +95,12 @@ The upcoming release.
 		- Configuration Option for Time Locking Edits
 	- Responses to Responses
 	- Order by Responses to Responses
+- Feeds
+	- File Based
+		- Categories
+		- Pagination
+	- Database
+		- Pagination
 
 ### Future
 - User Accounts

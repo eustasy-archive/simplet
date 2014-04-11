@@ -22,7 +22,13 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 
-	if (isset($_POST['action'])) {
+	// START FEED
+	if (isset($_GET['feed'])) {
+		Feed_Forum();
+	// END FEED
+
+	// START ACTION
+	} else if (isset($_POST['action'])) {
 
 		if (!$Member_Auth) {
     		header('HTTP/1.1 401 Unauthorized');
