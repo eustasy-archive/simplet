@@ -1,7 +1,9 @@
 # Simplet
 Simplet is a simple, file-based, cms framework written in php, with members, forums, and blogging built in.
 
-# This version is unstable. Stable version incoming.
+# Simplet is not yet stable.
+## Release coming mid-April 2014,
+## as and when it is finished.
 
 ## Versions
 
