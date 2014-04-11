@@ -191,7 +191,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					if ($Type === 'Review') echo '
 					<p class="rating">'.$Responses_Rating.' Stars</p>';
 					echo '
-					<div class="helpfulness hidden">
+					<div class="helpfulness hidden" id="helpfulness_'.$Responses_ID.'">
 						<p>'.number_format($Responses_Helpfulness).' Helpful</p>
 						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>
 					</div>
@@ -263,70 +263,57 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				$Response_Canonical_Encoded = urlencode($Response_Canonical);
 
 				if ($Helpfulness_Show) { ?>
-				var Current_Votes = [];
 				$('.helpfulness').each(function() {
-					var Response_ID = $(this).parent().parent().attr('id').substring(9);
-					Current_Votes[Response_ID] = 'none';
+					var Response_ID = $(this).attr('id').substring(12);
 					$.getJSON('<?php echo $Sitewide_Root; ?>api?helpfulness&fetch&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID, function(data) {
 						if (data.vote == 'none') {
 							console.log('Has No Vote on ' + Response_ID);
 							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
-							Current_Votes[Response_ID] = 'none';
 						} else if (data.vote == 'up') {
 							console.log('Has Up Vote on ' + Response_ID);
 							$('.response.' + Response_ID + ' .up').removeClass('faded');
 							$('.response.' + Response_ID + ' .down').addClass('faded');
 							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
-							Current_Votes[Response_ID] = 'up';
 						} else if (data.vote == 'down') {
 							console.log('Has Down Vote on ' + Response_ID);
 							$('.response.' + Response_ID + ' .up').addClass('faded');
 							$('.response.' + Response_ID + ' .down').removeClass('faded');
 							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
-							Current_Votes[Response_ID] = 'down';
-						} else if (data.vote == 'invalid') {
-							console.log('Invalid on ' + Response_ID);
-							Current_Votes[Response_ID] = 'none';
-						} else {
-							console.log('Error on ' + Response_ID + ' ' + data);
-							Current_Votes[Response_ID] = 'none';
-						}
+						} else if (data.vote == 'invalid') console.log('Invalid on ' + Response_ID);
+						else console.log('Error on ' + Response_ID + ': ' + data);
 					})
 					.fail(function() {
-						console.log('Error on ' + Response_ID + ' ' + data);
-						Current_Votes[Response_ID] = 'none';
+						console.log('Failed to Load Helpfulness for ' + Response_ID + ': ' + data);
 					})
 				});
 				function HelpfulnessClick() {
 					$('.helpfulness .up').click(function() {
-						var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
+						var Response_ID = $(this).parent().parent().attr('id').substring(12);
 						// TODO Bug: Voting does not get ID for appended Responses
-						console.log('Initiate Up ' + Response_ID);
-						if (Current_Votes[Response_ID] == 'up') {
-							console.log('Clear ' + Response_ID);
+						console.log('Clicked Up on ' + Response_ID);
+						if ($(this).hasClass('faded')) {
+							console.log('Voted Up on ' + Response_ID);
 							$.post(
 								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-								{ vote: 'none' },
+								{ vote: 'up' },
 								function( data ) {
 									if (data.vote == 'confirm') {
-										Current_Votes[Response_ID] = 'none';
-										console.log('Complete Clear ' + Response_ID);
-										$('.response.' + Response_ID + ' .up').addClass('faded');
+										console.log('Complete Up ' + Response_ID);
+										$('.response.' + Response_ID + ' .up').removeClass('faded');
 										$('.response.' + Response_ID + ' .down').addClass('faded');
 									} else console.log(data + data.vote);
 								},
 								'json'
 							);
 						} else {
-							console.log('Up ' + Response_ID);
+							console.log('Cleared Up on ' + Response_ID);
 							$.post(
 								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-								{ vote: 'up' },
+								{ vote: 'none' },
 								function( data ) {
 									if (data.vote == 'confirm') {
-										Current_Votes[Response_ID] = 'up';
-										console.log('Complete Up ' + Response_ID);
-										$('.response.' + Response_ID + ' .up').removeClass('faded');
+										console.log('Complete Clear ' + Response_ID);
+										$('.response.' + Response_ID + ' .up').addClass('faded');
 										$('.response.' + Response_ID + ' .down').addClass('faded');
 									} else console.log(data + data.vote);
 								},
@@ -335,33 +322,31 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						}
 					});
 					$('.helpfulness .down').click(function() {
-						var Response_ID = $(this).parent().parent().parent().parent().attr('id').substring(9);
-						console.log('Initiate Down ' + Response_ID);
-						if (Current_Votes[Response_ID] == 'down') {
-							console.log('Clear ' + Response_ID);
+						var Response_ID = $(this).parent().parent().attr('id').substring(12);
+						console.log('Clicked Down on ' + Response_ID);
+						if ($(this).hasClass('faded')) {
+							console.log('Voted Down on ' + Response_ID);
 							$.post(
 								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-								{ vote: 'none' },
+								{ vote: 'down' },
 								function( data ) {
 									if (data.vote == 'confirm') {
-										Current_Votes[Response_ID] = 'none';
-										console.log('Complete Clear ' + Response_ID);
-										$('.response.' + Response_ID + ' .down').addClass('faded');
+										console.log('Complete Down ' + Response_ID);
+										$('.response.' + Response_ID + ' .down').removeClass('faded');
 										$('.response.' + Response_ID + ' .up').addClass('faded');
 									} else console.log(data + data.vote);
 								},
 								'json'
 							);
 						} else {
-							console.log('Down ' + Response_ID);
+							console.log('Cleared Down on ' + Response_ID);
 							$.post(
 								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
-								{ vote: 'down' },
+								{ vote: 'none' },
 								function( data ) {
 									if (data.vote == 'confirm') {
-										Current_Votes[Response_ID] = 'down';
-										console.log('Complete Down ' + Response_ID);
-										$('.response.' + Response_ID + ' .down').removeClass('faded');
+										console.log('Complete Clear ' + Response_ID);
+										$('.response.' + Response_ID + ' .down').addClass('faded');
 										$('.response.' + Response_ID + ' .up').addClass('faded');
 									} else console.log(data + data.vote);
 								},
@@ -411,8 +396,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 ';
 					if ($Type === 'Review') echo '					<p>\' + data.rating + \' Stars</p>\
 ';
-					echo '					<p>0 Helpful</p>\
-					<div class="helpfulness"><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>\
+					echo '\
+					<div class="helpfulness" id="helpfulness_\' + data.id + \'">\
+						<p>0 Helpful</p>\
+						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>\
+					</div>\
 				</div>\
 			</div>\';
 ';
@@ -425,18 +413,16 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 ';
 				}
 				?>
+						// Append the new Post
 						$('#responses').append(toAppend);
-						if (typeof(HelpfulnessClick) === 'function') {
-							Current_Votes[data.id] = 'none';
-							console.log(data.id);
-							console.log(Current_Votes);
-							HelpfulnessClick();
-						} else console.log(typeof(HelpfulnessClick));
+						// Re-Initialize Helpfulness Click Catching
+						if (typeof(HelpfulnessClick) === 'function') HelpfulnessClick();
+						// Reset the Form
+						$('#respond input').val('');
 						$('#respond textarea').val('');
 						$('#respond select').val([]);
+						// Re-Enable the form
 						$('#respond input[type="submit"]').removeAttr('disabled');
-						// TODO Add to Current_Votes
-						// TODO Re-run $('.helpfulness').click commands
 					});
 					respond.error(function() {
 						$('#respond input[type="submit"]').removeAttr('disabled');
