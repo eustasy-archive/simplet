@@ -52,18 +52,18 @@ The upcoming release.
 ## Roadmap
 
 ### 4
-- Global
-	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
-	- Check MySQL_Connection before attempts
-- Backend
-	- Feeds
-		- Feature: Responses to File-based Posts
 - Forum
 	- Feature: Unread, Read Icon (Database AND Cookies)
 	- Improvement: Add Cached Counts to Categories
 - Responses
 	- Bug: Show Error on Error
 	- Feature: Order by Helpfulness, Recency and Age
+
+### 4.0.1
+- Global
+	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
+	- Check MySQL_Connection before attempts
+	- Improve Code Commenting
 
 ### 4.1
 - Admin Interface
