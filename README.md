@@ -56,8 +56,9 @@ The upcoming release.
 	- Feature: Unread, Read Icon (Database AND Cookies)
 	- Improvement: Add Cached Counts to Categories
 - Responses
-	- Bug: Show Error on Error
 	- Feature: Order by Helpfulness, Recency and Age
+	- Bug: Show Error on Error
+	- Bug: Special Characters do not display properly in code blocks.
 
 ### 4.0.1
 - Global
