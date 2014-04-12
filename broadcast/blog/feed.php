@@ -10,7 +10,7 @@
 
 	$Featured_Image = '';
 
-	$Canonical = 'blog/rss';
+	$Canonical = 'blog/feed';
 
 	$Post_Type = 'Blog RSS';
 	$Post_Category = '';
@@ -22,7 +22,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	Feed_Header($Canonical);
 
 	// List all the files
-	$Items = glob('*.php', GLOB_NOSORT);
+	$Items = globRecursive('*.php', GLOB_NOSORT);
 
 	// Order them by time
 	array_multisort(array_map('filemtime', $Items), SORT_NUMERIC, SORT_DESC, $Items);
