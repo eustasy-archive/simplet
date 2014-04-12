@@ -418,7 +418,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						// Re-Initialize Helpfulness Click Catching
 						if (typeof(HelpfulnessClick) === 'function') HelpfulnessClick();
 						// Reset the Form
-						$('#respond input').val('');
+						$('#respond input[type="text"]').val('');
 						$('#respond textarea').val('');
 						$('#respond select').val([]);
 						// Re-Enable the form
