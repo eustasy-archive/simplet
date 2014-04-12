@@ -58,7 +58,6 @@ The upcoming release.
 - Responses
 	- Feature: Order by Helpfulness, Recency and Age
 	- Bug: Show Error on Error
-	- Bug: Special Characters do not display properly in code blocks.
 
 ### 4.0.1
 - Global

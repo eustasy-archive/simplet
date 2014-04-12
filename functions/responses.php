@@ -3,7 +3,7 @@
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 	// Set some Globals
-	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $MySQL_Connection, $Sitewide_Root;
+	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $MySQL_Connection, $Sitewide_Root, $Sitewide_AllowHTML;
 
 	// Catch any responses that didn't go to the API
 	if (isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply')) {
@@ -141,7 +141,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				// Get all the information you can.
 				$Responses_ID = $Responses_Fetch['ID'];
 				$Responses_Member_ID = $Responses_Fetch['Member_ID'];
-				$Responses_Post = Parsedown::instance()->parse($Responses_Fetch['Post']);
+				if ($Sitewide_AllowHTML) $Responses_Post = Parsedown::instance()->parse(html_entity_decode($Responses_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
+				else $Responses_Post = Parsedown::instance()->parse($Responses_Fetch['Post']);
 				$Responses_Created = $Responses_Fetch['Created'];
 				$Responses_Modified = $Responses_Fetch['Modified'];
 				if ($Helpfulness_Show) {
