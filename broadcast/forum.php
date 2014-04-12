@@ -182,7 +182,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 			$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
 			$Topic_Status = $Topic_Fetch['Status'];
-			$Topic_Title = html_entity_decode($Topic_Fetch['Title'], ENT_QUOTES, 'UTF-8');
+			$Topic_Title = $Topic_Fetch['Title'];
 			$Topic_Created = $Topic_Fetch['Created'];
 			$Topic_Modified = $Topic_Fetch['Modified'];
 
