@@ -57,7 +57,6 @@ The upcoming release.
 	- Check MySQL_Connection before attempts
 - Backend
 	- Feeds
-		- Feature: Responses to Forum Topics
 		- Feature: Responses to File-based Posts
 - Forum
 	- Feature: Unread, Read Icon (Database AND Cookies)
