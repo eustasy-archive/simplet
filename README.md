@@ -51,6 +51,9 @@ The upcoming release.
 
 ## Roadmap
 
+### 4
+- Bug: Password Resets do not work
+
 ### 4.1
 - Global
 	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
@@ -113,7 +116,7 @@ The upcoming release.
 ### PHP
 - [Browning (0.23)](https://github.com/eustasy/browning-a-mailgun-script)
 - [Parsedown (0.9.4)](https://github.com/erusev/parsedown)
-- [Recaptcha (1.11)](https://www.google.com/recaptcha/admin)
+- [Recaptcha (1.11)](https://code.google.com/p/recaptcha/downloads/list?q=label:phplib-Latest)
 - [Sweet Captcha (1.1.0)](https://github.com/sweetcaptcha/sweetcaptcha-sdk-php)
 
 ### CSS
