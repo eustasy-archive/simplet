@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `Responses` (
   `Post` mediumtext NOT NULL,
   `Created` int(11) NOT NULL,
   `Modified` int(11) NOT NULL,
-  UNIQUE KEY `ID` (`ID`),
+  UNIQUE KEY `ID` (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `Helpfulness` (
   `Helpfulness` varchar(4) NOT NULL,
   `Created` int(12) NOT NULL,
   `Modified` int(12) NOT NULL,
-  PRIMARY KEY (`ID`)
+  UNIQUE KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -163,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `Helpfulness` (
 --
 
 CREATE TABLE IF NOT EXISTS `Views` (
+  `ID` int(255) NOT NULL AUTO_INCREMENT,
   `Request` varchar(2500) NOT NULL,
   `Canonical` varchar(2500) NOT NULL,
   `Post_Type` varchar(255) NOT NULL,
@@ -172,5 +173,5 @@ CREATE TABLE IF NOT EXISTS `Views` (
   `Member_ID` varchar(12) NOT NULL,
   `Admin` varchar(5) NOT NULL,
   `Time` int(12) NOT NULL,
-  PRIMARY KEY (`Canonical`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
