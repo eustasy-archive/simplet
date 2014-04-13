@@ -70,6 +70,8 @@ require 'functions/feed.forum.php';
 require 'functions/forum.categories.php';
 require 'functions/forum.category.check.php';
 require 'functions/forum.category.info.php';
+require 'functions/forum.category.count.php';
+require 'functions/forum.category.increment.php';
 require 'functions/forum.category.modified.php';
 
 require 'functions/forum.topics.php';
@@ -78,6 +80,7 @@ require 'functions/forum.topic.check.php';
 require 'functions/forum.topic.info.php';
 require 'functions/forum.topic.count.php';
 require 'functions/forum.topic.increment.php';
+require 'functions/forum.topic.modified.php';
 
 require 'functions/responses.php';
 require 'functions/respond.php';

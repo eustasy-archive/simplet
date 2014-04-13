@@ -34,7 +34,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
     		header('HTTP/1.1 401 Unauthorized');
 			$Error = 'You are not logged in.';
 
-		} else if ($_POST['action']=='topic') {
+		} else if ($_POST['action'] == 'topic') {
 
 			if (!isset($_POST['title']) || empty($_POST['title'])) {
 				$Error = 'No Topic Set.';
@@ -79,6 +79,9 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', 'Post', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
 					}
+
+					Forum_Category_Modified($Topic_Category);
+					Forum_Category_Increment($Topic_Category);
 
 					header('Location: ?topic='.$Topic_Slug, TRUE, 302);
 					die();

@@ -373,7 +373,7 @@ sup { top: -.5em; }
 
 sub { bottom: -.25em; }
 
-pre, xmp, plaintext, listing { white-space: pre-line; }
+pre, xmp, plaintext, listing { white-space: pre; }
 abbr { border-bottom: #ccc solid 3px; }
 
 /* IMAGES ============================================================================= */

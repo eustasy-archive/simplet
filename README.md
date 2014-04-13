@@ -51,22 +51,18 @@ The upcoming release.
 
 ## Roadmap
 
-### 4
-- Forum
-	- Feature: Unread, Read Icon (Database AND Cookies)
-	- Improvement: Add Cached Counts to Categories
-- Responses
-	- Feature: Order by Helpfulness, Recency and Age
-	- Bug: Show Error on Error
-
-### 4.0.1
+### 4.1
 - Global
 	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
 	- Check MySQL_Connection before attempts
 	- Improve Code Commenting
+- Forum
+	- Feature: Unread, Read Icon (Database AND Cookies)
+- Responses
+	- Editing
 
-### 4.1
-- Admin Interface
+### Future
+- Feature: Admin Interface
 	- User Management
 		- Edit/Lock/Delete
 		- Mail
@@ -76,42 +72,41 @@ The upcoming release.
 		- Edit/Private/Hide/Lock/Delete Topics
 	- Responses Edit/Hide/Delete
 - Configuration
-	- Move Database Config to `once/connect.php` (?)
-	- Move Remaining to Database
-- Security Limits
-	- Time-and-Attempt-based
+	- Improvement: Move Database Config to `once/connect.php` (?)
+	- Improvement: Move Remaining to Database
+- Feature: Security Limits
+	- Requirement: Time-and-Attempt-based
 	- Option of System
-		- Captcha
-		- SweetCaptcha
-		- Block
+		- Improvement: Captcha
+		- Improvement: SweetCaptcha
+		- Improvement: Block
+		- Improvement: English
+		- Improvement: Maths
+		- Improvement: Science
+	- Options for:
 	- Signups
-	- Logins
-	- Resets
-	- Forum Topics
-	- Responses
+		- Logins
+		- Resets
+		- Forum Topics
+		- Responses
 - Responses
 	- Editing
-		- Configuration Option for Time Locking Edits
-	- Responses to Responses
-	- Order by Responses to Responses
+		- Improvement: Configuration Option for Time Locking Edits
+	- Feature: Order by Helpfulness, Recency and Age
+	- Feature: Responses to Responses
+	- Improvement: Order by Responses to Responses
 - Feeds
 	- File Based
-		- Categories
-		- Pagination
+		- Improvement: Categories
+		- Improvement: Pagination
 	- Database
-		- Pagination
-
-### Future
+		- Improvement: Pagination
 - User Accounts
-	- Groups
-	- User Profiles
-	- Inter-User Messaging
-- Security Limit Options
-	- English
-	- Maths
-	- Science
-- Database-Driven Blog & Pages
-- Apache Config File (with Extensionless PHP)
+	- Feature: Groups
+	- Feature: User Profiles
+	- Feature: Inter-User Messaging
+- Feature: Database-Driven Blog & Pages
+- Feature: Apache Config File (with Extensionless PHP)
 
 ## Libraries
 

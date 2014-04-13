@@ -57,14 +57,6 @@ function Respond($Status_Override = false) {
 			$Response_Status = 'Public';
 		}
 
-		if ($Response_Status === 'Public') {
-			// Update Topic
-			Forum_Topic_Increment($Response_Canonical);
-			// Update Category
-			$Topic_Info = Forum_Topic_Info($Response_Canonical);
-			Forum_Category_Modified($Topic_Info['Category']);
-		}
-
 		// Query
 		$Response_Query = 'INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Post.'\', \''.$Time.'\', \''.$Time.'\')';
 		$Response_New = mysqli_query($MySQL_Connection, $Response_Query, MYSQLI_STORE_RESULT);
@@ -76,6 +68,17 @@ function Respond($Status_Override = false) {
 		$Response_Return['id'] = $Response_ID;
 		$Response_Return['post'] = $Response_Parsed;
 		$Response_Return['rating'] = $Response_Rating;
+
+		// If the response is (Public or Private) and is a Forum Post
+		if (($Response_Status === 'Public' || $Response_Status === 'Private') && $Response_Type == 'Post') {
+			// Update Responses Count for Topic
+			// Also updates Modified Time for Topic
+			Forum_Topic_Increment($Response_Canonical);
+			// Get the Category Name from Topic
+			$Topic_Info = Forum_Topic_Info($Response_Canonical);
+			// Use the Category Name to update the Modified Time
+			Forum_Category_Modified($Topic_Info['Category']);
+		}
 
 	} else {
 		// Catch errors
