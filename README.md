@@ -20,7 +20,7 @@ First release fully segregated from any hard-coded site-dependent information, r
 The first truly open-sourced release (under the MIT license), 3.7 through 9 are  Alphas and Betas (as marked) for the version 4 release.
 
 ### Version 4
-The upcoming release.
+Current stable release.
 
 ## Features
 - Responsive Layout
@@ -48,68 +48,6 @@ The upcoming release.
 	- Trending Posts
 - Open Source
 - Quotes Douglas Adams
-
-## Roadmap
-
-### 4
-- Bug: Password Resets do not work
-
-### 4.1
-- Global
-	- Move to more popular [Google Fonts](//fonts.googleapis.com/css?family=Open+Sans300,400|Droid+Sans:400,700|Droid+Serif:400,700,400italic,700italic)
-	- Check MySQL_Connection before attempts
-	- Improve Code Commenting
-- Forum
-	- Feature: Unread, Read Icon (Database AND Cookies)
-- Responses
-	- Editing
-
-### Future
-- Feature: Admin Interface
-	- User Management
-		- Edit/Lock/Delete
-		- Mail
-		- Reset Pass
-	- Forum
-		- Create/Edit/Private/Hide/Lock/Delete Categories
-		- Edit/Private/Hide/Lock/Delete Topics
-	- Responses Edit/Hide/Delete
-- Configuration
-	- Improvement: Move Database Config to `once/connect.php` (?)
-	- Improvement: Move Remaining to Database
-- Feature: Security Limits
-	- Requirement: Time-and-Attempt-based
-	- Option of System
-		- Improvement: Captcha
-		- Improvement: SweetCaptcha
-		- Improvement: Block
-		- Improvement: English
-		- Improvement: Maths
-		- Improvement: Science
-	- Options for:
-	- Signups
-		- Logins
-		- Resets
-		- Forum Topics
-		- Responses
-- Responses
-	- Editing
-		- Improvement: Configuration Option for Time Locking Edits
-	- Feature: Order by Helpfulness, Recency and Age
-	- Feature: Responses to Responses
-	- Improvement: Order by Responses to Responses
-- Feeds
-	- File Based
-		- Improvement: Categories
-		- Improvement: Pagination
-	- Database
-		- Improvement: Pagination
-- User Accounts
-	- Feature: Groups
-	- Feature: User Profiles
-	- Feature: Inter-User Messaging
-- Feature: Database-Driven Blog & Pages
-- Feature: Apache Config File (with Extensionless PHP)
 
 ## Libraries
 
