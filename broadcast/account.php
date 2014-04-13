@@ -110,16 +110,16 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Keywords = 'log in account';
 
 				$Canonical = $Sitewide_Account.'?login';
-				
+
 				require $Header;
-				
+
 				echo '<h2>Login Error</h2>';
 				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login';
 				if (isset($_GET['redirect'])) echo $_GET['redirect'];
 				echo '">Try Again</a></h3>';
-				
+
 				require $Footer;
-				
+
 			}
 
 		} else { // Login Form
@@ -130,7 +130,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Keywords = 'log in account';
 
 			$Canonical = $Sitewide_Account.'?login';
-			
+
 			require $Header;
 			?>
 			<form class="col span_1_of_1" action="" method="post">
@@ -259,7 +259,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Keywords = 'register account';
 
 				$Canonical = $Sitewide_Account.'?register';
-				
+
 				require $Header;
 				echo '<h2>Registration Error</h2>';
 				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?register">Try Again</a></h3>';
@@ -540,8 +540,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-						//$Key_Fetch = mysqli_fetch_assoc($Key_Check); // Bring them to me. Alive.
-						//$Member_ID = $Key_Fetch['Member_ID'];
+						$Key_Info = runonceCheck($Key, '*');
 
 						$Salt = stringGenerator();
 
@@ -550,12 +549,11 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						// TODO Add Key Types
 						// TODO memberExists
 						// TODO memberChangePass
-						// TODO runonceDestroy
-					//	$Reset = mysqli_query($MySQL_Connection, "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
-						//if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
 
-					///	$Key_Remove = mysqli_query($MySQL_Connection, "UPDATE `Resets` SET `Active`='0', `Modified`='$Time' WHERE `Key`='$Reset_Key'", MYSQLI_STORE_RESULT);
-					//	if (!$Key_Remove) exit('Invalid Query (Key_Remove): '.mysqli_error($MySQL_Connection));
+						$Reset = mysqli_query($MySQL_Connection, 'UPDATE `Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
+						if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($MySQL_Connection));
+
+						runonceDelete($Key, $Key_Info['Member_ID']);
 
 						echo '<h2>Password Reset Successfully</h2>';
 						echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
@@ -683,7 +681,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Member_Delete = mysqli_query($MySQL_Connection, 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 				if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($MySQL_Connection));
-				
+
 				runonceDelete($Key, $Member_ID);
 
 				echo '
