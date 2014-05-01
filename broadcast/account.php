@@ -505,7 +505,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				 			echo $Sessions_Fetch['IP'];
 				 		}
 				 	}
-				 	echo ' at ' . $Sessions_Fetch['Created'] . ' <a class="floatright" href="?sessions&cookie=' . $Sessions_Fetch['Cookie'] . '">Terminate</a></p>';
+				 	echo ' at '.date('G:i, jS F Y', $Sessions_Fetch['Created']).' <a class="floatright" href="?sessions&cookie=' . $Sessions_Fetch['Cookie'] . '">Terminate</a></p>';
 				}
 			}
 
