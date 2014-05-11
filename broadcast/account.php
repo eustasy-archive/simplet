@@ -27,7 +27,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	if (isset($_GET['login'])) { // Login
 
 		if ($Member_Auth) { // Login Redirect
-			header('Location: '.$Place['path'].$Canonical, TRUE, 302);
+			if (isset($_GET['redirect'])) header('Location: /'.urldecode($_GET['redirect']), TRUE, 302);
+			else header('Location: '.$Sitewide_Account, TRUE, 302);
 			die();
 
 		} else if (isset($_POST['mail']) || isset($_POST['pass'])) { // Login Process
