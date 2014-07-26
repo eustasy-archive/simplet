@@ -36,10 +36,10 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 		} else if ($_POST['action'] == 'topic') {
 
-			if (!isset($_POST['title']) || empty($_POST['title'])) {
+			if (empty($_POST['title'])) {
 				$Error = 'No Topic Set.';
 
-			} else if (!isset($_POST['category']) || empty($_POST['category'])) {
+			} else if (empty($_POST['category'])) {
 				$Error = 'No Category Set.';
 
 			} else {
@@ -151,7 +151,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 		}
 
-	} else if (isset($_GET['topic']) && !empty($_GET['topic'])) {
+	} else if (!empty($_GET['topic'])) {
 
 		$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
 		if (substr($Topic_Slug, 0, strlen($Sitewide_Forum)+1) == '/'.$Sitewide_Forum) {
@@ -246,7 +246,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			}
 		}
 
-	} else if (isset($_GET['category']) && !empty($_GET['category'])) {
+	} else if (!empty($_GET['category'])) {
 
 		Forum_Topics();
 

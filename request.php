@@ -2,7 +2,7 @@
 
 
 
-////   Set the Default Timezone.
+////	Set the Default Timezone.
 
 // Note: GMT is deprecated. Use UTC instead.
 date_default_timezone_set('UTC');

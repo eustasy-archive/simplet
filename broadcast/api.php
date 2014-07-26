@@ -45,10 +45,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		if (!$Member_Auth) {
 			$Helpfulness_Return['vote'] = 'false';
 
-		} else if (!isset($_GET['id']) || empty($_GET['id'])) {
+		} else if (empty($_GET['id'])) {
 			array_push($Helpfulness_Return['error'], 'No Response ID Defined.');
 
-		} else if ( isset($_GET['fetch']) || ( isset($_GET['set']) && isset($_POST['vote']) && !empty($_POST['vote']) ) ) {
+		} else if ( isset($_GET['fetch']) || ( isset($_GET['set']) && !empty($_POST['vote']) ) ) {
 
 			$Response_ID = strval(htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'));
 
@@ -135,7 +135,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				}
 
 				if (isset($_GET['set'])) {
-					if (isset($_POST['vote']) && !empty($_POST['vote'])) {
+					if (!empty($_POST['vote'])) {
 						// On Vote Helpfulness Change Helpfulness on Response
 						$Responses_Helpfulness_New = $Responses_Helpfulness + $Helpfulness_Change;
 
@@ -147,7 +147,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 
 		} else {
-			if (isset($_GET['set']) && ( !isset($_POST['vote']) || empty($_POST['vote']) ) ) {
+			if ( isset($_GET['set']) && empty($_POST['vote']) ) {
 				// Error: Vote not set
 				array_push($Helpfulness_Return['error'], 'Vote not set.');
 			} else {

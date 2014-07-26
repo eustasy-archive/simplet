@@ -33,10 +33,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		} else if (isset($_POST['mail']) || isset($_POST['pass'])) { // Login Process
 
-			if (!isset($_POST['pass']) || empty($_POST['pass'])) {
+			if (empty($_POST['pass'])) {
 				$Error = 'No Pass received.';
 
-			} else if (!isset($_POST['mail']) || empty($_POST['mail'])) {
+			} else if (empty($_POST['mail'])) {
 				$Error = 'No Mail received.';
 
 			} else {
@@ -103,7 +103,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			}
 
-			if (isset($Error) && !empty($Error)) { // Login Error
+			if (!empty($Error)) { // Login Error
 
 				$Title_HTML = 'Log In';
 				$Title_Plain = 'Log In';
@@ -188,7 +188,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		require $Header;
 
-		if (isset($Error) && !empty($Error)) {
+		if (!empty($Error)) {
 			echo '<h2>Logout Error</h2>';
 			echo '<h3>'.$Error.'</h3>';
 		} else {
@@ -210,13 +210,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		} else if (isset($_POST['name']) || isset($_POST['mail']) || isset($_POST['pass'])) { // Register Process
 
-			if (!isset($_POST['name']) || empty($_POST['name'])) {
+			if (empty($_POST['name'])) {
 				$Error = 'We really need an name.';
 
-			} else if (!isset($_POST['mail']) || empty($_POST['mail'])) {
+			} else if (empty($_POST['mail'])) {
 				$Error = 'We really need an email.';
 
-			} else if (!isset($_POST['pass']) || empty($_POST['pass'])) {
+			} else if (empty($_POST['pass'])) {
 				$Error = 'You really need a password.';
 
 			} else {
@@ -252,7 +252,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				}
 			}
 
-			if (isset($Error) && !empty($Error)) { // Register Error
+			if (!empty($Error)) { // Register Error
 
 				$Title_HTML = 'Register';
 				$Title_Plain = 'Register';
@@ -299,7 +299,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			<?php
 			require $Footer;
 		}
-	} else if (isset($_GET['change']) && !empty($_GET['change'])) { // Change
+	} else if (!empty($_GET['change'])) { // Change
 
 		if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'name') { // Change Name
 
@@ -452,7 +452,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Error = 'Invalid Change Variable';
 		}
 
-		if (isset($Error) && !empty($Error)) { // Change Error
+		if (!empty($Error)) { // Change Error
 			require $Header;
 			echo '<h2>Change Error</h2>';
 			echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="">Try Again</a></h3>';
@@ -498,7 +498,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			} else {
 				while ($Sessions_Fetch = mysqli_fetch_assoc($Sessions)) {
 				 	echo '<p>Login';
-				 	if (isset($Sessions_Fetch['IP']) && !empty($Sessions_Fetch['IP'])) {
+				 	if (!empty($Sessions_Fetch['IP'])) {
 				 		echo ' from ';
 				 		if (function_exists('geoip_country_name_by_name')) {
 				 			echo geoip_country_name_by_name($Sessions_Fetch['IP']);

@@ -23,7 +23,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		}
 	}
 
-	if ( !isset($Response_Canonical) || empty($Response_Canonical) ) $Response_Canonical = $Canonical;
+	if ( empty($Response_Canonical) ) $Response_Canonical = $Canonical;
 	$Response_Canonical = urlencode($Response_Canonical);
 
 	if ($Type === 'Review' || ($Type === 'Comment' && $Comment_Helpful === true) || ($Type === 'Post' && $Forum_Reply_Helpful === true) ) {

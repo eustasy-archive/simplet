@@ -22,7 +22,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	require '../../header.php';
 
 		// IFCATEGORY
-		if (isset($_GET['category'])) {
+		if (!empty($_GET['category'])) {
 			$Category = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
 		} else {
 			$Category = false;
