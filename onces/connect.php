@@ -17,3 +17,18 @@ if(
 	if(empty($Database_Pass)) $MySQL_Connection_Error .= 'No Database Pass Configured. ';
 	if(empty($Database_Name)) $MySQL_Connection_Error .= 'No Database Name Configured. ';
 }
+
+if (!$MySQL_Connection) {
+	echo '<!DocType html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Simplet: Fatal Error</title>
+	</head>
+	<body>
+		<h1>Simplet: Fatal Error</h1>
+		<p>Simplet has encountered a fatal error and cannot continue. Don\'t worry, it\'s nothing you did, it\'s the owner of the site. Unless you are the owner of the site. (Shame on you.)</p>
+		<h3>'.$MySQL_Connection_Error.'</h3>
+	</body>
+</html>';
+}
