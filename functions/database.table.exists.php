@@ -9,16 +9,19 @@
 function Database_Table_Exists($Table_Name) {
 
 	// Set some Globals
-	global $MySQL_Connection;
+	global $Database_Name, $MySQL_Connection;
 	
-	$Database_Table_Exists_Query = mysqli_query($MySQL_Connection, 'SELECT COUNT(`TABLE_NAME`) AS `Count` FROM `information_schema`.`TABLES` WHERE `TABLE_NAME`=\''.$Table_Name.'\'', MYSQLI_STORE_RESULT);
+ 	$Database_Table_Exists_Query = 'SELECT * FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA`=\''.$Database_Name.'\' AND `TABLE_NAME`=\''.$Table_Name.'\'';
+ 	
+	$Database_Table_Exists_Query = mysqli_query($MySQL_Connection, $Database_Table_Exists_Query, MYSQLI_STORE_RESULT);
+	
 	if (!$Database_Table_Exists_Query) {
 		echo 'Invalid Query (Key_Check): '.mysqli_error($MySQL_Connection);
 		return false;
 	}
 
-	$Database_Table_Exists_Query_Fetch = mysqli_fetch_assoc($Database_Table_Exists_Query);
-	if ($Database_Table_Exists_Query_Fetch['Count'] > 0) return true;
+	$Database_Table_Exists_Query_Count = mysqli_num_rows($Database_Table_Exists_Query);
+	if ($Database_Table_Exists_Query_Count > 0) return true;
 	else return false;
 
 }
