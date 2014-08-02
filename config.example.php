@@ -91,3 +91,4 @@
 	$Sitewide_Account = 'account';
 	$Sitewide_Forum = 'forum';
 	$Sitewide_AllowHTML = false;
+	$Sitewide_FatalOnDatabaseError = false;
