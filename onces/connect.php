@@ -18,7 +18,7 @@ if(
 	if(empty($Database_Name)) $MySQL_Connection_Error .= 'No Database Name Configured. ';
 }
 
-if (!$MySQL_Connection) {
+if (!$MySQL_Connection && $Sitewide_FatalOnDatabaseError) {
 	echo '<!DocType html>
 <html>
 	<head>
