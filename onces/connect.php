@@ -15,7 +15,7 @@ if(
 		
 		$MySQL_Connection_Error = false;
 		
-		require 'autoinstall.php';
+		if ($Sitewide_Database_AutoInstall) require 'autoinstall.php';
 		
 	}
 	
