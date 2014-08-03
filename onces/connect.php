@@ -17,7 +17,7 @@ if(
 		
 		require '../functions/database.table.exists.php';
 		
-		if (!Database_Table_Exists('Members')) {
+		if ($Sitewide_Database_AutoInstall && !Database_Table_Exists('Members')) {
 			$Create_Table_Members = '
 CREATE TABLE IF NOT EXISTS `Members` (
 	`ID` varchar(12) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
 	UNIQUE KEY `ID` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 			$Create_Table_Members = mysqli_query($MySQL_Connection, $Create_Table_Members, MYSQLI_STORE_RESULT);
-		  	if (!$Create_Table_Members) echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($MySQL_Connection);
+			if ($Sitewide_Debug && !$Create_Table_Members) echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($MySQL_Connection);
 		}
 		
 		// TODO Add Creation for Other Tables
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
 }
 
 // TODO Different Error for unconfigured.
-if (!$MySQL_Connection && $Sitewide_FatalOnDatabaseError) {
+if (!$MySQL_Connection && $Sitewide_Database_FatalOnError) {
 	echo '<!DocType html>
 <html>
 	<head>
