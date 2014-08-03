@@ -93,3 +93,4 @@
 	$Sitewide_AllowHTML = false;
 	$Sitewide_Database_FatalOnError = false;
 	$Sitewide_Database_AutoInstall = false;
+	$Sitewide_Debug = true;
