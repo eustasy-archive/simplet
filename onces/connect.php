@@ -2,14 +2,31 @@
 
 $Database = array();
 
+// Database Configuration
+
+// Database Host
+// 'localhost' or an IP Address
+$Database['Host'] = 'localhost';
+
+// Database User
+// You probably shouldn't use 'Simplet' here.
+$Database['User'] = 'Simplet';
+
+// Database Pass
+$Database['Pass'] = '';
+
+// Database Name
+// You might want to change the Database Name too.
+$Database['Name'] = 'Simplet';
+
 if(
-	!empty($Database_Host) &&
-	!empty($Database_User) &&
-	!empty($Database_Pass) &&
-	!empty($Database_Name)
+	!empty($Database['Host']) &&
+	!empty($Database['User']) &&
+	!empty($Database['Pass']) &&
+	!empty($Database['Name'])
 	) {
 	
-	$MySQL_Connection = mysqli_connect($Database_Host, $Database_User, $Database_Pass, $Database_Name);
+	$MySQL_Connection = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
 	
 	if (!$MySQL_Connection) $MySQL_Connection_Error = 'Connection Failed. Check your configuration is correct. <!-- Simplet MySQL Error: '.mysqli_connect_error($MySQL_Connection).' -->';
 	
@@ -50,14 +67,16 @@ if(
 	
 	$MySQL_Connection = false;
 	$MySQL_Connection_Error = 'Error(s): ';
-	if (empty($Database_Host)) $MySQL_Connection_Error .= 'No Database Host Configured. ';
-	if (empty($Database_User)) $MySQL_Connection_Error .= 'No Database User Configured. ';
-	if (empty($Database_Pass)) $MySQL_Connection_Error .= 'No Database Pass Configured. ';
-	if (empty($Database_Name)) $MySQL_Connection_Error .= 'No Database Name Configured. ';
+	if (empty($Database['Host'])) $MySQL_Connection_Error .= 'No Database Host Configured. ';
+	if (empty($Database['User'])) $MySQL_Connection_Error .= 'No Database User Configured. ';
+	if (empty($Database['Pass'])) $MySQL_Connection_Error .= 'No Database Pass Configured. ';
+	if (empty($Database['Name'])) $MySQL_Connection_Error .= 'No Database Name Configured. ';
 	
 }
 
-// TODO Different Error for unconfigured.
+// TODO
+// Different Error for unconfigured. Suggest editing.
+// Also, suggest auto-install if fatal and no tables.
 if (!$MySQL_Connection && $Sitewide_Database_FatalOnError) {
 	echo '<!DocType html>
 <html>
