@@ -1,5 +1,7 @@
 <?php
 
+$Database = array();
+
 if(
 	!empty($Database_Host) &&
 	!empty($Database_User) &&
@@ -15,7 +17,32 @@ if(
 		
 		$MySQL_Connection_Error = false;
 		
-		if ($Sitewide_Database_AutoInstall) require 'autoinstall.php';
+		require '../functions/database.table.exists.php';
+		$Database['Exists'] = array();
+		$Database['Exists']['Members'] = Database_Table_Exists('Members');
+		$Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
+		$Database['Exists']['Failures'] = Database_Table_Exists('Failures');
+		$Database['Exists']['Runonce'] = Database_Table_Exists('Runonce');
+		$Database['Exists']['Categories'] = Database_Table_Exists('Categories');
+		$Database['Exists']['Topics'] = Database_Table_Exists('Topics');
+		$Database['Exists']['Responses'] = Database_Table_Exists('Responses');
+		$Database['Exists']['Helpfulness'] = Database_Table_Exists('Helpfulness');
+		$Database['Exists']['Views'] = Database_Table_Exists('Views');
+		
+		if (
+			$Sitewide_Database_AutoInstall &&
+			(
+				!$Database['Exists']['Members'] ||
+				!$Database['Exists']['Sessions'] ||
+				!$Database['Exists']['Failures'] ||
+				!$Database['Exists']['Runonce'] ||
+				!$Database['Exists']['Categories'] ||
+				!$Database['Exists']['Topics'] ||
+				!$Database['Exists']['Responses'] ||
+				!$Database['Exists']['Helpfulness'] ||
+				!$Database['Exists']['Views']
+			)
+		) require 'autoinstall.php';
 		
 	}
 	

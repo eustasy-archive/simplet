@@ -7,7 +7,7 @@
 // Database_Table_Exists('Topics');
 
 function Database_Table_Exists($Table_Name) {
-
+	
 	// Set some Globals
 	global $Database_Name, $MySQL_Connection;
 	
@@ -19,9 +19,9 @@ function Database_Table_Exists($Table_Name) {
 		echo 'Invalid Query (Key_Check): '.mysqli_error($MySQL_Connection);
 		return false;
 	}
-
+	
 	$Database_Table_Exists_Query_Count = mysqli_num_rows($Database_Table_Exists_Query);
 	if ($Database_Table_Exists_Query_Count > 0) return true;
 	else return false;
-
+	
 }

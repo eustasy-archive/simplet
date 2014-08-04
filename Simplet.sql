@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `Sessions` (
 	INDEX `Mail` (`Mail`),
 	INDEX `Cookie` (`Cookie`),
 	INDEX `Active` (`Active`)
-) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
+) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 

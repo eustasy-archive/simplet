@@ -1,8 +1,6 @@
 <?php
-	
-require '../functions/database.table.exists.php';
 
-if (!Database_Table_Exists('Members')) {
+if (!$Database['Exists']['Members']) {
 	$Create_Table_Members = '
 		CREATE TABLE IF NOT EXISTS `Members` (
 			`ID` varchar(12) NOT NULL,
@@ -21,7 +19,7 @@ if (!Database_Table_Exists('Members')) {
 	if ($Sitewide_Debug && !$Create_Table_Members) echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($MySQL_Connection);
 }
 
-if (!Database_Table_Exists('Sessions')) {
+if (!$Database['Exists']['Sessions']) {
 	$Create_Table_Sessions = '
 		CREATE TABLE IF NOT EXISTS `Sessions` (
 			`ID` int(255) NOT NULL AUTO_INCREMENT,
