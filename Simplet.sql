@@ -68,7 +68,10 @@ CREATE TABLE IF NOT EXISTS `Failures` (
 	`Mail` varchar(255) NOT NULL,
 	`IP` varchar(255) NOT NULL,
 	`Created` int(11) NOT NULL,
-	UNIQUE KEY `ID` (`ID`)
+	UNIQUE KEY `ID` (`ID`),
+	PRIMARY KEY `Member_ID` (`Member_ID`),
+	INDEX `Mail` (`Mail`),
+	INDEX `IP` (`IP`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -85,7 +88,26 @@ CREATE TABLE IF NOT EXISTS `Runonce` (
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
 	`Notes` mediumtext NOT NULL,
-	UNIQUE KEY `Key` (`Key`)
+	UNIQUE KEY `Key` (`Key`),
+	PRIMARY KEY `Member_ID` (`Member_ID`),
+	INDEX `Status` (`Status`),
+	INDEX `IP` (`IP`),
+	INDEX `Created` (`Created`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Settings`
+--
+
+CREATE TABLE IF NOT EXISTS `Settings` (
+	`Name` varchar(64) NOT NULL,
+	`Value` varchar(64) NOT NULL,
+	`Created` int(11) NOT NULL,
+	`Modified` int(11) NOT NULL,
+	UNIQUE KEY `Name` (`Name`),
+	PRIMARY KEY `Value` (`Value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -103,7 +125,12 @@ CREATE TABLE IF NOT EXISTS `Categories` (
 	`Topics` int(10) NOT NULL,
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
-	PRIMARY KEY (`Slug`)
+	UNIQUE KEY `Slug` (`Slug`),
+	INDEX `Member_ID` (`Member_ID`),
+	INDEX `Status` (`Status`),
+	INDEX `Topics` (`Topics`),
+	INDEX `Created` (`Created`),
+	INDEX `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -121,7 +148,13 @@ CREATE TABLE IF NOT EXISTS `Topics` (
 	`Responses` int(10) NOT NULL,
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
-	PRIMARY KEY (`Slug`)
+	UNIQUE KEY `Slug` (`Slug`),
+	INDEX `Member_ID` (`Member_ID`),
+	INDEX `Status` (`Status`),
+	INDEX `Category` (`Category`),
+	INDEX `Responses` (`Responses`),
+	INDEX `Created` (`Created`),
+	INDEX `Modified` (`Modified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -141,7 +174,15 @@ CREATE TABLE IF NOT EXISTS `Responses` (
 	`Post` mediumtext NOT NULL,
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
-	UNIQUE KEY `ID` (`ID`)
+	UNIQUE KEY `ID` (`ID`),
+	INDEX `Member_ID` (`Member_ID`),
+	INDEX `Canonical` (`Canonical`),
+	INDEX `Type` (`Type`),
+	INDEX `Status` (`Status`),
+	INDEX `Helpfulness` (`Helpfulness`),
+	INDEX `Rating` (`Rating`),
+	INDEX `Created` (`Created`),
+	INDEX `Modified` (`Modified`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -158,7 +199,11 @@ CREATE TABLE IF NOT EXISTS `Helpfulness` (
 	`Helpfulness` varchar(4) NOT NULL,
 	`Created` int(12) NOT NULL,
 	`Modified` int(12) NOT NULL,
-	UNIQUE KEY (`ID`)
+	UNIQUE KEY (`ID`),
+	INDEX `Response_Canonical` (`Response_Canonical`),
+	INDEX `Response_ID` (`Response_ID`),
+	INDEX `Member_ID` (`Member_ID`),
+	INDEX `Helpfulness` (`Helpfulness`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -178,5 +223,14 @@ CREATE TABLE IF NOT EXISTS `Views` (
 	`Member_ID` varchar(12) NOT NULL,
 	`Admin` varchar(5) NOT NULL,
 	`Time` int(12) NOT NULL,
-	PRIMARY KEY (`ID`)
+	UNIQUE KEY `ID` (`ID`),
+	INDEX `Request` (`Request`),
+	INDEX `Canonical` (`Canonical`),
+	INDEX `Post_Type` (`Post_Type`),
+	INDEX `IP` (`IP`),
+	INDEX `Cookie` (`Cookie`),
+	INDEX `Auth` (`Auth`),
+	INDEX `Member_ID` (`Member_ID`),
+	INDEX `Admin` (`Admin`),
+	INDEX `Time` (`Time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

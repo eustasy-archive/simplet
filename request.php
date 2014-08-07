@@ -23,7 +23,7 @@ set_include_path($Include_Path);
 
 
 
-//// Include the Configuration
+////	Include the Configuration
 include 'config.php';
 // This is not require because it might fail if not yet installed.
 // `once.connect.php` will handle failures, to some extent.
@@ -45,6 +45,9 @@ $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
+
+
+////	Require Things
 require 'onces/connect.php';
 require 'onces/isauth.php';
 

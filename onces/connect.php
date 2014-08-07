@@ -13,7 +13,7 @@ $Database['Host'] = 'localhost';
 $Database['User'] = 'Simplet';
 
 // Database Pass
-$Database['Pass'] = '';
+$Database['Pass'] = 'Password1';
 
 // Database Name
 // You might want to change the Database Name too.
@@ -28,9 +28,10 @@ if(
 	
 	$MySQL_Connection = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
 	
-	if (!$MySQL_Connection) $MySQL_Connection_Error = 'Connection Failed. Check your configuration is correct. <!-- Simplet MySQL Error: '.mysqli_connect_error($MySQL_Connection).' -->';
-	
-	else {
+	if (!$MySQL_Connection) {
+		$MySQL_Connection_Error = 'Connection Failed. Check your configuration is correct. <!-- Simplet MySQL Error: '.mysqli_connect_error($MySQL_Connection).' -->';
+		$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
+	} else {
 		
 		$MySQL_Connection_Error = false;
 		
@@ -40,6 +41,7 @@ if(
 		$Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
 		$Database['Exists']['Failures'] = Database_Table_Exists('Failures');
 		$Database['Exists']['Runonce'] = Database_Table_Exists('Runonce');
+		$Database['Exists']['Settings'] = Database_Table_Exists('Settings');
 		$Database['Exists']['Categories'] = Database_Table_Exists('Categories');
 		$Database['Exists']['Topics'] = Database_Table_Exists('Topics');
 		$Database['Exists']['Responses'] = Database_Table_Exists('Responses');
@@ -72,6 +74,8 @@ if(
 	if (empty($Database['Pass'])) $MySQL_Connection_Error .= 'No Database Pass Configured. ';
 	if (empty($Database['Name'])) $MySQL_Connection_Error .= 'No Database Name Configured. ';
 	
+	$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
+	
 }
 
 // TODO
@@ -90,4 +94,7 @@ if (!$MySQL_Connection && $Sitewide_Database_FatalOnError) {
 		<h3>'.$MySQL_Connection_Error.'</h3>
 	</body>
 </html>';
+	exit;
 }
+
+$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = true;
