@@ -12,7 +12,7 @@ function Object_ActionFoo( $Hello, $World ) {
 	
 	if ( !empty($World) ) {
 		$Array['World'] = $World;
-		if ( $Sitewide_Debug && $World = 'World' ) echo 'Debug: You do not need to set \'$World\' as \'World\'.';
+		if ( $Sitewide_Debug && $World = 'World' ) echo '<p>Debug: You do not need to set \'$World\' as \'World\'.</p>';
 	}
 	
 	return $Array;
