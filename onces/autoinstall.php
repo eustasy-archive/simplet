@@ -1,6 +1,6 @@
 <?php
 
-if (!$Database['Exists'][$Database['Prefix'].'Members']) {
+if (!$Database['Exists']['Members']) {
 	$Create_Table_Members = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Members` (
 			`ID` varchar(12) NOT NULL,
@@ -20,7 +20,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Members']) {
 	if ($Sitewide_Debug && !$Create_Table_Members) echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Sessions']) {
+if (!$Database['Exists']['Sessions']) {
 	$Create_Table_Sessions = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Sessions` (
 			`ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -41,7 +41,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Sessions']) {
 	if ($Sitewide_Debug && !$Create_Table_Sessions) echo 'Invalid Query ($Create_Table_Sessions): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Failures']) {
+if (!$Database['Exists']['Failures']) {
 	$Create_Table_Failures = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Failures` (
 			`ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -58,7 +58,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Failures']) {
 	if ($Sitewide_Debug && !$Create_Table_Failures) echo 'Invalid Query ($Create_Table_Failures): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Runonce']) {
+if (!$Database['Exists']['Runonce']) {
 	$Create_Table_Runonce = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Runonce` (
 			`Member_ID` varchar(12) NOT NULL,
@@ -78,7 +78,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Runonce']) {
 	if ($Sitewide_Debug && !$Create_Table_Runonce) echo 'Invalid Query ($Create_Table_Runonce): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Settings']) {
+if (!$Database['Exists']['Settings']) {
 	$Create_Table_Settings = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Settings` (
 			`Name` varchar(64) NOT NULL,
@@ -92,7 +92,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Settings']) {
 	if ($Sitewide_Debug && !$Create_Table_Settings) echo 'Invalid Query ($Create_Table_Settings): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Categories']) {
+if (!$Database['Exists']['Categories']) {
 	$Create_Table_Categories = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Categories` (
 			`Member_ID` varchar(12) NOT NULL,
@@ -114,7 +114,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Categories']) {
 	if ($Sitewide_Debug && !$Create_Table_Categories) echo 'Invalid Query ($Create_Table_Categories): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Topics']) {
+if (!$Database['Exists']['Topics']) {
 	$Create_Table_Topics = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Topics` (
 			`Member_ID` varchar(12) NOT NULL,
@@ -137,7 +137,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Topics']) {
 	if ($Sitewide_Debug && !$Create_Table_Topics) echo 'Invalid Query ($Create_Table_Topics): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Responses']) {
+if (!$Database['Exists']['Responses']) {
 	$Create_Table_Responses = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Responses` (
 			`ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -164,7 +164,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Responses']) {
 	if ($Sitewide_Debug && !$Create_Table_Responses) echo 'Invalid Query ($Create_Table_Responses): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Helpfulness']) {
+if (!$Database['Exists']['Helpfulness']) {
 	$Create_Table_Helpfulness = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Helpfulness` (
 			`ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -184,7 +184,7 @@ if (!$Database['Exists'][$Database['Prefix'].'Helpfulness']) {
 	if ($Sitewide_Debug && !$Create_Table_Helpfulness) echo 'Invalid Query ($Create_Table_Helpfulness): '.mysqli_error($Database['Connection']);
 }
 
-if (!$Database['Exists'][$Database['Prefix'].'Views']) {
+if (!$Database['Exists']['Views']) {
 	$Create_Table_Views = '
 		CREATE TABLE IF NOT EXISTS `'.$Database['Prefix'].'Views` (
 			`ID` int(255) NOT NULL AUTO_INCREMENT,
@@ -211,4 +211,3 @@ if (!$Database['Exists'][$Database['Prefix'].'Views']) {
 	$Create_Table_Views = mysqli_query($Database['Connection'], $Create_Table_Views, MYSQLI_STORE_RESULT);
 	if ($Sitewide_Debug && !$Create_Table_Views) echo 'Invalid Query ($Create_Table_Views): '.mysqli_error($Database['Connection']);
 }
-

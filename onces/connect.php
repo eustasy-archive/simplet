@@ -27,7 +27,7 @@ $Database['Prefix'] = 'Simplet_';
 $Database['FatalOnError'] = false;
 
 // AutoInstall Database Tables
-$Database['AutoInstall'] = false;
+$Database['AutoInstall'] = true;
 
 ////	END Database Configuration
 
