@@ -9,7 +9,7 @@
 function Feed_Files() {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth, $Sitewide_Root, $Canonical;
+	global $Database, $Member_Auth, $Sitewide_Root, $Canonical;
 
 	if (isset($_GET['type'])) $Type = htmlentities($_GET['type'], ENT_QUOTES, 'UTF-8');
 	else $Type = false;
@@ -42,8 +42,8 @@ function Feed_Files() {
 	$Query .= ' ORDER BY `Created` DESC';
 	// TODO Feed Pagination
 
-	$Query = mysqli_query($MySQL_Connection, $Query, MYSQLI_STORE_RESULT);
-	if (!$Query) exit('Invalid Query (Responses): '.mysqli_error($MySQL_Connection));
+	$Query = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
+	if (!$Query) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
 
 	while($Fetch = mysqli_fetch_assoc($Query)) {
 		$Post = strip_tags(Parsedown::instance()->parse(html_entity_decode($Fetch['Post'], ENT_QUOTES, 'UTF-8')));

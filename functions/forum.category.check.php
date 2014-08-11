@@ -9,7 +9,7 @@
 function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth;
+	global $Database, $Member_Auth;
 
 	// Count things first
 	$Forum_Category_Check_Query = 'SELECT COUNT(`Slug`) AS `Count` FROM `Categories` WHERE `Slug`=\''.$Category_Slug.'\'';
@@ -24,8 +24,8 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 	$Forum_Category_Check_Query .= ' ORDER BY `Modified` DESC';
 
 	// Get Responses
-	$Forum_Category_Check = mysqli_query($MySQL_Connection, $Forum_Category_Check_Query, MYSQLI_STORE_RESULT);
-	if (!$Forum_Category_Check) exit('Invalid Query (Forum_Category_Check): '.mysqli_error($MySQL_Connection));
+	$Forum_Category_Check = mysqli_query($Database['Connection'], $Forum_Category_Check_Query, MYSQLI_STORE_RESULT);
+	if (!$Forum_Category_Check) exit('Invalid Query (Forum_Category_Check): '.mysqli_error($Database['Connection']));
 
 	$Forum_Category_Check_Fetch = mysqli_fetch_assoc($Forum_Category_Check);
 

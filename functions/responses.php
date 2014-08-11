@@ -3,7 +3,7 @@
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 	// Set some Globals
-	global $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $MySQL_Connection, $Sitewide_Root, $Sitewide_AllowHTML;
+	global $Database, $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $Sitewide_Root, $Sitewide_AllowHTML;
 
 	// Catch any responses that didn't go to the API
 	if (isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply')) {
@@ -50,8 +50,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 	$Responses_Query = $Responses_Query_Select.$Responses_Query_Where.$Responses_Query_Status;
 
 	// Get Responses
-	$Responses = mysqli_query($MySQL_Connection, $Responses_Query, MYSQLI_STORE_RESULT);
-	if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($MySQL_Connection));
+	$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
+	if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
 
 	// Count and Average
 	$Responses_Fetch = mysqli_fetch_assoc($Responses);
@@ -94,8 +94,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		$Responses_Query = $Responses_Query_Select.$Responses_Query_Where.$Responses_Query_Status.$Responses_Query_Order.$Responses_Query_Limit;
 
 		// Get Responses
-		$Responses = mysqli_query($MySQL_Connection, $Responses_Query, MYSQLI_STORE_RESULT);
-		if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($MySQL_Connection));
+		$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
+		if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
 
 		// Count Responses
 		$Responses_Check = mysqli_num_rows($Responses);
@@ -156,8 +156,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					$Responses_Store_Name = $Responses_Members_Names[$Responses_Members_Num];
 					$Responses_Store_Avatar = $Responses_Members_Avatar[$Responses_Members_Num];
 				} else {
-					$Responses_Member = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE `ID`='$Responses_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
-					if (!$Responses_Member) exit('Invalid Query (Responses_Member): '.mysqli_error($MySQL_Connection));
+					$Responses_Member = mysqli_query($Database['Connection'], "SELECT * FROM `Members` WHERE `ID`='$Responses_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+					if (!$Responses_Member) exit('Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']));
 					$Responses_Member_Count = mysqli_num_rows($Responses_Member);
 					if ($Responses_Member_Count == 0) {
 						$Responses_Store_Name = 'Deactivated';

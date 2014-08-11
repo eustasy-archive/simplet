@@ -9,7 +9,7 @@
 function Forum_Topic_Info($Topic_Slug) {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth;
+	global $Database, $Member_Auth;
 
 	// Count things first
 	$Forum_Topic_Info_Query_Select = 'SELECT * FROM `Topics` WHERE `Slug`=\''.$Topic_Slug.'\' AND';
@@ -25,8 +25,8 @@ function Forum_Topic_Info($Topic_Slug) {
 	$Forum_Topic_Info_Query = $Forum_Topic_Info_Query_Select.$Forum_Topic_Info_Query_Status.$Forum_Topic_Info_Query_Order;
 
 	// Get Responses
-	$Forum_Topic_Info = mysqli_query($MySQL_Connection, $Forum_Topic_Info_Query, MYSQLI_STORE_RESULT);
-	if (!$Forum_Topic_Info) exit('Invalid Query (Forum_Topic_Info): '.mysqli_error($MySQL_Connection));
+	$Forum_Topic_Info = mysqli_query($Database['Connection'], $Forum_Topic_Info_Query, MYSQLI_STORE_RESULT);
+	if (!$Forum_Topic_Info) exit('Invalid Query (Forum_Topic_Info): '.mysqli_error($Database['Connection']));
 
 	$Forum_Topic_Info_Count = mysqli_num_rows($Forum_Topic_Info);
 

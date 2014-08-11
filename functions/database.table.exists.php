@@ -9,14 +9,14 @@
 function Database_Table_Exists($Table_Name) {
 	
 	// Set some Globals
-	global $Database_Name, $MySQL_Connection;
+	global $Database;
 	
- 	$Database_Table_Exists_Query = 'SELECT * FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA`=\''.$Database_Name.'\' AND `TABLE_NAME`=\''.$Table_Name.'\'';
+ 	$Database_Table_Exists_Query = 'SELECT * FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA`=\''.$Database['Name'].'\' AND `TABLE_NAME`=\''.$Table_Name.'\'';
  	
-	$Database_Table_Exists_Query = mysqli_query($MySQL_Connection, $Database_Table_Exists_Query, MYSQLI_STORE_RESULT);
+	$Database_Table_Exists_Query = mysqli_query($Database['Connection'], $Database_Table_Exists_Query, MYSQLI_STORE_RESULT);
 	
 	if (!$Database_Table_Exists_Query) {
-		echo 'Invalid Query (Key_Check): '.mysqli_error($MySQL_Connection);
+		echo 'Invalid Query (Key_Check): '.mysqli_error($Database['Connection']);
 		return false;
 	}
 	

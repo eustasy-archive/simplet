@@ -9,7 +9,7 @@
 function Feed_Forum() {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth, $Sitewide_Root, $Canonical;
+	global $Database, $Member_Auth, $Sitewide_Root, $Canonical;
 
 	if (isset($_GET['topic'])) {
 
@@ -24,8 +24,8 @@ function Feed_Forum() {
 		else $Query .= ' `Status`=\'Public\'';
 		$Query .= ' ORDER BY `Created` DESC';
 
-		$Query = mysqli_query($MySQL_Connection, $Query, MYSQLI_STORE_RESULT);
-		if (!$Query) exit('Invalid Query (Responses): '.mysqli_error($MySQL_Connection));
+		$Query = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
+		if (!$Query) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
 
 		while($Fetch = mysqli_fetch_assoc($Query)) {
 			$Post = strip_tags(Parsedown::instance()->parse(html_entity_decode($Fetch['Post'], ENT_QUOTES, 'UTF-8')));
@@ -56,8 +56,8 @@ function Feed_Forum() {
 		else $Query .= ' `Status`=\'Public\'';
 		$Query .= ' ORDER BY `Created` DESC';
 
-		$Query = mysqli_query($MySQL_Connection, $Query, MYSQLI_STORE_RESULT);
-		if (!$Query) exit('Invalid Query (Topics): '.mysqli_error($MySQL_Connection));
+		$Query = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
+		if (!$Query) exit('Invalid Query (Topics): '.mysqli_error($Database['Connection']));
 
 		while($Fetch = mysqli_fetch_assoc($Query)) {
 			$Title = $Fetch['Title'];

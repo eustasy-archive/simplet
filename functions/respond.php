@@ -3,7 +3,7 @@
 function Respond($Status_Override = false) {
 
 	// Set some Globals
-	global $Forum_Reply_Inherit, $Forum_Reply_Default, $Member_ID, $Time, $MySQL_Connection;
+	global $Database, $Forum_Reply_Inherit, $Forum_Reply_Default, $Member_ID, $Time;
 
 	// Prepare an array to be returned as JSON.
 	$Response_Return = array();
@@ -34,7 +34,7 @@ function Respond($Status_Override = false) {
 			if ($Forum_Reply_Inherit === true) {
 
 				// Fetch Status of Topic
-				$Topic_Status_Query = mysqli_query($MySQL_Connection, 'SELECT `Status` FROM `Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
+				$Topic_Status_Query = mysqli_query($Database['Connection'], 'SELECT `Status` FROM `Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
 				if (!$Topic_Status_Query) array_push($Response_Return['error'], 'Topic Status Query Error.');
 				$Topic_Status_Count = mysqli_num_rows($Topic_Status_Query);
 				if($Topic_Status_Count === 0) {
@@ -59,11 +59,11 @@ function Respond($Status_Override = false) {
 
 		// Query
 		$Response_Query = 'INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Post.'\', \''.$Time.'\', \''.$Time.'\')';
-		$Response_New = mysqli_query($MySQL_Connection, $Response_Query, MYSQLI_STORE_RESULT);
-		if (!$Response_New) array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($MySQL_Connection));
+		$Response_New = mysqli_query($Database['Connection'], $Response_Query, MYSQLI_STORE_RESULT);
+		if (!$Response_New) array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($Database['Connection']));
 
 		// Prepare statements to be returned.
-		$Response_ID = mysqli_insert_id($MySQL_Connection);
+		$Response_ID = mysqli_insert_id($Database['Connection']);
 		$Response_Parsed = Parsedown::instance()->parse($Response_Post, ENT_QUOTES, 'UTF-8');
 		$Response_Return['id'] = $Response_ID;
 		$Response_Return['post'] = $Response_Parsed;

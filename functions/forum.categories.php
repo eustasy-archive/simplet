@@ -9,7 +9,7 @@
 function Forum_Categories() {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth;
+	global $Database, $Member_Auth;
 
 	// Count things first
 	$Categories_Query_Select = 'SELECT COUNT(`Slug`) AS `Count` FROM `Categories` WHERE';
@@ -25,8 +25,8 @@ function Forum_Categories() {
 	$Categories_Query = $Categories_Query_Select.$Categories_Query_Status.$Categories_Query_Order;
 
 	// Get Responses
-	$Categories = mysqli_query($MySQL_Connection, $Categories_Query, MYSQLI_STORE_RESULT);
-	if (!$Categories) exit('Invalid Query (Categories): '.mysqli_error($MySQL_Connection));
+	$Categories = mysqli_query($Database['Connection'], $Categories_Query, MYSQLI_STORE_RESULT);
+	if (!$Categories) exit('Invalid Query (Categories): '.mysqli_error($Database['Connection']));
 
 	$Categories_Fetch = mysqli_fetch_assoc($Categories);
 	$Categories_Count = $Categories_Fetch['Count'];
@@ -56,10 +56,11 @@ function Forum_Categories() {
 		$Categories_Query = $Categories_Query_Select.$Categories_Query_Status.$Categories_Query_Order.$Categories_Query_Limit;
 
 		// Get Categories
-		$Categories = mysqli_query($MySQL_Connection, $Categories_Query, MYSQLI_STORE_RESULT);
-		if (!$Categories) exit('Invalid Query (Categories): '.mysqli_error($MySQL_Connection));
+		$Categories = mysqli_query($Database['Connection'], $Categories_Query, MYSQLI_STORE_RESULT);
+		if (!$Categories) exit('Invalid Query (Categories): '.mysqli_error($Database['Connection']));
 
 		while($Category_Fetch = mysqli_fetch_assoc($Categories)) {
+
 			$Category_Status = $Category_Fetch['Status'];
 			// TODO Unread/Read, Most Recent
 			// Both will probably require changing the topics modified time for every reply.
@@ -80,6 +81,7 @@ function Forum_Categories() {
 					<div class="col span_2_of_12 textcenter"><p><span>'.date('d M, Y', $Category_Fetch['Modified']).'</span></p></div>
 				</a>';
 			}
+
 		}
 
 		// Preserve Query Strings

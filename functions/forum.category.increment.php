@@ -9,7 +9,7 @@
 function Forum_Category_Increment($Category_Slug) {
 
 	// Set some Globals
-	global $MySQL_Connection, $Time;
+	global $Database, $Time;
 
 	$Forum_Category_Count = Forum_Category_Count($Category_Slug);
 
@@ -17,9 +17,9 @@ function Forum_Category_Increment($Category_Slug) {
 	$Forum_Category_Increment_Query = 'UPDATE `Categories` SET `Topics`=\''.$Forum_Category_Count.'\', `Modified`=\''.$Time.'\' WHERE `Slug`=\''.$Category_Slug.'\'';
 
 	// Get Responses
-	$Forum_Category_Increment = mysqli_query($MySQL_Connection, $Forum_Category_Increment_Query, MYSQLI_STORE_RESULT);
+	$Forum_Category_Increment = mysqli_query($Database['Connection'], $Forum_Category_Increment_Query, MYSQLI_STORE_RESULT);
 	if (!$Forum_Category_Increment) {
-		echo 'Invalid Query (Forum_Category_Increment): '.mysqli_error($MySQL_Connection);
+		echo 'Invalid Query (Forum_Category_Increment): '.mysqli_error($Database['Connection']);
 		return false;
 	}
 

@@ -9,7 +9,7 @@
 function Forum_Category_Info($Category_Slug) {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth;
+	global $Database, $Member_Auth;
 
 	// Count things first
 	$Forum_Category_Info_Query_Select = 'SELECT * FROM `Categories` WHERE `Slug`=\''.$Category_Slug.'\' AND';
@@ -25,8 +25,8 @@ function Forum_Category_Info($Category_Slug) {
 	$Forum_Category_Info_Query = $Forum_Category_Info_Query_Select.$Forum_Category_Info_Query_Status.$Forum_Category_Info_Query_Order;
 
 	// Get Responses
-	$Forum_Category_Info = mysqli_query($MySQL_Connection, $Forum_Category_Info_Query, MYSQLI_STORE_RESULT);
-	if (!$Forum_Category_Info) exit('Invalid Query (Forum_Category_Info): '.mysqli_error($MySQL_Connection));
+	$Forum_Category_Info = mysqli_query($Database['Connection'], $Forum_Category_Info_Query, MYSQLI_STORE_RESULT);
+	if (!$Forum_Category_Info) exit('Invalid Query (Forum_Category_Info): '.mysqli_error($Database['Connection']));
 
 	$Forum_Category_Info_Count = mysqli_num_rows($Forum_Category_Info);
 

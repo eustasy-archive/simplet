@@ -9,7 +9,7 @@
 function Forum_Topic_Check($Topic_Slug, $Status_Check = false) {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth;
+	global $Database, $Member_Auth;
 
 	// Count things first
 	$Forum_Topic_Check_Query = 'SELECT COUNT(`Slug`) AS `Count` FROM `Topics` WHERE `Slug`=\''.$Topic_Slug.'\'';
@@ -24,8 +24,8 @@ function Forum_Topic_Check($Topic_Slug, $Status_Check = false) {
 	$Forum_Topic_Check_Query .= ' ORDER BY `Modified` DESC';
 
 	// Get Responses
-	$Forum_Topic_Check = mysqli_query($MySQL_Connection, $Forum_Topic_Check_Query, MYSQLI_STORE_RESULT);
-	if (!$Forum_Topic_Check) exit('Invalid Query (Forum_Topic_Check): '.mysqli_error($MySQL_Connection));
+	$Forum_Topic_Check = mysqli_query($Database['Connection'], $Forum_Topic_Check_Query, MYSQLI_STORE_RESULT);
+	if (!$Forum_Topic_Check) exit('Invalid Query (Forum_Topic_Check): '.mysqli_error($Database['Connection']));
 
 	$Forum_Topic_Check_Fetch = mysqli_fetch_assoc($Forum_Topic_Check);
 

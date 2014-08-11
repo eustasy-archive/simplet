@@ -9,7 +9,7 @@
 function Forum_Topics() {
 
 	// Set some Globals
-	global $MySQL_Connection, $Member_Auth, $Header, $Footer, $Sitewide_Title, $Sitewide_Root;
+	global $Database, $Member_Auth, $Header, $Footer, $Sitewide_Title, $Sitewide_Root;
 
 	// Category to get Topic for
 	$Forum_Topics_Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
@@ -58,8 +58,8 @@ function Forum_Topics() {
 		$Topics_Query = $Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order;
 
 		// Get Topics
-		$Topics = mysqli_query($MySQL_Connection, $Topics_Query, MYSQLI_STORE_RESULT);
-		if (!$Topics) exit('Invalid Query (Category_Check): '.mysqli_error($MySQL_Connection));
+		$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
+		if (!$Topics) exit('Invalid Query (Category_Check): '.mysqli_error($Database['Connection']));
 
 		$Topics_Count = mysqli_num_rows($Topics);
 		if ($Topics_Count == 0) {
@@ -70,8 +70,8 @@ function Forum_Topics() {
 			$Responses_Prefetch_Query_Select = 'SELECT `Canonical`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Responses` WHERE `Type`=\'Post\' AND ';
 			$Responses_Prefetch_Query_Group = ' GROUP BY `Canonical`';
 			$Responses_Prefetch_Query = $Responses_Prefetch_Query_Select.$Topics_Query_Status.$Responses_Prefetch_Query_Group;
-			$Responses_Prefetch = mysqli_query($MySQL_Connection, $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);
-			if (!$Responses_Prefetch) exit('Invalid Query (Responses_Prefetch): '.mysqli_error($MySQL_Connection));
+			$Responses_Prefetch = mysqli_query($Database['Connection'], $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);
+			if (!$Responses_Prefetch) exit('Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']));
 
 			$Responses_Prefetch_Count = array();
 			$Responses_Prefetch_Modified = array();
@@ -102,8 +102,8 @@ function Forum_Topics() {
 
 			$Topics_Query = $Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order.$Topics_Query_Limit;
 
-			$Topics = mysqli_query($MySQL_Connection, $Topics_Query, MYSQLI_STORE_RESULT);
-			if (!$Topics) exit('Invalid Query (Topics): '.mysqli_error($MySQL_Connection));
+			$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
+			if (!$Topics) exit('Invalid Query (Topics): '.mysqli_error($Database['Connection']));
 
 			while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
 				$Topics_Status = $Topics_Fetch['Status'];
