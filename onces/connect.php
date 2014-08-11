@@ -2,7 +2,7 @@
 
 $Database = array();
 
-// Database Configuration
+////	START Database Configuration
 
 // Database Host
 // 'localhost' or an IP Address
@@ -19,6 +19,18 @@ $Database['Pass'] = 'Password1';
 // You might want to change the Database Name too.
 $Database['Name'] = 'Simplet';
 
+// Database Name
+// You might want to change the Database Name too.
+$Database['Prefix'] = 'Simplet_';
+
+// Fatal on Database Error
+$Database['FatalOnError'] = false;
+
+// AutoInstall Database Tables
+$Database['AutoInstall'] = false;
+
+////	END Database Configuration
+
 if(
 	!empty($Database['Host']) &&
 	!empty($Database['User']) &&
@@ -26,40 +38,40 @@ if(
 	!empty($Database['Name'])
 	) {
 	
-	$MySQL_Connection = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
+	$Database['Connection'] = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
 	
-	if (!$MySQL_Connection) {
-		$MySQL_Connection_Error = 'Connection Failed. Check your configuration is correct. <!-- Simplet MySQL Error: '.mysqli_connect_error($MySQL_Connection).' -->';
+	if (!$Database['Connection']) {
+		$Database['Error'] = 'Connection Failed. Check your configuration is correct. <!-- Simplet MySQL Error: '.mysqli_connect_error($Database['Connection']).' -->';
 		$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
 	} else {
 		
-		$MySQL_Connection_Error = false;
+		$Database['Error'] = false;
 		
 		require '../functions/database.table.exists.php';
 		$Database['Exists'] = array();
-		$Database['Exists']['Members'] = Database_Table_Exists('Members');
-		$Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
-		$Database['Exists']['Failures'] = Database_Table_Exists('Failures');
-		$Database['Exists']['Runonce'] = Database_Table_Exists('Runonce');
-		$Database['Exists']['Settings'] = Database_Table_Exists('Settings');
-		$Database['Exists']['Categories'] = Database_Table_Exists('Categories');
-		$Database['Exists']['Topics'] = Database_Table_Exists('Topics');
-		$Database['Exists']['Responses'] = Database_Table_Exists('Responses');
-		$Database['Exists']['Helpfulness'] = Database_Table_Exists('Helpfulness');
-		$Database['Exists']['Views'] = Database_Table_Exists('Views');
+		$Database['Exists'][$Database['Prefix'].'Members'] = Database_Table_Exists($Database['Prefix'].'Members');
+		$Database['Exists'][$Database['Prefix'].'Sessions'] = Database_Table_Exists($Database['Prefix'].'Sessions');
+		$Database['Exists'][$Database['Prefix'].'Failures'] = Database_Table_Exists($Database['Prefix'].'Failures');
+		$Database['Exists'][$Database['Prefix'].'Runonce'] = Database_Table_Exists($Database['Prefix'].'Runonce');
+		$Database['Exists'][$Database['Prefix'].'Settings'] = Database_Table_Exists($Database['Prefix'].'Settings');
+		$Database['Exists'][$Database['Prefix'].'Categories'] = Database_Table_Exists($Database['Prefix'].'Categories');
+		$Database['Exists'][$Database['Prefix'].'Topics'] = Database_Table_Exists($Database['Prefix'].'Topics');
+		$Database['Exists'][$Database['Prefix'].'Responses'] = Database_Table_Exists($Database['Prefix'].'Responses');
+		$Database['Exists'][$Database['Prefix'].'Helpfulness'] = Database_Table_Exists($Database['Prefix'].'Helpfulness');
+		$Database['Exists'][$Database['Prefix'].'Views'] = Database_Table_Exists($Database['Prefix'].'Views');
 		
 		if (
-			$Sitewide_Database_AutoInstall &&
+			$Database['AutoInstall'] &&
 			(
-				!$Database['Exists']['Members'] ||
-				!$Database['Exists']['Sessions'] ||
-				!$Database['Exists']['Failures'] ||
-				!$Database['Exists']['Runonce'] ||
-				!$Database['Exists']['Categories'] ||
-				!$Database['Exists']['Topics'] ||
-				!$Database['Exists']['Responses'] ||
-				!$Database['Exists']['Helpfulness'] ||
-				!$Database['Exists']['Views']
+				!$Database['Exists'][$Database['Prefix'].'Members'] ||
+				!$Database['Exists'][$Database['Prefix'].'Sessions'] ||
+				!$Database['Exists'][$Database['Prefix'].'Failures'] ||
+				!$Database['Exists'][$Database['Prefix'].'Runonce'] ||
+				!$Database['Exists'][$Database['Prefix'].'Categories'] ||
+				!$Database['Exists'][$Database['Prefix'].'Topics'] ||
+				!$Database['Exists'][$Database['Prefix'].'Responses'] ||
+				!$Database['Exists'][$Database['Prefix'].'Helpfulness'] ||
+				!$Database['Exists'][$Database['Prefix'].'Views']
 			)
 		) require 'autoinstall.php';
 		
@@ -67,12 +79,12 @@ if(
 	
 } else {
 	
-	$MySQL_Connection = false;
-	$MySQL_Connection_Error = 'Error(s): ';
-	if (empty($Database['Host'])) $MySQL_Connection_Error .= 'No Database Host Configured. ';
-	if (empty($Database['User'])) $MySQL_Connection_Error .= 'No Database User Configured. ';
-	if (empty($Database['Pass'])) $MySQL_Connection_Error .= 'No Database Pass Configured. ';
-	if (empty($Database['Name'])) $MySQL_Connection_Error .= 'No Database Name Configured. ';
+	$Database['Connection'] = false;
+	$Database['Error'] = 'Error(s): ';
+	if (empty($Database['Host'])) $Database['Error'] .= 'No Database Host Configured. ';
+	if (empty($Database['User'])) $Database['Error'] .= 'No Database User Configured. ';
+	if (empty($Database['Pass'])) $Database['Error'] .= 'No Database Pass Configured. ';
+	if (empty($Database['Name'])) $Database['Error'] .= 'No Database Name Configured. ';
 	
 	$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
 	
@@ -81,7 +93,7 @@ if(
 // TODO
 // Different Error for unconfigured. Suggest editing.
 // Also, suggest auto-install if fatal and no tables.
-if (!$MySQL_Connection && $Sitewide_Database_FatalOnError) {
+if (!$Database['Connection'] && $Database['FatalOnError']) {
 	echo '<!DocType html>
 <html>
 	<head>
@@ -91,7 +103,7 @@ if (!$MySQL_Connection && $Sitewide_Database_FatalOnError) {
 	<body>
 		<h1>Simplet: Fatal Error</h1>
 		<p>Simplet has encountered a fatal error and cannot continue. Don\'t worry, it\'s nothing you did, it\'s the owner of the site. Unless you are the owner of the site. (Shame on you.)</p>
-		<h3>'.$MySQL_Connection_Error.'</h3>
+		<h3>'.$Database['Error'].'</h3>
 	</body>
 </html>';
 	exit;

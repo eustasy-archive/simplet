@@ -3,15 +3,15 @@
 // We will need the IP to handle logins. Catch it every time.
 $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
-if ($MySQL_Connection && isset($_COOKIE[$Cookie_Session])) { // If they might be logged in
+if ($Database['Connection'] && isset($_COOKIE[$Cookie_Session])) { // If they might be logged in
 
 	// Make a note of their Cookie
 	$User_Cookie = htmlentities($_COOKIE[$Cookie_Session], ENT_QUOTES, 'UTF-8');
 
 	// Check if the Cookie and IP have an active session in the database
-	$Session_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Sessions` WHERE `Cookie`='$User_Cookie' AND `Active`='1' LIMIT 0, 1", MYSQLI_STORE_RESULT);
+	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `Sessions` WHERE `Cookie`=\''.$User_Cookie.'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 
-	if (!$Session_Check) exit('Invalid Query (Session_Check): ' . mysqli_error($MySQL_Connection));
+	if (!$Session_Check) exit('Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']));
 
 	$Session_Count = mysqli_num_rows($Session_Check);
 
@@ -54,14 +54,14 @@ if ($MySQL_Connection && isset($_COOKIE[$Cookie_Session])) { // If they might be
 			$Member_ID = $Session_Fetch['Member_ID'];
 
 			// Check their membership status
-			$Member_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Members` WHERE ID='$Member_ID' AND `Status`='Active' LIMIT 0, 1", MYSQLI_STORE_RESULT);
-			if (!$Member_Check) exit('Invalid Query (Member_Check): ' . mysqli_error($MySQL_Connection));
+			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `Members` WHERE ID=\''.$Member_ID.'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
+			if (!$Member_Check) exit('Invalid Query (Member_Check): ' . mysqli_error($Database['Connection']));
 
 			$Member_Count = mysqli_num_rows($Member_Check);
 			if ($Member_Count === 0) {
 
-				$Session_End = mysqli_query($MySQL_Connection, "UPDATE `Sessions` SET `Active`='0' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_IP' AND IP='$User_IP'", MYSQLI_STORE_RESULT);
-				if (!$Session_End) exit('Invalid Query (Session_End): ' . mysqli_error($MySQL_Connection));
+				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_IP.'\' AND IP=\''.$User_IP.'\'', MYSQLI_STORE_RESULT);
+				if (!$Session_End) exit('Invalid Query (Session_End): ' . mysqli_error($Database['Connection']));
 
 			} else {
 

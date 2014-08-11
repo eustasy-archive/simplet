@@ -1,6 +1,7 @@
 <?php
 
 	// Site Configuration
+	$Sitewide_Debug = true;
 
 	// This is the Title of your Site
 	$Sitewide_Title = 'The Title of your Site';
@@ -73,6 +74,3 @@
 	$Sitewide_Account = 'account';
 	$Sitewide_Forum = 'forum';
 	$Sitewide_AllowHTML = false;
-	$Sitewide_Database_FatalOnError = false;
-	$Sitewide_Database_AutoInstall = false;
-	$Sitewide_Debug = true;
