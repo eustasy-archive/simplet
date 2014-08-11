@@ -47,8 +47,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
 
 				// TODO Caterogry Info Function
-				$Category = mysqli_query($MySQL_Connection, "SELECT * FROM `Categories` WHERE `Slug`='$Topic_Category' AND NOT `Status`='Hidden' ORDER BY `Modified` DESC LIMIT 1", MYSQLI_STORE_RESULT);
-				if (!$Category) exit('Invalid Query (Category): '.mysqli_error($MySQL_Connection));
+				$Category = mysqli_query($Database['Connection'], "SELECT * FROM `Categories` WHERE `Slug`='$Topic_Category' AND NOT `Status`='Hidden' ORDER BY `Modified` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+				if (!$Category) exit('Invalid Query (Category): '.mysqli_error($Database['Connection']));
 
 				$Category_Count = mysqli_num_rows($Category);
 				if ($Category_Count == 0) {
@@ -67,8 +67,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 					$Topic_Slug = Forum_Topic_Slug($_POST['title']);
 
-					$Topic_New = mysqli_query($MySQL_Connection, "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
-					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($MySQL_Connection));
+					$Topic_New = mysqli_query($Database['Connection'], "INSERT INTO `Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($Database['Connection']));
 
 					if ($Topic_Post) {
 						if ($Forum_Reply_Inherit) {
@@ -76,8 +76,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 						} else {
 							$Reply_Status = $Forum_Reply_Default;
 						}
-						$Topic_First = mysqli_query($MySQL_Connection, "INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', 'Post', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
-						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($MySQL_Connection));
+						$Topic_First = mysqli_query($Database['Connection'], "INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Slug', 'Post', '$Reply_Status', '$Topic_Post', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+						if (!$Topic_First) exit('Invalid Query (Topic_First): '.mysqli_error($Database['Connection']));
 					}
 
 					Forum_Category_Modified($Topic_Category);
@@ -170,8 +170,8 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			}
 		}
 
-		$Topic_Check = mysqli_query($MySQL_Connection, "SELECT * FROM `Topics` WHERE `Slug`='$Topic_Slug' LIMIT 0, 1", MYSQLI_STORE_RESULT);
-		if (!$Topic_Check) exit('Invalid Query (Topic_Check): '.mysqli_error($MySQL_Connection));
+		$Topic_Check = mysqli_query($Database['Connection'], "SELECT * FROM `Topics` WHERE `Slug`='$Topic_Slug' LIMIT 0, 1", MYSQLI_STORE_RESULT);
+		if (!$Topic_Check) exit('Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']));
 
 		$Topic_Count = mysqli_num_rows($Topic_Check);
 		if ($Topic_Count==0) {
