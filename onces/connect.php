@@ -49,29 +49,29 @@ if(
 		
 		require '../functions/database.table.exists.php';
 		$Database['Exists'] = array();
-		$Database['Exists'][$Database['Prefix'].'Members'] = Database_Table_Exists($Database['Prefix'].'Members');
-		$Database['Exists'][$Database['Prefix'].'Sessions'] = Database_Table_Exists($Database['Prefix'].'Sessions');
-		$Database['Exists'][$Database['Prefix'].'Failures'] = Database_Table_Exists($Database['Prefix'].'Failures');
-		$Database['Exists'][$Database['Prefix'].'Runonce'] = Database_Table_Exists($Database['Prefix'].'Runonce');
-		$Database['Exists'][$Database['Prefix'].'Settings'] = Database_Table_Exists($Database['Prefix'].'Settings');
-		$Database['Exists'][$Database['Prefix'].'Categories'] = Database_Table_Exists($Database['Prefix'].'Categories');
-		$Database['Exists'][$Database['Prefix'].'Topics'] = Database_Table_Exists($Database['Prefix'].'Topics');
-		$Database['Exists'][$Database['Prefix'].'Responses'] = Database_Table_Exists($Database['Prefix'].'Responses');
-		$Database['Exists'][$Database['Prefix'].'Helpfulness'] = Database_Table_Exists($Database['Prefix'].'Helpfulness');
-		$Database['Exists'][$Database['Prefix'].'Views'] = Database_Table_Exists($Database['Prefix'].'Views');
+		$Database['Exists']['Members'] = Database_Table_Exists('Members');
+		$Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
+		$Database['Exists']['Failures'] = Database_Table_Exists('Failures');
+		$Database['Exists']['Runonce'] = Database_Table_Exists('Runonce');
+		$Database['Exists']['Settings'] = Database_Table_Exists('Settings');
+		$Database['Exists']['Categories'] = Database_Table_Exists('Categories');
+		$Database['Exists']['Topics'] = Database_Table_Exists('Topics');
+		$Database['Exists']['Responses'] = Database_Table_Exists('Responses');
+		$Database['Exists']['Helpfulness'] = Database_Table_Exists('Helpfulness');
+		$Database['Exists']['Views'] = Database_Table_Exists('Views');
 		
 		if (
 			$Database['AutoInstall'] &&
 			(
-				!$Database['Exists'][$Database['Prefix'].'Members'] ||
-				!$Database['Exists'][$Database['Prefix'].'Sessions'] ||
-				!$Database['Exists'][$Database['Prefix'].'Failures'] ||
-				!$Database['Exists'][$Database['Prefix'].'Runonce'] ||
-				!$Database['Exists'][$Database['Prefix'].'Categories'] ||
-				!$Database['Exists'][$Database['Prefix'].'Topics'] ||
-				!$Database['Exists'][$Database['Prefix'].'Responses'] ||
-				!$Database['Exists'][$Database['Prefix'].'Helpfulness'] ||
-				!$Database['Exists'][$Database['Prefix'].'Views']
+				!$Database['Exists']['Members'] ||
+				!$Database['Exists']['Sessions'] ||
+				!$Database['Exists']['Failures'] ||
+				!$Database['Exists']['Runonce'] ||
+				!$Database['Exists']['Categories'] ||
+				!$Database['Exists']['Topics'] ||
+				!$Database['Exists']['Responses'] ||
+				!$Database['Exists']['Helpfulness'] ||
+				!$Database['Exists']['Views']
 			)
 		) require 'autoinstall.php';
 		
