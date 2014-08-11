@@ -6,7 +6,7 @@
 //
 // Database_Table_Exists('Topics');
 
-function Database_Table_Exists($Table_Name. $AddPrefix = true) {
+function Database_Table_Exists($Table_Name, $AddPrefix = true) {
 	
 	// Set some Globals
 	global $Database;
