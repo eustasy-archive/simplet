@@ -1,6 +1,6 @@
 <?php
 
-//// Database Table Exists Function
+////	Database Table Exists Function
 //
 // Checks whether or not a table exists.
 //
