@@ -1,6 +1,6 @@
 <?php
 
-function runonceCheck($Key, $Key_Owner = '', $Timeout = '', $Timecount = false) {
+function Runone_Check($Key, $Key_Owner = '', $Timeout = '', $Timecount = false) {
 
 	// Set some Globals so the required scripts don't error.
 	global $Database, $Member_ID, $Time;

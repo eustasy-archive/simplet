@@ -1,13 +1,13 @@
 <?php
 
-// ### Pass Hash Function ###
+// ### Password Hash Function ###
 //
 // A basic password and salt hasher.
 //
-// stringGenerator($Pass, $Salt) returns a hash.
+// Password_Hash($Pass, $Salt) returns a hash.
 // Compare to one stored to determine authenticity.
 
-function passHash($Pass, $Salt) {
+function Password_Hash($Pass, $Salt) {
 
 	// Choose a hash method.
 	$Hash_Method = 'sha512';

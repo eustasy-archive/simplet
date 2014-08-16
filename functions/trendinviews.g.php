@@ -7,7 +7,7 @@
 // A high Trend_Limit coupled with Trend_Strict
 // will result in a large and complex query.
 
-function Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Trend_Strict = false) {
+function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Trend_Strict = false) {
 
 	global $Database, $Sitewide_Root, $Post_Types, $Sitewide_Debug;
 

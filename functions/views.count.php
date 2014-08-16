@@ -1,6 +1,6 @@
 <?php
 
-////	View Count Function
+////	Views Count Function
 // Count a view for the current page.
 // Used for generating Trending.
 
@@ -11,7 +11,7 @@
 // path		=> product
 // get		=> array('id' => '2', 'utm_source' => 'twitter');
 
-function ViewCount() {
+function Views_Count() {
 
 	global $Database, $Canonical, $Member_Auth, $Member_ID, $Member_Admin, $Time, $Place, $Post_Type, $Sitewide_Root, $User_IP, $User_Cookie, $Sitewide_Debug;
 	

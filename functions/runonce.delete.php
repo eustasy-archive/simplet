@@ -1,8 +1,11 @@
 <?php
 
-function runonceDelete($Key, $Key_Owner = '') {
+////	Runonce Delete
 
-	// Set some Globals so the required scripts don't error.
+// Runone_Delete
+
+function Runone_Delete($Key, $Key_Owner = '') {
+
 	global $Database, $Member_ID, $Time;
 
 	if (empty($Key_Owner)) $Key_Owner = $Member_ID;

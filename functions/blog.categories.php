@@ -1,6 +1,6 @@
 <?php
 
-// ### Blog Categories Function ###
+////	Blog Categories Function
 //
 // Returns the Categories of posts in the caller directory and below,
 // along with the counts for each, sorted by most first.
@@ -10,7 +10,6 @@
 
 function Blog_Categories($Caller, $Exclude = false) {
 
-	// Set some Globals so the required scripts don't error.
 	global $Place, $Request;
 
 	// List all the files

@@ -65,11 +65,11 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						$Member_Pass = $Member_Fetch['Pass'];
 						$Member_Salt = $Member_Fetch['Salt'];
 
-						$Login_Hash = passHash($Login_Pass, $Member_Salt);
+						$Login_Hash = Password_Hash($Login_Pass, $Member_Salt);
 
 						if ($Login_Hash === $Member_Pass) {
 
-							$Member_Cookie = stringGenerator();
+							$Member_Cookie = Generator_String();
 
 							setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Place['host']);
 
@@ -231,11 +231,11 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Member_Count = mysqli_num_rows($Member_Check);
 				if ($Member_Count == 0) { // Not a member. Register.
 
-					$Member_ID  = stringGenerator(12);
+					$Member_ID  = Generator_String(12);
 
-					$Salt = stringGenerator();
+					$Salt = Generator_String();
 
-					$Pass_Hash = passHash($Signup_Pass, $Salt);
+					$Pass_Hash = Password_Hash($Signup_Pass, $Salt);
 
 					$Member_New = mysqli_query($Database['Connection'], "INSERT INTO `Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Member_New) exit('Invalid Query (Member_New): '.mysqli_error($Database['Connection']));
@@ -370,8 +370,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Error = 'Pass cannot be empty.';
 				} else {
 
-					$Salt = stringGenerator();
-					$Pass_Hash = passHash($Pass_New, $Salt);
+					$Salt = Generator_String();
+					$Pass_Hash = Password_Hash($Pass_New, $Salt);
 
 					$Pass_Change = mysqli_query($Database['Connection'], "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Pass_Change) exit('Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']));
@@ -535,17 +535,17 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 
-				if (runonceCheck($Key, '*')) {
+				if (Runone_Check($Key, '*')) {
 
 					if (isset($_POST['pass'])) { // Reset Password Process
 
 						$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-						$Key_Info = runonceCheck($Key, '*');
+						$Key_Info = Runone_Check($Key, '*');
 
-						$Salt = stringGenerator();
+						$Salt = Generator_String();
 
-						$Pass_Hash = passHash($Pass_New, $Salt);
+						$Pass_Hash = Password_Hash($Pass_New, $Salt);
 
 						// TODO Add Key Types
 						// TODO memberExists
@@ -554,7 +554,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						$Reset = mysqli_query($Database['Connection'], 'UPDATE `Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 						if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($Database['Connection']));
 
-						runonceDelete($Key, $Key_Info['Member_ID']);
+						Runone_Delete($Key, $Key_Info['Member_ID']);
 
 						echo '<h2>Password Reset Successfully</h2>';
 						echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
@@ -609,7 +609,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					if (isset($Browning) && $Browning) {
 
-						$Key = runonceCreate('', '*');
+						$Key = Runone_Create('', '*');
 
 						require_once $Lib_Browning_Send;
 
@@ -678,12 +678,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			require $Header;
 
 			$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
-			if (runonceCheck($Key, $Member_ID)) {
+			if (Runone_Check($Key, $Member_ID)) {
 
 				$Member_Delete = mysqli_query($Database['Connection'], 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 				if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
 
-				runonceDelete($Key, $Member_ID);
+				Runone_Delete($Key, $Member_ID);
 
 				echo '
 				<h2>User Deleted</h2>
@@ -700,7 +700,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		} else {
 			require $Header;
 
-			$Key = runonceCreate();
+			$Key = Runone_Create();
 			?>
 
 			<h2>Are you sure you want to delete your account?</h2>

@@ -1,11 +1,11 @@
 <?php
 
-function runonceCreate($Key = '', $Key_Owner = '', $Notes = '') {
+function Runone_Create($Key = '', $Key_Owner = '', $Notes = '') {
 
 	// Set some Globals so the required scripts don't error.
 	global $Database, $Member_ID, $Time, $User_IP;
 
-	if (empty($Key)) $Key = stringGenerator();
+	if (empty($Key)) $Key = Generator_String();
 	if (empty($Key_Owner)) $Key_Owner = $Member_ID;
 
 	$Key_New = mysqli_query($Database['Connection'], 'INSERT INTO `Runonce` (`Member_ID`, `Key`, `Status`, `IP`, `Created`, `Modified`, `Notes`) VALUES (\''.$Member_ID.'\', \''.$Key.'\', \'Active\', \''.$User_IP.'\', \''.$Time.'\', \''.$Time.'\', \''.$Notes.'\')', MYSQLI_STORE_RESULT);

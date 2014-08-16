@@ -55,8 +55,8 @@ require 'libs/Parsedown.php';
 
 require 'functions/globrecursive.php';
 
-require 'functions/stringgenerator.php';
-require 'functions/passhash.php';
+require 'functions/Generator_String.php';
+require 'functions/Password_Hash.php';
 
 require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';

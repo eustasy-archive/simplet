@@ -1,6 +1,6 @@
 <?php
 
-// ### Blog Function ###
+////	Blog Function
 //
 // Echo out titles and descriptions of posts in the directory
 // this is called from. Should be called as
@@ -14,7 +14,6 @@
 
 function Blog($Caller, $Category = false, $PerLine = 2, $Show = 10) {
 
-	// Set some Globals so the required scripts don't error.
 	global $Sitewide_Root, $Place, $Request;
 
 	echo '
