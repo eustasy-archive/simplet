@@ -16,7 +16,7 @@ function ViewCount() {
 		$Query = 'INSERT INTO `'.$Database['Prefix'].'Views` (`Request`, `Canonical`, `Post_Type`, `IP`, `Cookie`, `Auth`, `Member_ID`, `Admin`, `Time`) VALUES (\''.$Place['scheme'].'://'.$Place['host'].$Server_Request_URI_Entities.'\', \''.$Canonical.'\', \''.$Post_Type.'\', \''.$User_IP.'\', \''.$User_Cookie.'\', \''.$Member_Auth.'\', \''.$Member_ID.'\', \''.$Member_Admin.'\', \''.$Time.'\')';
 		$View = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 		
-		if ( $Sitewide_Debug && !$View ) {
+		if ( !$View &&  $Sitewide_Debug) {
 			echo 'Invalid Query (View): '.mysqli_error($Database['Connection']);
 			return false;
 		} else return true;
