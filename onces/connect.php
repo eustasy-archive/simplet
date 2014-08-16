@@ -36,12 +36,12 @@ if(
 	!empty($Database['User']) &&
 	!empty($Database['Pass']) &&
 	!empty($Database['Name'])
-	) {
+) {
 	
 	$Database['Connection'] = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
 	
-	if (!$Database['Connection']) {
-		$Database['Error'] = 'Connection Failed. Check your configuration is correct. <!-- Simplet MySQL Error: '.mysqli_connect_error($Database['Connection']).' -->';
+	if ( !$Database['Connection'] ) {
+		$Database['Error'] = 'Connection Failed. Check your configuration is correct. '.mysqli_connect_error($Database['Connection']);
 		$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
 	} else {
 		

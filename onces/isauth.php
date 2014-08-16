@@ -3,6 +3,7 @@
 // We will need the IP to handle logins, regardless of Cookie Status. Catch it every time.
 $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
+// TODO Move to Functions folder and require.
 function Memeber_Auth_False($ClearCookie = false) {
 	if ( $ClearCookie ) {
 		setcookie($Cookie_Session, '', 1);
@@ -43,6 +44,7 @@ if ( // If it is possible for them to be logged in.
 		$Session_IP = $Session_Fetch['IP'];
 
 		// IP Check
+		// TODO This block needs better code commenting.
 		if ( $IP_Checking ) {
 			// WARNING: Potential Security Issue
 			// Anyone without an IP skips IP checking.
@@ -63,6 +65,7 @@ if ( // If it is possible for them to be logged in.
 			}
 		} else $IP_Check = true;
 
+		// If the user passed the IP Check.
 		if ($IP_Check) {
 
 			$Member_ID = $Session_Fetch['Member_ID'];
@@ -88,10 +91,10 @@ if ( // If it is possible for them to be logged in.
 				$Member_Admin = $Member_Fetch['Admin']; // Are they a VIP?
 			}
 			
-		// IP_Check Failed
+		// IP Check Failed
 		} else Member_Auth_False(true);
 	
 	}
 
-// Even they don't think they're logged in
+// They don't have a Cookie or the database is not suitably set up.
 } else Member_Auth_False();

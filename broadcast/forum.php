@@ -18,7 +18,6 @@
 	require_once __DIR__.'/../request.php';
 
 if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
-
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 

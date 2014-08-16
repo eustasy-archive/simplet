@@ -18,8 +18,8 @@
 	require_once __DIR__.'/../request.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
-
-	require '../header.php'; ?>
+	require '../header.php';
+	?>
 
 	<div class="content spanpage wild">
 		<a href="https://github.com/eustasy/simplet">
@@ -84,4 +84,6 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			</div>
 		</div>
 
-<?php require '../footer.php'; } ?>
+	<?php
+	require '../footer.php';
+}
