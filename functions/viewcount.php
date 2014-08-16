@@ -1,26 +1,41 @@
 <?php
 
-// ### View Count Function ###
+////	View Count Function
 // Count a view for the current page.
 // Used for generating Trending.
 
+// TODO
+// Instead, split URL into components and store in database like that.
+// protocol	=> http
+// domain	=> example.com
+// path		=> product
+// get		=> array('id' => '2', 'utm_source' => 'twitter');
+
 function ViewCount() {
-	
-	// Set some Globals
+
 	global $Database, $Canonical, $Member_Auth, $Member_ID, $Member_Admin, $Time, $Place, $Post_Type, $Sitewide_Root, $User_IP, $User_Cookie, $Sitewide_Debug;
 	
+	// If the table exists.
 	if ( $Database['Exists']['Views'] ) {
 		
-		$Server_Request_URI_Entities = htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8');
+		// Encode and Assemble the requested URL.
+		$Requested = $Place['scheme'].'://'.$Place['host'].htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8');
 		
-		$Query = 'INSERT INTO `'.$Database['Prefix'].'Views` (`Request`, `Canonical`, `Post_Type`, `IP`, `Cookie`, `Auth`, `Member_ID`, `Admin`, `Time`) VALUES (\''.$Place['scheme'].'://'.$Place['host'].$Server_Request_URI_Entities.'\', \''.$Canonical.'\', \''.$Post_Type.'\', \''.$User_IP.'\', \''.$User_Cookie.'\', \''.$Member_Auth.'\', \''.$Member_ID.'\', \''.$Member_Admin.'\', \''.$Time.'\')';
+		// Assemble the Query
+		$Query = 'INSERT INTO `'.$Database['Prefix'].'Views` (`Request`, `Canonical`, `Post_Type`, `IP`, `Cookie`, `Auth`, `Member_ID`, `Admin`, `Time`) VALUES (\''.$Requested.'\', \''.$Canonical.'\', \''.$Post_Type.'\', \''.$User_IP.'\', \''.$User_Cookie.'\', \''.$Member_Auth.'\', \''.$Member_ID.'\', \''.$Member_Admin.'\', \''.$Time.'\')';
+		
+		// Run the Query
 		$View = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 		
+		// If it fails, return false.
 		if ( !$View &&  $Sitewide_Debug) {
 			echo 'Invalid Query (View): '.mysqli_error($Database['Connection']);
 			return false;
-		} else return true;
 		
+		// Otherwise return true.
+		} else return true;
+	
+	// The database isn't available.
 	} else return false;
 	
 }

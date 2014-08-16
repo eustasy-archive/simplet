@@ -1,16 +1,15 @@
 <?php
 
-// ### String Generator Function ###
-//
+////	String Generator Function
 // A Random String Generator for Salts, Cookies, and other Uniques (remember to check uniqueness).
-//
-// stringGenerator() gives a 64 character random string of lowercase letters and numbers
-// stringGenerator(n) gives a "n" character random string of lowercase letters and numbers
-// stringGenerator(n, true, true) gives a "n" character random string of both lowercase and uppercase letters, numbers and special characters
 
-function stringGenerator( $Length = 64, $Caps = false, $Special = false, $Letters = true, $Numbers = true) {
+// stringGenerator() gives a 64 character random string of lower-case letters and numbers
+// stringGenerator(n) gives a "n" character random string of lower-case letters and numbers
+// stringGenerator(n, true, true) gives a "n" character random string of both lower-case and upper-case letters, numbers and special characters
 
-	// Set some empty strings
+function stringGenerator( $Length = 64, $Caps = false, $Special = false, $Letters = true, $Numbers = true ) {
+
+	// Set some empty strings so warnings aren't thrown around like silly string.
 	$String_Characters = '';
 	$String = '';
 
@@ -26,7 +25,6 @@ function stringGenerator( $Length = 64, $Caps = false, $Special = false, $Letter
 	// Iterate the number of letters needed
 	for( $Iterate = 0; $Iterate < $Length; $Iterate++ ) $String .= $String_Characters[ rand( 0, $String_Characters_Count ) ];
 
-	// Return the result
 	return $String;
 
 }
