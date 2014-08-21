@@ -23,11 +23,12 @@ if ( // If it is possible for them to be logged in.
 	$Database['Exists']['Members'] &&
 	$Database['Exists']['Sessions']
 ) {
-
+	
 	// Make a note of their Cookie
 	$User_Cookie = htmlentities($_COOKIE[$Cookie_Session], ENT_QUOTES, 'UTF-8');
-
+	
 	// Check if the Cookie and IP have an active session in the database
+	// Database Existence has already been checked.
 	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `Sessions` WHERE `Cookie`=\''.$User_Cookie.'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 	if ( !$Session_Check ) {
 		if ( $Sitewide_Debug ) echo 'Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']);
