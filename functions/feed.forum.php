@@ -83,7 +83,7 @@ function Feed_Forum() {
 			
 			// Assemble the Query
 			// TODO Feed Pagination
-			$Query = 'SELECT `Slug`, `Title`, `Created` FROM `Topics` WHERE';
+			$Query = 'SELECT `Slug`, `Title`, `Created` FROM `'.$Database['Prefix'].'Topics` WHERE';
 			if ($Category) $Query .= ' `Category`=\''.$Category.'\' AND';
 			if ($Member_Auth) $Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
 			else $Query .= ' `Status`=\'Public\'';
