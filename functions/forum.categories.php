@@ -39,11 +39,7 @@ function Forum_Categories() {
 		
 		// IFCOUNTSUCCESS If the Query was unsuccessful
 		if ( !$Categories ) {
-			
-			// Debug
 			if ( $Sitewide_Debug ) echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
-			
-			// End Function Progress: Critical Failure
 			return false;
 			
 		// IFCOUNTSUCCESS If the Query was successful
@@ -95,11 +91,7 @@ function Forum_Categories() {
 				
 				// IFCATEGORIES Failure
 				if ( !$Categories ) {
-					
-					// Debug
 					if ( $Sitwide_Debug ) echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
-					
-					// End Function Progress: Critical Failure
 					return false;
 					
 				// IFCATEGORIES Success

@@ -1,6 +1,6 @@
 <?php
 
-//// Forum Category Check Function
+////	Forum Category Check Function
 //
 // Checks whether or not a category exists.
 //
@@ -29,17 +29,11 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 		
 		// IFQUERY
 		if ( !$Forum_Category_Check ) {
-			// Query Error
-			
-			// Debug
 			if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Category_Check): '.mysqli_error($Database['Connection']);
-			
-			// Failed
 			return false;
 			
-		// IFQUERY
+		// IFQUERY Query Successful
 		} else {
-			// Query Successful
 			
 			// Fetch Results
 			$Forum_Category_Check_Fetch = mysqli_fetch_assoc($Forum_Category_Check);
