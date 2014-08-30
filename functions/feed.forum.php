@@ -36,8 +36,12 @@ function Feed_Forum() {
 			$Query = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 			
 			// IFTOPICSUCCESS
-			if (!$Query && $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
-			else {
+			if ( !$Query ) {
+				if ( $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+				return false;
+				
+			// IFTOPICSUCCESS
+			} else {
 				
 				// WHILERESPONSES
 				while($Fetch = mysqli_fetch_assoc($Query)) {
@@ -53,12 +57,12 @@ function Feed_Forum() {
 					
 					// Echo the item
 					echo '
-					<item>
-						<description>'.$Post.'</description>
-						<link>'.$Link.'</link>
-						<guid>'.$Link.'</guid>
-						<pubDate>'.date('r', $Fetch['Created']).'</pubDate>
-					</item>';
+		<item>
+			<description>'.$Post.'</description>
+			<link>'.$Link.'</link>
+			<guid>'.$Link.'</guid>
+			<pubDate>'.date('r', $Fetch['Created']).'</pubDate>
+		</item>';
 					
 				} // WHILERESPONSES
 				
@@ -93,8 +97,12 @@ function Feed_Forum() {
 			$Query = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 			
 			// IFCATEGORYSUCCESS
-			if (!$Query && $Sitewide_Debug) exit('Invalid Query (Topics): '.mysqli_error($Database['Connection']);
-			else {
+			if ( !$Query ) {
+				if ( $Sitewide_Debug ) echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection'];
+				return false;
+				
+			// IFCATEGORYSUCCESS
+			} else {
 				
 				// WHILETOPICS
 				while($Fetch = mysqli_fetch_assoc($Query)) {
@@ -107,12 +115,12 @@ function Feed_Forum() {
 					
 					// Echo the Item
 					echo '
-					<item>
-						<title>'.$Title.'</title>
-						<link>'.$Link.'</link>
-						<guid>'.$Link.'</guid>
-						<pubDate>'.date('r', $Fetch['Created']).'</pubDate>
-					</item>';
+		<item>
+			<title>'.$Title.'</title>
+			<link>'.$Link.'</link>
+			<guid>'.$Link.'</guid>
+			<pubDate>'.date('r', $Fetch['Created']).'</pubDate>
+		</item>';
 					
 				} // WHILETOPICS
 				
