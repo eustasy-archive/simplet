@@ -11,7 +11,7 @@ function Forum_Category_Count($Category_Slug, $Status_Check = false) {
 	global $Database;
 	
 	// Count the Topics that have the Slug as the Category
-	$Forum_Category_Count_Query = 'SELECT COUNT(`Category`) AS `Count` FROM `Topics` WHERE `Category`=\''.$Category_Slug.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
+	$Forum_Category_Count_Query = 'SELECT COUNT(`Category`) AS `Count` FROM `'.$Database['Prefix'].'Topics` WHERE `Category`=\''.$Category_Slug.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
 	$Forum_Category_Count = mysqli_query($Database['Connection'], $Forum_Category_Count_Query, MYSQLI_STORE_RESULT);
 	
 	// IFCOUNT

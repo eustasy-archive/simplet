@@ -14,7 +14,7 @@ function Forum_Category_Increment($Category_Slug) {
 	$Forum_Category_Count = Forum_Category_Count($Category_Slug);
 	
 	// Update the Cached Count
-	$Forum_Category_Increment_Query = 'UPDATE `Categories` SET `Topics`=\''.$Forum_Category_Count.'\', `Modified`=\''.$Time.'\' WHERE `Slug`=\''.$Category_Slug.'\'';
+	$Forum_Category_Increment_Query = 'UPDATE `'.$Database['Prefix'].'Categories` SET `Topics`=\''.$Forum_Category_Count.'\', `Modified`=\''.$Time.'\' WHERE `Slug`=\''.$Category_Slug.'\'';
 	$Forum_Category_Increment = mysqli_query($Database['Connection'], $Forum_Category_Increment_Query, MYSQLI_STORE_RESULT);
 	
 	// Handle the response

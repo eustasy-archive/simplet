@@ -15,7 +15,7 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 	else {
 		
 		// Count the number of Categories with a matching slug
-		$Forum_Category_Check_Query = 'SELECT COUNT(`Slug`) AS `Count` FROM `Categories` WHERE `Slug`=\''.$Category_Slug.'\'';
+		$Forum_Category_Check_Query = 'SELECT COUNT(`Slug`) AS `Count` FROM `'.$Database['Prefix'].'Categories` WHERE `Slug`=\''.$Category_Slug.'\'';
 		
 		// IFSTATUS
 		if ( $Status_Check ) {
