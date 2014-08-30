@@ -11,7 +11,7 @@ function Forum_Categories() {
 	global $Database, $Member_Auth;
 	
 	// IFEXISTSCATEGORIES
-	if ( $Database['Exists']['Categories'] ) return false;
+	if ( !$Database['Exists']['Categories'] ) return false;
 	else {
 		
 		////	START Count Query Assembly 
