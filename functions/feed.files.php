@@ -8,7 +8,7 @@
 
 function Feed_Files() {
 	
-	global $Database, $Member_Auth, $Sitewide_Debug, $Sitewide_Root, $Canonical;
+	global $Canonical, $Database, $Member_Auth, $Sitewide_Debug, $Sitewide_Root;
 	
 	// IFEXISTSRESPONSES
 	if ( !$Database['Exists']['Responses'] ) return false;

@@ -9,7 +9,7 @@
 
 function Feed_Header($URL) {
 	
-	global $Sitewide_Root, $Sitewide_Title, $Sitewide_Tagline;
+	global $Sitewide_Root, $Sitewide_Tagline, $Sitewide_Title;
 	
 	// Send the right header for an RSS Feed
 	header('Content-Type: application/rss+xml');

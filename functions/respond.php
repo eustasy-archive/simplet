@@ -3,7 +3,7 @@
 function Respond($Status_Override = false) {
 
 	// Set some Globals
-	global $Database, $Forum_Reply_Inherit, $Forum_Reply_Default, $Member_ID, $Time;
+	global $Database, $Forum_Reply_Default, $Forum_Reply_Inherit, $Member_ID, $Time;
 
 	// Prepare an array to be returned as JSON.
 	$Response_Return = array();

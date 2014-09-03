@@ -9,7 +9,7 @@
 
 function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Trend_Strict = false) {
 
-	global $Database, $Sitewide_Root, $Post_Types, $Sitewide_Debug;
+	global $Database, $Post_Types, $Sitewide_Debug, $Sitewide_Root;
 
 	// Make sure $Trend_Type is sensible
 	if ( !in_array($Trend_Type, $Post_Types) ) $Trend_Type = 'Blog Post';

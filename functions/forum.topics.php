@@ -8,7 +8,7 @@
 
 function Forum_Topics() {
 	
-	global $Database, $Member_Auth, $Header, $Footer, $Sitewide_Title, $Sitewide_Root;
+	global $Database, $Footer, $Header, $Member_Auth, $Sitewide_Root, $Sitewide_Title;
 	
 	// Category to get Topic for
 	$Forum_Topics_Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');

@@ -3,7 +3,7 @@
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 	// Set some Globals
-	global $Database, $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $Sitewide_Root, $Sitewide_AllowHTML;
+	global $Canonical, $Comment_Helpful, $Database, $Forum_Reply_Helpful, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Time;
 
 	// Catch any responses that didn't go to the API
 	if (isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply')) {
