@@ -44,14 +44,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Login_Mail = htmlentities($_POST['mail'], ENT_QUOTES, 'UTF-8');
 				$Login_Pass = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-				$Block_Check = mysqli_query($Database['Connection'], "SELECT * FROM `Failures` WHERE `Mail`='$Login_Mail' AND `Created`>UNIX_TIMESTAMP()-900", MYSQLI_STORE_RESULT);
+				$Block_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Failures` WHERE `Mail`='$Login_Mail' AND `Created`>UNIX_TIMESTAMP()-900", MYSQLI_STORE_RESULT);
 				if (!$Block_Check) exit('Invalid Query (MC): '.mysqli_error($Database['Connection']));
 
 				$Block_Count = mysqli_num_rows($Block_Check);
 
 				if ($Block_Count < 3) {
 
-					$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `Members` WHERE `Mail`='$Login_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+					$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Members` WHERE `Mail`='$Login_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 					if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
 
 					$Member_Count = mysqli_num_rows($Member_Check);
@@ -73,7 +73,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Place['host']);
 
-							$Session_New = mysqli_query($Database['Connection'], "INSERT INTO `Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES ('$Member_ID', '$Login_Mail', '$Member_Cookie', '$User_IP', '1', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+							$Session_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES ('$Member_ID', '$Login_Mail', '$Member_Cookie', '$User_IP', '1', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 							if (!$Session_New) exit('Invalid Query (Session_New): '.mysqli_error($Database['Connection']));
 
 							// Login Successful
@@ -83,7 +83,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						} else {
 
-							$Failures_New = mysqli_query($Database['Connection'], "INSERT INTO `Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES ('$Member_ID', '$Login_Mail', '$User_IP', '$Time')", MYSQLI_STORE_RESULT);
+							$Failures_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES ('$Member_ID', '$Login_Mail', '$User_IP', '$Time')", MYSQLI_STORE_RESULT);
 							if (!$Failures_New) exit('Invalid Query (Failures_New): '.mysqli_error($Database['Connection']));
 
 							setcookie ($Cookie_Session, '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
@@ -167,7 +167,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		} else {
 
-			$Session_End = mysqli_query($Database['Connection'], "UPDATE `Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_Cookie' AND `IP`='$User_IP'", MYSQLI_STORE_RESULT);
+			$Session_End = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_Cookie' AND `IP`='$User_IP'", MYSQLI_STORE_RESULT);
 			if (!$Session_End) exit('Invalid Query (Session_End): '.mysqli_error($Database['Connection']));
 
 			setcookie ($Cookie_Session, '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
@@ -225,7 +225,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Signup_Mail = htmlentities($_POST['mail'], ENT_QUOTES, 'UTF-8');
 				$Signup_Pass = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
 
-				$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `Members` WHERE `Mail`='$Signup_Mail' LIMIT 0, 1", MYSQLI_STORE_RESULT);
+				$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Members` WHERE `Mail`='$Signup_Mail' LIMIT 0, 1", MYSQLI_STORE_RESULT);
 				if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
 
 				$Member_Count = mysqli_num_rows($Member_Check);
@@ -237,7 +237,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					$Pass_Hash = Password_Hash($Signup_Pass, $Salt);
 
-					$Member_New = mysqli_query($Database['Connection'], "INSERT INTO `Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					$Member_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Member_New) exit('Invalid Query (Member_New): '.mysqli_error($Database['Connection']));
 
 					require $Header;
@@ -322,7 +322,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Error = 'Name cannot be empty.';
 				} else {
 
-					$Name_Change = mysqli_query($Database['Connection'], "UPDATE `Members` SET `Name`='$Name_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+					$Name_Change = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Members` SET `Name`='$Name_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Name_Change) exit('Invalid Query (Name_Change): '.mysqli_error($Database['Connection']));
 
 					header('Location: '.$Sitewide_Account, TRUE, 302);
@@ -373,7 +373,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Salt = Generator_String();
 					$Pass_Hash = Password_Hash($Pass_New, $Salt);
 
-					$Pass_Change = mysqli_query($Database['Connection'], "UPDATE `Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+					$Pass_Change = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Pass_Change) exit('Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']));
 
 					header('Location: '.$Sitewide_Account, TRUE, 302);
@@ -421,7 +421,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Error = 'Mail cannot be empty.';
 				} else {
 
-					$Mail_Change = mysqli_query($Database['Connection'], "UPDATE `Members` SET `Mail`='$Mail_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
+					$Mail_Change = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Members` SET `Mail`='$Mail_New', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 					if (!$Mail_Change) exit('Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']));
 
 					header('Location: '.$Sitewide_Account, TRUE, 302);
@@ -482,14 +482,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Get_Cookie = htmlspecialchars($_GET['cookie'], ENT_QUOTES, 'UTF-8');
 
-				$Session_End = mysqli_query($Database['Connection'], "UPDATE `Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$Get_Cookie'", MYSQLI_STORE_RESULT);
+				$Session_End = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$Get_Cookie'", MYSQLI_STORE_RESULT);
 				if (!$Session_End) exit('Invalid Query (Session_End): ' . mysqli_error($Database['Connection']));
 
 				echo '<h3>Session Terminated</h3>';
 
 			}
 
-			$Sessions = mysqli_query($Database['Connection'], "SELECT * FROM `Sessions` WHERE `Member_ID`='$Member_ID' AND `Active`='1' AND NOT `Cookie`='$User_Cookie'", MYSQLI_STORE_RESULT);
+			$Sessions = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Sessions` WHERE `Member_ID`='$Member_ID' AND `Active`='1' AND NOT `Cookie`='$User_Cookie'", MYSQLI_STORE_RESULT);
 			if (!$Sessions) exit('Invalid Query (Sessions): ' . mysqli_error($Database['Connection']));
 
 			$Sessions_Count = mysqli_num_rows($Sessions);
@@ -551,7 +551,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						// TODO memberExists
 						// TODO memberChangePass
 
-						$Reset = mysqli_query($Database['Connection'], 'UPDATE `Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
+						$Reset = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 						if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($Database['Connection']));
 
 						Runone_Delete($Key, $Key_Info['Member_ID']);
@@ -593,7 +593,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Reset_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
 
-				$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `Members` WHERE `Mail`='$Reset_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+				$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Members` WHERE `Mail`='$Reset_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 				if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
 
 				$Member_Count = mysqli_num_rows($Member_Check);
@@ -680,7 +680,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 			if (Runone_Check($Key, $Member_ID)) {
 
-				$Member_Delete = mysqli_query($Database['Connection'], 'UPDATE `Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
+				$Member_Delete = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 				if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
 
 				Runone_Delete($Key, $Member_ID);
