@@ -1,10 +1,13 @@
 <?php
 
 ////	Runonce Delete
+// 
+// Delete a runonce key by Key and Owner
+// 
+// Runonce_Delete('key');
+// Runonce_Delete('key', 'member_id');
 
-// Runone_Delete
-
-function Runone_Delete($Key, $Key_Owner = '') {
+function Runonce_Delete($Key, $Key_Owner = '') {
 
 	global $Database, $Member_ID, $Time;
 

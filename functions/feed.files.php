@@ -2,7 +2,7 @@
 
 ////	Feed Files Function
 //
-// Echos the Comments and Reviews for Files
+// Echoes the Comments and Reviews for Files
 //
 // Forum_Files();
 

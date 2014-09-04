@@ -1,6 +1,6 @@
 <?php
 
-////	Forum Topic Check Function
+////	Forum Topic Count Function
 // 
 // Counts the Responses to a given Topic.
 // 

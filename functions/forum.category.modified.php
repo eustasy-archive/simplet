@@ -2,7 +2,7 @@
 
 ////	Forum Category Modified Function
 //
-// Update the Category Modified Time
+// Update the Category Modified Time to Now
 //
 // Forum_Category_Modified('slug');
 

@@ -1,11 +1,14 @@
 <?php
 
-////	Trending Function
-// TODO Description
-
+////	Views Trending Function
+// 
+// Returns an array of the current trending pages, minus the current one.
+// 
 // WARNING:
 // A high Trend_Limit coupled with Trend_Strict
 // will result in a large and complex query.
+// 
+// Views_Trending('page');
 
 function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Trend_Strict = false) {
 

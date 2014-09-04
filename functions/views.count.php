@@ -3,7 +3,7 @@
 ////	Views Count Function
 // Count a view for the current page.
 // Used for generating Trending.
-
+//
 // TODO
 // Instead, split URL into components and store in database like that.
 // protocol	=> http

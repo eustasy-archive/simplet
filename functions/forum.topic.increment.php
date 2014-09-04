@@ -2,7 +2,7 @@
 
 ////	Forum Topic Increment Function
 //
-// Increment the responses count cache for a given topic.
+// Increment the Responses count cache for a given Topic.
 //
 // Forum_Topic_Increment('slug');
 

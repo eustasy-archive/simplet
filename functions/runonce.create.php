@@ -1,6 +1,15 @@
 <?php
 
-function Runone_Create($Key = '', $Key_Owner = '', $Notes = '') {
+////	Runonce Create
+// 
+// Create a runonce key by Key and Owner
+// 
+// Runonce_Create();
+// Runonce_Create('key');
+// Runonce_Create('key', 'member_id');
+// Runonce_Create('key', 'member_id', 'Notes');
+
+function Runonce_Create($Key = '', $Key_Owner = '', $Notes = '') {
 
 	// Set some Globals so the required scripts don't error.
 	global $Database, $Member_ID, $Time, $User_IP;

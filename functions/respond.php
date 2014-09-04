@@ -1,21 +1,27 @@
 <?php
 
+////	Respond
+// 
+// Process a posted response..
+// 
+// Respond();
+// Respond(true);
+
 function Respond($Status_Override = false) {
-
-	// Set some Globals
+	
 	global $Database, $Forum_Reply_Default, $Forum_Reply_Inherit, $Member_ID, $Time;
-
+	
 	// Prepare an array to be returned as JSON.
 	$Response_Return = array();
 	$Response_Return['error'] = array();
-
+	
 	if(isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post'])) {
-
+	
 		// Set Variables
 		$Response_Canonical = htmlentities($_POST['canonical'], ENT_QUOTES, 'UTF-8');
 		$Response_Type = htmlentities($_POST['type'], ENT_QUOTES, 'UTF-8');
 		$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
-
+		
 		// Response Rating
 		if ($Response_Type == 'Review') {
 			if(isset($_POST['rating'])) {
@@ -26,13 +32,13 @@ function Respond($Status_Override = false) {
 		} else {
 			$Response_Rating = 0;
 		}
-
+		
 		// Response Status
 		if (isset($Status_Override) && $Status_Override) {
 			$Response_Status = $Status_Override;
 		} else if ($Response_Type == 'Post') {
 			if ($Forum_Reply_Inherit === true) {
-
+				
 				// Fetch Status of Topic
 				$Topic_Status_Query = mysqli_query($Database['Connection'], 'SELECT `Status` FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
 				if (!$Topic_Status_Query) array_push($Response_Return['error'], 'Topic Status Query Error.');

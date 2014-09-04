@@ -2,7 +2,7 @@
 
 ////	Forum Category Info Function
 //
-// Checks whether or not a category exists.
+// Returns an array of all the information on a given Category
 //
 // Forum_Category_Info('slug');
 
