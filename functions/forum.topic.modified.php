@@ -11,7 +11,7 @@ function Forum_Topic_Modified($Topic_Slug) {
 	global $Database, $Time;
 	
 	// Count things first
-	$Forum_Topic_Modified = 'UPDATE `Topics` SET `Modified`=\''.$Time.'\' WHERE `Slug`=\''.$Topic_Slug.'\'';
+	$Forum_Topic_Modified = 'UPDATE `'.$Database['Prefix'].'Topics` SET `Modified`=\''.$Time.'\' WHERE `Slug`=\''.$Topic_Slug.'\'';
 	
 	// Execute Query
 	$Forum_Topic_Modified = mysqli_query($Database['Connection'], $Forum_Topic_Modified, MYSQLI_STORE_RESULT);

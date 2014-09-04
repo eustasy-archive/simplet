@@ -53,7 +53,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Response_ID = strval(htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'));
 
 			// Check Response is Viewable
-			$Responses = mysqli_query($Database['Connection'], 'SELECT * FROM `Responses` WHERE `ID`=\''.$Response_ID.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
+			$Responses = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Responses` WHERE `ID`=\''.$Response_ID.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
 			if (!$Responses) array_push($Helpfulness_Return['error'], 'Responses Query Error.');
 			$Responses_Count = mysqli_num_rows($Responses);
 
@@ -66,7 +66,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Responses_Fetch = mysqli_fetch_assoc($Responses);
 				$Responses_Helpfulness = $Responses_Fetch['Helpfulness'];
 
-				$Helpfulness = mysqli_query($Database['Connection'], "SELECT * FROM `Helpfulness` WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+				$Helpfulness = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Helpfulness` WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 				if (!$Helpfulness) array_push($Helpfulness_Return['error'], 'Helpfulness Query Error.');
 				$Helpfulness_Count = mysqli_num_rows($Helpfulness);
 				if($Helpfulness_Count == 0) {
@@ -77,7 +77,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					} else if (isset($_GET['set'])) {
 						$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
 						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
-							$Helpfulness_Insert = mysqli_query($Database['Connection'], "INSERT INTO `Helpfulness` (`Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES ('$Response_ID', '$Member_ID', '$Response_Vote', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+							$Helpfulness_Insert = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Helpfulness` (`Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES ('$Response_ID', '$Member_ID', '$Response_Vote', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 							if (!$Helpfulness_Insert) array_push($Helpfulness_Return['error'], 'Vote Insert Failed.');
 							if ($Response_Vote == 'up') {
 								$Helpfulness_Change = 1;
@@ -111,7 +111,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					} else if (isset($_GET['set'])) {
 						$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
 						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
-							$Helpfulness_Update = mysqli_query($Database['Connection'], "UPDATE `Helpfulness` SET `Helpfulness`='$Response_Vote', `Modified`='$Time' WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+							$Helpfulness_Update = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Helpfulness` SET `Helpfulness`='$Response_Vote', `Modified`='$Time' WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 							if (!$Helpfulness_Update) array_push($Helpfulness_Return['error'], 'Vote Update Failed.');
 
 							if ($Helpfulness_Vote == $Response_Vote) {
@@ -139,7 +139,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						// On Vote Helpfulness Change Helpfulness on Response
 						$Responses_Helpfulness_New = $Responses_Helpfulness + $Helpfulness_Change;
 
-						$Helpfulness_Modify = mysqli_query($Database['Connection'], "UPDATE `Responses` SET `Helpfulness`='$Responses_Helpfulness_New', `Modified`='$Time' WHERE `ID`='$Response_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
+						$Helpfulness_Modify = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Responses` SET `Helpfulness`='$Responses_Helpfulness_New', `Modified`='$Time' WHERE `ID`='$Response_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 						if (!$Helpfulness_Modify) array_push($Helpfulness_Return['error'], 'Helpfulness Update Failed.');
 						$Helpfulness_Return['vote'] =  'confirm';
 					}

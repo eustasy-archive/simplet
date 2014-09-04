@@ -44,7 +44,7 @@ function Forum_Topics() {
 		require $Header;
 		
 		// Select Topics
-		$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
+		$Topics_Query_Select = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 		
 		// Limit by Status
 		if ($Member_Auth) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
@@ -66,7 +66,7 @@ function Forum_Topics() {
 			else echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
 		} else {
 			
-			$Responses_Prefetch_Query_Select = 'SELECT `Canonical`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `Responses` WHERE `Type`=\'Post\' AND ';
+			$Responses_Prefetch_Query_Select = 'SELECT `Canonical`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `'.$Database['Prefix'].'Responses` WHERE `Type`=\'Post\' AND ';
 			$Responses_Prefetch_Query_Group = ' GROUP BY `Canonical`';
 			$Responses_Prefetch_Query = $Responses_Prefetch_Query_Select.$Topics_Query_Status.$Responses_Prefetch_Query_Group;
 			$Responses_Prefetch = mysqli_query($Database['Connection'], $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);

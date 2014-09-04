@@ -37,7 +37,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 	if ($Type === 'Review') $Responses_Query_Select .= ', SUM(`Rating`) AS `Sum`';
 
 	// Get Responses by Type and Publicity
-	$Responses_Query_Where = ' FROM `Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `Type`=\''.$Type.'\'';
+	$Responses_Query_Where = ' FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `Type`=\''.$Type.'\'';
 
 	// Limit by Status
 	if ($Member_Auth) {
@@ -156,7 +156,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					$Responses_Store_Name = $Responses_Members_Names[$Responses_Members_Num];
 					$Responses_Store_Avatar = $Responses_Members_Avatar[$Responses_Members_Num];
 				} else {
-					$Responses_Member = mysqli_query($Database['Connection'], "SELECT * FROM `Members` WHERE `ID`='$Responses_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+					$Responses_Member = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Responses_Member_ID.'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 					if (!$Responses_Member) exit('Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']));
 					$Responses_Member_Count = mysqli_num_rows($Responses_Member);
 					if ($Responses_Member_Count == 0) {

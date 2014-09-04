@@ -9,7 +9,7 @@ function Runone_Check($Key, $Key_Owner = '', $Timeout = '', $Timecount = false) 
 	if (empty($Timeout)) $Timeout = 0;
 	if ($Timecount) $Timeout = $Timeout - $Time;
 
-	$Key_Query = 'SELECT * FROM `Runonce` WHERE';
+	$Key_Query = 'SELECT * FROM `'.$Database['Prefix'].'Runonce` WHERE';
 	if ($Key_Owner !== '*') $Key_Query .= ' `Member_ID`=\''.$Key_Owner.'\' AND';
 	$Key_Query .= '`Key`=\''.$Key.'\' AND `Status`=\'Active\' AND `Created` > \''.$Timeout.'\' LIMIT 0, 1';
 

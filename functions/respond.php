@@ -34,7 +34,7 @@ function Respond($Status_Override = false) {
 			if ($Forum_Reply_Inherit === true) {
 
 				// Fetch Status of Topic
-				$Topic_Status_Query = mysqli_query($Database['Connection'], 'SELECT `Status` FROM `Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
+				$Topic_Status_Query = mysqli_query($Database['Connection'], 'SELECT `Status` FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
 				if (!$Topic_Status_Query) array_push($Response_Return['error'], 'Topic Status Query Error.');
 				$Topic_Status_Count = mysqli_num_rows($Topic_Status_Query);
 				if($Topic_Status_Count === 0) {
@@ -58,7 +58,7 @@ function Respond($Status_Override = false) {
 		}
 
 		// Query
-		$Response_Query = 'INSERT INTO `Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Post.'\', \''.$Time.'\', \''.$Time.'\')';
+		$Response_Query = 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Post.'\', \''.$Time.'\', \''.$Time.'\')';
 		$Response_New = mysqli_query($Database['Connection'], $Response_Query, MYSQLI_STORE_RESULT);
 		if (!$Response_New) array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($Database['Connection']));
 

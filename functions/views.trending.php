@@ -19,7 +19,7 @@ function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10
 	else $Query = 'SELECT COUNT(*) AS `Count`,';
 	
 	// Finish query.
-	$Query .= ' `Canonical` FROM `Views` WHERE `Post_Type`=\''.$Trend_Type.'\' GROUP BY `Canonical` ORDER BY `Count` DESC LIMIT 0, '.$Trend_Limit;
+	$Query .= ' `Canonical` FROM `'.$Database['Prefix'].'Views` WHERE `Post_Type`=\''.$Trend_Type.'\' GROUP BY `Canonical` ORDER BY `Count` DESC LIMIT 0, '.$Trend_Limit;
 
 	$Trending = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 	if ( !$Trending && $Sitewide_Debug ) echo 'Invalid Query (View): '.mysqli_error($Database['Connection']);
