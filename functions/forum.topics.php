@@ -95,7 +95,7 @@ function Forum_Topics() {
 						<div class="col span_2_of_12 textcenter faded"><p>Last Activity</p></div>
 					</div>';
 			
-			$Topics_Query_Select = 'SELECT * FROM `Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
+			$Topics_Query_Select = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 			if ($Pagination['Page'] === 1) $Topics_Query_Limit = ' LIMIT '.$Pagination['Show'];
 			else $Topics_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
 			
