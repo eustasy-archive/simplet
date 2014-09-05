@@ -21,15 +21,6 @@ function Forum_Topic_Check($Topic_Slug, $Status_Check = false) {
 	
 	// Execute Query
 	$Forum_Topic_Check = mysqli_query($Database['Connection'], $Forum_Topic_Check_Query, MYSQLI_STORE_RESULT);
-<<<<<<< HEAD
-	if (!$Forum_Topic_Check) exit('Invalid Query (Forum_Topic_Check): '.mysqli_error($Database['Connection']));
-
-	$Forum_Topic_Check_Fetch = mysqli_fetch_assoc($Forum_Topic_Check);
-
-	if ($Forum_Topic_Check_Fetch['Count'] > 0) return true;
-	else return false;
-
-=======
 	
 	// IFQUERY Unsuccessful
 	if ( !$Forum_Topic_Check ) {
@@ -44,5 +35,4 @@ function Forum_Topic_Check($Topic_Slug, $Status_Check = false) {
 		
 	} // IFQUERY
 	
->>>>>>> origin/table-check-and-prefix
 }
