@@ -66,7 +66,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		if (Database_Table_Exists('Categories')) {
 
-			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
+			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Categories) echo 'Invalid Query (Forum_Categories): '.mysqli_error($Database['Connection']);
 
 			$Forum_Categories_Count = mysqli_num_rows($Forum_Categories);
@@ -88,7 +88,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		if (Database_Table_Exists('Topics')) {
 
-			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
+			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Topics) echo 'Invalid Query (Forum_Topics): '.mysqli_error($Database['Connection']);
 
 			$Forum_Topics_Count = mysqli_num_rows($Forum_Topics);

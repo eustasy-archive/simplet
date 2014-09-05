@@ -14,7 +14,7 @@
 
 function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 	
-	global $Sitewide_Root, $Place, $Request;
+	global $Place, $Request, $Sitewide_Root;
 	
 	// Start a section for the Blog to appear in.
 	echo '

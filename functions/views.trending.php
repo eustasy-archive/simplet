@@ -1,15 +1,18 @@
 <?php
 
-////	Trending Function
-// TODO Description
-
+////	Views Trending Function
+// 
+// Returns an array of the current trending pages, minus the current one.
+// 
 // WARNING:
 // A high Trend_Limit coupled with Trend_Strict
 // will result in a large and complex query.
+// 
+// Views_Trending('page');
 
 function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10, $Trend_Strict = false) {
 
-	global $Database, $Sitewide_Root, $Post_Types, $Sitewide_Debug;
+	global $Database, $Post_Types, $Sitewide_Debug, $Sitewide_Root;
 
 	// Make sure $Trend_Type is sensible
 	if ( !in_array($Trend_Type, $Post_Types) ) $Trend_Type = 'Blog Post';
@@ -19,7 +22,7 @@ function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10
 	else $Query = 'SELECT COUNT(*) AS `Count`,';
 	
 	// Finish query.
-	$Query .= ' `Canonical` FROM `Views` WHERE `Post_Type`=\''.$Trend_Type.'\' GROUP BY `Canonical` ORDER BY `Count` DESC LIMIT 0, '.$Trend_Limit;
+	$Query .= ' `Canonical` FROM `'.$Database['Prefix'].'Views` WHERE `Post_Type`=\''.$Trend_Type.'\' GROUP BY `Canonical` ORDER BY `Count` DESC LIMIT 0, '.$Trend_Limit;
 
 	$Trending = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 	if ( !$Trending && $Sitewide_Debug ) echo 'Invalid Query (View): '.mysqli_error($Database['Connection']);

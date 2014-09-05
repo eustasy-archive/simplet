@@ -29,7 +29,7 @@ if ( // If it is possible for them to be logged in.
 	
 	// Check if the Cookie and IP have an active session in the database
 	// Database Existence has already been checked.
-	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `Sessions` WHERE `Cookie`=\''.$User_Cookie.'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
+	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Cookie`=\''.$User_Cookie.'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 	if ( !$Session_Check ) {
 		if ( $Sitewide_Debug ) echo 'Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']);
 		$Session_Count = 0;
@@ -72,7 +72,7 @@ if ( // If it is possible for them to be logged in.
 			$Member_ID = $Session_Fetch['Member_ID'];
 
 			// Check their membership status
-			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `Members` WHERE ID=\''.$Member_ID.'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
+			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE ID=\''.$Member_ID.'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
 				if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): ' . mysqli_error($Database['Connection']);
 				$Member_Count = 0;
@@ -80,7 +80,7 @@ if ( // If it is possible for them to be logged in.
 			
 			// If they're not a member, that Session can be ended.
 			if ( $Member_Count === 0 ) {
-				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_Cookie.'\'', MYSQLI_STORE_RESULT);
+				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_Cookie.'\'', MYSQLI_STORE_RESULT);
 				if ( !$Session_End && $Sitewide_Debug ) echo 'Invalid Query (Session_End): ' . mysqli_error($Database['Connection']);
 
 			// They are authenticated as a valid member.

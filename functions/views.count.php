@@ -3,7 +3,7 @@
 ////	Views Count Function
 // Count a view for the current page.
 // Used for generating Trending.
-
+//
 // TODO
 // Instead, split URL into components and store in database like that.
 // protocol	=> http
@@ -13,7 +13,7 @@
 
 function Views_Count() {
 
-	global $Database, $Canonical, $Member_Auth, $Member_ID, $Member_Admin, $Time, $Place, $Post_Type, $Sitewide_Root, $User_IP, $User_Cookie, $Sitewide_Debug;
+	global $Canonical, $Database, $Member_Admin, $Member_Auth, $Member_ID, $Place, $Post_Type, $Sitewide_Debug, $Sitewide_Root, $Time, $User_Cookie, $User_IP;
 	
 	// If the table exists.
 	if ( $Database['Exists']['Views'] ) {

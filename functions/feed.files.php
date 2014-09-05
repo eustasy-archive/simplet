@@ -2,13 +2,13 @@
 
 ////	Feed Files Function
 //
-// Echos the Comments and Reviews for Files
+// Echoes the Comments and Reviews for Files
 //
 // Forum_Files();
 
 function Feed_Files() {
 	
-	global $Database, $Member_Auth, $Sitewide_Debug, $Sitewide_Root, $Canonical;
+	global $Canonical, $Database, $Member_Auth, $Sitewide_Debug, $Sitewide_Root;
 	
 	// IFEXISTSRESPONSES
 	if ( !$Database['Exists']['Responses'] ) return false;

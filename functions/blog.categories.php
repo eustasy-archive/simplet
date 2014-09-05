@@ -2,7 +2,7 @@
 
 ////	Blog Categories Function
 //
-// Returns the Categories of posts in the caller directory and below,
+// Returns the Categories of posts in the caller directory and below as an array,
 // along with the counts for each, sorted by most first.
 //
 // Categories(__DIR__);

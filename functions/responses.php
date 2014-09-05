@@ -1,10 +1,17 @@
 <?php
 
+////	Responses
+// 
+// List Comments, Reviews, or Posts
+// 
+// Responses();
+// Responses('Review');
+// Responses('Review', 'product?id=1');
+
 function Responses($Type = 'Comment', $Response_Canonical = '') {
-
-	// Set some Globals
-	global $Database, $Canonical, $Comment_Helpful, $Forum_Reply_Helpful, $Member_Auth, $Member_Name, $Member_Mail, $Time, $Request, $Sitewide_Root, $Sitewide_AllowHTML;
-
+	
+	global $Canonical, $Comment_Helpful, $Database, $Forum_Reply_Helpful, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Time;
+	
 	// Catch any responses that didn't go to the API
 	if (isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply')) {
 		if(!$Member_Auth) {
@@ -22,37 +29,38 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			}
 		}
 	}
-
+	
 	if ( empty($Response_Canonical) ) $Response_Canonical = $Canonical;
 	$Response_Canonical = urlencode($Response_Canonical);
-
-	if ($Type === 'Review' || ($Type === 'Comment' && $Comment_Helpful === true) || ($Type === 'Post' && $Forum_Reply_Helpful === true) ) {
-		$Helpfulness_Show = true;
-	} else {
-		$Helpfulness_Show = false;
-	}
-
+	
+	if (
+		$Type === 'Review' ||
+		($Type === 'Comment' && $Comment_Helpful === true) ||
+		($Type === 'Post' && $Forum_Reply_Helpful === true)
+	) $Helpfulness_Show = true;
+	else $Helpfulness_Show = false;
+	
 	// Count things first
 	$Responses_Query_Select = 'SELECT COUNT(*) AS `Count`';
 	if ($Type === 'Review') $Responses_Query_Select .= ', SUM(`Rating`) AS `Sum`';
-
+	
 	// Get Responses by Type and Publicity
-	$Responses_Query_Where = ' FROM `Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `Type`=\''.$Type.'\'';
-
+	$Responses_Query_Where = ' FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `Type`=\''.$Type.'\'';
+	
 	// Limit by Status
 	if ($Member_Auth) {
 		$Responses_Query_Status = ' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
 	} else {
 		$Responses_Query_Status = ' AND `Status`=\'Public\'';
 	}
-
+	
 	// Build Responses_Query
 	$Responses_Query = $Responses_Query_Select.$Responses_Query_Where.$Responses_Query_Status;
-
+	
 	// Get Responses
 	$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 	if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
-
+	
 	// Count and Average
 	$Responses_Fetch = mysqli_fetch_assoc($Responses);
 	$Responses_Count = $Responses_Fetch['Count'];
@@ -156,7 +164,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					$Responses_Store_Name = $Responses_Members_Names[$Responses_Members_Num];
 					$Responses_Store_Avatar = $Responses_Members_Avatar[$Responses_Members_Num];
 				} else {
-					$Responses_Member = mysqli_query($Database['Connection'], "SELECT * FROM `Members` WHERE `ID`='$Responses_Member_ID' AND `Status`='Active'", MYSQLI_STORE_RESULT);
+					$Responses_Member = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Responses_Member_ID.'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 					if (!$Responses_Member) exit('Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']));
 					$Responses_Member_Count = mysqli_num_rows($Responses_Member);
 					if ($Responses_Member_Count == 0) {
