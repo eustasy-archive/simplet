@@ -47,7 +47,7 @@ if(
 		
 		$Database['Error'] = false;
 		
-		require '../functions/database.table.exists.php';
+		require __DIR__.'/../functions/database.table.exists.php';
 		$Database['Exists'] = array();
 		$Database['Exists']['Members'] = Database_Table_Exists('Members');
 		$Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
