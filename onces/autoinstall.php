@@ -17,7 +17,9 @@ if (!$Database['Exists']['Members']) {
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 		// TODO ^ Indexes for Members
 	$Create_Table_Members = mysqli_query($Database['Connection'], $Create_Table_Members, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Members) echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Members) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Members'] = true;
 }
 
 if (!$Database['Exists']['Sessions']) {
@@ -38,7 +40,9 @@ if (!$Database['Exists']['Sessions']) {
 			KEY `Active` (`Active`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1;';
 	$Create_Table_Sessions = mysqli_query($Database['Connection'], $Create_Table_Sessions, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Sessions) echo 'Invalid Query ($Create_Table_Sessions): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Sessions) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Sessions): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Sessions'] = true;
 }
 
 if (!$Database['Exists']['Failures']) {
@@ -55,7 +59,9 @@ if (!$Database['Exists']['Failures']) {
 			KEY `IP` (`IP`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
 	$Create_Table_Failures = mysqli_query($Database['Connection'], $Create_Table_Failures, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Failures) echo 'Invalid Query ($Create_Table_Failures): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Failures) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Failures): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Failures'] = true;
 }
 
 if (!$Database['Exists']['Runonce']) {
@@ -75,7 +81,9 @@ if (!$Database['Exists']['Runonce']) {
 			KEY `Created` (`Created`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
 	$Create_Table_Runonce = mysqli_query($Database['Connection'], $Create_Table_Runonce, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Runonce) echo 'Invalid Query ($Create_Table_Runonce): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Runonce) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Runonce): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Runonce'] = true;
 }
 
 if (!$Database['Exists']['Settings']) {
@@ -89,7 +97,9 @@ if (!$Database['Exists']['Settings']) {
 			PRIMARY KEY `Value` (`Value`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Settings = mysqli_query($Database['Connection'], $Create_Table_Settings, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Settings) echo 'Invalid Query ($Create_Table_Settings): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Settings) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Settings): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Settings'] = true;
 }
 
 if (!$Database['Exists']['Categories']) {
@@ -111,7 +121,9 @@ if (!$Database['Exists']['Categories']) {
 			KEY `Modified` (`Modified`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Categories = mysqli_query($Database['Connection'], $Create_Table_Categories, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Categories) echo 'Invalid Query ($Create_Table_Categories): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Categories) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Categories): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Categories'] = true;
 }
 
 if (!$Database['Exists']['Topics']) {
@@ -134,7 +146,9 @@ if (!$Database['Exists']['Topics']) {
 			KEY `Modified` (`Modified`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Topics = mysqli_query($Database['Connection'], $Create_Table_Topics, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Topics) echo 'Invalid Query ($Create_Table_Topics): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Topics) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Topics): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Topics'] = true;
 }
 
 if (!$Database['Exists']['Responses']) {
@@ -161,7 +175,9 @@ if (!$Database['Exists']['Responses']) {
 			KEY `Modified` (`Modified`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Responses = mysqli_query($Database['Connection'], $Create_Table_Responses, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Responses) echo 'Invalid Query ($Create_Table_Responses): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Responses) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Responses): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Responses'] = true;
 }
 
 if (!$Database['Exists']['Helpfulness']) {
@@ -181,7 +197,9 @@ if (!$Database['Exists']['Helpfulness']) {
 			KEY `Helpfulness` (`Helpfulness`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Helpfulness = mysqli_query($Database['Connection'], $Create_Table_Helpfulness, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Helpfulness) echo 'Invalid Query ($Create_Table_Helpfulness): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Helpfulness) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Helpfulness): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Helpfulness'] = true;
 }
 
 if (!$Database['Exists']['Views']) {
@@ -209,5 +227,7 @@ if (!$Database['Exists']['Views']) {
 			KEY `Time` (`Time`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Views = mysqli_query($Database['Connection'], $Create_Table_Views, MYSQLI_STORE_RESULT);
-	if ($Sitewide_Debug && !$Create_Table_Views) echo 'Invalid Query ($Create_Table_Views): '.mysqli_error($Database['Connection']);
+	if (!$Create_Table_Views) {
+		if ($Sitewide_Debug) echo 'Invalid Query ($Create_Table_Views): '.mysqli_error($Database['Connection']);
+	} else $Database['Exists']['Views'] = true;
 }

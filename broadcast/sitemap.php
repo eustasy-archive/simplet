@@ -64,7 +64,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	// IF CONNECTION
 	if ($Database['Connection']) {
 
-		if (Database_Table_Exists('Categories')) {
+		if ($Database['Exists']['Categories']) {
 
 			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Categories) echo 'Invalid Query (Forum_Categories): '.mysqli_error($Database['Connection']);
@@ -86,7 +86,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		}
 
-		if (Database_Table_Exists('Topics')) {
+		if ($Database['Exists']['Topics']) {
 
 			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Topics) echo 'Invalid Query (Forum_Topics): '.mysqli_error($Database['Connection']);

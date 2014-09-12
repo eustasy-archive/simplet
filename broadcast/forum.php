@@ -34,38 +34,38 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			$Error = 'You are not logged in.';
 
 		} else if ($_POST['action'] == 'topic') {
-
+			
 			if (empty($_POST['title'])) {
 				$Error = 'No Topic Set.';
-
+				
 			} else if (empty($_POST['category'])) {
 				$Error = 'No Category Set.';
-
+				
 			} else {
-
+				
 				$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
-
+				
 				// TODO Caterogry Info Function
 				$Category = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Categories` WHERE `Slug`='$Topic_Category' AND NOT `Status`='Hidden' ORDER BY `Modified` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 				if (!$Category) exit('Invalid Query (Category): '.mysqli_error($Database['Connection']));
-
+				
 				$Category_Count = mysqli_num_rows($Category);
 				if ($Category_Count == 0) {
 					$Error = 'Not a valid Category.';
 				} else {
 					$Category_Fetch = mysqli_fetch_assoc($Category);
 					$Category_Status = $Category_Fetch['Status'];
-
+					
 					$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
-
+					
 					if (isset($_POST['post'])) $Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 					else $Topic_Post = false;
-
+					
 					if ($Forum_Topic_Inherit) $Topic_Status = $Category_Status;
 					else $Topic_Status = $Forum_Topic_Default;
-
+					
 					$Topic_Slug = Forum_Topic_Slug($_POST['title']);
-
+					
 					$Topic_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($Database['Connection']));
 
