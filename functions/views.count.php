@@ -12,10 +12,10 @@
 // get		=> array('id' => '2', 'utm_source' => 'twitter');
 
 function Views_Count() {
-
+	
 	global $Canonical, $Database, $Member_Admin, $Member_Auth, $Member_ID, $Place, $Post_Type, $Sitewide_Debug, $Sitewide_Root, $Time, $User_Cookie, $User_IP;
 	
-	// If the table exists.
+	// IFEXISTSVIEWS
 	if ( $Database['Exists']['Views'] ) {
 		
 		// Encode and Assemble the requested URL.
@@ -31,11 +31,11 @@ function Views_Count() {
 		if ( !$View &&  $Sitewide_Debug) {
 			echo 'Invalid Query (View): '.mysqli_error($Database['Connection']);
 			return false;
-		
+			
 		// Otherwise return true.
 		} else return true;
-	
-	// The database isn't available.
+		
+	// IFEXISTSVIEWS
 	} else return false;
 	
 }
