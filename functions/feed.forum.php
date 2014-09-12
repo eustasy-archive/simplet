@@ -98,7 +98,7 @@ function Feed_Forum() {
 			
 			// IFCATEGORYSUCCESS
 			if ( !$Query ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection'];
+				if ( $Sitewide_Debug ) echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
 				return false;
 				
 			// IFCATEGORYSUCCESS

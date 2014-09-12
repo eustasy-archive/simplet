@@ -4,7 +4,7 @@
 $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
 // TODO Move to Functions folder and require.
-function Memeber_Auth_False($ClearCookie = false) {
+function Member_Auth_False($ClearCookie = false) {
 	if ( $ClearCookie ) {
 		setcookie($Cookie_Session, '', 1);
 		setcookie($Cookie_Session, false);

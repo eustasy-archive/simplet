@@ -22,7 +22,7 @@ function Runonce_Check($Key, $Key_Owner = '', $Timeout = 0) {
 		if (empty($Key_Owner)) $Key_Owner = $Member_ID;
 		
 		$Key_Query = 'SELECT * FROM `'.$Database['Prefix'].'Runonce` WHERE';
-		$Key_Query .= ' `Key`=\''.$Key.'\' AND `Status`=\'Active\''
+		$Key_Query .= ' `Key`=\''.$Key.'\' AND `Status`=\'Active\'';
 		if ($Key_Owner !== '*') $Key_Query .= ' AND `Member_ID`=\''.$Key_Owner.'\'';
 		if ( $Timeout ) $Key_Query .= ' AND `Created` > \''.$Timeout.'\'';
 		$Key_Query .= ' LIMIT 0, 1';

@@ -12,7 +12,7 @@
 	// This is the Base URL of your Site
 	// Do include a trailing slash
 	// Do include a http:// or https://
-	$Sitewide_Root = 'http://example.com/';
+	$Sitewide_Root = 'http://localhost/';
 	
 	// Allow or disallow Signups
 	$Sitewide_Signups = true;

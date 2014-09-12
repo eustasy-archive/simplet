@@ -55,8 +55,8 @@ require 'libs/Parsedown.php';
 
 require 'functions/globrecursive.php';
 
-require 'functions/Generator_String.php';
-require 'functions/Password_Hash.php';
+require 'functions/generator.string.php';
+require 'functions/pass.hash.php';
 
 require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
@@ -89,8 +89,8 @@ require 'functions/respond.php';
 require 'functions/blog.php';
 require 'functions/blog.categories.php';
 
-require 'functions/viewcount.php';
-require 'functions/trending.php';
+require 'functions/views.count.php';
+require 'functions/views.trending.php';
 
 require 'functions/runonce.create.php';
 require 'functions/runonce.check.php';
@@ -98,4 +98,4 @@ require 'functions/runonce.delete.php';
 
 // Count View
 // Forums have Categories and Topics, and should be counted later.
-if ($Post_Type !== 'Forum') ViewCount();
+if ($Post_Type !== 'Forum') Views_Count();

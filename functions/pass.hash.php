@@ -4,10 +4,10 @@
 // 
 // A basic password-and-salt hasher.
 // 
-// Password_Hash($Pass, $Salt) returns a hash.
+// Pass_Hash($Pass, $Salt) returns a hash.
 // Compare to one stored to determine authenticity.
 
-function Password_Hash($Pass, $Salt) {
+function Pass_Hash($Pass, $Salt) {
 	
 	global $Sitewide_Security_HashMethod;
 	
