@@ -1,5 +1,5 @@
 	</div>
-
+	
 	<footer class="group">
 		<nav>
 			<ul>
@@ -11,6 +11,6 @@
 			</ul>
 		</nav>
 	</footer>
-
+	
 </body>
 </html>

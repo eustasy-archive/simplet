@@ -18,13 +18,13 @@
 	require_once __DIR__.'/../request.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
-
-	require '../header.php'; ?>
+	require '../header.php';
+	?>
 
 	<h2>A Page with Comments</h2>
 	<p>This is a Page with Comments powered by Markdown.</p>
 
-<?php
+	<?php
 	Responses();
 	require '../footer.php';
 }

@@ -55,16 +55,14 @@ require 'libs/Parsedown.php';
 
 require 'functions/globrecursive.php';
 
-require 'functions/stringgenerator.php';
-require 'functions/passhash.php';
+require 'functions/Generator_String.php';
+require 'functions/Password_Hash.php';
 
 require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
 require 'functions/pagination.links.php';
 
 require 'functions/jsondo.php';
-
-require 'functions/database.table.exists.php';
 
 require 'functions/feed.header.php';
 require 'functions/feed.files.php';

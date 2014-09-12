@@ -1,19 +1,19 @@
 <?php
 
-// ### Feed Header Function ###
+////	Feed Header Function
 //
-// Echos the Header for RSS Feeds
+// Echoes the Header for RSS Feeds
 //
-// Feed_Header();
+// Categories();
+// Categories('exclude-this-canonical');
 
 function Feed_Header($URL) {
-
-	// Set some Globals.
-	global $Sitewide_Root, $Sitewide_Title, $Sitewide_Tagline;
-
+	
+	global $Sitewide_Root, $Sitewide_Tagline, $Sitewide_Title;
+	
 	// Send the right header for an RSS Feed
 	header('Content-Type: application/rss+xml');
-
+	
 	// Set the doctype and some basic information
 	echo '<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -24,5 +24,7 @@ function Feed_Header($URL) {
 		<link>'. $Sitewide_Root.'</link>
 		<language>en</language>
 		<generator>Simplet</generator>';
-
+	
+	return true;
+	
 }

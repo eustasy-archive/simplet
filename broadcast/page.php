@@ -18,8 +18,8 @@
 	require_once __DIR__.'/../request.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
-
-	require '../header.php'; ?>
+	require '../header.php';
+	?>
 
 		<h2>Example Page</h2>
 		<p>Simplet is a small, simple PHP Framework for building file-based that includes a responsive, HTML5 website layout with 12 fluid width columns and an integrated database-managed user system.</p>
@@ -232,4 +232,6 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		<p>Lorem <sup>superscript</sup> dolor <sub>subscript</sub> amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. <cite>cite</cite>. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. <abbr title="National Basketball Association">NBA</abbr> Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. <abbr title="Avenue">AVE</abbr></p>
 		<pre>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. <abbr title="National Basketball Association">NBA</abbr> Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. <abbr title="Avenue">AVE</abbr></pre>
 
-<?php require '../footer.php'; } ?>
+	<?php
+	require '../footer.php';
+}

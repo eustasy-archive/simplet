@@ -1,13 +1,20 @@
 <?php
 
-function Pagination_PreserveQueryStrings() {
+////	Pagination Preserve Query Strings
+// 
+// Preserve the Query stings for links.
+// Returns an array
+// 
+// Pagination_PreserveQueryStrings();
 
+function Pagination_PreserveQueryStrings() {
+	
 	$PreserveQueryStrings = array();
 	$PreserveQueryStrings['Miscellaneous'] = '';
 	$PreserveQueryStrings['Page'] = '';
 	$PreserveQueryStrings['Show'] = '';
 	$PreserveQueryStrings['Topic'] = '';
-
+	
 	if (isset($_GET)) {
 		foreach($_GET as $Get_Key => $Get_Value) {
 			// Ignore old page and show variables
@@ -23,7 +30,7 @@ function Pagination_PreserveQueryStrings() {
 			}
 		}
 	}
-
+	
 	return $PreserveQueryStrings;
-
+	
 }

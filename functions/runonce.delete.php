@@ -1,15 +1,27 @@
 <?php
 
-function runonceDelete($Key, $Key_Owner = '') {
+////	Runonce Delete
+// 
+// Delete a runonce key by Key and Owner
+// 
+// Runonce_Delete('key');
+// Runonce_Delete('key', 'member_id');
 
-	// Set some Globals so the required scripts don't error.
-	global $MySQL_Connection, $Member_ID, $Time;
-
-	if (empty($Key_Owner)) $Key_Owner = $Member_ID;
-
-	$Key_Delete = mysqli_query($MySQL_Connection, 'UPDATE `Runonce` SET `Status`=\'Used\', `Modified`=\''.$Time.'\' WHERE `Key`=\''.$Key.'\' AND `Member_ID`=\''.$Key_Owner.'\'', MYSQLI_STORE_RESULT);
-	if (!$Key_Delete) exit('Error: Invalid Query (Key_Delete): '.mysqli_error($MySQL_Connection));
-
-	return true;
-
+function Runonce_Delete($Key, $Key_Owner = '') {
+	
+	global $Database, $Member_ID, $Time;
+	
+	// IFEXISTSRUNONCE
+	if ( !$Database['Exists']['Runonce'] ) return false;
+	else {
+		
+		if (empty($Key_Owner)) $Key_Owner = $Member_ID;
+		
+		$Key_Delete = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Runonce` SET `Status`=\'Used\', `Modified`=\''.$Time.'\' WHERE `Key`=\''.$Key.'\' AND `Member_ID`=\''.$Key_Owner.'\'', MYSQLI_STORE_RESULT);
+		if (!$Key_Delete) exit('Error: Invalid Query (Key_Delete): '.mysqli_error($Database['Connection']));
+		
+		return true;
+		
+	} // IFEXISTSRUNONCE
+	
 }
