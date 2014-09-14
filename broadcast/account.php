@@ -73,7 +73,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 							$Member_Pass = $Member_Fetch['Pass'];
 							$Member_Salt = $Member_Fetch['Salt'];
 
-							$Login_Hash = Password_Hash($Login_Pass, $Member_Salt);
+							$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
 
 							if ($Login_Hash === $Member_Pass) {
 
@@ -243,7 +243,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Salt = Generator_String();
 
-						$Pass_Hash = Password_Hash($Signup_Pass, $Salt);
+						$Pass_Hash = Pass_Hash($Signup_Pass, $Salt);
 
 						$Member_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES ('$Member_ID', '$Signup_Mail', '$Signup_Name', '$Pass_Hash', '$Salt', 'Active', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 						if (!$Member_New) exit('Invalid Query (Member_New): '.mysqli_error($Database['Connection']));
@@ -379,7 +379,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					} else {
 
 						$Salt = Generator_String();
-						$Pass_Hash = Password_Hash($Pass_New, $Salt);
+						$Pass_Hash = Pass_Hash($Pass_New, $Salt);
 
 						$Pass_Change = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Members` SET `Pass`='$Pass_Hash', `Salt`='$Salt', `Modified`='$Time' WHERE `ID`='$Member_ID'", MYSQLI_STORE_RESULT);
 						if (!$Pass_Change) exit('Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']));
@@ -553,7 +553,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							$Salt = Generator_String();
 
-							$Pass_Hash = Password_Hash($Pass_New, $Salt);
+							$Pass_Hash = Pass_Hash($Pass_New, $Salt);
 
 							// TODO Add Key Types
 							// TODO memberExists
