@@ -84,8 +84,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		<hr>
 		<div id="responses">
 			<h3 id="no-responses">No '.$Type.'s to Display.</h3>
-		</div>
-		<hr>';
+			<hr>
+		</div>';
 		} else {
 
 			// Select Everything
