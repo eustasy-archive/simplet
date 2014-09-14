@@ -45,28 +45,25 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			($Type === 'Post' && $Forum_Reply_Helpful === true)
 		) $Helpfulness_Show = true;
 		else $Helpfulness_Show = false;
-	
+		
 		// Count things first
 		$Responses_Query_Select = 'SELECT COUNT(*) AS `Count`';
 		if ($Type === 'Review') $Responses_Query_Select .= ', SUM(`Rating`) AS `Sum`';
-	
+		
 		// Get Responses by Type and Publicity
 		$Responses_Query_Where = ' FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `Type`=\''.$Type.'\'';
-	
+		
 		// Limit by Status
-		if ($Member_Auth) {
-			$Responses_Query_Status = ' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
-		} else {
-			$Responses_Query_Status = ' AND `Status`=\'Public\'';
-		}
-	
+		if ($Member_Auth) $Responses_Query_Status = ' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
+		else $Responses_Query_Status = ' AND `Status`=\'Public\'';
+		
 		// Build Responses_Query
 		$Responses_Query = $Responses_Query_Select.$Responses_Query_Where.$Responses_Query_Status;
-	
+		
 		// Get Responses
 		$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 		if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
-	
+		
 		// Count and Average
 		$Responses_Fetch = mysqli_fetch_assoc($Responses);
 		$Responses_Count = $Responses_Fetch['Count'];
@@ -76,18 +73,20 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				$Responses_Rating_Average = round($Responses_Rating_Sum/$Responses_Count);
 			}
 		}
-
-		// Check Count
-		if ($Responses_Count === 0) {
-			// If none, tell us.
-			echo '
+		
+		$Responses_None = '
 		<hr>
 		<div id="responses">
 			<h3 id="no-responses">No '.$Type.'s to Display.</h3>
 			<hr>
 		</div>';
+		
+		// Check Count
+		if ($Responses_Count === 0) {
+			// If none, tell us.
+			echo $Responses_None;
 		} else {
-
+		
 			// Select Everything
 			$Responses_Query_Select = 'SELECT *';
 
@@ -104,27 +103,23 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 			// Preserve Query Strings
 			$PreserveQueryStrings = Pagination_PreserveQueryStrings();
-
+			
 			// Build Responses_Query
 			$Responses_Query = $Responses_Query_Select.$Responses_Query_Where.$Responses_Query_Status.$Responses_Query_Order.$Responses_Query_Limit;
-
+			
 			// Get Responses
 			$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 			if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
-
+			
 			// Count Responses
 			$Responses_Check = mysqli_num_rows($Responses);
 			if ($Responses_Check === 0) {
-
+				
 				// If none, tell us.
-				echo '
-		<hr>
-		<h3>No '.$Type.'s to Display.</h3>
-		<hr>
-		<div id="responses"></div>';
-
+				echo $Responses_None;
+				
 			} else {
-
+				
 				// If some, tell us how many
 				if ($Responses_Count === 1) {
 					echo '
