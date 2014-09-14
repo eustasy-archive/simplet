@@ -73,7 +73,12 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 					
 					$Topic_Slug = Forum_Topic_Slug($_POST['title']);
 					
-					$Topic_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Created`, `Modified`) VALUES ('$Member_ID', '$Topic_Status', '$Topic_Category', '$Topic_Slug', '$Topic_Title', '$Time', '$Time')", MYSQLI_STORE_RESULT);
+					$Topic_New ='INSERT INTO `'.$Database['Prefix'].'Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Responses`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Topic_Status.'\', \''.$Topic_Category.'\', \''.$Topic_Slug.'\', \''.$Topic_Title.'\', ';
+					if ($Topic_Post) $Topic_New .= '\'1\', ';
+					else $Topic_New .= '\'0\', ';
+					$Topic_New .= '\''.$Time.'\', \''.$Time.'\')';
+					
+					$Topic_New = mysqli_query($Database['Connection'], $Topic_New, MYSQLI_STORE_RESULT);
 					if (!$Topic_New) exit('Invalid Query (Topic_New): '.mysqli_error($Database['Connection']));
 
 					if ($Topic_Post) {
