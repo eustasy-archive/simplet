@@ -8,7 +8,7 @@
 
 function Forum_Topic_Increment($Topic_Slug) {
 	
-	global $Database, $Time;
+	global $Database, $Sitewide_Debug, $Time;
 	
 	// IFEXISTSTOPICS
 	if ( !$Database['Exists']['Topics'] ) return false;
