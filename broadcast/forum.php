@@ -219,7 +219,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 					$Post_Type = 'Forum Topic';
 
-					ViewCount();
+					Views_Count();
 
 					require $Header;
 
