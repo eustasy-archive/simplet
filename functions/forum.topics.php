@@ -45,7 +45,7 @@ function Forum_Topics() {
 			$Featured_Image = '';
 			$Keywords = $Category_Title.' category topics forum '.$Category_Description;
 		
-			ViewCount();
+			Views_Count();
 		
 			require $Header;
 		
