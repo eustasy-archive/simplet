@@ -82,9 +82,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			// If none, tell us.
 			echo '
 		<hr>
-		<h3>No '.$Type.'s to Display.</h3>
-		<hr>
-		<div id="responses"></div>';
+		<div id="responses">
+			<h3 id="no-responses">No '.$Type.'s to Display.</h3>
+		</div>
+		<hr>';
 		} else {
 
 			// Select Everything
@@ -428,6 +429,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 ';
 					}
 					?>
+						// Remove any "no-responses" text.
+						$('#no-responses').remove();
 						// Append the new Post
 						$('#responses').append(toAppend);
 						// Re-Initialize Helpfulness Click Catching

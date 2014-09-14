@@ -171,27 +171,31 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			$Database['Connection'] &&
 			$Database['Exists']['Topics']
 		) {
-
+			
 			$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
+			
+			// IFINDEX
 			if (substr($Topic_Slug, 0, strlen($Sitewide_Forum)+1) == '/'.$Sitewide_Forum) {
+				
+				// TODO What..?
 				$Topic_Slug = substr($Topic_Slug, 7);
+				
 				if (empty($Topic_Slug)) { // HOME
-
 					require $Header;
-
 					echo '
 					<h2>Forum</h2>';
-
 					Forum_Categories();
-
 					require $Footer;
-
+					
 				}
-			}
-
-			$Topic_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Topics` WHERE `Slug`='$Topic_Slug' LIMIT 0, 1", MYSQLI_STORE_RESULT);
+				
+			} // IFINDEX
+			
+			// TODO Topic Check Function
+			$Topic_Check = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic_Slug.'\' LIMIT 0, 1';
+			$Topic_Check = mysqli_query($Database['Connection'], $Topic_Check, MYSQLI_STORE_RESULT);
 			if (!$Topic_Check) exit('Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']));
-
+			
 			$Topic_Count = mysqli_num_rows($Topic_Check);
 			if ($Topic_Count==0) {
 				header('HTTP/1.1 404 Not Found');
@@ -201,38 +205,38 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				<p class="textcenter">Try the forum, or search for something like '.$Topic_Slug.'.</p>';
 				require $Footer;
 			} else {
-
+				
+				// TODO Topic Info Function
 				$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
 				$Topic_Status = $Topic_Fetch['Status'];
 				$Topic_Title = $Topic_Fetch['Title'];
 				$Topic_Created = $Topic_Fetch['Created'];
 				$Topic_Modified = $Topic_Fetch['Modified'];
-
+				
 				if ($Topic_Status=='Public' || $Topic_Status=='Locked' || $Topic_Status=='Private' && $Member_Auth) {
-
+					
 					$Title_HTML = $Topic_Title;
 					$Title_Plain = $Topic_Title;
-
+					
 					$Description_HTML = $Topic_Title;
 					$Description_Plain = $Topic_Title;
-
+					
 					$Keywords = $Topic_Title.' topic forum';
-
+					
 					$Featured_Image = '';
-
+					
 					$Canonical = 'forum';
-
+					
 					$Post_Type = 'Forum Topic';
-
+					
 					Views_Count();
-
+					
 					require $Header;
-
 					echo '
 					<h2>'.$Topic_Title.'</h2>';
-
+					
 					Responses('Post', $Topic_Slug);
-
+					
 					require $Footer;
 				} else if ($Topic_Status=='Private' && !$Member_Auth) {
 					header('HTTP/1.1 401 Unauthorized');
