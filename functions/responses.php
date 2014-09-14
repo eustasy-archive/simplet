@@ -76,31 +76,32 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		
 		$Responses_None = '
 		<hr>
-		<div id="responses">
-			<h3 id="no-responses">No '.$Type.'s to Display.</h3>
+		<div id="no-responses">
+			<h3>No '.$Type.'s to Display.</h3>
 			<hr>
-		</div>';
+		</div>
+		<div id="responses"></div>';
 		
 		// Check Count
 		if ($Responses_Count === 0) {
 			// If none, tell us.
 			echo $Responses_None;
 		} else {
-		
+			
 			// Select Everything
 			$Responses_Query_Select = 'SELECT *';
-
+			
 			// Order in a helpful way
 			if ($Type == 'Review') $Responses_Query_Order = ' ORDER BY `Helpfulness` DESC, `Created` ASC';
 			else $Responses_Query_Order = ' ORDER BY `Created` ASC';
-
+			
 			// Pagination
 			$Pagination = Pagination_Pre($Responses_Count);
-
+			
 			// Honor pagination
 			if ($Pagination['Page'] === 1) $Responses_Query_Limit = ' LIMIT '.$Pagination['Show'];
 			else $Responses_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
-
+			
 			// Preserve Query Strings
 			$PreserveQueryStrings = Pagination_PreserveQueryStrings();
 			
