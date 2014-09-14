@@ -5,6 +5,7 @@ $User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 
 // TODO Move to Functions folder and require.
 function Member_Auth_False($ClearCookie = false) {
+	global $Cookie_Session, $Member_Admin, $Member_Auth, $Member_ID, $Member_Name;
 	if ( $ClearCookie ) {
 		setcookie($Cookie_Session, '', 1);
 		setcookie($Cookie_Session, false);
