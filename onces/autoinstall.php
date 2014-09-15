@@ -83,6 +83,7 @@ if (!$Database['Exists']['Runonce']) {
 			KEY `IP` (`IP`),
 			KEY `Created` (`Created`),
 			KEY `Timeout` (`Timeout`),
+			KEY `Uses` (`Uses`),
 			KEY `Used` (`Used`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
 	$Create_Table_Runonce = mysqli_query($Database['Connection'], $Create_Table_Runonce, MYSQLI_STORE_RESULT);
