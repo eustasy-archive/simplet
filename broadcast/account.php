@@ -542,31 +542,30 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if (isset($_GET['key'])) { // Reset Process
 
 					$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
+					
+					$Key_Info = Runonce_Check($Key, '*', 'Password Reset');
 
-					if (Runone_Check($Key, '*')) {
-
+					if ($Key_Info) {
+						
 						if (isset($_POST['pass'])) { // Reset Password Process
-
+							
 							$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
-
-							$Key_Info = Runone_Check($Key, '*');
-
+							
 							$Salt = Generator_String();
-
+							
 							$Pass_Hash = Pass_Hash($Pass_New, $Salt);
-
-							// TODO Add Key Types
+							
 							// TODO memberExists
 							// TODO memberChangePass
-
+							
 							$Reset = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 							if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($Database['Connection']));
-
-							Runone_Delete($Key, $Key_Info['Member_ID']);
-
+							
+							Runonce_Delete($Key, $Key_Info['Member_ID']);
+							
 							echo '<h2>Password Reset Successfully</h2>';
 							echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
-
+							
 						} else { // Reset Password Form
 							?>
 							<form class="col span_1_of_1" action="" method="post">
@@ -590,43 +589,44 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 							<div class="clear"></div>
 							<?php
 						}
-
+						
 					} else {
 						echo '
 						<h2>Error: Invalid Key</h2>
 						<h3><a href="?reset">Try again</a></h3>';
 					}
-
+					
 				} else if (isset($_POST['mail'])) { // Reset Mail Process
-
+					
 					$Reset_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
-
+					
 					$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Members` WHERE `Mail`='$Reset_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 					if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
-
+					
 					$Member_Count = mysqli_num_rows($Member_Check);
 					if ($Member_Count == 0) {
 						echo '
 						<h2>Error: There is no user registered with that mail.</h2>
 						<h3><a href="?reset">Try again</a></h3>';
 					} else {
-
+						
 						$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
 						$Member_ID = $Fetch_Member['ID'];; // Number
 						$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
-
+						
 						if (isset($Browning) && $Browning) {
-
-							$Key = Runone_Create('', '*');
-
+							
+							// Create a single-use key with a 1 hour timeout for resetting the password.
+							$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
+							
 							require_once $Lib_Browning_Send;
-
+							
 							$Mail_Response = Browning_Send(
 								$Reset_Mail,
 								'Password Reset',
 								'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
 							);
-
+							
 							if ($Mail_Response) {
 								echo '
 								<h2>A Password Reset has been initiated.</h2>
@@ -686,13 +686,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				require $Header;
 
 				$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
-				if (Runone_Check($Key, $Member_ID)) {
-
+				if (Runonce_Check($Key, $Member_ID, 'Account Deletion')) {
+				
 					$Member_Delete = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 					if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
-
-					Runone_Delete($Key, $Member_ID);
-
+					
+					Runonce_Delete($Key, $Member_ID);
+					
 					echo '
 					<h2>User Deleted</h2>
 					<h3>You no longer exist. Bye.</h3>';
@@ -700,7 +700,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				} else {
 					echo '
 					<h2>Error: Invalid Key</h2>
-					<h3><a href="?delete">Try again</a></h3>';
+					<h3>User deletion keys are only valid for three minutes. <a href="?delete">Try again</a></h3>';
 				}
 
 				require $Footer;
@@ -708,7 +708,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			} else {
 				require $Header;
 
-				$Key = Runone_Create();
+				$Key = Runonce_Create($Time+(60*3), 1, 'Account Deletion');
 				?>
 
 				<h2>Are you sure you want to delete your account?</h2>

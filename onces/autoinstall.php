@@ -71,6 +71,9 @@ if (!$Database['Exists']['Runonce']) {
 			`Key` varchar(64) NOT NULL,
 			`Status` varchar(12) NOT NULL,
 			`IP` varchar(64) NOT NULL,
+			`Timeout` int(11) NOT NULL,
+			`Uses` int(12) NOT NULL,
+			`Used` int(12) NOT NULL,
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			`Notes` mediumtext NOT NULL,
@@ -78,7 +81,9 @@ if (!$Database['Exists']['Runonce']) {
 			PRIMARY KEY `Member_ID` (`Member_ID`),
 			KEY `Status` (`Status`),
 			KEY `IP` (`IP`),
-			KEY `Created` (`Created`)
+			KEY `Created` (`Created`),
+			KEY `Timeout` (`Timeout`),
+			KEY `Used` (`Used`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
 	$Create_Table_Runonce = mysqli_query($Database['Connection'], $Create_Table_Runonce, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Runonce) {
