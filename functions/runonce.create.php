@@ -34,7 +34,7 @@
 // Specify the Owner.
 // Runonce_Create($Time+(60*60), 1, 'Password Reset', 'resetme', 'admin');
 
-function Runonce_Create($Timeout = $Time+(60*60), $Uses = 1, $Notes = '', $Key = '', $Key_Owner = '') {
+function Runonce_Create($Timeout = time()+(60*60), $Uses = 1, $Notes = '', $Key = '', $Key_Owner = '') {
 	
 	// Set some Globals so the required scripts don't error.
 	global $Database, $Member_ID, $Time, $User_IP;

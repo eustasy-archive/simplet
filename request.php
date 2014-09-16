@@ -94,6 +94,7 @@ require 'functions/views.trending.php';
 
 require 'functions/runonce.create.php';
 require 'functions/runonce.check.php';
+require 'functions/runonce.used.php';
 require 'functions/runonce.delete.php';
 
 // Count View
