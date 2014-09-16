@@ -26,9 +26,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			<img src="assets/images/forkme.png" alt="Simplet on GitHub" class="tr-banner">
 		</a>
 		<div class="bubble">
-			<h3>a simple, modular, cms framework written in php</h3>
+			<h3>a simple, modular, community framework written in php</h3>
 			<hr>
-			<p class="italic faded textcenter">with members, forums, and blogging built in</p>
+			<p class="italic faded textcenter">with members, comments, reviews and forums built in</p>
 		</div>
 		<!--<div class="credit"><p>Background by <a href="http://creditlink.com/">Person</a></p></div>-->
 		<div class="clear"></div>
@@ -62,7 +62,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			<div class="col span_5_of_11">
 				<div class="bubble equalize">
 					<h3>Responses</h3>
-					<blockquote>
+					<blockquote class="tiny">
 						<p>Who are you? How did you get in my house?</p>
 					</blockquote>
 					<p class="italic faded textright">Stanford Algorithms Expert, <a href="http://xkcd.com/163/">Donald Knuth</a></p>

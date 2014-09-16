@@ -277,8 +277,8 @@ input[type='reset']:disabled,
 input[type='button']:disabled,
 input[type='submit']:disabled,
 .button.disabled {
-    background: #eee;
-    border: 1px solid #ddd;
+	background: #eee;
+	border: 1px solid #ddd;
 }
 
 .button {
@@ -311,13 +311,28 @@ blockquote {
 	font: 400 1em/1.5 'HelveticaNeue', 'Helvetica Neue', 'HelveticaNeueRoman', 'HelveticaNeue-Roman', 'Helvetica Neue Roman','HelveticaNeueLight', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'HelveticaNeueThin', 'HelveticaNeue-Thin', 'Helvetica Neue Thin', 'TeXGyreHerosRegular', 'Helvetica', 'Open Sans', 'Lucida Grande', 'Gill Sans', 'Lucida Grande', 'Tahoma', 'Geneva', 'Arial', sans-serif;
 	font-stretch: normal;
 	text-align: left;
-	border-left: 3px solid #efefef;
-	border-radius: 5px;
+	border-left: 5px solid #efefef;
+	border-radius: 10px;
 	color: #555;
 	margin: 5px;
 	padding: 5px;
 }
 
+blockquote::before {
+	border-radius: 50%;
+	content: "“";
+	display: inline-block;
+	float: left;
+	font: 3em/1.5 normal 'Lobster';
+	font-style: italic;
+	height: 1em;
+	margin: 0 1em 0 0;
+}
+
+blockquote.inline::before,
+blockquote.tiny::before {
+	display: none;
+}
 
 
 
@@ -417,17 +432,17 @@ code, .code {
 	color: #fefefe;
 }
 .darkrow:first-child {
-    border-radius: 3px 3px 0 0;
-    margin: 5% 0 0;
+	border-radius: 3px 3px 0 0;
+	margin: 5% 0 0;
 }
 .response {
 	padding: 1% 0 3%;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 }
 .response:last-child {
-    border-radius: 0 0 3px 3px;
-    border-bottom: 1px solid #ccc;
+	border-radius: 0 0 3px 3px;
+	border-bottom: 1px solid #ccc;
 }
 .topic {
 	display: block;
