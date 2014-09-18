@@ -7,6 +7,7 @@ if (!$Database['Exists']['Members']) {
 			`Mail` varchar(250) NOT NULL,
 			`Name` varchar(250) NOT NULL,
 			`Admin` int(1) NOT NULL,
+			`Groups` varchar(1000) NOT NULL,
 			`Status` varchar(100) NOT NULL,
 			`Pass` varchar(1000) NOT NULL,
 			`Salt` varchar(64) NOT NULL,
