@@ -9,7 +9,7 @@
 
 function Member_Group_Check($Group, $Member_ID_Override = false) {
 	
-	global $Database, $Member_Auth, $Member_ID;
+	global $Database, $Member_ID;
 	
 	// If there is a Member_ID_Override, then override.
 	if ( $Member_ID_Override ) $Check_Member = $Member_ID_Override;
@@ -19,7 +19,7 @@ function Member_Group_Check($Group, $Member_ID_Override = false) {
 	if ( !$Database['Exists']['Members'] ) return false;
 	else {
 		
-		// Count the number of Categories with a matching slug
+		// Find the Groups for a given Member_ID
 		$Member_Group_Check = 'SELECT `Groups` FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Check_Member.'\'';
 		// TODO Security: Discuss implications of not checking status.
 		
