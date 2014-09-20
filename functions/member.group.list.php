@@ -1,13 +1,13 @@
 <?php
 
-////	Member Group Check Function
+////	Member Group List Function
 // 
-// Checks whether or not a member is in a given group.
+// Lists members in a given group.
 // 
 // Member_Group_List('group');
-// Member_Group_List('group', 'member_id');
+// Member_Group_List('group', true);
 
-function Member_Group_List($Group, $Status = false) {
+function Member_Group_List($Group, $Status_Check = false) {
 	
 	global $Database;
 	
