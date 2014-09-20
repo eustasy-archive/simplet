@@ -32,7 +32,7 @@ function Member_Group_List($Group, $Status_Check = false) {
 		} else {
 			
 			// Fetch Results
-			return mysqli_fetch_assoc($Member_Group_List);
+			return $Member_Group_List;
 			
 		} // IFQUERY
 		
