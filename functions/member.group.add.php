@@ -12,16 +12,13 @@ function Member_Group_Add($Group, $Member_ID_Override = false) {
 	
 	global $Database, $Member_ID, $Time;
 	
-	$Return = array();
-	$Return['Status'] = 'Success';
-	
 	// If there is a Member_ID_Override, then override.
 	if ( $Member_ID_Override ) $Check_Member = $Member_ID_Override;
 	else $Check_Member = $Member_ID;
 	
 	// IFEXISTSMEMBERS
 	if ( !$Database['Exists']['Members'] ) {
-		$Return['Status'] = 'Failure';
+		return false;
 		
 	// IFEXISTSMEMBERS
 	} else {
@@ -29,27 +26,22 @@ function Member_Group_Add($Group, $Member_ID_Override = false) {
 		// IFINGROUP
 		if ( Member_Group_Check($Group, $Check_Member) ) {
 			// NOTE: Not actually a failure.
-			array_push($Return['actions'], '\''.$Check_Member.'\' is already in \''.$Group.'\'');
+			return array('success' => '\''.$Check_Member.'\' is already in \''.$Group.'\'');
 			
 		// IFINGROUP
 		} else {
 			
+			// Add the Group
 			$Member_Group_Add = 'UPDATE `'.$Database['Prefix'].'Members` SET `Groups`=`Groups` + \'|'.$Group.'|\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Check_Member.'\'';
-			
-			// Execute Query
 			$Member_Group_Add = mysqli_query($Database['Connection'], $Member_Group_Add, MYSQLI_STORE_RESULT);
 			
 			// IFQUERY
 			if ( !$Member_Group_Add ) {
-				$Return['Status'] = 'Failure';
-				array_push($Return['actions'], '\''.$Check_Member.'\' couldn\'t be added to \''.$Group.'\'');
 				if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Group_Add): '.mysqli_error($Database['Connection']);
+				return false;
 				
 			// IFQUERY Query Successful
-			} else {
-				array_push($Return['actions'], '\''.$Check_Member.'\' added to \''.$Group.'\'');
-				
-			} // IFQUERY
+			} else return array('success' => '\''.$Check_Member.'\' added to \''.$Group.'\'');
 			
 		} // IFINGROUP
 		
