@@ -10,7 +10,7 @@
 
 function Member_Group_Add($Group, $Member_ID_Override = false) {
 	
-	global $Database, $Member_ID, $Time;
+	global $Database, $Member_ID, $Sitewide_Debug, $Time;
 	
 	// If there is a Member_ID_Override, then override.
 	if ( $Member_ID_Override ) $Check_Member = $Member_ID_Override;
@@ -32,7 +32,7 @@ function Member_Group_Add($Group, $Member_ID_Override = false) {
 		} else {
 			
 			// Add the Group
-			$Member_Group_Add = 'UPDATE `'.$Database['Prefix'].'Members` SET `Groups`=`Groups` + \'|'.$Group.'|\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Check_Member.'\'';
+			$Member_Group_Add = 'UPDATE `'.$Database['Prefix'].'Members` SET `Groups`=CONCAT(`Groups`,\'|'.$Group.'|\'), `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Check_Member.'\'';
 			$Member_Group_Add = mysqli_query($Database['Connection'], $Member_Group_Add, MYSQLI_STORE_RESULT);
 			
 			// IFQUERY

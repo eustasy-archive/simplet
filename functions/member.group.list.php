@@ -32,6 +32,7 @@ function Member_Group_List($Group, $Status_Check = false) {
 		} else {
 			
 			// Fetch Results
+			// TODO Check how this can be handled
 			return $Member_Group_List;
 			
 		} // IFQUERY
