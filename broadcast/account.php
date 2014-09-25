@@ -23,7 +23,7 @@
 	$Lib_Browning_Send = __DIR__.'/../libs/Browning_Send.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
-	
+
 	// IFDATABASEMEMBERS
 	if ( // If it is possible for them to be logged in.
 		$Database['Connection'] &&
@@ -79,14 +79,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 								$Member_Cookie = Generator_String();
 
-								setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Place['host']);
+								setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/');
 
 								$Session_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES ('$Member_ID', '$Login_Mail', '$Member_Cookie', '$User_IP', '1', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 								if (!$Session_New) exit('Invalid Query (Session_New): '.mysqli_error($Database['Connection']));
 
 								// Login Successful
-								if (isset($_GET['redirect'])) header('Location: '.$Sitewide_Root.urldecode($_GET['redirect']), TRUE, 302);
-								else header('Location: '.$Sitewide_Account, TRUE, 302);
+								//if (isset($_GET['redirect'])) header('Location: '.$Sitewide_Root.urldecode($_GET['redirect']), TRUE, 302);
+								//else header('Location: '.$Sitewide_Account, TRUE, 302);
 								die(); // As in go away.
 
 							} else {
@@ -94,8 +94,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 								$Failures_New = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES ('$Member_ID', '$Login_Mail', '$User_IP', '$Time')", MYSQLI_STORE_RESULT);
 								if (!$Failures_New) exit('Invalid Query (Failures_New): '.mysqli_error($Database['Connection']));
 
-								setcookie ($Cookie_Session, '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
-								setcookie ($Cookie_Session, false, time() - 3600, '/', $Place['host'], 1); // Definitely
+								setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
+								setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
 								unset($_COOKIE[$Cookie_Session]); // Absolutely
 
 								$Member_Auth = false;
@@ -178,8 +178,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Session_End = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Sessions` SET `Active`='0', `Modified`='$Time' WHERE `Member_ID`='$Member_ID' AND `Cookie`='$User_Cookie' AND `IP`='$User_IP'", MYSQLI_STORE_RESULT);
 				if (!$Session_End) exit('Invalid Query (Session_End): '.mysqli_error($Database['Connection']));
 
-				setcookie ($Cookie_Session, '', time() - 3600, '/', $Place['host'], 1); // Clear the Cookie
-				setcookie ($Cookie_Session, false, time() - 3600, '/', $Place['host'], 1); // Definitely
+				setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
+				setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
 				unset($_COOKIE[$Cookie_Session]); // Absolutely
 
 				$Member_Auth = false; // Not at all
@@ -542,30 +542,30 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if (isset($_GET['key'])) { // Reset Process
 
 					$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
-					
+
 					$Key_Info = Runonce_Check($Key, '*', 'Password Reset');
 
 					if ($Key_Info) {
-						
+
 						if (isset($_POST['pass'])) { // Reset Password Process
-							
+
 							$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
-							
+
 							$Salt = Generator_String();
-							
+
 							$Pass_Hash = Pass_Hash($Pass_New, $Salt);
-							
+
 							// TODO memberExists
 							// TODO memberChangePass
-							
+
 							$Reset = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 							if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($Database['Connection']));
-							
+
 							Runonce_Delete($Key, $Key_Info['Member_ID']);
-							
+
 							echo '<h2>Password Reset Successfully</h2>';
 							echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
-							
+
 						} else { // Reset Password Form
 							?>
 							<form class="col span_1_of_1" action="" method="post">
@@ -589,44 +589,44 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 							<div class="clear"></div>
 							<?php
 						}
-						
+
 					} else {
 						echo '
 						<h2>Error: Invalid Key</h2>
 						<h3><a href="?reset">Try again</a></h3>';
 					}
-					
+
 				} else if (isset($_POST['mail'])) { // Reset Mail Process
-					
+
 					$Reset_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
-					
+
 					$Member_Check = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Members` WHERE `Mail`='$Reset_Mail' AND `Status`='Active'", MYSQLI_STORE_RESULT);
 					if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
-					
+
 					$Member_Count = mysqli_num_rows($Member_Check);
 					if ($Member_Count == 0) {
 						echo '
 						<h2>Error: There is no user registered with that mail.</h2>
 						<h3><a href="?reset">Try again</a></h3>';
 					} else {
-						
+
 						$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
 						$Member_ID = $Fetch_Member['ID'];; // Number
 						$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
-						
+
 						if (isset($Browning) && $Browning) {
-							
+
 							// Create a single-use key with a 1 hour timeout for resetting the password.
 							$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
-							
+
 							require_once $Lib_Browning_Send;
-							
+
 							$Mail_Response = Browning_Send(
 								$Reset_Mail,
 								'Password Reset',
 								'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
 							);
-							
+
 							if ($Mail_Response) {
 								echo '
 								<h2>A Password Reset has been initiated.</h2>
@@ -687,12 +687,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
 				if (Runonce_Check($Key, $Member_ID, 'Account Deletion')) {
-				
+
 					$Member_Delete = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'', MYSQLI_STORE_RESULT);
 					if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
-					
+
 					Runonce_Delete($Key, $Member_ID);
-					
+
 					echo '
 					<h2>User Deleted</h2>
 					<h3>You no longer exist. Bye.</h3>';
@@ -761,10 +761,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				require $Footer;
 			}
 		}
-		
+
 	// IFDATABASEMEMBERS
 	} else { // Members are not enabled
 		// TODO ERROR
 	} // IFDATABASEMEMBERS
-	
+
 }
