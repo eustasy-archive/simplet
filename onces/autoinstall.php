@@ -35,7 +35,7 @@ if (!$Database['Exists']['Sessions']) {
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
-			PRIMARY KEY `Member_ID` (`Member_ID`),
+			INDEX `Member_ID` (`Member_ID`),
 			KEY `Mail` (`Mail`),
 			KEY `Cookie` (`Cookie`),
 			KEY `Active` (`Active`)
@@ -55,7 +55,7 @@ if (!$Database['Exists']['Failures']) {
 			`IP` varchar(255) NOT NULL,
 			`Created` int(11) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
-			PRIMARY KEY `Member_ID` (`Member_ID`),
+			INDEX `Member_ID` (`Member_ID`),
 			KEY `Mail` (`Mail`),
 			KEY `IP` (`IP`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';

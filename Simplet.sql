@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `Sessions` (
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
 	UNIQUE KEY `ID` (`ID`),
-	PRIMARY KEY `Member_ID` (`Member_ID`),
+	INDEX `Member_ID` (`Member_ID`),
 	INDEX `Mail` (`Mail`),
 	INDEX `Cookie` (`Cookie`),
 	INDEX `Active` (`Active`)
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `Failures` (
 	`IP` varchar(255) NOT NULL,
 	`Created` int(11) NOT NULL,
 	UNIQUE KEY `ID` (`ID`),
-	PRIMARY KEY `Member_ID` (`Member_ID`),
+	INDEX `Member_ID` (`Member_ID`),
 	INDEX `Mail` (`Mail`),
 	INDEX `IP` (`IP`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
