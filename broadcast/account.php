@@ -35,7 +35,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		if (isset($_GET['login'])) { // Login
 
 			if ($Member_Auth) { // Login Redirect
-				if (isset($_GET['redirect'])) header('Location: /'.urldecode($_GET['redirect']), TRUE, 302);
+				if (isset($_GET['redirect'])) header('Location: '.$Sitewide_Root.urldecode($_GET['redirect']), TRUE, 302);
 				else header('Location: '.$Sitewide_Account, TRUE, 302);
 				die();
 
@@ -85,7 +85,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 								if (!$Session_New) exit('Invalid Query (Session_New): '.mysqli_error($Database['Connection']));
 
 								// Login Successful
-								if (isset($_GET['redirect'])) header('Location: /'.urldecode($_GET['redirect']), TRUE, 302);
+								if (isset($_GET['redirect'])) header('Location: '.$Sitewide_Root.urldecode($_GET['redirect']), TRUE, 302);
 								else header('Location: '.$Sitewide_Account, TRUE, 302);
 								die(); // As in go away.
 
@@ -124,7 +124,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					echo '<h2>Login Error</h2>';
 					echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login';
-					if (isset($_GET['redirect'])) echo $_GET['redirect'];
+					if (isset($_GET['redirect'])) echo '&redirect='.$_GET['redirect'];
 					echo '">Try Again</a></h3>';
 
 					require $Footer;
