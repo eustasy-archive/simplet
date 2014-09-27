@@ -64,8 +64,6 @@ require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
 require 'functions/pagination.links.php';
 
-require 'functions/jsondo.php';
-
 require 'functions/feed.header.php';
 require 'functions/feed.files.php';
 require 'functions/feed.forum.php';
@@ -90,6 +88,9 @@ require 'functions/respond.php';
 
 require 'functions/blog.php';
 require 'functions/blog.categories.php';
+
+require 'functions/api.output.php';
+require 'functions/api.output.xml.php';
 
 require 'functions/views.count.php';
 require 'functions/views.trending.php';
