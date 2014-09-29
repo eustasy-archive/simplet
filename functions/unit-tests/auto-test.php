@@ -26,6 +26,11 @@
 		table {
 			width: 100%;
 		}
+		th {
+			border-bottom: 3px solid #777;
+			font-weight: normal;
+		}
+		th,
 		td {
 			padding: 10px 0;
 		}
@@ -50,7 +55,7 @@
 			}
 		*/
 		</style>
-		<script src="https://cdn.jsdelivr.net/g/jquery"></script>
+		<script src="https://cdn.jsdelivr.net/g/jquery,tablesorter"></script>
 	</head>
 	<body>
 		<header>
@@ -60,6 +65,14 @@
 			<h2 class="js-target-count-loadfailures align-center color-asbestos display-none"></h2>
 		</header>
 		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
 		</table>
 <?php
 	// Get a list of the tests.
@@ -75,7 +88,6 @@
 ?>
 		<script>
 			$(function() {
-				var test;
 				<?php
 	$Load = 'var load = [';
 	// For each test
@@ -89,8 +101,10 @@
 ';
 	echo $Load;
 	?>
+				var test = toAppend = null;
 				var length = load.length;
 				var success = failures = loadfailures = 0;
+				$('table').tablesorter({ sortForce: [[0,0]] });
 				for (var i = 0; i < length; i++) {
 					test = load[i];
 				// for (test of load) {
@@ -100,7 +114,7 @@
 							console.log(data.Name + ' ' + data.Status);
 							if ( data.Status == 'Success') {
 								// Success
-								var toAppend = '\
+								toAppend = '\
 			<tr class="top">\
 				<td class="align-left">' + data.Name + '</td>\
 				<td class="align-center background-nephritis color-white pad-10">Success</td>\
@@ -120,7 +134,7 @@
 								else $('.js-target-count-success').text('1 Success').removeClass('display-none');
 							} else {
 								// Error
-								var toAppend = '\
+								toAppend = '\
 			<tr class="top">\
 				<td class="align-left">' + data.Name + '</td>\
 				<td class="align-center background-pomegranate color-white pad-10">Failure</td>\
@@ -139,16 +153,22 @@
 								if ( failures > 1 ) $('.js-target-count-failures').text(failures + ' Failures');
 								else $('.js-target-count-failures').text('1 failures').removeClass('display-none');
 							}
-							$('table').append(toAppend);
+							$('tbody').append(toAppend);
+							$('table').trigger('update');
+							var sorting = [[0,0]];
+							$('table').trigger('sorton',[sorting]);
 						}
 					).fail(function() {
 						// Error
-						var toAppend = '\
+						toAppend = '\
 			<tr class="top">\
 				<td class="align-left">' + test + '</td>\
 				<td class="align-center background-pomegranate color-white pad-10">Load Failure</td>\
 			</tr>';
-						$('table').append(toAppend);
+						$('tbody').append(toAppend);
+						$('table').trigger('update');
+						var sorting = [[0,0]];
+						$('table').trigger('sorton',[sorting]);
 						// Update Counter
 						loadfailures += 1;
 						if ( loadfailures > 1 ) $('.js-target-count-loadfailures').text(loadfailures + ' Load Failures');
