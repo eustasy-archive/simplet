@@ -4,11 +4,11 @@
 //
 // Glob Recursively to a Pattern
 
-function globRecursive($Pattern, $Flags = 0){
-	
+function globRecursive($Pattern, $Flags = 0) {
+
 	// Search in the Current Directory
 	$Return = glob($Pattern, $Flags);
-	
+
 	// FOREACHDIRECTORY
 	// Search in ALL sub-directories.
 	foreach (glob(dirname($Pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $Directory) {
@@ -18,7 +18,7 @@ function globRecursive($Pattern, $Flags = 0){
 		// it does make some sense.
 		$Return = array_merge($Return, globRecursive($Directory.'/'.basename($Pattern), $Flags));
 	} // FOREACHDIRECTORY
-	
+
 	return $Return;
-	
+
 }

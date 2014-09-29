@@ -3,6 +3,7 @@
 require 'initialize.php';
 require '../member.group.check.php';
 require '../member.group.remove.php';
+$Return['Name'] = 'Member Group Remove';
 $Return['Status'] = 'Failure';
 
 // TODO Member_Create should be a function.

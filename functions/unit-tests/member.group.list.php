@@ -2,6 +2,7 @@
 
 require 'initialize.php';
 require '../member.group.list.php';
+$Return['Name'] = 'Member Group List';
 $Return['Status'] = 'Failure';
 
 // TODO Member_Create should be a function.
