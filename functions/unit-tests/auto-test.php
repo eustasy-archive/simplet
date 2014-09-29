@@ -26,13 +26,16 @@
 		table {
 			width: 100%;
 		}
+		tbody tr:nth-child(odd) {
+			background: #fafafa;
+		}
 		th {
 			border-bottom: 3px solid #777;
 			font-weight: normal;
 		}
 		th,
 		td {
-			padding: 10px 0;
+			padding: 10px;
 		}
 		.align-center {
 			text-align: center;
@@ -45,9 +48,6 @@
 		}
 		.display-none {
 			display: none;
-		}
-		.pad-10 {
-			padding: 10px;
 		}
 		/*
 			.top {
@@ -117,13 +117,13 @@
 								toAppend = '\
 			<tr class="top">\
 				<td class="align-left">' + data.Name + '</td>\
-				<td class="align-center background-nephritis color-white pad-10">Success</td>\
+				<td class="align-center background-nephritis color-white">Success</td>\
 			</tr>';
 								if ( data.Result ) {
 									var results = JSON.stringify(data.Result);
 									toAppend += '\
 			<tr class="background-clouds">\
-				<td colspan="2" class="pad-10">\
+				<td colspan="2">\
 					<code>' + results + '</code>\
 				</td>\
 			</tr>';
