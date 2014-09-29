@@ -36,18 +36,16 @@ $Database['Exists']['Responses'] = Database_Table_Exists('Responses');
 $Database['Exists']['Helpfulness'] = Database_Table_Exists('Helpfulness');
 $Database['Exists']['Views'] = Database_Table_Exists('Views');
 if (
-	$Database['AutoInstall'] &&
-	(
-		!$Database['Exists']['Members'] ||
-		!$Database['Exists']['Sessions'] ||
-		!$Database['Exists']['Failures'] ||
-		!$Database['Exists']['Runonce'] ||
-		!$Database['Exists']['Categories'] ||
-		!$Database['Exists']['Topics'] ||
-		!$Database['Exists']['Responses'] ||
-		!$Database['Exists']['Helpfulness'] ||
-		!$Database['Exists']['Views']
-	)
+	!$Database['Exists']['Members'] ||
+	!$Database['Exists']['Sessions'] ||
+	!$Database['Exists']['Failures'] ||
+	!$Database['Exists']['Runonce'] ||
+	!$Database['Exists']['Categories'] ||
+	!$Database['Exists']['Topics'] ||
+	!$Database['Exists']['Responses'] ||
+	!$Database['Exists']['Helpfulness'] ||
+	!$Database['Exists']['Views']
 ) require __DIR__.'/../../onces/autoinstall.php';
 
-require '../jsondo.php';
+require '../api.output.php';
+require '../api.output.xml.php';

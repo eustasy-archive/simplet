@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `Members` (
-	`ID` varchar(12) NOT NULL,
+	`ID` varchar(64) NOT NULL,
 	`Mail` varchar(250) NOT NULL,
 	`Name` varchar(250) NOT NULL,
 	`Admin` int(1) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
 
 CREATE TABLE IF NOT EXISTS `Sessions` (
 	`ID` int(255) NOT NULL AUTO_INCREMENT,
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Mail` varchar(255) NOT NULL,
 	`IP` varchar(255) NOT NULL,
 	`Cookie` varchar(64) NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `Sessions` (
 
 CREATE TABLE IF NOT EXISTS `Failures` (
 	`ID` int(255) NOT NULL AUTO_INCREMENT,
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Mail` varchar(255) NOT NULL,
 	`IP` varchar(255) NOT NULL,
 	`Created` int(11) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `Failures` (
 --
 
 CREATE TABLE IF NOT EXISTS `Runonce` (
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Key` varchar(64) NOT NULL,
 	`Status` varchar(12) NOT NULL,
 	`IP` varchar(64) NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `Settings` (
 --
 
 CREATE TABLE IF NOT EXISTS `Categories` (
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Status` varchar(12) NOT NULL,
 	`Title` varchar(255) NOT NULL,
 	`Slug` varchar(255) NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `Categories` (
 --
 
 CREATE TABLE IF NOT EXISTS `Topics` (
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Status` varchar(12) NOT NULL,
 	`Category` varchar(255) NOT NULL,
 	`Slug` varchar(500) NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `Topics` (
 
 CREATE TABLE IF NOT EXISTS `Responses` (
 	`ID` int(255) NOT NULL AUTO_INCREMENT,
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Canonical` varchar(500) NOT NULL,
 	`Type` varchar(12) NOT NULL,
 	`Status` varchar(12) NOT NULL,
@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `Helpfulness` (
 	`ID` int(255) NOT NULL AUTO_INCREMENT,
 	`Response_Canonical` varchar(500) NOT NULL,
 	`Response_ID` int(255) NOT NULL,
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Helpfulness` varchar(4) NOT NULL,
 	`Created` int(12) NOT NULL,
 	`Modified` int(12) NOT NULL,
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `Views` (
 	`IP` varchar(255) NOT NULL,
 	`Cookie` varchar(64) NOT NULL,
 	`Auth` varchar(5) NOT NULL,
-	`Member_ID` varchar(12) NOT NULL,
+	`Member_ID` varchar(64) NOT NULL,
 	`Admin` varchar(5) NOT NULL,
 	`Time` int(12) NOT NULL,
 	UNIQUE KEY `ID` (`ID`),
