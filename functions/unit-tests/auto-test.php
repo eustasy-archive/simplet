@@ -11,6 +11,10 @@
 		}
 		code {
 			white-space: pre-wrap;
+			/* Be VERY careful with this, breaks normal words wh_erever */
+			word-break: break-all;
+			/* Non standard for webkit */
+			word-break: break-word;
 		}
 		h1,
 		h2 {
@@ -93,10 +97,7 @@
 					$.getJSON(
 						test,
 						function( data ) {
-							console.log(data.Name);
-							console.log(data.Status);
-							console.log(data.Errors);
-							console.log(data.Result);
+							console.log(data.Name + ' ' + data.Status);
 							if ( data.Status == 'Success') {
 								// Success
 								var toAppend = '\
@@ -105,11 +106,7 @@
 				<td class="align-center background-nephritis color-white pad-10">Success</td>\
 			</tr>';
 								if ( data.Result ) {
-									var results = []
-									$.each(data.Result, function(index, value) {
-										results.push(index + ': ' + value);
-									});
-									var results = JSON.stringify(results);
+									var results = JSON.stringify(data.Result);
 									toAppend += '\
 			<tr class="background-clouds">\
 				<td colspan="2" class="pad-10">\
@@ -129,11 +126,7 @@
 				<td class="align-center background-pomegranate color-white pad-10">Failure</td>\
 			</tr>';
 								if ( data.Errors ) {
-									var errors = []
-									$.each(data.Errors, function(index, value) {
-										errors.push(index + ': ' + value);
-									});
-									var errors = JSON.stringify(errors);
+									var errors = JSON.stringify(data.Errors);
 									toAppend += '\
 			<tr class="background-clouds">\
 				<td colspan="2" class="pad-10">\
