@@ -48,4 +48,3 @@ if (
 ) require __DIR__.'/../../onces/autoinstall.php';
 
 require '../api.output.php';
-require '../api.output.xml.php';

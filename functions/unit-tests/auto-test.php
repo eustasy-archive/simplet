@@ -101,17 +101,18 @@
 ';
 	echo $Load;
 	?>
-				var test = toAppend = null;
 				var length = load.length;
+				var i = 0;
 				var success = failures = loadfailures = 0;
-				$('table').tablesorter({ sortForce: [[0,0]] });
-				for (var i = 0; i < length; i++) {
-					test = load[i];
-				// for (test of load) {
+				var sorting = [[0,0]];
+				$('table').tablesorter({ sortForce: sorting });
+				function autoTest() {
+					console.log('Loading ' + load[i]);
 					$.getJSON(
-						test,
+						load[i],
 						function( data ) {
-							console.log(data.Name + ' ' + data.Status);
+							console.log('Loaded ' + load[i]);
+							console.log(data);
 							if ( data.Status == 'Success') {
 								// Success
 								toAppend = '\
@@ -135,8 +136,12 @@
 							} else {
 								// Error
 								toAppend = '\
-			<tr class="top">\
-				<td class="align-left">' + data.Name + '</td>\
+			<tr class="top">';
+								if ( data.Name ) toAppend += '\
+				<td class="align-left">' + data.Name + '</td>';
+								else toAppend += '\
+				<td class="align-left">' + load[i] + '</td>';
+								toAppend += '\
 				<td class="align-center background-pomegranate color-white pad-10">Failure</td>\
 			</tr>';
 								if ( data.Errors ) {
@@ -155,26 +160,29 @@
 							}
 							$('tbody').append(toAppend);
 							$('table').trigger('update');
-							var sorting = [[0,0]];
 							$('table').trigger('sorton',[sorting]);
+							i++;
+							if ( i < length ) autoTest();
 						}
 					).fail(function() {
 						// Error
 						toAppend = '\
 			<tr class="top">\
-				<td class="align-left">' + test + '</td>\
+				<td class="align-left">' + load[i] + '</td>\
 				<td class="align-center background-pomegranate color-white pad-10">Load Failure</td>\
 			</tr>';
-						$('tbody').append(toAppend);
-						$('table').trigger('update');
-						var sorting = [[0,0]];
-						$('table').trigger('sorton',[sorting]);
 						// Update Counter
 						loadfailures += 1;
 						if ( loadfailures > 1 ) $('.js-target-count-loadfailures').text(loadfailures + ' Load Failures');
 						else $('.js-target-count-loadfailures').text('1 Load Failures').removeClass('display-none');
+						$('tbody').append(toAppend);
+						$('table').trigger('update');
+						$('table').trigger('sorton',[sorting]);
+						i++;
+						if ( i < length ) autoTest();
 					});
 				}
+				autoTest();
 			});
 		</script>
 	</body>
