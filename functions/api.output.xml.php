@@ -23,23 +23,19 @@ function API_Output_XML($Array) {
 			if(is_array($Value)) {
 
 				// Convert Numeric Keys
-				// TODO Simplify, Quotes
-				$Key = is_numeric($Key) ? "item$Key" : $Key;
+				$Key = is_numeric($Key) ? 'item_'.$Key : $Key;
 				// Add to XML
-				// TODO Quotes
-				$subnode = $Return->addChild("$Key");
+				$Subnode = $Return->addChild($Key);
 				// WARNING: Recursive
-				API_Output_XML($Value, $subnode);
+				API_Output_XML($Value, $Subnode);
 
 			// IFARRAY
 			} else {
 
 				// Convert Numeric Keys
-				// TODO Simplify, Quotes
-				$Key = is_numeric($Key) ? "item$Key" : $Key;
+				$Key = is_numeric($Key) ? 'item_'.$Key : $Key;
 				// Add to XML
-				// TODO Quotes
-				$Return->addChild("$Key","$Value");
+				$Return->addChild($Key,$Value);
 
 			} // IFARRAY
 

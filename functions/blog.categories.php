@@ -34,8 +34,7 @@ function Blog_Categories($Caller, $Exclude = false) {
 			if ($Post_Type === 'Blog Post') {
 
 				// Add Category or Increment
-				if (isset($Categories_Return[$Post_Category])) $Categories_Return[$Post_Category] += 1;
-				else $Categories_Return[$Post_Category] = 1;
+				$Categories_Return[$Post_Category] = isset($Categories_Return[$Post_Category]) ? $Categories_Return[$Post_Category]++ : 1;
 
 			} // IFPOST
 
