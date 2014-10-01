@@ -8,7 +8,6 @@
 		<style>
 			body {
 				max-width: 800px;
-				height: 100%;
 				margin: 0 auto;
 				tab-size: 4;
 			}
