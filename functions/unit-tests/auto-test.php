@@ -102,6 +102,7 @@
 			<tbody>
 			</tbody>
 		</table>
+		<p class="align-center color-asbestos">Functions that echo are not automatically checked. Functions that return should be.</p>
 		<script>
 			$(function() {
 				// Based on code from http://jsfiddle.net/KJQ9K/554/

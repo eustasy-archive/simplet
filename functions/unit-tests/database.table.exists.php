@@ -5,10 +5,17 @@ include_once __DIR__.'/../database.table.exists.php';
 $Return['Name'] = 'Database Table Exists';
 $Return['Status'] = 'Failure';
 
-$Database_Table_Exists = Database_Table_Exists('Topics');
-if ( $Database_Table_Exists ) {
+$Check_True = Database_Table_Exists('Topics');
+$Check_False = Database_Table_Exists('NOTATABLE');
+
+if ( $Check_True && !$Check_False ) {
 	$Return['Status'] = 'Success';
-	$Return['Result'] = $Database_Table_Exists;
-} else array_push($Return['Errors'], 'Database_Table_Exists Function returned false.');
+	$Return['Result'] = array();
+	$Return['Result']['Topics'] = $Check_True;
+	$Return['Result']['NOTATABLE'] = $Check_False;
+} else {
+	if ( !$Check_True ) $Return['Errors']['Topics'] = 'Database_Table_Exists Function returned false when it should be true.';
+	if ( $Check_False ) $Return['Errors']['NOTATABLE'] = 'Database_Table_Exists Function returned true when it should be false.';
+}
 
 API_Output($Return);
