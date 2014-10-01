@@ -1,8 +1,8 @@
 <?php
 
-require 'initialize.php';
-require '../member.group.check.php';
-require '../member.group.remove.php';
+include_once __DIR__.'/initialize.php';
+include_once __DIR__.'/../member.group.check.php';
+include_once __DIR__.'/../member.group.remove.php';
 $Return['Name'] = 'Member Group Remove';
 $Return['Status'] = 'Failure';
 

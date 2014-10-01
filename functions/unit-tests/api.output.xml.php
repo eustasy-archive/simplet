@@ -1,7 +1,7 @@
 <?php
 
-require 'initialize.php';
-require '../api.output.xml.php';
+include_once __DIR__.'/initialize.php';
+include_once __DIR__.'/../api.output.xml.php';
 $Return['Name'] = 'API Output XML';
 $Return['Status'] = 'Success';
 

@@ -4,7 +4,7 @@ ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 
-include __DIR__.'/../../config.php';
+include_once __DIR__.'/../../config.php';
 $Sitewide_Debug = true;
 
 $Return = array();
@@ -19,11 +19,11 @@ $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
 $Database = array();
-include __DIR__.'/../../config.database.php';
+include_once __DIR__.'/../../config.database.php';
 $Database['Prefix'] = 'UNIT_TESTS_';
 $Database['Connection'] = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
 $Database['Error'] = false;
-require __DIR__.'/../database.table.exists.php';
+include_once __DIR__.'/../database.table.exists.php';
 $Database['Exists'] = array();
 $Database['Exists']['Members'] = Database_Table_Exists('Members');
 $Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
@@ -45,6 +45,6 @@ if (
 	!$Database['Exists']['Responses'] ||
 	!$Database['Exists']['Helpfulness'] ||
 	!$Database['Exists']['Views']
-) require __DIR__.'/../../onces/autoinstall.php';
+) include_once __DIR__.'/../../onces/autoinstall.php';
 
-require '../api.output.php';
+include_once __DIR__.'/../api.output.php';

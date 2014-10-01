@@ -191,9 +191,11 @@
 				<td class="align-left">' + data.Name + '</td>';
 								else toAppend += '\
 				<td class="align-left">' + load[i] + '</td>';
-								toAppend += '\
+								if ( data.Status ) toAppend += '\
+				<td class="align-center background-pomegranate color-white pad-10">' + data.Status + '</td>';
+								else toAppend += '\
 				<td class="align-center background-pomegranate color-white pad-10">Failure</td>';
-								if ( data.Errors ) {
+								if ( data.Errors.length > 0 ) {
 									var errors = syntaxHighlight(JSON.stringify(data.Errors));
 									toAppend += '\
 				<td class="align-center background-belize-hole color-white expand" href="#modal_' + i + '">\
@@ -210,7 +212,7 @@
 								// Update Counter
 								failures += 1;
 								if ( failures > 1 ) $('.js-target-count-failures').text(failures + ' Failures');
-								else $('.js-target-count-failures').text('1 failures').removeClass('display-none');
+								else $('.js-target-count-failures').text('1 Failures').removeClass('display-none');
 							}
 							$('tbody').append(toAppend);
 							if ( modalAppend ) $('body').append(modalAppend);

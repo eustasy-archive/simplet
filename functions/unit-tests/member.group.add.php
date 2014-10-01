@@ -1,8 +1,8 @@
 <?php
 
-require 'initialize.php';
-require '../member.group.add.php';
-require '../member.group.check.php';
+include_once __DIR__.'/initialize.php';
+include_once __DIR__.'/../member.group.add.php';
+include_once __DIR__.'/../member.group.check.php';
 $Return['Name'] = 'Member Group Add';
 $Return['Status'] = 'Failure';
 

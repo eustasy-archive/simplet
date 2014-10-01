@@ -1,7 +1,7 @@
 <?php
 
-require 'initialize.php';
-require '../member.group.list.php';
+include_once __DIR__.'/initialize.php';
+include_once __DIR__.'/../member.group.list.php';
 $Return['Name'] = 'Member Group List';
 $Return['Status'] = 'Failure';
 
