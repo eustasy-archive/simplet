@@ -13,8 +13,10 @@ if ( !$Member_Create ) array_push($Return['Errors'], 'Invalid Query (Member_Crea
 
 $Member_Group_Remove = Member_Group_Remove('Member_Group_Remove', 'Member_Group_Remove');
 
-if ( $Member_Group_Remove ) $Return['Status'] = 'Success';
-else {
+if ( $Member_Group_Remove ) {
+	$Return['Status'] = 'Success';
+	$Return['Result'] = $Member_Group_Remove;
+} else {
 	$Return['Status'] = 'Failure';
 	array_push($Return['Errors'], 'Remove returned false.');
 }

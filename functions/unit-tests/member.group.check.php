@@ -10,8 +10,12 @@ $Member_Create = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `G
 $Member_Create = mysqli_query($Database['Connection'], $Member_Create, MYSQLI_STORE_RESULT);
 if ( !$Member_Create ) array_push($Return['Errors'], 'Invalid Query (Member_Create): '.mysqli_error($Database['Connection']));
 
-if (Member_Group_Check('Member_Group_Check', 'Member_Group_Check')) $Return['Status'] = 'Success';
-else {
+$Member_Group_Check = Member_Group_Check('Member_Group_Check', 'Member_Group_Check');
+
+if ( $Member_Group_Check ) {
+	$Return['Status'] = 'Success';
+	$Return['Result'] = $Member_Group_Check;
+} else {
 	$Return['Status'] = 'Failure';
 	array_push($Return['Errors'], 'Check returned false.');
 }

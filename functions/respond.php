@@ -2,7 +2,7 @@
 
 ////	Respond
 // 
-// Process a posted response..
+// Process a posted response.
 // 
 // Respond();
 // Respond(true);

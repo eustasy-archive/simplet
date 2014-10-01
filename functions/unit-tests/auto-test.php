@@ -105,6 +105,25 @@
 		<p class="align-center color-asbestos">Functions that echo are not automatically checked. Functions that return should be.</p>
 		<script>
 			$(function() {
+				var i = 0;
+				var success = failures = loadfailures = 0;
+				var toAppend = modalAppend = data = false;
+				var sorting = [[0,0]];
+				$('table').tablesorter({ sortForce: sorting });
+				function autoDone() {
+					$('tbody').append(toAppend);
+					if ( modalAppend ) $('body').append(modalAppend);
+					$('table').trigger('update');
+					$('table').trigger('sorton',[sorting]);
+					$('.expand').leanModal();
+					$('.expand').click(function() {
+						console.log('Expand clicked.');
+						var modal_id = $(this).attr('href');
+						console.log(modal_id);
+					});
+					i++;
+					if ( i < length ) autoTest();
+				}
 				// Based on code from http://jsfiddle.net/KJQ9K/554/
 				function syntaxHighlight(json) {
 					json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -148,13 +167,8 @@
 	echo $Load;
 	?>
 				var length = load.length;
-				var i = 0;
-				var success = failures = loadfailures = 0;
-				var sorting = [[0,0]];
-				$('table').tablesorter({ sortForce: sorting });
 				function autoTest() {
 					console.log('Loading ' + load[i]);
-					var modalAppend = toAppend = false;
 					$.getJSON(
 						load[i],
 						function( data ) {
@@ -215,12 +229,7 @@
 								if ( failures > 1 ) $('.js-target-count-failures').text(failures + ' Failures');
 								else $('.js-target-count-failures').text('1 Failures').removeClass('display-none');
 							}
-							$('tbody').append(toAppend);
-							if ( modalAppend ) $('body').append(modalAppend);
-							$('table').trigger('update');
-							$('table').trigger('sorton',[sorting]);
-							i++;
-							if ( i < length ) autoTest();
+							autoDone();
 						}
 					).fail(function() {
 						// Error
@@ -233,17 +242,7 @@
 						loadfailures += 1;
 						if ( loadfailures > 1 ) $('.js-target-count-loadfailures').text(loadfailures + ' Load Failures');
 						else $('.js-target-count-loadfailures').text('1 Load Failures').removeClass('display-none');
-						$('tbody').append(toAppend);
-						$('table').trigger('update');
-						$('table').trigger('sorton',[sorting]);
-						i++;
-						if ( i < length ) autoTest();
-					});
-					$('.expand').leanModal();
-					$('.expand').click(function() {
-						console.log('Expand clicked.');
-						var modal_id = $(this).attr('href');
-						console.log(modal_id);
+						autoDone();
 					});
 				}
 				autoTest();
