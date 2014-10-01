@@ -46,7 +46,8 @@ function Respond($Status_Override = false) {
 				if ($Forum_Reply_Inherit === true) {
 					
 					// Fetch Status of Topic
-					$Topic_Status_Query = mysqli_query($Database['Connection'], 'SELECT `Status` FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
+					$Topic_Status_Query = 'SELECT `Status` FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
+					$Topic_Status_Query = mysqli_query($Database['Connection'], $Topic_Status_Query, MYSQLI_STORE_RESULT);
 					if (!$Topic_Status_Query) array_push($Response_Return['error'], 'Topic Status Query Error.');
 					$Topic_Status_Count = mysqli_num_rows($Topic_Status_Query);
 					if($Topic_Status_Count === 0) {
