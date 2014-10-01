@@ -3,85 +3,87 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Simplet Unit-Test Auto-Tester</title>
+		<script src="https://cdn.jsdelivr.net/g/prefixfree,jquery,tablesorter,jquery.leanmodal"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/g/normalize,colors.css">
 		<style>
-		body {
-			max-width: 800px;
-			height: 100%;
-			margin: 0 auto;
-		}
-		code {
-			white-space: pre-wrap;
-			/* Be VERY careful with this, breaks normal words wh_erever */
-			word-break: break-all;
-			/* Non standard for webkit */
-			word-break: break-word;
-		}
-		h1,
-		h2 {
-			font-weight: normal;
-		}
-		header {
-			margin: 100px 0;
-		}
-		table {
-			width: 100%;
-		}
-		tbody tr:nth-child(odd) {
-			background: #fafafa;
-		}
-		th {
-			border-bottom: 3px solid #777;
-			font-weight: normal;
-		}
-		th,
-		td {
-			padding: 10px;
-		}
-		.align-center {
-			text-align: center;
-		}
-		.align-left {
-			text-align: left;
-		}
-		.align-right {
-			text-align: right;
-		}
-		.display-none {
-			display: none;
-		}
-		/* External */
-		#lean_overlay {
-			background: #fff;
-			cursor: pointer;
-			display: none;
-			height:100%;
-			left: 0px;
-			position: fixed;
-			top: 0px;
-			width:100%;
-			z-index:100;
-		}
-		.expand {
-			cursor: pointer;
-		}
-		.expandable {
-			padding: 20px;
-			border: 1px solid #eee;
-			border-radius: 5px;
-			background: #fafafa;
-			max-width: 1000px;
-			max-height: 60%;
-			overflow-y: scroll;
-		}
-		pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
-		.string { color: green; }
-		.number { color: darkorange; }
-		.boolean { color: blue; }
-		.null { color: magenta; }
-		.key { color: red; }
+			body {
+				max-width: 800px;
+				height: 100%;
+				margin: 0 auto;
+				tab-size: 4;
+			}
+			code {
+				white-space: pre-wrap;
+				/* Be VERY careful with this, breaks normal words wh_erever */
+				word-break: break-all;
+				/* Non standard for webkit */
+				word-break: break-word;
+			}
+			h1,
+			h2 {
+				font-weight: normal;
+			}
+			header {
+				margin: 100px 0;
+			}
+			table {
+				width: 100%;
+			}
+			tbody tr:nth-child(odd) {
+				background: #fafafa;
+			}
+			th {
+				border-bottom: 3px solid #777;
+				font-weight: normal;
+			}
+			th,
+			td {
+				padding: 10px;
+			}
+			.align-center {
+				text-align: center;
+			}
+			.align-left {
+				text-align: left;
+			}
+			.align-right {
+				text-align: right;
+			}
+			.display-none {
+				display: none;
+			}
+			/* External */
+			#lean_overlay {
+				background: #fff;
+				cursor: pointer;
+				display: none;
+				height:100%;
+				left: 0px;
+				position: fixed;
+				top: 0px;
+				width:100%;
+				z-index:100;
+			}
+			.expand {
+				cursor: pointer;
+			}
+			.expandable {
+				padding: 20px;
+				border: 1px solid #eee;
+				border-radius: 5px;
+				background: #fafafa;
+				max-width: 1000px;
+				width: 80%;
+				max-height: 60%;
+				overflow-y: scroll;
+			}
+			pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+			.string { color: green; }
+			.number { color: darkorange; }
+			.boolean { color: blue; }
+			.null { color: magenta; }
+			.key { color: red; }
 		</style>
-		<script src="https://cdn.jsdelivr.net/g/jquery,tablesorter,jquery.leanmodal"></script>
 	</head>
 	<body>
 		<header>
