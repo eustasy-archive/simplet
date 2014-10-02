@@ -16,6 +16,7 @@ $Time = time();
 $Time_15mins = $Time+900;
 $Time_1hour = $Time+3600;
 $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
+$User_IP = htmlentities($_SERVER['REMOTE_ADDR'], ENT_QUOTES, 'UTF-8');
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
 $Database = array();
