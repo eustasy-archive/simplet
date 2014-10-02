@@ -732,6 +732,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				require $Header;
 
 				$Key = Runonce_Create($Time+(60*3), 1, 'Account Deletion');
+				var_dump($Key);
 				?>
 
 				<h2>Are you sure you want to delete your account?</h2>

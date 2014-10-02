@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
 	UNIQUE KEY `ID` (`ID`),
-	PRIMARY KEY `Mail` (`Mail`)
+	INDEX `Mail` (`Mail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `Runonce` (
 	`Modified` int(11) NOT NULL,
 	`Notes` mediumtext NOT NULL,
 	UNIQUE KEY `Key` (`Key`),
-	PRIMARY KEY `Member_ID` (`Member_ID`),
+	INDEX `Member_ID` (`Member_ID`),
 	INDEX `Status` (`Status`),
 	INDEX `IP` (`IP`),
 	INDEX `Created` (`Created`)
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `Settings` (
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
 	UNIQUE KEY `Name` (`Name`),
-	PRIMARY KEY `Value` (`Value`)
+	INDEX `Value` (`Value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

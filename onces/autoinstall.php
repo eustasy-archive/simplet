@@ -14,7 +14,7 @@ if (!$Database['Exists']['Members']) {
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
-			PRIMARY KEY `Mail` (`Mail`)
+			INDEX `Mail` (`Mail`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 		// TODO ^ Indexes for Members
 	$Create_Table_Members = mysqli_query($Database['Connection'], $Create_Table_Members, MYSQLI_STORE_RESULT);
@@ -36,9 +36,9 @@ if (!$Database['Exists']['Sessions']) {
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
 			INDEX `Member_ID` (`Member_ID`),
-			KEY `Mail` (`Mail`),
-			KEY `Cookie` (`Cookie`),
-			KEY `Active` (`Active`)
+			INDEX `Mail` (`Mail`),
+			INDEX `Cookie` (`Cookie`),
+			INDEX `Active` (`Active`)
 		) ENGINE=InnoDB  DEFAULT CHARSET=latin1;';
 	$Create_Table_Sessions = mysqli_query($Database['Connection'], $Create_Table_Sessions, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Sessions) {
@@ -56,8 +56,8 @@ if (!$Database['Exists']['Failures']) {
 			`Created` int(11) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
 			INDEX `Member_ID` (`Member_ID`),
-			KEY `Mail` (`Mail`),
-			KEY `IP` (`IP`)
+			INDEX `Mail` (`Mail`),
+			INDEX `IP` (`IP`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
 	$Create_Table_Failures = mysqli_query($Database['Connection'], $Create_Table_Failures, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Failures) {
@@ -79,13 +79,13 @@ if (!$Database['Exists']['Runonce']) {
 			`Modified` int(11) NOT NULL,
 			`Notes` mediumtext NOT NULL,
 			UNIQUE KEY `Key` (`Key`),
-			PRIMARY KEY `Member_ID` (`Member_ID`),
-			KEY `Status` (`Status`),
-			KEY `IP` (`IP`),
-			KEY `Created` (`Created`),
-			KEY `Timeout` (`Timeout`),
-			KEY `Uses` (`Uses`),
-			KEY `Used` (`Used`)
+			INDEX `Member_ID` (`Member_ID`),
+			INDEX `Status` (`Status`),
+			INDEX `IP` (`IP`),
+			INDEX `Created` (`Created`),
+			INDEX `Timeout` (`Timeout`),
+			INDEX `Uses` (`Uses`),
+			INDEX `Used` (`Used`)
 		) ENGINE=InnoDB	DEFAULT CHARSET=latin1;';
 	$Create_Table_Runonce = mysqli_query($Database['Connection'], $Create_Table_Runonce, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Runonce) {
@@ -101,7 +101,7 @@ if (!$Database['Exists']['Settings']) {
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `Name` (`Name`),
-			PRIMARY KEY `Value` (`Value`)
+			INDEX `Value` (`Value`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Settings = mysqli_query($Database['Connection'], $Create_Table_Settings, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Settings) {
@@ -121,11 +121,11 @@ if (!$Database['Exists']['Categories']) {
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `Slug` (`Slug`),
-			KEY `Member_ID` (`Member_ID`),
-			KEY `Status` (`Status`),
-			KEY `Topics` (`Topics`),
-			KEY `Created` (`Created`),
-			KEY `Modified` (`Modified`)
+			INDEX `Member_ID` (`Member_ID`),
+			INDEX `Status` (`Status`),
+			INDEX `Topics` (`Topics`),
+			INDEX `Created` (`Created`),
+			INDEX `Modified` (`Modified`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Categories = mysqli_query($Database['Connection'], $Create_Table_Categories, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Categories) {
@@ -145,12 +145,12 @@ if (!$Database['Exists']['Topics']) {
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `Slug` (`Slug`),
-			KEY `Member_ID` (`Member_ID`),
-			KEY `Status` (`Status`),
-			KEY `Category` (`Category`),
-			KEY `Responses` (`Responses`),
-			KEY `Created` (`Created`),
-			KEY `Modified` (`Modified`)
+			INDEX `Member_ID` (`Member_ID`),
+			INDEX `Status` (`Status`),
+			INDEX `Category` (`Category`),
+			INDEX `Responses` (`Responses`),
+			INDEX `Created` (`Created`),
+			INDEX `Modified` (`Modified`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Topics = mysqli_query($Database['Connection'], $Create_Table_Topics, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Topics) {
@@ -172,14 +172,14 @@ if (!$Database['Exists']['Responses']) {
 			`Created` int(11) NOT NULL,
 			`Modified` int(11) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
-			KEY `Member_ID` (`Member_ID`),
-			KEY `Canonical` (`Canonical`),
-			KEY `Type` (`Type`),
-			KEY `Status` (`Status`),
-			KEY `Helpfulness` (`Helpfulness`),
-			KEY `Rating` (`Rating`),
-			KEY `Created` (`Created`),
-			KEY `Modified` (`Modified`)
+			INDEX `Member_ID` (`Member_ID`),
+			INDEX `Canonical` (`Canonical`),
+			INDEX `Type` (`Type`),
+			INDEX `Status` (`Status`),
+			INDEX `Helpfulness` (`Helpfulness`),
+			INDEX `Rating` (`Rating`),
+			INDEX `Created` (`Created`),
+			INDEX `Modified` (`Modified`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Responses = mysqli_query($Database['Connection'], $Create_Table_Responses, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Responses) {
@@ -198,10 +198,10 @@ if (!$Database['Exists']['Helpfulness']) {
 			`Created` int(12) NOT NULL,
 			`Modified` int(12) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
-			KEY `Response_Canonical` (`Response_Canonical`),
-			KEY `Response_ID` (`Response_ID`),
-			KEY `Member_ID` (`Member_ID`),
-			KEY `Helpfulness` (`Helpfulness`)
+			INDEX `Response_Canonical` (`Response_Canonical`),
+			INDEX `Response_ID` (`Response_ID`),
+			INDEX `Member_ID` (`Member_ID`),
+			INDEX `Helpfulness` (`Helpfulness`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Helpfulness = mysqli_query($Database['Connection'], $Create_Table_Helpfulness, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Helpfulness) {
@@ -223,15 +223,15 @@ if (!$Database['Exists']['Views']) {
 			`Admin` varchar(5) NOT NULL,
 			`Time` int(12) NOT NULL,
 			UNIQUE KEY `ID` (`ID`),
-			KEY `Request` (`Request`),
-			KEY `Canonical` (`Canonical`),
-			KEY `Post_Type` (`Post_Type`),
-			KEY `IP` (`IP`),
-			KEY `Cookie` (`Cookie`),
-			KEY `Auth` (`Auth`),
-			KEY `Member_ID` (`Member_ID`),
-			KEY `Admin` (`Admin`),
-			KEY `Time` (`Time`)
+			INDEX `Request` (`Request`),
+			INDEX `Canonical` (`Canonical`),
+			INDEX `Post_Type` (`Post_Type`),
+			INDEX `IP` (`IP`),
+			INDEX `Cookie` (`Cookie`),
+			INDEX `Auth` (`Auth`),
+			INDEX `Member_ID` (`Member_ID`),
+			INDEX `Admin` (`Admin`),
+			INDEX `Time` (`Time`)
 		) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
 	$Create_Table_Views = mysqli_query($Database['Connection'], $Create_Table_Views, MYSQLI_STORE_RESULT);
 	if (!$Create_Table_Views) {

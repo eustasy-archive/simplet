@@ -46,6 +46,7 @@ function Runonce_Create($Timeout = '15mins', $Uses = 1, $Notes = '', $Key = '', 
 		if (empty($Key)) $Key = Generator_String();
 		if (empty($Key_Owner)) $Key_Owner = $Member_ID;
 		
+		// TODO Make timut intelligent using end of string
 		if ($Timeout = '15mins') $Timeout = $Time_15mins;
 		if ($Timeout = '1hour') $Timeout = $Time_1hour;
 		
