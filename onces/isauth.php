@@ -37,7 +37,7 @@ if ( // If it is possible for them to be logged in.
 	} else $Session_Count = mysqli_num_rows($Session_Check);
 
 	// That Cookie doesn't exist or isn't active.
-	if ($Session_Count === 0) Memeber_Auth_False(true);
+	if ($Session_Count === 0) Member_Auth_False(true);
 
 	// Or maybe you are
 	else {
