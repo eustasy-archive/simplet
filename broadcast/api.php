@@ -39,7 +39,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	if (isset($_GET['helpfulness'])) {
 		// TODO Move to Function
-	
+
 		// IFDATABASEHELPFULLNESS
 		if ( // If it is possible for them to be logged in.
 			$Database['Connection'] &&
@@ -164,8 +164,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				}
 			}
 
-			echo JSONDo($Helpfulness_Return);
-			
+			echo API_Output($Helpfulness_Return);
+
 		// IFDATABASEHELPFULLNESS
 		} else {
 			// TODO ERROR
@@ -184,8 +184,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	} else if (isset($_GET['respond'])) {
 
-		if(!$Member_Auth) echo JSONDo(array('error' => array('Not Authenticated.')));
-		else echo JSONDo(Respond());
+		if(!$Member_Auth) echo API_Output(array('error' => array('Not Authenticated.')));
+		else echo API_Output(Respond());
 
 
 
@@ -196,14 +196,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	} else if (isset($_GET['trending'])) {
 
-		if (isset($_GET['type'])) echo JSONDo(Trending('', $_GET['type']));
-		else echo JSONDo(Trending(''));
+		if (isset($_GET['type'])) echo API_Output(Trending('', $_GET['type']));
+		else echo API_Output(Trending(''));
 
 
 
 
 	} else {
 		// Error: Undefined
-		echo JSONDo(array('error' => array('No Valid API Action Defined.')));
+		echo API_Output(array('error' => array('No Valid API Action Defined.')));
 	}
 }
