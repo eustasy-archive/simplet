@@ -711,7 +711,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if (Runonce_Check($Key, $Member_ID, 'Account Deletion')) {
 
 					$Member_Delete = 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
-					$Member_Delete = mysqli_query($Database['Connection'], , MYSQLI_STORE_RESULT);
+					$Member_Delete = mysqli_query($Database['Connection'], $Member_Delete, MYSQLI_STORE_RESULT);
 					if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
 
 					Runonce_Delete($Key, $Member_ID);
