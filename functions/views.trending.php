@@ -28,7 +28,7 @@ function Views_Trending($Canonical, $Trend_Type = 'Blog Post', $Trend_Limit = 10
 		$Query .= ' `Canonical` FROM `'.$Database['Prefix'].'Views` WHERE `Post_Type`=\''.$Trend_Type.'\' GROUP BY `Canonical` ORDER BY `Count` DESC LIMIT 0, '.$Trend_Limit;
 		
 		$Trending = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
-		if ( !$Trending && $Sitewide_Debug ) echo 'Invalid Query (View): '.mysqli_error($Database['Connection']);
+		if ( !$Trending && $Sitewide_Debug ) return array('Error' => 'Invalid Query (Views_Trending): '.mysqli_error($Database['Connection']));
 		
 		// Set an empty array to append to.
 		$Trending_Return = array();
