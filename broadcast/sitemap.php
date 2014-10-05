@@ -67,21 +67,26 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		if ($Database['Exists']['Categories']) {
 
 			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
-			if (!$Forum_Categories) echo 'Invalid Query (Forum_Categories): '.mysqli_error($Database['Connection']);
+			if (!$Forum_Categories) {
+				if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Categories): ' . mysqli_error($Database['Connection']);
+				// TODO Handle Error
+			} else {
 
-			$Forum_Categories_Count = mysqli_num_rows($Forum_Categories);
+				$Forum_Categories_Count = mysqli_num_rows($Forum_Categories);
 
-			if ($Forum_Categories_Count != 0) {
-				while($Forum_Categories_Fetch = mysqli_fetch_assoc($Forum_Categories)) {
-					// Echo out the Item
-					echo '
-	<url>
-		<loc>'.$Sitewide_Root.$Sitewide_Forum.'?category='.$Forum_Categories_Fetch['Slug'].'</loc>
-		<lastmod>'.date('Y-m-d', $Forum_Categories_Fetch['Modified']).'</lastmod>
-		<priority>1</priority>
-		<changefreq>daily</changefreq>
-	</url>';
+				if ($Forum_Categories_Count != 0) {
+					while($Forum_Categories_Fetch = mysqli_fetch_assoc($Forum_Categories)) {
+						// Echo out the Item
+						echo '
+		<url>
+			<loc>'.$Sitewide_Root.$Sitewide_Forum.'?category='.$Forum_Categories_Fetch['Slug'].'</loc>
+			<lastmod>'.date('Y-m-d', $Forum_Categories_Fetch['Modified']).'</lastmod>
+			<priority>1</priority>
+			<changefreq>daily</changefreq>
+		</url>';
+					}
 				}
+
 			}
 
 		}
@@ -89,21 +94,26 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		if ($Database['Exists']['Topics']) {
 
 			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
-			if (!$Forum_Topics) echo 'Invalid Query (Forum_Topics): '.mysqli_error($Database['Connection']);
+			if (!$Forum_Topics) {
+				if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Topics): ' . mysqli_error($Database['Connection']);
+				// TODO Handle Error
+			} else {
 
-			$Forum_Topics_Count = mysqli_num_rows($Forum_Topics);
+				$Forum_Topics_Count = mysqli_num_rows($Forum_Topics);
 
-			if ($Forum_Topics_Count != 0) {
-				while($Forum_Topics_Fetch = mysqli_fetch_assoc($Forum_Topics)) {
-					// Echo out the Item
-					echo '
-	<url>
-		<loc>'.$Sitewide_Root.$Sitewide_Forum.'?topic='.$Forum_Topics_Fetch['Slug'].'</loc>
-		<lastmod>'.date('Y-m-d', $Forum_Topics_Fetch['Modified']).'</lastmod>
-		<priority>1</priority>
-		<changefreq>daily</changefreq>
-	</url>';
+				if ($Forum_Topics_Count != 0) {
+					while($Forum_Topics_Fetch = mysqli_fetch_assoc($Forum_Topics)) {
+						// Echo out the Item
+						echo '
+		<url>
+			<loc>'.$Sitewide_Root.$Sitewide_Forum.'?topic='.$Forum_Topics_Fetch['Slug'].'</loc>
+			<lastmod>'.date('Y-m-d', $Forum_Topics_Fetch['Modified']).'</lastmod>
+			<priority>1</priority>
+			<changefreq>daily</changefreq>
+		</url>';
+					}
 				}
+
 			}
 
 		}
