@@ -59,64 +59,84 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					$Block_Check = 'SELECT * FROM `'.$Database['Prefix'].'Failures` WHERE `Mail`=\''.$Login_Mail.'\' AND `Created` > UNIX_TIMESTAMP()-900';
 					$Block_Check = mysqli_query($Database['Connection'], $Block_Check, MYSQLI_STORE_RESULT);
-					if (!$Block_Check) exit('Invalid Query ($Block_Check): '.mysqli_error($Database['Connection']));
+					if ( !$Block_Check ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Block_Check): '.mysqli_error($Database['Connection']);
+						// TODO Handle Error
+					} else {
 
-					$Block_Count = mysqli_num_rows($Block_Check);
+						$Block_Count = mysqli_num_rows($Block_Check);
 
-					if ($Block_Count < 3) {
+						if ($Block_Count < 3) {
 
-						$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
-						$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-						if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
-
-						$Member_Count = mysqli_num_rows($Member_Check);
-						if ($Member_Count == 0) {
-							$Error = 'There is no user registered with that mail.';
-						} else {
-
-							$Member_Fetch = mysqli_fetch_assoc($Member_Check);
-							$Member_ID = $Member_Fetch['ID'];
-							$Member_Name = $Member_Fetch['Name'];
-							$Member_Pass = $Member_Fetch['Pass'];
-							$Member_Salt = $Member_Fetch['Salt'];
-
-							$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
-
-							if ($Login_Hash === $Member_Pass) {
-
-								$Member_Cookie = Generator_String();
-
-								setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/');
-
-								$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
-								$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
-								if (!$Session_New) exit('Invalid Query (Session_New): '.mysqli_error($Database['Connection']));
-
-								// Login Successful
-								if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
-								else header('Location: '.$Sitewide_Account, TRUE, 302);
-								die(); // As in go away.
-
+							$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
+							$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
+							if ( !$Member_Check ) {
+								if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+								// TODO Handle Error
 							} else {
 
-								$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$User_IP.'\', \''.$Time.'\')';
-								$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
-								if (!$Failures_New) exit('Invalid Query (Failures_New): '.mysqli_error($Database['Connection']));
+								$Member_Count = mysqli_num_rows($Member_Check);
+								if ($Member_Count == 0) {
+									$Error = 'There is no user registered with that mail.';
+								} else {
 
-								// TODO Use/Make Session Function
-								setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
-								setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
-								unset($_COOKIE[$Cookie_Session]); // Absolutely
+									$Member_Fetch = mysqli_fetch_assoc($Member_Check);
+									$Member_ID = $Member_Fetch['ID'];
+									$Member_Name = $Member_Fetch['Name'];
+									$Member_Pass = $Member_Fetch['Pass'];
+									$Member_Salt = $Member_Fetch['Salt'];
 
-								$Member_Auth = false;
-								$Member_ID = false;
-								$Error = 'Incorrect Pass.';
+									$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
+
+									if ($Login_Hash === $Member_Pass) {
+
+										$Member_Cookie = Generator_String();
+
+										setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/');
+
+										$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
+										$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
+										if ( !$Session_New ) {
+											if ( $Sitewide_Debug ) echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
+											// TODO Handle Error
+										} else {
+
+											// Login Successful
+											if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
+											else header('Location: '.$Sitewide_Account, TRUE, 302);
+											die(); // As in go away.
+
+										}
+
+									} else {
+
+										$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$User_IP.'\', \''.$Time.'\')';
+										$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
+										if ( !$Failures_New ) {
+											if ( $Sitewide_Debug ) echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
+											// TODO Handle Error
+										} else {
+
+											// TODO Use/Make Session Function
+											setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
+											setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
+											unset($_COOKIE[$Cookie_Session]); // Absolutely
+
+											$Member_Auth = false;
+											$Member_ID = false;
+											$Error = 'Incorrect Pass.';
+
+										}
+
+									}
+								}
 
 							}
+
+						} else {
+							$Error = 'Too many login attempts. You get three every 15 minutes.';
 						}
 
-					} else {
-						$Error = 'Too many login attempts. You get three every 15 minutes.';
 					}
 
 				}
@@ -187,14 +207,19 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Session_End = 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_Cookie.'\' AND `IP`=\''.$User_IP.'\'';
 				$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
-				if (!$Session_End) exit('Invalid Query (Session_End): '.mysqli_error($Database['Connection']));
+				if ( !$Session_End ) {
+					if ( $Sitewide_Debug ) echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
+					// TODO Handle Error
+				} else {
 
-				// TODO Function
-				setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
-				setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
-				unset($_COOKIE[$Cookie_Session]); // Absolutely
+					// TODO Function
+					setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
+					setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
+					unset($_COOKIE[$Cookie_Session]); // Absolutely
 
-				$Member_Auth = $Member_ID = $Member_Admin = false;
+					$Member_Auth = $Member_ID = $Member_Admin = false;
+
+				}
 
 			}
 
@@ -247,30 +272,39 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					// TODO Member_Check Function
 					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Signup_Mail.'\' LIMIT 0, 1';
 					$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-					if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
+					if ( !$Member_Check ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+						// TODO Handle Error
+					} else {
 
-					$Member_Count = mysqli_num_rows($Member_Check);
-					if ($Member_Count == 0) { // Not a member. Register.
+						$Member_Count = mysqli_num_rows($Member_Check);
+						if ($Member_Count == 0) { // Not a member. Register.
 
-						$Member_ID  = Generator_String(12);
+							$Member_ID  = Generator_String(12);
 
-						$Salt = Generator_String();
+							$Salt = Generator_String();
 
-						$Pass_Hash = Pass_Hash($Signup_Pass, $Salt);
+							$Pass_Hash = Pass_Hash($Signup_Pass, $Salt);
 
-						$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time.'\', \''.$Time.'\')';
-						$Member_New = mysqli_query($Database['Connection'], $Member_New, MYSQLI_STORE_RESULT);
-						if (!$Member_New) exit('Invalid Query (Member_New): '.mysqli_error($Database['Connection']));
+							$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time.'\', \''.$Time.'\')';
+							$Member_New = mysqli_query($Database['Connection'], $Member_New, MYSQLI_STORE_RESULT);
+							if ( !$Member_New ) {
+								if ( $Sitewide_Debug ) echo 'Invalid Query (Member_New): '.mysqli_error($Database['Connection']);
+								// TODO Handle Error
+							} else {
 
-						require $Header;
+								require $Header;
 
-						echo '<h2>All Signed Up.</h2>';
-						echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
+								echo '<h2>All Signed Up.</h2>';
+								echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
 
-						require $Footer;
+								require $Footer;
 
-					} else { // Already a member. Sorry..?
-						$Error = 'Sorry, you seem to already be registered. <a href="?login">Log In</a>?';
+							}
+
+						} else { // Already a member. Sorry..?
+							$Error = 'Sorry, you seem to already be registered. <a href="?login">Log In</a>?';
+						}
 					}
 				}
 
@@ -346,10 +380,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Name_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Name`=\''.$Name_New.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
 						$Name_Change = mysqli_query($Database['Connection'], $Name_Change, MYSQLI_STORE_RESULT);
-						if (!$Name_Change) exit('Invalid Query (Name_Change): '.mysqli_error($Database['Connection']));
-
-						header('Location: '.$Sitewide_Account, TRUE, 302);
-						die();
+						if ( !$Name_Change ) {
+							if ( $Sitewide_Debug ) echo 'Invalid Query (Name_Change): '.mysqli_error($Database['Connection']);
+							// TODO Handle Error
+						} else {
+							header('Location: '.$Sitewide_Account, TRUE, 302);
+							die();
+						}
 
 					}
 				} else { // Change Name Form
@@ -398,10 +435,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Pass_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
 						$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);
-						if (!$Pass_Change) exit('Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']));
-
-						header('Location: '.$Sitewide_Account, TRUE, 302);
-						die();
+						if ( !$Pass_Change ) {
+							if ( $Sitewide_Debug ) echo 'Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']);
+							// TODO Handle Error
+						} else {
+							header('Location: '.$Sitewide_Account, TRUE, 302);
+							die();
+						}
 
 					}
 				} else { // Change Pass Form
@@ -447,10 +487,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						$Mail_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Mail`=\''.$Mail_New.'\', `Modified`==\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
 						$Mail_Change = mysqli_query($Database['Connection'], $Mail_Change, MYSQLI_STORE_RESULT);
-						if (!$Mail_Change) exit('Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']));
-
-						header('Location: '.$Sitewide_Account, TRUE, 302);
-						die();
+						if ( !$Mail_Change ) {
+							if ( $Sitewide_Debug ) echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
+							// TODO Handle Error
+						} else {
+							header('Location: '.$Sitewide_Account, TRUE, 302);
+							die();
+						}
 
 					}
 
@@ -510,31 +553,36 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					$Session_End = 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$Get_Cookie.'\'';
 					$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
-					if (!$Session_End) exit('Invalid Query (Session_End): ' . mysqli_error($Database['Connection']));
-
-					echo '<h3>Session Terminated</h3>';
+					if ( !$Session_End ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
+						echo '<h3>Session could not be Terminated</h3>';
+						echo '<h4>It probably doesn\'t exist or doesn\'t belong to you.</h4>';
+					} else echo '<h3>Session Terminated</h3>';
 
 				}
 
 				$Sessions = 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Member_ID`=\''.$Member_ID.'\' AND `Active`=\'1\' AND NOT `Cookie`=\''.$User_Cookie.'\'';
 				$Sessions = mysqli_query($Database['Connection'], $Sessions, MYSQLI_STORE_RESULT);
-				if (!$Sessions) exit('Invalid Query (Sessions): ' . mysqli_error($Database['Connection']));
-
-				$Sessions_Count = mysqli_num_rows($Sessions);
-				if ($Sessions_Count == 0) {
-					echo '<h3>No other active sessions.</h3>';
+				if ( !$Session ) {
+					if ( $Sitewide_Debug ) echo 'Invalid Query (Session): '.mysqli_error($Database['Connection']);
+					// TODO Handle Error
 				} else {
-					while ($Sessions_Fetch = mysqli_fetch_assoc($Sessions)) {
-					 	echo '<p>Login';
-					 	if (!empty($Sessions_Fetch['IP'])) {
-					 		echo ' from ';
-					 		if (function_exists('geoip_country_name_by_name')) {
-					 			echo geoip_country_name_by_name($Sessions_Fetch['IP']);
-					 		} else {
-					 			echo $Sessions_Fetch['IP'];
-					 		}
-					 	}
-					 	echo ' at '.date('G:i, jS F Y', $Sessions_Fetch['Created']).' <a class="floatright" href="?sessions&cookie=' . $Sessions_Fetch['Cookie'] . '">Terminate</a></p>';
+					$Sessions_Count = mysqli_num_rows($Sessions);
+					if ($Sessions_Count == 0) {
+						echo '<h3>No other active sessions.</h3>';
+					} else {
+						while ($Sessions_Fetch = mysqli_fetch_assoc($Sessions)) {
+						 	echo '<p>Login';
+						 	if (!empty($Sessions_Fetch['IP'])) {
+						 		echo ' from ';
+						 		if (function_exists('geoip_country_name_by_name')) {
+						 			echo geoip_country_name_by_name($Sessions_Fetch['IP']);
+						 		} else {
+						 			echo $Sessions_Fetch['IP'];
+						 		}
+						 	}
+						 	echo ' at '.date('G:i, jS F Y', $Sessions_Fetch['Created']).' <a class="floatright" href="?sessions&cookie=' . $Sessions_Fetch['Cookie'] . '">Terminate</a></p>';
+						}
 					}
 				}
 
@@ -579,12 +627,17 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							$Reset = 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'';
 							$Reset = mysqli_query($Database['Connection'], $Reset, MYSQLI_STORE_RESULT);
-							if (!$Reset) exit('Invalid Query (Reset): '.mysqli_error($Database['Connection']));
+							if ( !$Reset ) {
+								if ( $Sitewide_Debug ) echo 'Invalid Query (Reset): '.mysqli_error($Database['Connection']);
+								// TODO Handle Error
+							} else {
 
-							Runonce_Delete($Key, $Key_Info['Member_ID']);
+								Runonce_Delete($Key, $Key_Info['Member_ID']);
 
-							echo '<h2>Password Reset Successfully</h2>';
-							echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
+								echo '<h2>Password Reset Successfully</h2>';
+								echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
+
+							}
 
 						} else { // Reset Password Form
 							?>
@@ -623,44 +676,49 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					// TODO Member_Check Function
 					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
 					$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-					if (!$Member_Check) exit('Invalid Query (Member_Check): '.mysqli_error($Database['Connection']));
-
-					$Member_Count = mysqli_num_rows($Member_Check);
-					if ($Member_Count == 0) {
-						echo '
-						<h2>Error: There is no user registered with that mail.</h2>
-						<h3><a href="?reset">Try again</a></h3>';
+					if ( !$Member_Check ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+						// TODO Handle Error
 					} else {
 
-						$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
-						$Member_ID = $Fetch_Member['ID'];; // Number
-						$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
+						$Member_Count = mysqli_num_rows($Member_Check);
+						if ($Member_Count == 0) {
+							echo '
+							<h2>Error: There is no user registered with that mail.</h2>
+							<h3><a href="?reset">Try again</a></h3>';
+						} else {
 
-						if (isset($Browning) && $Browning) {
+							$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
+							$Member_ID = $Fetch_Member['ID'];; // Number
+							$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
 
-							// Create a single-use key with a 1 hour timeout for resetting the password.
-							$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
+							if (isset($Browning) && $Browning) {
 
-							require_once $Lib_Browning_Send;
+								// Create a single-use key with a 1 hour timeout for resetting the password.
+								$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
 
-							$Mail_Response = Browning_Send(
-								$Reset_Mail,
-								'Password Reset',
-								'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
-							);
+								require_once $Lib_Browning_Send;
 
-							if ($Mail_Response) {
-								echo '
-								<h2>A Password Reset has been initiated.</h2>
-								<h3>Please check your email.</h3>';
+								$Mail_Response = Browning_Send(
+									$Reset_Mail,
+									'Password Reset',
+									'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
+								);
+
+								if ($Mail_Response) {
+									echo '
+									<h2>A Password Reset has been initiated.</h2>
+									<h3>Please check your email.</h3>';
+								} else {
+									echo '
+									<h2>Error: Unable to send reset mail.</h2>
+									<h3><a href="?reset">Try again</a></h3>';
+								}
 							} else {
 								echo '
-								<h2>Error: Unable to send reset mail.</h2>
-								<h3><a href="?reset">Try again</a></h3>';
+								<h2>Sorry, the administrator has not configured password resets.</h2>';
 							}
-						} else {
-							echo '
-							<h2>Sorry, the administrator has not configured password resets.</h2>';
+
 						}
 
 					}
@@ -712,13 +770,18 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					$Member_Delete = 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
 					$Member_Delete = mysqli_query($Database['Connection'], $Member_Delete, MYSQLI_STORE_RESULT);
-					if (!$Member_Delete) exit('Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
+					if ( !$Member_Delete ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']);
+						// TODO Handle Error
+					} else {
 
-					Runonce_Delete($Key, $Member_ID);
+						Runonce_Delete($Key, $Member_ID);
 
-					echo '
-					<h2>User Deleted</h2>
-					<h3>You no longer exist. Bye.</h3>';
+						echo '
+						<h2>User Deleted</h2>
+						<h3>You no longer exist. Bye.</h3>';
+
+					}
 
 				} else {
 					echo '
