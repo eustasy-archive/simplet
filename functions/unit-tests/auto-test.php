@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Simplet Unit-Test Auto-Tester</title>
-		<script src="https://cdn.jsdelivr.net/g/prefixfree,jquery,tablesorter,jquery.leanmodal"></script>
+		<script src="https://cdn.jsdelivr.net/g/prefixfree,jquery,tablesorter,jquery.leanmodal2"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/g/normalize,colors.css">
 		<style>
 			body {
