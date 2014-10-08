@@ -409,8 +409,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			</div>\
 			<div class="section group response ' + data.id + '" id="response_' + data.id + '">\
 				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/<?php echo md5($Member_Mail); ?>?s=128&d=identicon"></div>\
-
-					<?php
+				<?php
 					if ($Helpfulness_Show) {
 						echo '<div class="col span_8_of_12">\
 					\' + data.post + \'\
@@ -428,11 +427,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			</div>\';
 ';
 						} else {
-							echo '\
-			<div class="col span_10_of_12">\
-				\' + data.post + \'\
-			</div>\
-		</div>\';
+							echo '<div class="col span_10_of_12">\
+					\' + data.post + \'\
+				</div>\
+			</div>\';
 ';
 						}
 						?>

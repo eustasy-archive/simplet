@@ -15,7 +15,7 @@
 	$Post_Type = 'Blog Index';
 	$Post_Category = '';
 
-	require_once __DIR__.'/../../request.php';
+	require_once __DIR__.'/../../simplet/request.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
 	require '../../header.php';
@@ -46,13 +46,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			<div class="col span_5_of_11 widget trending">
 				<h3>Trending</h3>';
 
-				$Trending = Trending(basename(__FILE__));
+				$Trending = Views_Trending(basename(__FILE__));
 				foreach ($Trending as $Trending_Canonical => $Trending_Count) {
-					if (substr($Trending_Canonical, -1) == '/') {
-						require $Trending_Canonical.'index.php';
-					} else {
-						require $Trending_Canonical.'.php';
-					}
+					if (substr($Trending_Canonical, -1) == '/') include $Broadcast.$Trending_Canonical.'index.php';
+					else include $Broadcast.$Trending_Canonical.'.php';
 					echo '
 				<p class="textcenter"><a href="'.$Sitewide_Root.$Trending_Canonical.'">'.$Title_HTML.'</a></p>';
 				}

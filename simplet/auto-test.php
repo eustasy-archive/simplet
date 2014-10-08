@@ -145,15 +145,7 @@
 				}
 <?php
 	// Get a list of the tests.
-	$Tests = glob('*.php');
-	// Set Blacklist
-	$Blacklist = array('auto-test.php', 'initialize.php');
-	// Remove blacklisted values.
-	foreach ($Blacklist as $Value) {
-		if(($Key = array_search($Value, $Tests)) !== false) {
-			unset($Tests[$Key]);
-		}
-	}
+	$Tests = glob('unit-tests/*.php');
 	$Load = '				var load = [';
 	// For each test
 	foreach ($Tests as $Key => $Value) {

@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__.'/initialize.php';
-include_once __DIR__.'/../forum.category.check.php';
+include_once __DIR__.'/../auto-test_initialize.php';
+include_once __DIR__.'/../functions/forum.category.check.php';
 $Return['Name'] = 'Forum Category Check';
 $Return['Status'] = 'Failure';
 
@@ -79,4 +79,4 @@ $Category_Delete = 'DELETE FROM `'.$Database['Prefix'].'Categories` WHERE `Slug`
 $Category_Delete = mysqli_query($Database['Connection'], $Category_Delete, MYSQLI_STORE_RESULT);
 if ( !$Category_Delete ) array_push($Return['Errors'], 'Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
 
-API_Output($Return);
+echo API_Output($Return);

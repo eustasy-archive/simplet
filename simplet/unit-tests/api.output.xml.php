@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__.'/initialize.php';
-include_once __DIR__.'/../api.output.xml.php';
+include_once __DIR__.'/../auto-test_initialize.php';
+include_once __DIR__.'/../functions/api.output.xml.php';
 $Return['Name'] = 'API Output XML';
 $Return['Status'] = 'Success';
 
@@ -12,5 +12,5 @@ else {
 	$Return['Status'] = 'Failure';
 	$Return['Errors'] = array();
 	array_push($Return['Errors'], 'Functions returned false.');
-	API_Output($Return);
+	echo API_Output($Return);
 }

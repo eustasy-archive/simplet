@@ -15,7 +15,7 @@
 	$Post_Type = 'Forum';
 	$Post_Category = '';
 
-	require_once __DIR__.'/../request.php';
+	require_once __DIR__.'/../simplet/request.php';
 
 if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['path'].$Canonical) {
 	$Header = '../header.php';

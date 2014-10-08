@@ -15,7 +15,7 @@
 	$Post_Type = 'Page';
 	$Post_Category = '';
 	
-	require_once __DIR__.'/../request.php';
+	require_once __DIR__.'/../simplet/request.php';
 	
 if ($Request['path'] === $Place['path'].$Canonical) {
 	require '../header.php';

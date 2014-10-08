@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__.'/initialize.php';
-include_once __DIR__.'/../database.table.exists.php';
+include_once __DIR__.'/../auto-test_initialize.php';
+include_once __DIR__.'/../functions/database.table.exists.php';
 $Return['Name'] = 'Database Table Exists';
 $Return['Status'] = 'Failure';
 
@@ -18,4 +18,4 @@ if ( $Check_True && !$Check_False ) {
 	if ( $Check_False ) $Return['Errors']['NOTATABLE'] = 'Database_Table_Exists Function returned true when it should be false.';
 }
 
-API_Output($Return);
+echo API_Output($Return);

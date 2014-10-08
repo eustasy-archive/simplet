@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__.'/initialize.php';
-include_once __DIR__.'/../time.readable.difference.php';
+include_once __DIR__.'/../auto-test_initialize.php';
+include_once __DIR__.'/../functions/time.readable.difference.php';
 $Return['Name'] = 'Time Readable Difference';
 $Return['Status'] = 'Failure';
 
@@ -49,4 +49,4 @@ if (
 	// array_push($Return['Errors'], 'Check returned false.');
 }
 
-API_Output($Return);
+echo API_Output($Return);

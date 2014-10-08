@@ -20,8 +20,8 @@ if (!defined('PATH_SEPARATOR')) {
 
 
 // Set Include_Path
-$Include_Path = get_include_path().PATH_SEPARATOR.__DIR__.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'broadcast'.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'public_html';
-set_include_path($Include_Path);
+$Include_Path = __DIR__.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'simplet'.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'broadcast'.PATH_SEPARATOR.__DIR__.DIRECTORY_SEPARATOR.'public_html'.PATH_SEPARATOR.get_include_path();
+$Broadcast = __DIR__.'/../broadcast/';
 
 
 
@@ -55,7 +55,7 @@ $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 
 require 'onces/connect.php';
 require 'onces/isauth.php';
 
-require 'libs/Parsedown.php';
+include __DIR__.'/../libs/Parsedown.php';
 
 require 'functions/globrecursive.php';
 

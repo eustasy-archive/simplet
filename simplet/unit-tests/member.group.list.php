@@ -1,7 +1,7 @@
 <?php
 
-include_once __DIR__.'/initialize.php';
-include_once __DIR__.'/../member.group.list.php';
+include_once __DIR__.'/../auto-test_initialize.php';
+include_once __DIR__.'/../functions/member.group.list.php';
 $Return['Name'] = 'Member Group List';
 $Return['Status'] = 'Failure';
 
@@ -24,4 +24,4 @@ $Member_Delete = 'DELETE FROM `'.$Database['Prefix'].'Members` WHERE `ID` LIKE \
 $Member_Delete = mysqli_query($Database['Connection'], $Member_Delete, MYSQLI_STORE_RESULT);
 if ( !$Member_Delete ) array_push($Return['Errors'], 'Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']));
 
-API_Output($Return);
+echo API_Output($Return);

@@ -2,7 +2,7 @@
 
 $Database = array();
 
-include_once '../config.database.php';
+include_once __DIR__.'/../config.database.php';
 
 if(
 	!empty($Database['Host']) &&
@@ -10,16 +10,16 @@ if(
 	!empty($Database['Pass']) &&
 	!empty($Database['Name'])
 ) {
-	
+
 	$Database['Connection'] = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
-	
+
 	if ( !$Database['Connection'] ) {
 		$Database['Error'] = 'Connection Failed. Check your configuration is correct. '.mysqli_connect_error($Database['Connection']);
 		$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
 	} else {
-		
+
 		$Database['Error'] = false;
-		
+
 		require __DIR__.'/../functions/database.table.exists.php';
 		$Database['Exists'] = array();
 		$Database['Exists']['Members'] = Database_Table_Exists('Members');
@@ -32,7 +32,7 @@ if(
 		$Database['Exists']['Responses'] = Database_Table_Exists('Responses');
 		$Database['Exists']['Helpfulness'] = Database_Table_Exists('Helpfulness');
 		$Database['Exists']['Views'] = Database_Table_Exists('Views');
-		
+
 		if (
 			$Database['AutoInstall'] &&
 			(
@@ -47,20 +47,20 @@ if(
 				!$Database['Exists']['Views']
 			)
 		) require 'autoinstall.php';
-		
+
 	}
-	
+
 } else {
-	
+
 	$Database['Connection'] = false;
 	$Database['Error'] = 'Error(s): ';
 	if (empty($Database['Host'])) $Database['Error'] .= 'No Database Host Configured. ';
 	if (empty($Database['User'])) $Database['Error'] .= 'No Database User Configured. ';
 	if (empty($Database['Pass'])) $Database['Error'] .= 'No Database Pass Configured. ';
 	if (empty($Database['Name'])) $Database['Error'] .= 'No Database Name Configured. ';
-	
+
 	$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
-	
+
 }
 
 // TODO
