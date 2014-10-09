@@ -84,7 +84,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			<div class="col span_1_of_11"><br></div>
 			<div class="col span_5_of_11">
 				<h3><a href="security/levels">Secuirty Levels</a></h3>
-				<p>Security Levels define <!-- TODO --></p>
+				<p>Security Levels define how much damage an attack seems to cause, ranging from Level 5 (previously fixed issues), to Level 1 (changing passwords or modifying the site). A higher security level means less damage, with bounties only going to the lowest levels, 1 and 2.</p>
+				<p class="textright"><a href="security/levels">Read More &raquo;</a></p>
+				<p>Responsible Disclosure is all about fixing the secuirty issues in software in a way that does not jeopardise the security of current installations.</p>
+				<p class="textright"><a href="security/responsible-disclosure">Read More &raquo;</a></p>
 			</div>
 		</div>
 
