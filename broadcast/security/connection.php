@@ -24,10 +24,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	<h2>Connection</h2>
 
 	<h3>SSL &amp; TLS</h3>
+	<a href="https://www.ssllabs.com/ssltest/analyze.html?d=security.simplet.eustasy.org">https://www.ssllabs.com/ssltest/analyze.html?d=security.simplet.eustasy.org</a>
 
 	<h3>SPDY</h3>
+	<a href="http://spdycheck.org/#security.simplet.eustasy.org">http://spdycheck.org/#security.simplet.eustasy.org</a>
 
 	<h3>IPv6</h3>
+	<a href="http://ipv6-test.com/validate.php?url=security.simplet.eustasy.org&scheme=https">http://ipv6-test.com/validate.php?url=security.simplet.eustasy.org&scheme=https</a>
 
 	<?php
 	Responses();
