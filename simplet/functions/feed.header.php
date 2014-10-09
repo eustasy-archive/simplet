@@ -8,14 +8,11 @@
 // Categories('exclude-this-canonical');
 
 function Feed_Header($URL) {
-	
+
 	global $Sitewide_Root, $Sitewide_Tagline, $Sitewide_Title;
-	
-	// Send the right header for an RSS Feed
-	header('Content-Type: application/rss+xml');
-	
+
 	// Set the doctype and some basic information
-	echo '<?xml version="1.0" encoding="utf-8"?>
+	return '<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<atom:link href="'.$Sitewide_Root.$URL.'" rel="self" type="application/rss+xml" />
@@ -24,7 +21,5 @@ function Feed_Header($URL) {
 		<link>'. $Sitewide_Root.'</link>
 		<language>en</language>
 		<generator>Simplet</generator>';
-	
-	return true;
-	
+
 }

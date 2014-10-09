@@ -6,7 +6,7 @@ include_once __DIR__.'/../functions/blog.categories.php';
 $Return['Name'] = 'Blog Categories';
 $Return['Status'] = 'Pending';
 
-// $Return = Blog_Categories('blog.categories.php');
+// $Return = Blog_Categories(__DIR__);
 array_push($Return['Errors'], 'Calling Blog Categories doesn\'t work on external locations yet. As such, it is not suitable for a Unit Test.');
 
 echo API_Output($Return);

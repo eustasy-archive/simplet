@@ -88,6 +88,7 @@
 		<header>
 			<h1 class="align-center">Simplet Unit-Test Auto-Tester</h1>
 			<h2 class="js-target-count-success align-center color-asbestos display-none"></h2>
+			<h2 class="js-target-count-pending align-center color-asbestos display-none"></h2>
 			<h2 class="js-target-count-failures align-center color-asbestos display-none"></h2>
 			<h2 class="js-target-count-loadfailures align-center color-asbestos display-none"></h2>
 		</header>
@@ -106,7 +107,7 @@
 		<script>
 			$(function() {
 				var i = 0;
-				var success = failures = loadfailures = 0;
+				var success = pending = failures = loadfailures = 0;
 				var toAppend = modalAppend = data = false;
 				var sorting = [[0,0]];
 				$('table').tablesorter({ sortForce: sorting });
@@ -187,9 +188,40 @@
 								toAppend += '\
 			</tr>';
 								// Update Counter
-								success += 1;
+								success++;
 								if ( success > 1 ) $('.js-target-count-success').text(success + ' Successes');
 								else $('.js-target-count-success').text('1 Success').removeClass('display-none');
+							} else if ( data.Status == 'Pending') {
+								// Pending
+								toAppend = '\
+			<tr class="top">';
+								if ( data.Name ) toAppend += '\
+				<td class="align-left">' + data.Name + '</td>';
+								else toAppend += '\
+				<td class="align-left">' + load[i] + '</td>';
+								if ( data.Status ) toAppend += '\
+				<td class="align-center background-orange color-white pad-10">' + data.Status + '</td>';
+								else toAppend += '\
+				<td class="align-center background-orange color-white pad-10">Failure</td>';
+								if ( data.Errors.length > 0 ) {
+									var errors = syntaxHighlight(JSON.stringify(data.Errors));
+									toAppend += '\
+				<td class="align-center background-belize-hole color-white expand" href="#modal_' + i + '">\
+					+\
+				</td>';
+									modalAppend = '\
+				<div id="modal_' + i + '" class="expandable display-none">\
+					<code>' + errors + '</code>\
+				</div>';
+								} else toAppend += '\
+				<td></td>';
+								toAppend += '\
+			</tr>';
+								// Update Counter
+								pending++;
+								console.log(pending);
+								if ( pending > 1 ) $('.js-target-count-pending').text(pending + ' Pending');
+								else $('.js-target-count-pending').text('1 Pending').removeClass('display-none');
 							} else {
 								// Error
 								toAppend = '\
@@ -217,7 +249,7 @@
 								toAppend += '\
 			</tr>';
 								// Update Counter
-								failures += 1;
+								failures++;
 								if ( failures > 1 ) $('.js-target-count-failures').text(failures + ' Failures');
 								else $('.js-target-count-failures').text('1 Failures').removeClass('display-none');
 							}
@@ -231,7 +263,7 @@
 				<td class="align-center background-pomegranate color-white pad-10">Load Failure</td>\
 			</tr>';
 						// Update Counter
-						loadfailures += 1;
+						loadfailures++;
 						if ( loadfailures > 1 ) $('.js-target-count-loadfailures').text(loadfailures + ' Load Failures');
 						else $('.js-target-count-loadfailures').text('1 Load Failures').removeClass('display-none');
 						autoDone();
