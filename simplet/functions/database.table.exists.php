@@ -10,6 +10,8 @@ function Database_Table_Exists($Table_Name, $AddPrefix = true) {
 
 	global $Database;
 
+	include __DIR__.'/../config.database.php';
+
 	// Assemble the Query
 	$Database_Table_Exists_Query = 'SELECT * FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA`=\''.$Database['Name'].'\' AND `TABLE_NAME`=\'';
 	if ( $AddPrefix ) $Database_Table_Exists_Query .= $Database['Prefix'];
