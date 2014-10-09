@@ -133,9 +133,9 @@ function Forum_Topics() {
 							else echo '0';
 							echo '<span></p></div>
 								<div class="col span_2_of_12 textcenter"><p><span>';
-							if (isset($Responses_Prefetch_Modified[$Topics_Slug]) && $Responses_Prefetch_Modified[$Topics_Slug] > $Topics_Modified) echo date('d M, Y', $Responses_Prefetch_Modified[$Topics_Slug]);
-							else echo date('d M, Y', $Topics_Modified);
-							echo '</span></p></div>
+							if (isset($Responses_Prefetch_Modified[$Topics_Slug]) && $Responses_Prefetch_Modified[$Topics_Slug] > $Topics_Modified) $Topic_Timestamp = Time_Readable_Difference($Responses_Prefetch_Modified[$Topics_Slug]);
+							else $Topic_Timestamp = Time_Readable_Difference($Topics_Modified);
+							echo $Topic_Timestamp['Prefered'].'</span></p></div>
 							</a>';
 
 						}

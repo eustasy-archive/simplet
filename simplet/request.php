@@ -102,6 +102,8 @@ require 'functions/runonce.check.php';
 require 'functions/runonce.used.php';
 require 'functions/runonce.delete.php';
 
+require 'functions/time.readable.difference.php';
+
 // Count View
 // Forums have Categories and Topics, and should be counted later.
 if ($Post_Type !== 'Forum') Views_Count();

@@ -198,8 +198,12 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						if ($Responses_Store_Name === 'Deactivated') echo ' faded';
 						echo '"><p>'.$Responses_Store_Name.'</p></div>
 				<div class="col span_10_of_12 textright"><p>';
-						if ($Responses_Modified > $Responses_Created) echo '<span class="faded edited-time">edited '.date('d M, Y H:i', $Responses_Modified).' &nbsp;&middot;&nbsp; </span>';
-						echo date('d M, Y H:i', $Responses_Created).'</p></div>
+						if ($Responses_Modified > $Responses_Created) {
+							$Responses_Modified = Time_Readable_Difference($Responses_Modified);
+							echo '<span class="faded edited-time">edited '.$Responses_Modified['Prefered'].' &nbsp;&middot;&nbsp; </span>';
+						}
+						$Responses_Created = Time_Readable_Difference($Responses_Created);
+						echo $Responses_Created['Prefered'].'</p></div>
 			</div>
 			<div class="section group response '.$Responses_ID.'" id="response_'.$Responses_ID.'">
 				<div class="col span_2_of_12"><img class="avatar" src="'.$Responses_Store_Avatar.'"></div>';
@@ -405,7 +409,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						var toAppend = '\
 			<div class="section group darkrow" id="header_' + data.id + '">\
 				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
-				<div class="col span_10_of_12 textright"><p><?php echo date('d M, Y H:i', $Time); ?></p></div>\
+				<div class="col span_10_of_12 textright"><p>Now</p></div>\
 			</div>\
 			<div class="section group response ' + data.id + '" id="response_' + data.id + '">\
 				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/<?php echo md5($Member_Mail); ?>?s=128&d=identicon"></div>\

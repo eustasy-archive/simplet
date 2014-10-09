@@ -116,6 +116,9 @@ function Forum_Categories() {
 						if ( $Category_Status == 'Private' ) echo ' private';
 
 						// Echo the Item
+
+
+						$Category_Timestamp = Time_Readable_Difference($Category_Fetch['Modified']);
 						echo '">
 							<div class="col span_1_of_12"><li class="icon unread"></li></div>
 							<div class="col span_7_of_12">
@@ -123,7 +126,7 @@ function Forum_Categories() {
 								<p>'.$Category_Fetch['Description'].'</p>
 							</div>
 							<div class="col span_2_of_12 textcenter"><p><span>'.number_format($Category_Fetch['Topics']).'<span></p></div>
-							<div class="col span_2_of_12 textcenter"><p><span>'.date('d M, Y', $Category_Fetch['Modified']).'</span></p></div>
+							<div class="col span_2_of_12 textcenter"><p><span>'.$Category_Timestamp['Prefered'].'</span></p></div>
 						</a>';
 
 					} // WHILECATEGORIES
