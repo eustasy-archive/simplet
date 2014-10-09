@@ -50,6 +50,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	</div>
 
 	<div class="content spanpage" style="background-image: url('assets/images/Mountains_by_JamesPickles.jpg');">
+		<h1 class="textcenter color-white">Things you can hack</h1>
 		<div class="section group">
 			<div class="col span_5_of_11">
 				<div class="bubble equalize">

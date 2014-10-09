@@ -12,7 +12,7 @@
 	// This is the Base URL of your Site
 	// Do include a trailing slash
 	// Do include a http:// or https://
-	$Sitewide_Root = 'http://localhost/security/broadcast/';
+	$Sitewide_Root = 'https://security.simplet.eustasy.org/';
 	// $Sitewide_Root = 'http://example.com/';
 	// $Sitewide_Root = 'https://something.000space.com/';
 
