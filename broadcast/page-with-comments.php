@@ -22,7 +22,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	?>
 
 	<h2>A Page with Comments</h2>
-	<p>This is a Page with Comments powered by Markdown.</p>
+	<p class="textcenter">This is a Page with Comments powered by Markdown.</p>
+	<p class="textcenter faded">Try to comment without logging in, or modify or delete a users comment.</p>
+	<p class="textcenter faded">You can also try to break out of the comments area, like running a JavaScript alert on the page.</p>
 
 	<?php
 	Responses();

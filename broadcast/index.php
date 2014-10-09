@@ -21,14 +21,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	require '../header.php';
 	?>
 
-	<div class="content spanpage wild">
-		<a href="https://github.com/eustasy/simplet">
-			<img src="assets/images/forkme.png" alt="Simplet on GitHub" class="tr-banner">
+	<div class="content spanpage" style="background-image: url('assets/images/Blueprint.jpg');">
+		<a href="https://github.com/eustasy/simplet/tree/security">
+			<img src="assets/images/forkme.png" alt="Simplet Security on GitHub" class="tr-banner">
 		</a>
 		<div class="bubble">
-			<h3>a simple, modular, community framework written in php</h3>
+			<h3><?php echo $Sitewide_Tagline; ?></h3>
 			<hr>
-			<p class="italic faded textcenter">with members, comments, reviews and forums built in</p>
+			<p class="italic faded textcenter">Help test a system with thousands of users by trying to break into it.</p>
 		</div>
 		<!--<div class="credit"><p>Background by <a href="http://creditlink.com/">Person</a></p></div>-->
 		<div class="clear"></div>
@@ -36,36 +36,36 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	<div class="content">
 		<div class="section group">
-			<div class="col span_1_of_2">
-				<h3>About</h3>
-				<p>Simplet is a small, simple, Content Management System designed for use on Linux/Nginx/PHP5-FPM stacks with MySQL-like database systems (we prefer <a href="http://mariadb.org">MariaDB</a>) that includes a basic membership system, blog and forum options plus a nice default responsive template for you to build on.</p>
-				<p>It aims to extend the HTML5 Boilerplates by building one directly into a PHP Framework all of its own.</p>
+			<div class="col span_5_of_11">
+				<h3 class="textleft">Simplet</h3>
+				<p>Simplet is a simple, modular, community framework and member management system written in PHP, and is designed for use on designed for use on Linux/Nginx/PHP5-FPM stacks with MySQL-like database systems (we prefer <a href="http://mariadb.org">MariaDB</a>). While used prominently as a backend for <a href="http://eustasy.org">eustasy</a> projects, it has escaped serious security auditing thus far.</p>
+				<h4>That changes now.</h4>
 			</div>
-			<div class="col span_1_of_2">
-				<h3>Pieces</h3>
-				<h3><a href="<?php echo $Sitewide_Root; ?>/blog/">Blog</a></h3>
-				<h3><a href="<?php echo $Sitewide_Root; ?>/forum/">Forum</a></h3>
-				<h3><a href="<?php echo $Sitewide_Root; ?>/account/">Members</a></h3>
+			<div class="col span_1_of_11"><br></div>
+			<div class="col span_5_of_11">
+				<h3>Get to Work</h3>
+				<p><!-- TODO --></p>
 			</div>
 		</div>
 	</div>
 
-	<div class="content spanpage sunset">
+	<div class="content spanpage" style="background-image: url('assets/images/Mountains_by_JamesPickles.jpg');">
 		<div class="section group">
 			<div class="col span_5_of_11">
 				<div class="bubble equalize">
-					<h3>Responsive</h3>
-					<p>Try resizing the page. Did you do it? See how cool these columns are, how they just drop down into place. That makes this website work on any screen down to 320px wide. That's about the size of the smallest phone screen with internet.</p>
+					<h2>Protected</h2>
+					<h3><a href="<?php echo $Sitewide_Root; ?>administration">Administration</a></h3>
+					<h3><a href="<?php echo $Sitewide_Root; ?>protected-page">Protected (Members Only)</a></h3>
+					<h3><a href="<?php echo $Sitewide_Root; ?>forum">Forum with Private Category</a></h3>
 				</div>
 			</div>
 			<div class="col span_1_of_11"><br></div>
 			<div class="col span_5_of_11">
 				<div class="bubble equalize">
-					<h3>Responses</h3>
-					<blockquote class="tiny">
-						<p>Who are you? How did you get in my house?</p>
-					</blockquote>
-					<p class="italic faded textright">Stanford Algorithms Expert, <a href="http://xkcd.com/163/">Donald Knuth</a></p>
+					<h2>Responses</h2>
+					<h3><a href="<?php echo $Sitewide_Root; ?>product">Product with Ratings</a></h3>
+					<h3><a href="<?php echo $Sitewide_Root; ?>page-with-comments">Page with Comments</a></h3>
+					<h3><a href="<?php echo $Sitewide_Root; ?>forum">Forum with Topics & Posts</a></h3>
 				</div>
 			</div>
 		</div>
@@ -74,13 +74,17 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	<div class="content">
 		<div class="section group">
-			<div class="col span_1_of_2">
-				<h3></h3>
-				<p></p>
+			<div class="col span_5_of_11">
+				<blockquote class="twitter-tweet" lang="en">
+					<img src="https://pbs.twimg.com/media/Bzg6G4-CMAAjjdF.png:large">
+					<p>It&#39;s National Cyber Security Awareness Month. Stay tuned for daily security tips from Google Apps. <a href="https://twitter.com/hashtag/ncsam?src=hash">#ncsam</a> <a href="http://t.co/Erly71RTDX">pic.twitter.com/Erly71RTDX</a></p>&mdash; Google for Work (@GoogleforWork) <a href="https://twitter.com/GoogleforWork/status/520229647548944384">October 9, 2014</a>
+				</blockquote>
+				<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 			</div>
-			<div class="col span_1_of_2">
-				<h3>Download</h3>
-				<p>
+			<div class="col span_1_of_11"><br></div>
+			<div class="col span_5_of_11">
+				<h3><a href="security/levels">Secuirty Levels</a></h3>
+				<p>Security Levels define <!-- TODO --></p>
 			</div>
 		</div>
 

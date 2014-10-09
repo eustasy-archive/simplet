@@ -1,18 +1,18 @@
 <?php
 
 	// Site Configuration
-	$Sitewide_Debug = true;
+	$Sitewide_Debug = false;
 
 	// This is the Title of your Site
-	$Sitewide_Title = 'The Title of your Site';
+	$Sitewide_Title = 'Simplet Security';
 
 	// And the tagline
-	$Sitewide_Tagline = 'The Tagline of your site.';
+	$Sitewide_Tagline = 'Security testing on Simplet for NCSAM.';
 
 	// This is the Base URL of your Site
 	// Do include a trailing slash
 	// Do include a http:// or https://
-	$Sitewide_Root = 'http://localhost/simplet/broadcast/';
+	$Sitewide_Root = 'http://localhost/security/broadcast/';
 	// $Sitewide_Root = 'http://example.com/';
 	// $Sitewide_Root = 'https://something.000space.com/';
 
@@ -57,7 +57,6 @@
 	// Eg. 'Pending' to hold all replies for moderation.
 	// Not used if $Forum_Reply_Inherit is set to true.
 	$Forum_Reply_Default = 'Pending';
-
 	$Response_Status_Reviews = 'Pending';
 	$Response_Status_Comments = 'Pending';
 
