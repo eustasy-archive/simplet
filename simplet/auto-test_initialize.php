@@ -26,16 +26,17 @@ $Database['Connection'] = mysqli_connect($Database['Host'], $Database['User'], $
 $Database['Error'] = false;
 include_once __DIR__.'/functions/database.table.exists.php';
 $Database['Exists'] = array();
-$Database['Exists']['Members'] = Database_Table_Exists('Members');
-$Database['Exists']['Sessions'] = Database_Table_Exists('Sessions');
-$Database['Exists']['Failures'] = Database_Table_Exists('Failures');
-$Database['Exists']['Runonce'] = Database_Table_Exists('Runonce');
-$Database['Exists']['Settings'] = Database_Table_Exists('Settings');
-$Database['Exists']['Categories'] = Database_Table_Exists('Categories');
-$Database['Exists']['Topics'] = Database_Table_Exists('Topics');
-$Database['Exists']['Responses'] = Database_Table_Exists('Responses');
-$Database['Exists']['Helpfulness'] = Database_Table_Exists('Helpfulness');
-$Database['Exists']['Views'] = Database_Table_Exists('Views');
+$Database['Exists']['Members'] = Database_Table_Exists('UNIT_TESTS_Members', false);
+$Database['Exists']['Sessions'] = Database_Table_Exists('UNIT_TESTS_Sessions', false);
+$Database['Exists']['Failures'] = Database_Table_Exists('UNIT_TESTS_Failures', false);
+$Database['Exists']['Runonce'] = Database_Table_Exists('UNIT_TESTS_Runonce', false);
+$Database['Exists']['Settings'] = Database_Table_Exists('UNIT_TESTS_Settings', false);
+$Database['Exists']['Categories'] = Database_Table_Exists('UNIT_TESTS_Categories', false);
+$Database['Exists']['Topics'] = Database_Table_Exists('UNIT_TESTS_Topics', false);
+$Database['Exists']['Responses'] = Database_Table_Exists('UNIT_TESTS_Responses', false);
+$Database['Exists']['Helpfulness'] = Database_Table_Exists('UNIT_TESTS_Helpfulness', false);
+$Database['Exists']['Views'] = Database_Table_Exists('UNIT_TESTS_Views', false);
+$Database['Prefix'] = 'UNIT_TESTS_';
 if (
 	!$Database['Exists']['Members'] ||
 	!$Database['Exists']['Sessions'] ||
@@ -47,5 +48,4 @@ if (
 	!$Database['Exists']['Helpfulness'] ||
 	!$Database['Exists']['Views']
 ) include_once __DIR__.'/onces/autoinstall.php';
-
 include_once __DIR__.'/functions/api.output.php';
