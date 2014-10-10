@@ -44,7 +44,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			<div class="col span_1_of_11"><br></div>
 			<div class="col span_5_of_11">
 				<h3>Get to Work</h3>
-				<p><!-- TODO --></p>
+				<p>If you want to help try to find security flaws in Simplet, you'll need to go through some basic steps, and maybe set up your own environment. This short guide gives you a few good starting places. You'll probably want a LEMP stack too. You can locally host your own virtual machine, or use a service like <a href="https://www.digitalocean.com/?refcode=eca8f5e3972c">Digital Ocean</a>. ($5/month servers!)</p>
+				<p class="textright"><a href="security/get-started">Get Started &raquo;</a></p>
 			</div>
 		</div>
 	</div>
