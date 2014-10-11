@@ -181,11 +181,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$Responses_Member_Count = mysqli_num_rows($Responses_Member);
 							if ($Responses_Member_Count == 0) {
 								$Responses_Store_Name = 'Deactivated';
-								$Responses_Store_Avatar = 'http://www.gravatar.com/avatar/deactivated?s=128&d=mm';
+								$Responses_Store_Avatar = 'https://www.gravatar.com/avatar/deactivated?s=128&d=mm';
 							} else {
 								$Responses_Member_Fetch = mysqli_fetch_assoc($Responses_Member);
 								$Responses_Store_Name = $Responses_Member_Fetch['Name'];
-								$Responses_Store_Avatar = 'http://www.gravatar.com/avatar/'.md5($Responses_Member_Fetch['Mail']).'?s=128&d=identicon';
+								$Responses_Store_Avatar = 'https://www.gravatar.com/avatar/'.md5($Responses_Member_Fetch['Mail']).'?s=128&d=identicon';
 							}
 							$Responses_Members_ID[] = $Responses_Member_ID;
 							$Responses_Members_Names[] = $Responses_Store_Name;
@@ -261,7 +261,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				<div class="col span_1_of_12"><br></div>
 				<div class="col span_7_of_12">
 					<p class="floatleft"><small>If you wish, you can use Markdown for formatting.<br>
-					Markdown can be used to make [<a href="#">links</a>](http://example.com),<br>
+					Markdown can be used to make [<a href="#">links</a>](https://example.com),<br>
 					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
 				<?php if ($Type === 'Review') {
 					echo '
@@ -412,7 +412,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				<div class="col span_10_of_12 textright"><p>Now</p></div>\
 			</div>\
 			<div class="section group response ' + data.id + '" id="response_' + data.id + '">\
-				<div class="col span_2_of_12"><img class="avatar" src="http://www.gravatar.com/avatar/<?php echo md5($Member_Mail); ?>?s=128&d=identicon"></div>\
+				<div class="col span_2_of_12"><img class="avatar" src="https://www.gravatar.com/avatar/<?php echo md5($Member_Mail); ?>?s=128&d=identicon"></div>\
 				<?php
 					if ($Helpfulness_Show) {
 						echo '<div class="col span_8_of_12">\
