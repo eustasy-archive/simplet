@@ -118,8 +118,7 @@ function Forum_Topics() {
 
 						if ($Topics_Status == 'Public' || $Topics_Status == 'Locked' || $Topics_Status == 'Private' && $Member_Auth) {
 
-							$Topics_Slug = ;
-							$Topics_Modified = ; // TODO Use $Topics_Modified and Cookies to label Unread/Read
+							// TODO Use $Topics_Modified and Cookies to label Unread/Read
 
 							echo '
 							<a href="?topic='.$Topics_Fetch['Slug'].'" class="section group topic';
