@@ -76,7 +76,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	<h6><em>No bounties will be awarded for Level 4 issues.</em></h6>
 	<p><strong><a href="https://github.com/eustasy/simplet/issues/26">Cross-Site Request Forgery</a>:</strong> Many forms can be submitted from foreign pages. Referral tracking is unreliable, so all forms should also carry a single-use authentication token, implemented using the RunOnce functions. <strong>Known to affect all versions.</strong></p>
 	<p><strong>XML Conversion oddities:</strong>Because numeric keys are not valid in XML, the API converts the items to <code>"item###"</code>, which could inadvertently cause issues with Member_IDs and other automatically generated values that have a small chance of being entirely numeric. <code>(10/36)^12 = 2.11042533e-7</code> <strong>Known to affect 4.1+, not listed for "repair".</strong></p>
-	<p><strong><a href="https://github.com/eustasy/simplet/issues/39">SQL Injection: Inputs with a <code>\</code> are not properly escaped</a>:</strong> This issue can cause a variety of posting issues, and could be the key to far greater SQL-based attacks. <strong>Known to affect all versions.</strong></p>
+	<p><strong>SQL Injection: <a href="https://github.com/eustasy/simplet/issues/39">Inputs with a <code>\</code> are not properly escaped</a>:</strong> This issue can cause a variety of posting issues, and could be the key to far greater SQL-based attacks. <strong>Known to affect all versions.</strong></p>
 
 	<h3>Level 5 - Fixed Issues</h3>
 	<h6><em>Fixed in development or even a previous release. No bounties.</em></h6>
