@@ -19,7 +19,7 @@ function Views_Count() {
 	if ( $Database['Exists']['Views'] ) {
 
 		// Encode and Assemble the requested URL.
-		$Requested = $Place['scheme'].'://'.$Place['host'].htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8');
+		$Requested = $Place['scheme'].'://'.$Place['host'].Input_Prepare($_SERVER['REQUEST_URI']);
 
 		// Assemble the Query
 		$Query = 'INSERT INTO `'.$Database['Prefix'].'Views` (`Request`, `Canonical`, `Post_Type`, `IP`, `Cookie`, `Auth`, `Member_ID`, `Admin`, `Time`) VALUES (\''.$Requested.'\', \''.$Canonical.'\', \''.$Post_Type.'\', \''.$User_IP.'\', \''.$User_Cookie.'\', \''.$Member_Auth.'\', \''.$Member_ID.'\', \''.$Member_Admin.'\', \''.$Time.'\')';

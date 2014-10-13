@@ -58,7 +58,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			} else if ( isset($_GET['fetch']) || ( isset($_GET['set']) && !empty($_POST['vote']) ) ) {
 
-				$Response_ID = strval(htmlentities($_GET['id'], ENT_QUOTES, 'UTF-8'));
+				$Response_ID = strval(Input_Prepare($_GET['id']));
 
 				// Check Response is Viewable
 				$Responses = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Responses` WHERE `ID`=\''.$Response_ID.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
@@ -83,7 +83,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 							// No Vote
 							$Helpfulness_Return['vote'] =  'none';
 						} else if (isset($_GET['set'])) {
-							$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
+							$Response_Vote = strval(Input_Prepare($_POST['vote']));
 							if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
 								$Helpfulness_Insert = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Helpfulness` (`Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES ('$Response_ID', '$Member_ID', '$Response_Vote', '$Time', '$Time')", MYSQLI_STORE_RESULT);
 								if (!$Helpfulness_Insert) array_push($Helpfulness_Return['error'], 'Vote Insert Failed.');
@@ -117,7 +117,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 								array_push($Helpfulness_Return['error'], 'Invalid Vote in Database.');
 							}
 						} else if (isset($_GET['set'])) {
-							$Response_Vote = strval(htmlentities($_POST['vote'], ENT_QUOTES, 'UTF-8'));
+							$Response_Vote = strval(Input_Prepare($_POST['vote']));
 							if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
 								$Helpfulness_Update = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Helpfulness` SET `Helpfulness`='$Response_Vote', `Modified`='$Time' WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 								if (!$Helpfulness_Update) array_push($Helpfulness_Return['error'], 'Vote Update Failed.');

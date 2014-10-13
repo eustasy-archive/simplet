@@ -20,7 +20,7 @@ function Feed_Forum() {
 		else {
 
 			// Get the Topic
-			$Topic = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
+			$Topic = Input_Prepare($_GET['topic']);
 
 			// Send the right header for an RSS Feed
 			header('Content-Type: application/rss+xml');
@@ -81,7 +81,7 @@ function Feed_Forum() {
 		else {
 
 			// Get the Category
-			if (isset($_GET['category'])) $Category = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+			if (isset($_GET['category'])) $Category = Input_Prepare($_GET['category']);
 			else $Category = false;
 
 			// Send the right header for an RSS Feed

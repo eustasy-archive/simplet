@@ -24,14 +24,14 @@ function Respond($Status_Override = false) {
 		if(isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post'])) {
 
 			// Set Variables
-			$Response_Canonical = htmlentities($_POST['canonical'], ENT_QUOTES, 'UTF-8');
-			$Response_Type = htmlentities($_POST['type'], ENT_QUOTES, 'UTF-8');
-			$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
+			$Response_Canonical = Input_Prepare($_POST['canonical']);
+			$Response_Type = Input_Prepare($_POST['type']);
+			$Response_Post = trim(Input_Prepare($_POST['post']));
 
 			// Response Rating
 			if ($Response_Type == 'Review') {
 				if(isset($_POST['rating'])) {
-					$Response_Rating = strval(htmlentities($_POST['rating'], ENT_QUOTES, 'UTF-8'));
+					$Response_Rating = strval(Input_Prepare($_POST['rating']));
 				} else {
 					array_push($Response_Return['error'], 'You didn\'t choose a rating.');
 				}
@@ -77,7 +77,7 @@ function Respond($Status_Override = false) {
 
 			// Prepare statements to be returned.
 			$Response_ID = mysqli_insert_id($Database['Connection']);
-			$Response_Parsed = Parsedown::instance()->parse($Response_Post, ENT_QUOTES, 'UTF-8');
+			$Response_Parsed = Parsedown::instance()->parse($Response_Post);
 			$Response_Return['id'] = $Response_ID;
 			$Response_Return['post'] = $Response_Parsed;
 			$Response_Return['rating'] = $Response_Rating;
