@@ -61,6 +61,7 @@ require 'functions/globrecursive.php';
 
 require 'functions/generator.string.php';
 require 'functions/pass.hash.php';
+require 'functions/input.prepare.php';
 
 require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
