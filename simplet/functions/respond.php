@@ -26,18 +26,14 @@ function Respond($Status_Override = false) {
 			// Set Variables
 			$Response_Canonical = Input_Prepare($_POST['canonical']);
 			$Response_Type = Input_Prepare($_POST['type']);
-			$Response_Post = trim(Input_Prepare($_POST['post']));
+			$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
+			$Response_Prepared = trim(Input_Prepare($_POST['post']));
 
 			// Response Rating
 			if ($Response_Type == 'Review') {
-				if(isset($_POST['rating'])) {
-					$Response_Rating = strval(Input_Prepare($_POST['rating']));
-				} else {
-					array_push($Response_Return['error'], 'You didn\'t choose a rating.');
-				}
-			} else {
-				$Response_Rating = 0;
-			}
+				if(isset($_POST['rating'])) $Response_Rating = strval(Input_Prepare($_POST['rating']));
+				else array_push($Response_Return['error'], 'You didn\'t choose a rating.');
+			} else $Response_Rating = 0;
 
 			// Response Status
 			if (isset($Status_Override) && $Status_Override) {
@@ -71,7 +67,7 @@ function Respond($Status_Override = false) {
 			}
 
 			// Query
-			$Response_Query = 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Post.'\', \''.$Time.'\', \''.$Time.'\')';
+			$Response_Query = 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Prepared.'\', \''.$Time.'\', \''.$Time.'\')';
 			$Response_New = mysqli_query($Database['Connection'], $Response_Query, MYSQLI_STORE_RESULT);
 			if (!$Response_New) array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($Database['Connection']));
 
