@@ -54,8 +54,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else {
 
-					$Login_Mail = htmlentities($_POST['mail'], ENT_QUOTES, 'UTF-8');
-					$Login_Pass = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
+					$Login_Mail = Input_Prepare($_POST['mail']);
+					$Login_Pass = Input_Prepare($_POST['pass']);
 
 					$Block_Check = 'SELECT * FROM `'.$Database['Prefix'].'Failures` WHERE `Mail`=\''.$Login_Mail.'\' AND `Created` > UNIX_TIMESTAMP()-900';
 					$Block_Check = mysqli_query($Database['Connection'], $Block_Check, MYSQLI_STORE_RESULT);
@@ -265,9 +265,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else {
 
-					$Signup_Name = htmlentities($_POST['name'], ENT_QUOTES, 'UTF-8');
-					$Signup_Mail = htmlentities($_POST['mail'], ENT_QUOTES, 'UTF-8');
-					$Signup_Pass = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
+					$Signup_Name = Input_Prepare($_POST['name']);
+					$Signup_Mail = Input_Prepare($_POST['mail']);
+					$Signup_Pass = Input_Prepare($_POST['pass']);
 
 					// TODO Member_Check Function
 					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Signup_Mail.'\' LIMIT 0, 1';
@@ -357,7 +357,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 		} else if (!empty($_GET['change'])) { // Change
 
-			if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'name') { // Change Name
+			if (Input_Prepare($_GET['change']) == 'name') { // Change Name
 
 				$Title_HTML = 'Change Name';
 				$Title_Plain = 'Change Name';
@@ -372,7 +372,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else if (isset($_POST['name'])) { // Change Name Process
 
-					$Name_New = htmlentities($_POST['name'], ENT_QUOTES, 'UTF-8');
+					$Name_New = Input_Prepare($_POST['name']);
 
 					if (empty($Name_New)) {
 						$Error = 'Name cannot be empty.';
@@ -409,7 +409,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					<?php
 					require $Footer;
 				}
-			} else if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'pass') { // Change Pass
+			} else if (Input_Prepare($_GET['change']) == 'pass') { // Change Pass
 
 				$Title_HTML = 'Change Pass';
 				$Title_Plain = 'Change Pass';
@@ -424,7 +424,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else if (isset($_POST['pass'])) { // Change Pass Process
 
-					$Pass_New = htmlspecialchars($_POST['pass'], ENT_QUOTES, 'UTF-8');
+					$Pass_New = Input_Prepare($_POST['pass']);
 
 					if (empty($Pass_New)) {
 						$Error = 'Pass cannot be empty.';
@@ -464,7 +464,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					<?php
 					require $Footer;
 				}
-			} else if (htmlentities($_GET['change'], ENT_QUOTES, 'UTF-8') == 'mail') { // Change Mail
+			} else if (Input_Prepare($_GET['change']) == 'mail') { // Change Mail
 
 				$Title_HTML = 'Change Mail';
 				$Title_Plain = 'Change Mail';
@@ -479,7 +479,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else if (isset($_POST['mail'])) { // Change Mail Process
 
-					$Mail_New = htmlentities($_POST['mail'], ENT_QUOTES, 'UTF-8');
+					$Mail_New = Input_Prepare($_POST['mail']);
 
 					if (empty($Mail_New)) {
 						$Error = 'Mail cannot be empty.';
@@ -549,7 +549,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				if (isset($_GET['cookie'])) {
 
-					$Get_Cookie = htmlspecialchars($_GET['cookie'], ENT_QUOTES, 'UTF-8');
+					$Get_Cookie = Input_Prepare($_GET['cookie']);
 
 					$Session_End = 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$Get_Cookie.'\'';
 					$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
@@ -609,7 +609,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				if (isset($_GET['key'])) { // Reset Process
 
-					$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
+					$Key = Input_Prepare($_GET['key']);
 
 					$Key_Info = Runonce_Check($Key, '*', 'Password Reset');
 
@@ -617,7 +617,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 						if (isset($_POST['pass'])) { // Reset Password Process
 
-							$Pass_New = htmlentities($_POST['pass'], ENT_QUOTES, 'UTF-8');
+							$Pass_New = Input_Prepare($_POST['pass']);
 
 							$Salt = Generator_String();
 							$Pass_Hash = Pass_Hash($Pass_New, $Salt);
@@ -671,7 +671,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else if (isset($_POST['mail'])) { // Reset Mail Process
 
-					$Reset_Mail = htmlspecialchars($_POST['mail'], ENT_QUOTES, 'UTF-8');
+					$Reset_Mail = Input_Prepare($_POST['mail']);
 
 					// TODO Member_Check Function
 					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
@@ -765,7 +765,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			} else if (isset($_GET['key'])) {
 				require $Header;
 
-				$Key = htmlentities($_GET['key'], ENT_QUOTES, 'UTF-8');
+				$Key = Input_Prepare($_GET['key']);
 				if (Runonce_Check($Key, $Member_ID, 'Account Deletion')) {
 
 					$Member_Delete = 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';

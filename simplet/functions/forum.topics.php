@@ -17,7 +17,7 @@ function Forum_Topics() {
 	) {
 
 		// Category to get Topic for
-		$Forum_Topics_Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+		$Forum_Topics_Category_Slug = Input_Prepare($_GET['category']);
 
 		$Forum_Topics_Category_Info = Forum_Category_Info($Forum_Topics_Category_Slug);
 

@@ -50,7 +50,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				$Database['Exists']['Responses']
 			) {
 
-				$Topic_Category = trim(htmlentities($_POST['category'], ENT_QUOTES, 'UTF-8'));
+				$Topic_Category = trim(Input_Prepare($_POST['category']));
 
 				// TODO Caterogry Info Function
 				$Category = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Categories` WHERE `Slug`='$Topic_Category' AND NOT `Status`='Hidden' ORDER BY `Modified` DESC LIMIT 1", MYSQLI_STORE_RESULT);
@@ -66,9 +66,9 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 						$Category_Fetch = mysqli_fetch_assoc($Category);
 						$Category_Status = $Category_Fetch['Status'];
 
-						$Topic_Title = trim(htmlentities($_POST['title'], ENT_QUOTES, 'UTF-8'));
+						$Topic_Title = trim(Input_Prepare($_POST['title']));
 
-						if (isset($_POST['post'])) $Topic_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
+						if (isset($_POST['post'])) $Topic_Post = trim(Input_Prepare($_POST['post']));
 						else $Topic_Post = false;
 
 						if ($Forum_Topic_Inherit) $Topic_Status = $Category_Status;
@@ -137,7 +137,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 			if (isset($_GET['category'])) {
 
-				$Category_Slug = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+				$Category_Slug = Input_Prepare($_GET['category']);
 
 				require $Header;
 				echo '
@@ -186,7 +186,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			$Database['Exists']['Topics']
 		) {
 
-			$Topic_Slug = htmlentities($_GET['topic'], ENT_QUOTES, 'UTF-8');
+			$Topic_Slug = Input_Prepare($_GET['topic']);
 
 			// IFINDEX
 			if (substr($Topic_Slug, 0, strlen($Sitewide_Forum)+1) == '/'.$Sitewide_Forum) {

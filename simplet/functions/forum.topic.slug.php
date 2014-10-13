@@ -9,7 +9,7 @@
 function Forum_Topic_Slug($Topic_Slug, $Strict = true) {
 	
 	$Topic_Slug = strtolower($Topic_Slug);
-	$Topic_Slug = htmlentities($Topic_Slug, ENT_QUOTES, 'UTF-8');
+	$Topic_Slug = htemlentities($Topic_Slug, ENT_QUOTES, 'UTF-8');
 	$Topic_Slug = preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', $Topic_Slug);
 	$Topic_Slug = html_entity_decode($Topic_Slug, ENT_QUOTES, 'UTF-8');
 	$Topic_Slug = strip_tags($Topic_Slug);

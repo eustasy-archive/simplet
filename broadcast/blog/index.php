@@ -22,7 +22,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 		// IFCATEGORY
 		if (!empty($_GET['category'])) {
-			$Category = htmlentities($_GET['category'], ENT_QUOTES, 'UTF-8');
+			$Category = Input_Prepare($_GET['category']);
 		} else {
 			$Category = false;
 		}

@@ -15,7 +15,7 @@ function Feed_Files() {
 	else {
 
 		// If Type is set, Encode it.
-		if (isset($_GET['type'])) $Type = htmlentities($_GET['type'], ENT_QUOTES, 'UTF-8');
+		if (isset($_GET['type'])) $Type = Input_Prepare($_GET['type']);
 		else $Type = false;
 
 		// If the Type is Invalid, set it to false.
@@ -54,7 +54,7 @@ function Feed_Files() {
 			if ( isset($_GET['canonical']) ) {
 
 				// Encode it and append it to the Query
-				$For = urlencode(htmlentities($_GET['canonical'], ENT_QUOTES, 'UTF-8'));
+				$For = urlencode(Input_Prepare($_GET['canonical']));
 				$Query .= ' `Canonical`=\''.$For.'\' AND';
 
 				// Send the beginning of the RSS Feed
