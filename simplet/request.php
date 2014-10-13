@@ -7,6 +7,8 @@
 // Note: GMT is deprecated. Use UTC instead.
 date_default_timezone_set('UTC');
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 
 ////	Set the Inclusion Path
@@ -32,7 +34,9 @@ include 'config.php';
 
 
 
-//
+////	Require Things
+require 'onces/connect.php';
+
 $Place = parse_url($Sitewide_Root);
 
 $Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
@@ -49,10 +53,7 @@ $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
-
-
-////	Require Things
-require 'onces/connect.php';
+require 'functions/input.prepare.php';
 require 'onces/isauth.php';
 
 include __DIR__.'/../libs/Parsedown.php';
@@ -61,7 +62,6 @@ require 'functions/globrecursive.php';
 
 require 'functions/generator.string.php';
 require 'functions/pass.hash.php';
-require 'functions/input.prepare.php';
 
 require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
