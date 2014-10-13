@@ -10,15 +10,6 @@ $Sitewide_Debug = true;
 $Return = array();
 $Return['Errors'] = array();
 
-$Place = parse_url($Sitewide_Root);
-$Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
-$Time = time();
-$Time_15mins = $Time+900;
-$Time_1hour = $Time+3600;
-$Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
-$User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
-$Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
-
 $Database = array();
 include_once __DIR__.'/config.database.php';
 $Database['Prefix'] = 'UNIT_TESTS_';
@@ -48,4 +39,15 @@ if (
 	!$Database['Exists']['Helpfulness'] ||
 	!$Database['Exists']['Views']
 ) include_once __DIR__.'/onces/autoinstall.php';
+
+$Place = parse_url($Sitewide_Root);
+$Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
+$Time = time();
+$Time_15mins = $Time+900;
+$Time_1hour = $Time+3600;
+$Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
+include_once __DIR__.'/functions/input.prepare.php';
+$User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
+$Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
+
 include_once __DIR__.'/functions/api.output.php';
