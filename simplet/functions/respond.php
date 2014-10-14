@@ -73,7 +73,7 @@ function Respond($Status_Override = false) {
 
 			// Prepare statements to be returned.
 			$Response_ID = mysqli_insert_id($Database['Connection']);
-			$Response_Parsed = Parsedown::instance()->parse($Response_Post);
+			$Response_Parsed = Output_Parse($Response_Post);
 			$Response_Return['id'] = $Response_ID;
 			$Response_Return['post'] = $Response_Parsed;
 			$Response_Return['rating'] = $Response_Rating;

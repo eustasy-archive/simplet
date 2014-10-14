@@ -161,8 +161,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						// Get all the information you can.
 						$Responses_ID = $Responses_Fetch['ID'];
 						$Responses_Member_ID = $Responses_Fetch['Member_ID'];
-						if ( $Sitewide_AllowHTML ) $Responses_Post = Parsedown::instance()->parse(html_entity_decode($Responses_Fetch['Post'], ENT_QUOTES, 'UTF-8'));
-						else $Responses_Post = Parsedown::instance()->parse($Responses_Fetch['Post']);
+						$Responses_Post = Output_Parse($Responses_Fetch['Post']);
 						$Responses_Created = $Responses_Fetch['Created'];
 						$Responses_Modified = $Responses_Fetch['Modified'];
 						if ($Helpfulness_Show) {
