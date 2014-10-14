@@ -54,6 +54,7 @@ require 'functions/input.prepare.php';
 require 'onces/isauth.php';
 
 include __DIR__.'/../libs/Parsedown.php';
+require 'functions/output.parse.php';
 
 require 'functions/globrecursive.php';
 
