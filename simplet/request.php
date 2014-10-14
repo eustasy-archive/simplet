@@ -7,9 +7,6 @@
 // Note: GMT is deprecated. Use UTC instead.
 date_default_timezone_set('UTC');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 
 ////	Set the Inclusion Path
 
