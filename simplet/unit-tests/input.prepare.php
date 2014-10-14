@@ -6,12 +6,12 @@ $Return['Name'] = 'Input Prepare';
 $Return['Status'] = 'Failure';
 
 $String_In = 'abcdefghijklmnopqrstuvwxyz0123456789`!"£$%^&*()_+-={}[]:@~;\'|\#<>?,./';
-$String_Proper = 'abcdefghijklmnopqrstuvwxyz0123456789`!&quot;&pound;$%^&amp;*()_+-={}[]:@~;&#039;|\\\#&lt;&gt;?,./';
+$String_Proper = 'abcdefghijklmnopqrstuvwxyz0123456789`!&quot;£$%^&amp;*()_+-={}[]:@~;&#039;|\\\#&lt;&gt;?,./';
 $String_Out = Input_Prepare($String_In);
 // string(96) "abcdefghijklmnopqrstuvwxyz0123456789`!&quot;&pound;$%^&amp;*()_+-={}[]:@~;&#039;|\\#&lt;&gt;?,./"
 
 $String_Like_In = 'abcdefghijklmnopqrstuvwxyz0123456789`!"£$%^&*()_+-={}[]:@~;\'|\#<>?,./';
-$String_Like_Proper = 'abcdefghijklmnopqrstuvwxyz0123456789`!&quot;&pound;$\%^&amp;*()\_+-={}[]:@~;&#039;|\\\#&lt;&gt;?,./';
+$String_Like_Proper = 'abcdefghijklmnopqrstuvwxyz0123456789`!&quot;£$\%^&amp;*()\_+-={}[]:@~;&#039;|\\\#&lt;&gt;?,./';
 $String_Like_Out = Input_Prepare($String_Like_In, true);
 // string(98) "abcdefghijklmnopqrstuvwxyz0123456789`!&quot;&pound;$\%^&amp;*()\_+-={}[]:@~;&#039;|\\#&lt;&gt;?,./"
 
