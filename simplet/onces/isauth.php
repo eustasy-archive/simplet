@@ -7,8 +7,8 @@ $User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
 function Member_Auth_False($ClearCookie = false) {
 	global $Cookie_Session, $Member_Admin, $Member_Auth, $Member_ID, $Member_Name;
 	if ( $ClearCookie ) {
-		setcookie($Cookie_Session, '', 1);
-		setcookie($Cookie_Session, false);
+		setcookie ($Cookie_Session, '', 1, '/', $Request['host'], $Request['Secure']);
+		setcookie ($Cookie_Session, false, 1, '/', $Request['host'], $Request['Secure']);
 		unset($_COOKIE[$Cookie_Session]);
 	}
 	$Member_Auth = false;

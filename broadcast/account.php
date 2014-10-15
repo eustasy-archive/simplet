@@ -85,7 +85,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 									$Member_Cookie = Generator_String();
 
-									setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/');
+									setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Request['host'], $Request['Secure']);
 
 									$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
 									$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
@@ -111,9 +111,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 									} else {
 
 										// TODO Use/Make Session Function
-										setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
-										setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
-										unset($_COOKIE[$Cookie_Session]); // Absolutely
+										setcookie ($Cookie_Session, '', time() - 3600, '/', $Request['host'], $Request['Secure']);
+										setcookie ($Cookie_Session, false, time() - 3600, '/', $Request['host'], $Request['Secure']);
+										unset($_COOKIE[$Cookie_Session]);
 
 										$Member_Auth = false;
 										$Member_ID = false;
@@ -178,9 +178,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				} else {
 
 					// TODO Function
-					setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
-					setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
-					unset($_COOKIE[$Cookie_Session]); // Absolutely
+					setcookie ($Cookie_Session, '', time() - 3600, '/', $Request['host'], $Request['Secure']);
+					setcookie ($Cookie_Session, false, time() - 3600, '/', $Request['host'], $Request['Secure']);
+					unset($_COOKIE[$Cookie_Session]);
 
 					$Member_Auth = $Member_ID = $Member_Admin = false;
 
