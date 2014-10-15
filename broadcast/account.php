@@ -32,112 +32,102 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		$Database['Exists']['Sessions']
 	) {
 
-		if (isset($_GET['login'])) { // Login
+		// LOGIN
+		if (isset($_GET['login'])) {
 
+			// Handle redirection nicely.
 			if ( isset($_GET['redirect']) ) {
 				$Redirect = $_GET['redirect'];
 				if ( $Redirect == 'account?logout' ) $Redirect = 'account';
 			}
 
-			if ($Member_Auth) { // Login Redirect
+			// IFAUTH
+			if ($Member_Auth) {
 				if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
 				else header('Location: '.$Sitewide_Account, TRUE, 302);
 				die();
 
-			} else if (isset($_POST['mail']) || isset($_POST['pass'])) { // Login Process
+			// IFAUTH Post
+			} else if (isset($_POST['mail']) || isset($_POST['pass'])) {
 
-				if (empty($_POST['pass'])) {
-					$Error = 'No Pass received.';
-
-				} else if (empty($_POST['mail'])) {
-					$Error = 'No Mail received.';
-
-				} else {
+				if (empty($_POST['pass'])) $Error = 'No Pass received.';
+				else if (empty($_POST['mail'])) $Error = 'No Mail received.';
+				else {
 
 					$Login_Mail = Input_Prepare($_POST['mail']);
 					$Login_Pass = Input_Prepare($_POST['pass']);
 
-					$Block_Check = 'SELECT * FROM `'.$Database['Prefix'].'Failures` WHERE `Mail`=\''.$Login_Mail.'\' AND `Created` > UNIX_TIMESTAMP()-900';
-					$Block_Check = mysqli_query($Database['Connection'], $Block_Check, MYSQLI_STORE_RESULT);
-					if ( !$Block_Check ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Block_Check): '.mysqli_error($Database['Connection']);
-						// TODO Handle Error
-					} else {
+					// IFBLOCK
+					// TODO: Make configurable.
+					if ( Member_Block_Check($Login_Mail) < 3 ) {
 
-						$Block_Count = mysqli_num_rows($Block_Check);
+						$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
+						$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
+						if ( !$Member_Check ) {
+							if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+							// TODO Handle Error
+						} else {
 
-						if ($Block_Count < 3) {
-
-							$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
-							$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-							if ( !$Member_Check ) {
-								if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
-								// TODO Handle Error
+							$Member_Count = mysqli_num_rows($Member_Check);
+							if ($Member_Count == 0) {
+								$Error = 'There is no user registered with that mail.';
 							} else {
 
-								$Member_Count = mysqli_num_rows($Member_Check);
-								if ($Member_Count == 0) {
-									$Error = 'There is no user registered with that mail.';
-								} else {
+								$Member_Fetch = mysqli_fetch_assoc($Member_Check);
+								$Member_ID = $Member_Fetch['ID'];
+								$Member_Name = $Member_Fetch['Name'];
+								$Member_Pass = $Member_Fetch['Pass'];
+								$Member_Salt = $Member_Fetch['Salt'];
 
-									$Member_Fetch = mysqli_fetch_assoc($Member_Check);
-									$Member_ID = $Member_Fetch['ID'];
-									$Member_Name = $Member_Fetch['Name'];
-									$Member_Pass = $Member_Fetch['Pass'];
-									$Member_Salt = $Member_Fetch['Salt'];
+								$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
 
-									$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
+								if ($Login_Hash === $Member_Pass) {
 
-									if ($Login_Hash === $Member_Pass) {
+									$Member_Cookie = Generator_String();
 
-										$Member_Cookie = Generator_String();
+									setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Place['host'], $Place['Secure']);
 
-										setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/');
-
-										$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
-										$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
-										if ( !$Session_New ) {
-											if ( $Sitewide_Debug ) echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
-											// TODO Handle Error
-										} else {
-
-											// Login Successful
-											if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
-											else header('Location: '.$Sitewide_Account, TRUE, 302);
-											die(); // As in go away.
-
-										}
-
+									$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
+									$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
+									if ( !$Session_New ) {
+										if ( $Sitewide_Debug ) echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
+										// TODO Handle Error
 									} else {
 
-										$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$User_IP.'\', \''.$Time.'\')';
-										$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
-										if ( !$Failures_New ) {
-											if ( $Sitewide_Debug ) echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
-											// TODO Handle Error
-										} else {
-
-											// TODO Use/Make Session Function
-											setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
-											setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
-											unset($_COOKIE[$Cookie_Session]); // Absolutely
-
-											$Member_Auth = false;
-											$Member_ID = false;
-											$Error = 'Incorrect Pass.';
-
-										}
+										// Login Successful
+										if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
+										else header('Location: '.$Sitewide_Account, TRUE, 302);
+										die(); // As in go away.
 
 									}
-								}
 
+								} else {
+
+									$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$User_IP.'\', \''.$Time.'\')';
+									$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
+									if ( !$Failures_New ) {
+										if ( $Sitewide_Debug ) echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
+										// TODO Handle Error
+									} else {
+
+										// TODO Use/Make Session Function
+										setcookie ($Cookie_Session, '', time() - 3600, '/'); // Clear the Cookie
+										setcookie ($Cookie_Session, false, time() - 3600, '/'); // Definitely
+										unset($_COOKIE[$Cookie_Session]); // Absolutely
+
+										$Member_Auth = false;
+										$Member_ID = false;
+										$Error = 'Incorrect Pass.';
+
+									}
+
+								}
 							}
 
-						} else {
-							$Error = 'Too many login attempts. You get three every 15 minutes.';
 						}
 
-					}
+					// IFBLOCK
+					} else $Error = 'Too many login attempts. You get three every 15 minutes.';
 
 				}
 
@@ -161,44 +151,19 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				}
 
-			} else { // Login Form
-
+			} else { // IFAUTH Nothing
 				$Title_HTML = 'Log In';
 				$Title_Plain = 'Log In';
-
 				$Keywords = 'log in account';
-
 				$Canonical = $Sitewide_Account.'?login';
-
 				require $Header;
-				?>
-				<form class="col span_1_of_1" action="" method="post">
-					<h2>Log In</h2>
-					<div class="section group">
-						<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="email" name="mail" placeholder="johnsmith@example.com" required /></div>
-					</div>
-					<div class="section group">
-						<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty1234" required /></div>
-					</div>
-					<div class="section group">
-						<div class="col span_1_of_3">
-							<?php if ($Sitewide_Signups) echo '
-							<p>No account? <a class="floatright" href="?register">Register</a></p>'; ?>
-							<p>Forgot password? <a class="floatright" href="?reset">Reset</a></p>
-						</div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="submit" value="Log In" /></div>
-					</div>
-				</form>
-				<div class="clear"></div>
-				<?php
+				Member_Login_Form();
 				require $Footer;
-			}
-		} else if (isset($_GET['logout'])) { // Log Out
+			} // LOGIN
+
+		// LOGIN
+		} else if (isset($_GET['logout'])) {
+		// LOGOUT
 
 			if (!$Member_Auth) { // Are you logged out already?
 				$Error = 'We can\'t log you out, you aren\'t logged in.';

@@ -36,6 +36,9 @@ require 'onces/connect.php';
 
 $Place = parse_url($Sitewide_Root);
 
+if ( $Place['host'] = 'https' ) $Place['Secure'] = true;
+else $Place['Secure'] = false;
+
 $Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
 
 if ($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
@@ -64,6 +67,13 @@ require 'functions/pass.hash.php';
 require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
 require 'functions/pagination.links.php';
+
+require 'functions/member.block.check.php';
+require 'functions/member.group.add.php';
+require 'functions/member.group.check.php';
+require 'functions/member.group.list.php';
+require 'functions/member.group.remove.php';
+require 'functions/member.login.form.php';
 
 require 'functions/feed.header.php';
 require 'functions/feed.files.php';
