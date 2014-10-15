@@ -36,10 +36,10 @@ require 'onces/connect.php';
 
 $Place = parse_url($Sitewide_Root);
 
-if ( $Place['host'] = 'https' ) $Place['Secure'] = true;
-else $Place['Secure'] = false;
-
 $Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
+
+if ( $Request['scheme'] = 'https' ) $Request['Secure'] = true;
+else $Request['Secure'] = false;
 
 if ($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
 	header ('HTTP/1.1 301 Moved Permanently');

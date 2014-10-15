@@ -85,7 +85,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 									$Member_Cookie = Generator_String();
 
-									setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/', $Place['host'], $Place['Secure']);
+									setcookie($Cookie_Session, $Member_Cookie, time()+60*60*24*28, '/');
 
 									$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
 									$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
