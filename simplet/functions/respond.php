@@ -9,7 +9,7 @@
 
 function Respond($Status_Override = false) {
 
-	global $Database, $Forum_Reply_Default, $Forum_Reply_Inherit, $Member_ID, $Time;
+	global $Database, $Forum_Reply_Default, $Forum_Reply_Inherit, $Member_ID, $Sitewide_Root, $Time;
 
 	// Prepare an array to be returned as JSON.
 	$Response_Return = array();
@@ -21,13 +21,16 @@ function Respond($Status_Override = false) {
 		$Database['Exists']['Responses']
 	) {
 
-		if(isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post'])) {
+		if ( isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post']) ) {
 
 			// Set Variables
 			$Response_Canonical = Input_Prepare($_POST['canonical']);
 			$Response_Type = Input_Prepare($_POST['type']);
 			$Response_Post = trim(htmlentities($_POST['post'], ENT_QUOTES, 'UTF-8'));
 			$Response_Prepared = trim(Input_Prepare($_POST['post']));
+
+			// TODO Redirect responsive
+			if(!$Member_Auth) return array('error' => array('Sorry, you aren\'t logged in anymore. You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode('forum?topic='.$Response_Canonical).'">Log In</a> to '.$Response_Type.'.'));
 
 			// Response Rating
 			if ($Response_Type == 'Review') {

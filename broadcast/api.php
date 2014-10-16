@@ -184,8 +184,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	} else if (isset($_GET['respond'])) {
 
-		if(!$Member_Auth) echo API_Output(array('error' => array('Not Authenticated.')));
-		else echo API_Output(Respond());
+		echo API_Output(Respond());
 
 
 

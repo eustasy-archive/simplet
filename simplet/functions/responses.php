@@ -386,11 +386,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					event.preventDefault();
 					$('#respond input[type="submit"]').attr('disabled','disabled');
 					var postType = '<?php echo $Type; ?>';
-					if (postType == 'Review') {
-						var rating = $('#respond select[name="rating"]').val();
-					} else {
-						var rating = 0;
-					}
+					if (postType == 'Review') var rating = $('#respond select[name="rating"]').val();
+					else var rating = 0;
 					var post = $('#respond textarea[name="post"]').val();
 					var respond = $.post(
 						'<?php echo $Sitewide_Root; ?>api?respond',
@@ -403,9 +400,19 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					);
 					respond.done(function(data) {
 						var data = $.parseJSON(data)
+
 						// TODO Bug: Show Error on Error
-						// TODO if data.error is not empty then error
-						var toAppend = '\
+						// if data.error is not empty then error
+						if ( data.error.length ) {
+							console.log(data.error.length);
+							console.log(data.error);
+							$('#respond input[type="submit"]').removeAttr('disabled');
+							for (index = 0; index < data.error.length; ++index) {
+								$('#responses').append('<div class="warning"><h3>'+data.error[index]+'</h3></div>');
+							}
+						} else {
+
+							var toAppend = '\
 			<div class="section group darkrow" id="header_' + data.id + '">\
 				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
 				<div class="col span_10_of_12 textright"><p>Now</p></div>\
@@ -438,22 +445,24 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						}
 						?>
 
-						// Remove any "no-responses" text.
-						$('#no-responses').remove();
+							// Remove any "no-responses" text.
+							$('#no-responses').remove();
 
-						// Append the new Post
-						$('#responses').append(toAppend);
+							// Append the new Post
+							$('#responses').append(toAppend);
 
-						// Re-Initialize Helpfulness Click Catching
-						if (typeof(HelpfulnessClick) === 'function') HelpfulnessClick();
+							// Re-Initialize Helpfulness Click Catching
+							if (typeof(HelpfulnessClick) === 'function') HelpfulnessClick();
 
-						// Reset the Form
-						$('#respond input[type="text"]').val('');
-						$('#respond textarea').val('');
-						$('#respond select').val([]);
+							// Reset the Form
+							$('#respond input[type="text"]').val('');
+							$('#respond textarea').val('');
+							$('#respond select').val([]);
 
-						// Re-Enable the form
-						$('#respond input[type="submit"]').removeAttr('disabled');
+							// Re-Enable the form
+							$('#respond input[type="submit"]').removeAttr('disabled');
+
+						}
 
 					});
 
@@ -470,7 +479,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					<?php
 				} else {
 					echo '
-		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">Log In</a> to '.$Type.'.</h3>';
+		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode('forum?topic='.$Response_Canonical).'">Log In</a> to '.$Type.'.</h3>';
 				}
 			}
 
