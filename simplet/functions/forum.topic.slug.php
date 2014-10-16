@@ -1,9 +1,9 @@
 <?php
 
 ////	Forum Topic Slug Function
-// 
+//
 // Encodes and Increments Topic_Slug
-// 
+//
 // Forum_Topic_Slug('slug');
 
 function Forum_Topic_Slug($Topic_Slug, $Strict = true) {
@@ -20,6 +20,7 @@ function Forum_Topic_Slug($Topic_Slug, $Strict = true) {
 	$Topic_Slug = strtr($Topic_Slug, 'àáâãäåòóôõöøèéêëðçìíîïùúûüñšž', 'aaaaaaooooooeeeeeciiiiuuuunsz');
 	$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
 	$Topic_Slug = trim($Topic_Slug, '-');
+	if ( empty($Topic_Slug) ) $Topic_Slug = 'topic-1';
 
 	// Effectively a WHILE recursive
 	if (Forum_Topic_Check($Topic_Slug)) {
