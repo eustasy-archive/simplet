@@ -22,7 +22,21 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	?>
 
 	<h2>Connection</h2>
-	
+
+	<div class="section group">
+                <div class="col span_5_of_11">
+                        <h3><a href="http://www.ubuntu.com/">Ubuntu 14.04.1</a></h3>
+			<h3><a href="https://php.net/">PHP 5.6.2</a></h3>
+                </div>
+                <div class="col span_1_of_11"><br></div>
+                <div class="col span_5_of_11">
+                        <h3><a href="http://nginx.org/">Nginx 1.6.2</a></h3>
+			<h3><a href="https://mariadb.org/">MaraiDB 5.5.40</a></h3>
+                </div>
+        </div>
+
+	<hr>
+
 	<div class="section group">
 		<div class="col span_5_of_11">
 			<h3><a href="https://www.ssllabs.com/ssltest/analyze.html?d=security.simplet.eustasy.org">SSL &amp; TLS</a></h3>
