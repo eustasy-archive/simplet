@@ -24,9 +24,9 @@ function Runonce_Check($Key, $Key_Owner = '', $Key_Notes = '*') {
 
 		$Key_Query = 'SELECT * FROM `'.$Database['Prefix'].'Runonce` WHERE';
 		$Key_Query .= ' `Key`=\''.$Key.'\' AND `Status`=\'Active\'';
-		if ($Key_Owner !== '*') $Key_Query .= ' AND `Member_ID`=\''.$Key_Owner.'\'';
+		if ($Key_Owner !== '*') $Key_Query .= ' AND ( `Member_ID`=\''.$Key_Owner.'\' OR  `Member_ID`=\'*\')';
 		if ($Key_Notes !== '*') $Key_Query .= ' AND `Notes`=\''.$Key_Notes.'\'';
-		if ( $Timeout ) $Key_Query .= ' AND `Created` > \''.$Timeout.'\'';
+		$Key_Query .= ' AND `Timeout` > \''.$Time.'\'';
 		$Key_Query .= ' LIMIT 0, 1';
 
 		$Key_Check = mysqli_query($Database['Connection'], $Key_Query, MYSQLI_STORE_RESULT);
@@ -40,8 +40,6 @@ function Runonce_Check($Key, $Key_Owner = '', $Key_Notes = '*') {
 			$Key_Check_Fetch = mysqli_fetch_assoc($Key_Check);
 
 			if (
-				$Key_Check_Fetch['Status'] == 'Active' && // If active
-				$Key_Check_Fetch['Timeout'] > $Time && // If timeout is in the future
 				$Key_Check_Fetch['Uses'] > $Key_Check_Fetch['Used'] // If it has uses left
 				// TODO IP Check too
 			) return $Key_Check_Fetch;

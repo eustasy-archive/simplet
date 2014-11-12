@@ -46,9 +46,9 @@ function Runonce_Create($Timeout = '15mins', $Uses = 1, $Notes = '', $Key = '', 
 		if (empty($Key)) $Key = Generator_String();
 		if (empty($Key_Owner)) $Key_Owner = $Member_ID;
 
-		// TODO Make timut intelligent using end of string
-		if ($Timeout = '15mins') $Timeout = $Time_15mins;
-		if ($Timeout = '1hour') $Timeout = $Time_1hour;
+		// TODO Make timeout intelligent using end of string
+		if ($Timeout == '15mins') $Timeout = $Time_15mins;
+		if ($Timeout == '1hour') $Timeout = $Time_1hour;
 
 		$Key_New = 'INSERT INTO `'.$Database['Prefix'].'Runonce` (`Member_ID`, `Key`, `Status`, `IP`, `Timeout`, `Uses`, `Created`, `Modified`, `Notes`) VALUES (\''.$Member_ID.'\', \''.$Key.'\', \'Active\', \''.$User_IP.'\', \''.$Timeout.'\', \''.$Uses.'\', \''.$Time.'\', \''.$Time.'\', \''.$Notes.'\')';
 		$Key_New = mysqli_query($Database['Connection'], $Key_New, MYSQLI_STORE_RESULT);
