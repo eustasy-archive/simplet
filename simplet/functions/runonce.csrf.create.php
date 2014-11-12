@@ -9,7 +9,7 @@
 function Runonce_CSRF_Create() {
 
 	// Set some Globals so the required scripts don't error.
-	global $Member_ID, $Time;
+	global $Cookie_Prefix, $Member_ID, $Request, $Time;
 
 	if ( $Member_ID ) $Owner = $Member_ID;
 	else $Owner = '*';
@@ -19,6 +19,10 @@ function Runonce_CSRF_Create() {
 	$Timeout = $Time + 2419200;
 
 	// Create a 28 day CSRF Protection Key
-	return Runonce_Create($Timeout, 0, 'CSRF Protection', $Key, $Owner);
+	$Runonce_CSRF_Create = Runonce_Create($Timeout, 0, 'CSRF Protection', $Key, $Owner);
+
+	setcookie($Cookie_Prefix.'_csrf_protection', $Runonce_CSRF_Create['Key'], time()+60*60*24*28, '/', $Request['host'], $Request['Secure']);
+
+	return $Runonce_CSRF_Create;
 
 }

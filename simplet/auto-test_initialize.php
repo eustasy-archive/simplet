@@ -41,11 +41,18 @@ if (
 ) include_once __DIR__.'/onces/autoinstall.php';
 
 $Place = parse_url($Sitewide_Root);
+
 $Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
+if ( $Request['scheme'] == 'https' ) $Request['Secure'] = true;
+else $Request['Secure'] = false;
+
 $Time = time();
 $Time_15mins = $Time+900;
 $Time_1hour = $Time+3600;
+
+$Cookie_Prefix = str_replace( '.', '_', $Place['host']);
 $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
+
 include_once __DIR__.'/functions/input.prepare.php';
 $User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
