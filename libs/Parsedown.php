@@ -36,7 +36,7 @@ class Parsedown
 		$text = str_replace("\r", "\n", $text);
 
 		# replace tabs with spaces
-		$text = str_replace("\t", '	', $text);
+		$text = str_replace("\t", '    ', $text);
 
 		# remove surrounding line breaks
 		$text = trim($text, "\n");
