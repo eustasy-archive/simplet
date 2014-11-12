@@ -119,7 +119,12 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 				// Get Responses
 				$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
-				if (!$Responses) exit('Invalid Query (Responses): '.mysqli_error($Database['Connection']));
+				if ( !$Responses ) {
+					if ( $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+					// TODO Handle Error
+				} else {
+					// TODO Wrap
+				}
 
 				// Count Responses
 				$Responses_Check = mysqli_num_rows($Responses);
@@ -176,7 +181,12 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$Responses_Store_Avatar = $Responses_Members_Avatar[$Responses_Members_Num];
 						} else {
 							$Responses_Member = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Responses_Member_ID.'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
-							if (!$Responses_Member) exit('Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']));
+							if (!$Responses_Member) {
+								if ( $Sitewide_Debug ) echo 'Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']);
+								// TODO Handle Error
+							} else {
+								// TODO WRap
+							}
 							$Responses_Member_Count = mysqli_num_rows($Responses_Member);
 							if ($Responses_Member_Count == 0) {
 								$Responses_Store_Name = 'Deactivated';

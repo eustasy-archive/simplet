@@ -79,7 +79,12 @@ function Forum_Topics() {
 					$Responses_Prefetch_Query_Group = ' GROUP BY `Canonical`';
 					$Responses_Prefetch_Query = $Responses_Prefetch_Query_Select.$Topics_Query_Status.$Responses_Prefetch_Query_Group;
 					$Responses_Prefetch = mysqli_query($Database['Connection'], $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);
-					if (!$Responses_Prefetch) exit('Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']));
+					if ( !$Responses_Prefetch ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']);
+						// TODO Error
+					} else {
+						// TODO Wrap
+					}
 
 					$Responses_Prefetch_Count = array();
 					$Responses_Prefetch_Modified = array();
@@ -111,7 +116,12 @@ function Forum_Topics() {
 					$Topics_Query = $Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order.$Topics_Query_Limit;
 
 					$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
-					if (!$Topics) exit('Invalid Query (Topics): '.mysqli_error($Database['Connection']));
+					if ( !$Topics ) {
+						if ( $Sitewide_Debug ) echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
+						// TODO Error
+					} else {
+						// TODO Wrap
+					}
 
 					while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
 
