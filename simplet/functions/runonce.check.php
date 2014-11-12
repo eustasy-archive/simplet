@@ -40,7 +40,8 @@ function Runonce_Check($Key, $Key_Owner = '', $Key_Notes = '*') {
 			$Key_Check_Fetch = mysqli_fetch_assoc($Key_Check);
 
 			if (
-				$Key_Check_Fetch['Uses'] > $Key_Check_Fetch['Used'] // If it has uses left
+				$Key_Check_Fetch['Uses'] > $Key_Check_Fetch['Used'] || // If it has uses left
+				$Key_Check_Fetch['Uses'] == 0 // Or it doesn't have a limit
 				// TODO IP Check too
 			) return $Key_Check_Fetch;
 			else return false;
