@@ -30,7 +30,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 	} else if (isset($_POST['action'])) {
 
 		if (!$Member_Auth) {
-    		header('HTTP/1.1 401 Unauthorized');
+			header('HTTP/1.1 401 Unauthorized');
 			$Error = 'You are not logged in.';
 
 		} else if ($_POST['action'] == 'topic') {
@@ -128,7 +128,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 	} else if (isset($_GET['new'])) {
 
 		if (!$Member_Auth) {
-    		header('HTTP/1.1 401 Unauthorized');
+			header('HTTP/1.1 401 Unauthorized');
 			require $Header;
 			echo '<h2>Error: You are not logged in.</h2>';
 			echo '<h3 class="textleft">You cannot post a topic if you are not logged in. <a class="floatright" href="'.$Sitewide_Account.'?login">Log In</a></h3>';
