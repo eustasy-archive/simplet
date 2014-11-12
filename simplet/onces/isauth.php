@@ -1,8 +1,5 @@
 <?php
 
-// We will need the IP to handle logins, regardless of Cookie Status. Catch it every time.
-$User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
-
 // TODO Move to Functions folder and require.
 function Member_Auth_False($ClearCookie = false) {
 	global $Cookie_Session, $Member_Admin, $Member_Auth, $Member_ID, $Member_Name;

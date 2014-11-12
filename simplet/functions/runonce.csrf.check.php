@@ -6,7 +6,7 @@
 //
 // Runonce_CSRF_Check('Key');
 
-function Runonce_CSFR_Check($Key) {
+function Runonce_CSRF_Check($Key) {
 
 	// Set some Globals so the required scripts don't error.
 	global $Cookie_Prefix, $Member_ID, $Time;

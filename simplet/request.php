@@ -46,6 +46,8 @@ if ($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
 	header ('Location: '.$Sitewide_Root.$Canonical);
 }
 
+$Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
+
 $Time = time();
 $Time_15mins = $Time+900;
 $Time_1hour = $Time+3600;
@@ -53,17 +55,29 @@ $Time_1hour = $Time+3600;
 $Cookie_Prefix = str_replace( '.', '_', $Place['host']);
 $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 
-$Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
-
 require 'functions/input.prepare.php';
+
+// We will need the IP to handle logins, regardless of Cookie Status. Catch it every time.
+$User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
+
+require 'functions/generator.string.php';
+
+require 'functions/runonce.create.php';
+require 'functions/runonce.check.php';
+require 'functions/runonce.used.php';
+require 'functions/runonce.delete.php';
+
+require 'functions/runonce.csrf.create.php';
+require 'functions/runonce.csrf.check.php';
+
 require 'onces/isauth.php';
+require 'onces/csrfprotect.php';
 
 include __DIR__.'/../libs/Parsedown.php';
 require 'functions/output.parse.php';
 
 require 'functions/globrecursive.php';
 
-require 'functions/generator.string.php';
 require 'functions/pass.hash.php';
 
 require 'functions/pagination.preservequerystrings.php';
@@ -107,11 +121,6 @@ require 'functions/api.output.xml.php';
 
 require 'functions/views.count.php';
 require 'functions/views.trending.php';
-
-require 'functions/runonce.create.php';
-require 'functions/runonce.check.php';
-require 'functions/runonce.used.php';
-require 'functions/runonce.delete.php';
 
 require 'functions/time.readable.difference.php';
 

@@ -11,7 +11,7 @@ $Return['Name'] = 'RunOnce CSRF Check';
 $Return['Status'] = 'Failure';
 
 $Runonce_CSRF_Create = Runonce_CSRF_Create();
-$Runonce_CSRF_Check = Runonce_CSFR_Check($Runonce_CSRF_Create['Key']);
+$Runonce_CSRF_Check = Runonce_CSRF_Check($Runonce_CSRF_Create['Key']);
 
 if ( empty($Runonce_CSRF_Check['error']) ) {
 	$Return['Status'] = 'Success';
