@@ -4,16 +4,18 @@
 //
 // $Difference['Prefered'] =s the difference in time entered in a human readable format.
 //
-// Time_Readable_Difference();
+// Time_Readable_Difference(200);
 
-function Time_Readable_Difference($Original, $Extended = false) {
+function Time_Readable_Difference($Original) {
+
+	global $Time;
 
 	// IFNOTUNIX If not a unix timestamp, convert it.
 	if( !ctype_digit($Original) ) $Original = strtotime($Original);
 
 	$Difference = array();
 	// Figure out the differences.
-	$Difference['Seconds'] = Time() - $Original;
+	$Difference['Seconds'] = $Time - $Original;
 
 	// IFFUTURE If it is positive, it is in the future.
 	if ( $Difference['Seconds'] ==  0 ) $Difference['Prefered'] = 'Now';

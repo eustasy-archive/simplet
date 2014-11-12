@@ -11,14 +11,13 @@ function Member_Group_List($Group, $Status_Check = false) {
 
 	global $Database;
 
-	// TODO Add Optional Status Checking
-
 	// IFEXISTSMEMBERS
 	if ( !$Database['Exists']['Members'] ) return false;
 	else {
 
 		// Find the Groups for a given Member_ID
 		$Member_Group_List = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Groups` LIKE \'%|'.$Group.'|%\'';
+		if ( $Status_Check ) $Member_Group_List .= ' AND `Status`=\'Active\'';
 
 		// Execute Query
 		$Member_Group_List = mysqli_query($Database['Connection'], $Member_Group_List, MYSQLI_STORE_RESULT);

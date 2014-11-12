@@ -15,6 +15,7 @@ function Forum_Topic_Count($Topic_Slug, $Status_Check = false) {
 	else {
 		
 		$Forum_Topic_Count = 'SELECT COUNT(`Canonical`) AS `Count` FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Topic_Slug.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
+		// TODO Implement $Status_Check
 		$Forum_Topic_Count = mysqli_query($Database['Connection'], $Forum_Topic_Count, MYSQLI_STORE_RESULT);
 		
 		// IFQUERY Unsuccessful
