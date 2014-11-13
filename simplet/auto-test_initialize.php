@@ -54,6 +54,18 @@ $Cookie_Prefix = str_replace( '.', '_', $Place['host']);
 $Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
 
 include_once __DIR__.'/functions/input.prepare.php';
+include_once __DIR__.'/functions/generator.string.php';
+
+include_once __DIR__.'/functions/runonce.create.php';
+include_once __DIR__.'/functions/runonce.check.php';
+include_once __DIR__.'/functions/runonce.used.php';
+include_once __DIR__.'/functions/runonce.delete.php';
+
+include_once __DIR__.'/functions/runonce.csrf.create.php';
+include_once __DIR__.'/functions/runonce.csrf.check.php';
+
+include_once __DIR__.'/onces/csrfprotect.php';
+
 $User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 

@@ -2,22 +2,26 @@
 
 ////	Runonce CSRF Check
 //
-//
+// Returns a boolean value for a given key after comparing it to the database and current cookie.
+// Fails if a new cookie has been set in the time or not a valid key.
+// $Initial skips database comparison. Should only be set for the first run in onces/csrfprotect.php
 //
 // Runonce_CSRF_Check('Key');
 
-function Runonce_CSRF_Check($Key) {
+function Runonce_CSRF_Check($Submitted, $Initial = false) {
 
-	// Set some Globals so the required scripts don't error.
-	global $Cookie_Prefix, $Member_ID, $Time;
+	global $User_CSRF;
 
-	if ( $Member_ID ) $Owner = $Member_ID;
-	else $Owner = '*';
-
-	$Runonce_Check['Check'] = Runonce_Check($Key, $Owner, 'CSRF Protection');
-
-	if ( isset($_COOKIE[$Cookie_Prefix.'_csrf_protection']) ) $Runonce_Check['Cookie'] = Input_Prepare($_COOKIE[$Cookie_Prefix.'_csrf_protection']);
-
-	return $Runonce_Check;
+	if (
+		$Submitted == $User_CSRF['Cookie'] &&
+		(
+			$Initial ||
+			$Submitted == $User_CSRF['Key']
+		)
+	) {
+		return true;
+	} else {
+		return false;
+	}
 
 }
