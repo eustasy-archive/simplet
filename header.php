@@ -24,7 +24,7 @@
 	<!-- SelfXSS Protection. -->
 	<script>
 		console.warn('%cWarning', 'color: #c0392b; font-size: x-large');
-		console.warn('%cPasting code here could send all sorts of information to bad people. People lie on the internet, all the time.', 'color: #c0392b; font-size: large');
+		console.warn('%cPasting code here could send your information to bad people. People lie on the internet all the time.', 'color: #c0392b; font-size: large');
 	</script>
 
 	<!-- Google Analytics - TODO Turn into plugin. -->
