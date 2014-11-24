@@ -1,9 +1,9 @@
 <?php
 
 ////	Forum Topic Info Function
-// 
+//
 // Returns an array of all the available information on a given Topic
-// 
+//
 // Forum_Topic_Info('slug');
 
 function Forum_Topic_Info($Topic_Slug) {

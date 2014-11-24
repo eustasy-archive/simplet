@@ -1,9 +1,9 @@
 <?php
 
 ////	Forum Topic Count Function
-// 
+//
 // Counts the Responses to a given Topic.
-// 
+//
 // Forum_Topic_Count('slug');
 
 function Forum_Topic_Count($Topic_Slug, $Status_Check = false) {

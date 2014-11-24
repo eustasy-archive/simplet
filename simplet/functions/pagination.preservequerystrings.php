@@ -1,10 +1,10 @@
 <?php
 
 ////	Pagination Preserve Query Strings
-// 
+//
 // Preserve the Query stings for links.
 // Returns an array
-// 
+//
 // Pagination_PreserveQueryStrings();
 
 function Pagination_PreserveQueryStrings() {

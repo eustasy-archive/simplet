@@ -1,9 +1,9 @@
 <?php
 
 ////	String Generator Function
-// 
+//
 // A Random String Generator for Salts, Cookies, and other Uniques (remember to check uniqueness).
-// 
+//
 // Generator_String() gives a 64 character random string of lower-case letters and numbers
 // Generator_String(n) gives a "n" character random string of lower-case letters and numbers
 // Generator_String(n, true, true) gives a "n" character random string of both lower-case and upper-case letters, numbers and special characters

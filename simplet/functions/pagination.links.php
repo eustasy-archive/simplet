@@ -1,15 +1,15 @@
 <?php
 
 ////	Pagination Preparation
-// 
+//
 // Echoes links for pagination.
-// 
+//
 // TODO
 // Why do these arrays need to be passed?
 // Global doesn't seem to allow them,
 // Because they were created in a function?
 // Were they not passed out?
-// 
+//
 // Pagination_Links($Pagination, $PreserveQueryStrings);
 
 function Pagination_Links($Pagination, $PreserveQueryStrings) {

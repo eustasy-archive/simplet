@@ -1,10 +1,10 @@
 <?php
 
 ////	Pagination Preparation
-// 
+//
 // Prepare for Pagination
 // Returns an array
-// 
+//
 // Pagination_Pre(10);
 // Pagination_Pre(10, 25);
 // Pagination_Pre(10, 25, 3);

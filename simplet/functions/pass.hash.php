@@ -1,9 +1,9 @@
 <?php
 
 ////	Password Hash Function
-// 
+//
 // A basic password-and-salt hasher.
-// 
+//
 // Pass_Hash($Pass, $Salt) returns a hash.
 // Compare to one stored to determine authenticity.
 
