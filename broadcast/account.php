@@ -512,44 +512,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				echo '<h2>Sessions</h2>';
 
-				if (isset($_GET['cookie'])) {
-
-					$Get_Cookie = Input_Prepare($_GET['cookie']);
-
-					$Session_End = 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$Get_Cookie.'\'';
-					$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
-					if ( !$Session_End ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
-						echo '<h3>Session could not be Terminated</h3>';
-						echo '<h4>It probably doesn\'t exist or doesn\'t belong to you.</h4>';
-					} else echo '<h3>Session Terminated</h3>';
-
-				}
-
-				$Sessions = 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Member_ID`=\''.$Member_ID.'\' AND `Active`=\'1\' AND NOT `Cookie`=\''.$User_Cookie.'\'';
-				$Sessions = mysqli_query($Database['Connection'], $Sessions, MYSQLI_STORE_RESULT);
-				if ( !$Session ) {
-					if ( $Sitewide_Debug ) echo 'Invalid Query (Session): '.mysqli_error($Database['Connection']);
-					// TODO Handle Error
-				} else {
-					$Sessions_Count = mysqli_num_rows($Sessions);
-					if ($Sessions_Count == 0) {
-						echo '<h3>No other active sessions.</h3>';
-					} else {
-						while ($Sessions_Fetch = mysqli_fetch_assoc($Sessions)) {
-						 	echo '<p>Login';
-						 	if (!empty($Sessions_Fetch['IP'])) {
-						 		echo ' from ';
-						 		if (function_exists('geoip_country_name_by_name')) {
-						 			echo geoip_country_name_by_name($Sessions_Fetch['IP']);
-						 		} else {
-						 			echo $Sessions_Fetch['IP'];
-						 		}
-						 	}
-						 	echo ' at '.date('G:i, jS F Y', $Sessions_Fetch['Created']).' <a class="floatright" href="?sessions&cookie=' . $Sessions_Fetch['Cookie'] . '">Terminate</a></p>';
-						}
-					}
-				}
+				Account_Sessions();
 
 				require $Footer;
 

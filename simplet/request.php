@@ -68,6 +68,7 @@ require 'functions/runonce.used.php';
 require 'functions/runonce.delete.php';
 
 require 'functions/runonce.csrf.create.php';
+require 'functions/runonce.csrf.form.php';
 require 'functions/runonce.csrf.check.php';
 
 require 'onces/isauth.php';
@@ -90,6 +91,8 @@ require 'functions/member.group.check.php';
 require 'functions/member.group.list.php';
 require 'functions/member.group.remove.php';
 require 'functions/member.login.form.php';
+
+require 'functions/account.sessions.php';
 
 require 'functions/feed.header.php';
 require 'functions/feed.files.php';
