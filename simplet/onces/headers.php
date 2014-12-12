@@ -19,3 +19,9 @@ header('X-Content-Type-Options: NOSNIFF');
 // - SAMEORIGIN
 // - ALLOW-FROM $var
 header('X-Frame-Options: DENY');
+
+// X-XSS-Protection
+// Stops pages being compromised by cross-site scripting.
+// Default: 1
+// Alternative: 0
+header('X-XSS-Protection: 1');
