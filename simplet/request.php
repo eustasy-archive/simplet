@@ -29,11 +29,6 @@ include 'config.php';
 // This is not require because it might fail if not yet installed.
 // `once.connect.php` will handle failures, to some extent.
 
-
-
-////	Require Things
-require 'onces/connect.php';
-
 $Place = parse_url($Sitewide_Root);
 
 $Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
@@ -45,6 +40,13 @@ if ($PHP_Strip && substr($Request['path'], -4, 4) == '.php') {
 	header ('HTTP/1.1 301 Moved Permanently');
 	header ('Location: '.$Sitewide_Root.$Canonical);
 }
+
+
+
+////	Require Things
+require 'onces/connect.php';
+require 'onces/headers.php';
+
 
 $Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
 
