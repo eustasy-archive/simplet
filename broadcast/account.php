@@ -128,7 +128,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						}
 
 					// IFBLOCK
-					} else $Error = 'Too many login attempts. You get three every 15 minutes.';
+					} else $Error = 'Too many login attempts. Please wait 3 minutes.';
 
 				}
 
