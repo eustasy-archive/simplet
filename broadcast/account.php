@@ -42,7 +42,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			}
 
 			// IFAUTH
-			if ($Member_Auth) {
+			if ( $Member_Auth ) {
 				if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
 				else header('Location: '.$Sitewide_Account, TRUE, 302);
 				die();
@@ -54,7 +54,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				else if (empty($_POST['mail'])) $Error = 'No Mail received.';
 				else {
 
-					$Login_Mail = Input_Prepare($_POST['mail']);
+					$Login_Mail = Input_Prepare(strtolower($_POST['mail']));
 					$Login_Pass = Input_Prepare($_POST['pass']);
 
 					// IFBLOCK
@@ -70,7 +70,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							$Member_Count = mysqli_num_rows($Member_Check);
 							if ($Member_Count == 0) {
-								$Error = 'There is no user registered with that mail.';
+								// ERROR: Incorrect mail, or mail not registered.
+								$Error = 'Wrong email or password.';
 							} else {
 
 								$Member_Fetch = mysqli_fetch_assoc($Member_Check);
@@ -231,7 +232,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				} else {
 
 					$Signup_Name = Input_Prepare($_POST['name']);
-					$Signup_Mail = Input_Prepare($_POST['mail']);
+					// TODO Unit Test
+					$Signup_Mail = Input_Prepare(strtolower($_POST['mail']));
 					$Signup_Pass = Input_Prepare($_POST['pass']);
 
 					// TODO Member_Check Function
@@ -444,13 +446,13 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else if (isset($_POST['mail'])) { // Change Mail Process
 
-					$Mail_New = Input_Prepare($_POST['mail']);
+					$Mail_New = Input_Prepare(strtolower($_POST['mail']));
 
 					if (empty($Mail_New)) {
 						$Error = 'Mail cannot be empty.';
 					} else {
 
-						$Mail_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Mail`=\''.$Mail_New.'\', `Modified`==\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
+						$Mail_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Mail`=\''.$Mail_New.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
 						$Mail_Change = mysqli_query($Database['Connection'], $Mail_Change, MYSQLI_STORE_RESULT);
 						if ( !$Mail_Change ) {
 							if ( $Sitewide_Debug ) echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
@@ -599,7 +601,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				} else if (isset($_POST['mail'])) { // Reset Mail Process
 
-					$Reset_Mail = Input_Prepare($_POST['mail']);
+					$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
 
 					// TODO Member_Check Function
 					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
