@@ -21,7 +21,7 @@ function Runonce_CSRF_Create() {
 	// Create a 28 day CSRF Protection Key
 	$Runonce_CSRF_Create = Runonce_Create($Timeout, 0, 'CSRF Protection', $Key, $Owner);
 
-	setcookie($Cookie_Prefix.'_csrf_protection', $Runonce_CSRF_Create['Key'], time()+60*60*24*28, '/', $Request['host'], $Request['Secure']);
+	setcookie($Cookie_Prefix.'_csrf_protection', $Runonce_CSRF_Create['Key'], time()+60*60*24*28, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
 
 	return $Runonce_CSRF_Create;
 
