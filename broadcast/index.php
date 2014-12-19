@@ -38,7 +38,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		<div class="section group">
 			<div class="col span_1_of_2">
 				<h3>About</h3>
-				<p>Simplet is a small, simple, Content Management System designed for use on Linux/Nginx/PHP5-FPM stacks with MySQL-like database systems (we prefer <a href="http://mariadb.org">MariaDB</a>) that includes a basic membership system, blog and forum options plus a nice default responsive template for you to build on.</p>
+				<p>Simplet is a small, simple, system designed for use on Linux/Nginx/PHP5-FPM stacks with MySQL-like database systems (we prefer <a href="http://mariadb.org">MariaDB</a>) that includes a basic membership system, blog and forum options plus a nice default responsive template for you to drop in behind a previously static site to add in membership capabilities.</p>
 				<p>It aims to extend the HTML5 Boilerplates by building one directly into a PHP Framework all of its own.</p>
 			</div>
 			<div class="col span_1_of_2">
