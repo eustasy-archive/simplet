@@ -333,49 +333,22 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Canonical = $Sitewide_Account.'?change=name';
 
-				if (!$Member_Auth) { // Change Name Redirect
+				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=name'), TRUE, 302);
 					die();
-
-				} else if (isset($_POST['name'])) { // Change Name Process
-
-					$Name_New = Input_Prepare($_POST['name']);
-
-					if (empty($Name_New)) {
-						$Error = 'Name cannot be empty.';
-					} else {
-
-						$Name_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Name`=\''.$Name_New.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
-						$Name_Change = mysqli_query($Database['Connection'], $Name_Change, MYSQLI_STORE_RESULT);
-						if ( !$Name_Change ) {
-							if ( $Sitewide_Debug ) echo 'Invalid Query (Name_Change): '.mysqli_error($Database['Connection']);
-							// TODO Handle Error
-						} else {
-							header('Location: '.$Sitewide_Account, TRUE, 302);
-							die();
-						}
-
+				} else {
+					$Success = false;
+					$Error = false;
+					if ( isset($_POST['name']) ) {
+						Account_Change_Name();
 					}
-				} else { // Change Name Form
-					require $Header;
-					?>
-					<form class="col span_1_of_1" action="" method="post">
-						<h2>Change your Name</h2>
-						<div class="section group">
-							<div class="col span_1_of_3"><label for="name"><h3>Name</h3></label></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="text" name="name" placeholder="<?php echo $Member_Name; ?>" value="<?php echo $Member_Name; ?>" required /></div>
-						</div>
-						<div class="section group">
-							<div class="col span_1_of_3"><br></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="submit" value="Change Name" /></div>
-						</div>
-					</form>
-					<div class="clear"></div>
-					<?php
-					require $Footer;
+					if ( !$Success ) {
+						require $Header;
+						Account_Change_Name_Form();
+						require $Footer;
+					}
 				}
+
 			} else if (Input_Prepare($_GET['change']) == 'pass') { // Change Pass
 
 				$Title_HTML = 'Change Pass';
@@ -486,13 +459,6 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				}
 			} else {
 				$Error = 'Invalid Change Variable';
-			}
-
-			if (!empty($Error)) { // Change Error
-				require $Header;
-				echo '<h2>Change Error</h2>';
-				echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="">Try Again</a></h3>';
-				require $Footer;
 			}
 
 		} else if (isset($_GET['sessions'])) { // Sessions

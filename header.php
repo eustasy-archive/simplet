@@ -19,7 +19,31 @@
 	<link rel="canonical" href="<?php echo $Sitewide_Root.$Canonical; ?>">
 	<link rel="icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
 	<link rel="shortcut icon" href="<?php echo $Sitewide_Root; ?>favicon.ico">
+	<link rel="stylesheet" media="all" href="//cdn.jsdelivr.net/g/normalize,colors.css">
 	<link rel="stylesheet" media="all" href="<?php echo $Sitewide_Root; ?>assets/css/combined.min.css">
+	<style>
+		.text-left {
+			text-align: left;
+		}
+		.text-center {
+			text-align: center;
+		}
+		.text-right {
+			text-align: right;
+		}
+		.margin-0 {
+			margin: 0;
+		}
+		.likelink {
+			display: inline-block !important;
+		}
+		.likelink input {
+			background: transparent !important;
+			border: none !important;
+			color: #3a8ee6 !important;
+			width: 100% !important;
+		}
+	</style>
 
 	<!-- SelfXSS Protection. -->
 	<script>

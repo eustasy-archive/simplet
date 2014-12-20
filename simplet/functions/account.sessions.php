@@ -76,18 +76,7 @@ function Account_Sessions() {
 					'.Runonce_CSRF_Form().'
 					<input type="hidden" name="cookie" value="'.$Sessions_Fetch['Cookie'].'" />
 					<input type="submit" value="Terminate">
-				</form>
-				<style>
-				.likelink {
-					display: inline-block !important;
-				}
-				.likelink input {
-					background: transparent !important;
-					border: none !important;
-					color: #3a8ee6 !important;
-					width: 100% !important;
-				}
-				</style>';
+				</form>';
 			}
 		} // END IF Some Sessions
 	} // END IF Sessions available
