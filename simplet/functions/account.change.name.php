@@ -6,7 +6,7 @@
 
 function Account_Change_Name() {
 
-	global $Database, $Error, $Member_ID, $Sitewide_Debug, $Success, $Time;
+	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
 
 	// IF CSRF Okay
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
