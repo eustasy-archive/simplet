@@ -27,17 +27,17 @@ function Account_Sessions() {
 			// IF Session Ended
 			if ( !$Session_End ) {
 				if ( $Sitewide_Debug ) echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
-				echo '<h3 class="error-title">Session could not be Terminated</h3>';
+				echo '<h3 class="color-pomegranate">Session could not be Terminated</h3>';
 			// END IF Session Ended
 			// IF Session Not Ended
 			} else {
-				echo '<h3 class="success-title">Session Terminated</h3>';
+				echo '<h3 class="color-nephritis">Session Terminated</h3>';
 			} // END IF Session Not Ended
 		// END IF CSRF Okay
 		// IF CSRF Not Okay
 		} else {
-			echo '<h3 class="error-title">Session could not be Terminated</h3>';
-			echo '<h4 class="error-description">Your security token did not match. Please try again.</h4>';
+			echo '<h3 class="color-pomegranate">Session could not be Terminated</h3>';
+			echo '<h4>Your security token did not match. Please try again.</h4>';
 		} // END IF CSRF Not Okay
 	} // END IF Delete Cookie
 
@@ -46,14 +46,14 @@ function Account_Sessions() {
 	// IF Sessions not available
 	if ( !$Sessions ) {
 		if ( $Sitewide_Debug ) echo 'Invalid Query ($Sessions): '.mysqli_error($Database['Connection']);
-		echo '<h3 class="error-title">Sessions could not be listed</h3>';
+		echo '<h3 class="color-pomegranate">Sessions could not be listed</h3>';
 	// END IF Sessions not available
 	// IF Sessions available
 	} else {
 		$Sessions_Count = mysqli_num_rows($Sessions);
 		// IF Zero Sessions
 		if ($Sessions_Count == 0) {
-			echo '<h3>No other active sessions.</h3>';
+			echo '<h3 class="color-pomegranate">No other active sessions.</h3>';
 		// END IF Zero Sessions
 		// IF Some Sessions
 		} else {
