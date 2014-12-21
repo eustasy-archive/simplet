@@ -336,17 +336,22 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=name'), TRUE, 302);
 					die();
+
 				} else {
+
 					$Success = false;
 					$Error = false;
+
 					if ( isset($_POST['name']) ) {
 						Account_Change_Name();
 					}
+
 					if ( !$Success ) {
 						require $Header;
 						Account_Change_Name_Form();
 						require $Footer;
 					}
+
 				}
 
 			} else if (Input_Prepare($_GET['change']) == 'pass') { // Change Pass
@@ -358,52 +363,27 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Canonical = $Sitewide_Account.'?change=pass';
 
-				if (!$Member_Auth) { // Change Pass Redirect
+				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=pass'), TRUE, 302);
 					die();
 
-				} else if (isset($_POST['pass'])) { // Change Pass Process
+				} else {
 
-					$Pass_New = Input_Prepare($_POST['pass']);
+					$Success = false;
+					$Error = false;
 
-					if (empty($Pass_New)) {
-						$Error = 'Pass cannot be empty.';
-					} else {
-
-						$Salt = Generator_String();
-						$Pass_Hash = Pass_Hash($Pass_New, $Salt);
-
-						$Pass_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
-						$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);
-						if ( !$Pass_Change ) {
-							if ( $Sitewide_Debug ) echo 'Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']);
-							// TODO Handle Error
-						} else {
-							header('Location: '.$Sitewide_Account, TRUE, 302);
-							die();
-						}
-
+					if ( isset($_POST['pass']) ) {
+						Account_Change_Pass();
 					}
-				} else { // Change Pass Form
-					require $Header;
-					?>
-					<form class="col span_1_of_1" action="" method="post">
-						<h2>Change your Pass</h2>
-						<div class="section group">
-							<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty12345" required /></div>
-						</div>
-						<div class="section group">
-							<div class="col span_1_of_3"><br></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="submit" value="Change Pass" /></div>
-						</div>
-					</form>
-					<div class="clear"></div>
-					<?php
-					require $Footer;
+
+					if ( !$Success ) {
+						require $Header;
+						Account_Change_Pass_Form();
+						require $Footer;
+					}
+
 				}
+
 			} else if (Input_Prepare($_GET['change']) == 'mail') { // Change Mail
 
 				$Title_HTML = 'Change Mail';
