@@ -96,6 +96,8 @@ require 'functions/member.group.remove.php';
 require 'functions/member.login.form.php';
 
 require 'functions/account.sessions.php';
+require 'functions/account.change.mail.php';
+require 'functions/account.change.mail.form.php';
 require 'functions/account.change.name.php';
 require 'functions/account.change.name.form.php';
 require 'functions/account.change.pass.php';

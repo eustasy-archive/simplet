@@ -393,50 +393,27 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				$Canonical = $Sitewide_Account.'?change=mail';
 
-				if (!$Member_Auth) { // Change Mail Redirect
+				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=mail'), TRUE, 302);
 					die();
 
-				} else if (isset($_POST['mail'])) { // Change Mail Process
+				} else {
 
-					$Mail_New = Input_Prepare(strtolower($_POST['mail']));
+					$Success = false;
+					$Error = false;
 
-					if (empty($Mail_New)) {
-						$Error = 'Mail cannot be empty.';
-					} else {
-
-						$Mail_Change = 'UPDATE `'.$Database['Prefix'].'Members` SET `Mail`=\''.$Mail_New.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
-						$Mail_Change = mysqli_query($Database['Connection'], $Mail_Change, MYSQLI_STORE_RESULT);
-						if ( !$Mail_Change ) {
-							if ( $Sitewide_Debug ) echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
-							// TODO Handle Error
-						} else {
-							header('Location: '.$Sitewide_Account, TRUE, 302);
-							die();
-						}
-
+					if ( isset($_POST['mail']) ) {
+						Account_Change_Mail();
 					}
 
-				} else { // Change Mail Form
-					require $Header;
-					?>
-					<form class="col span_1_of_1" action="" method="post">
-						<h2>Change your Mail</h2>
-						<div class="section group">
-							<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="email" name="mail" placeholder="<?php echo $Member_Mail; ?>" value="<?php echo $Member_Mail; ?>" required /></div>
-						</div>
-						<div class="section group">
-							<div class="col span_1_of_3"><br></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="submit" value="Change Mail" /></div>
-						</div>
-					</form>
-					<div class="clear"></div>
-					<?php
-					require $Footer;
+					if ( !$Success ) {
+						require $Header;
+						Account_Change_Mail_Form();
+						require $Footer;
+					}
+
 				}
+
 			} else {
 				$Error = 'Invalid Change Variable';
 			}
