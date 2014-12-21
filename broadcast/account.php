@@ -443,86 +443,66 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			}
 
-		} else if (isset($_GET['reset'])) { // Reset
+		// Reset Password
+		} else if ( isset($_GET['reset']) ) {
 
 			$Title_HTML = 'Password Reset';
 			$Title_Plain = 'Password Reset';
 
-			$Keywords = 'password teset account';
+			$Keywords = 'password reset account';
 
 			$Canonical = $Sitewide_Account.'?reset';
 
-			if ($Member_Auth) { // Reset Redirect
+			if ($Member_Auth) {
 				header('Location: '.$Sitewide_Account, TRUE, 302);
 				die();
 
-			} else if (isset($Browning) && $Browning) {
+			// TODO Expand mail system support.
+			} else if (
+				isset($Browning) &&
+				$Browning
+			) {
 
-				require $Header;
-
-				if (isset($_GET['key'])) { // Reset Process
+				if ( isset($_GET['key']) ) { // Reset Process
 
 					$Key = Input_Prepare($_GET['key']);
 
 					$Key_Info = Runonce_Check($Key, '*', 'Password Reset');
 
-					if ($Key_Info) {
+					if ( $Key_Info ) {
 
-						if (isset($_POST['pass'])) { // Reset Password Process
+						$Member_ID = $Key_Info['Member_ID'];
 
-							$Pass_New = Input_Prepare($_POST['pass']);
+						// TODO Member_Exists
 
-							$Salt = Generator_String();
-							$Pass_Hash = Pass_Hash($Pass_New, $Salt);
+						$Success = false;
+						$Error = false;
 
-							// TODO Member_Exists
-							// TODO Member_Change_Pass
-
-							$Reset = 'UPDATE `'.$Database['Prefix'].'Members` SET `Pass`=\''.$Pass_Hash.'\', `Salt`=\''.$Salt.'\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Key_Info['Member_ID'].'\' AND `Status`=\'Active\'';
-							$Reset = mysqli_query($Database['Connection'], $Reset, MYSQLI_STORE_RESULT);
-							if ( !$Reset ) {
-								if ( $Sitewide_Debug ) echo 'Invalid Query (Reset): '.mysqli_error($Database['Connection']);
-								// TODO Handle Error
-							} else {
-
-								Runonce_Delete($Key, $Key_Info['Member_ID']);
-
-								echo '<h2>Password Reset Successfully</h2>';
-								echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
-
-							}
-
-						} else { // Reset Password Form
-							?>
-							<form class="col span_1_of_1" action="" method="post">
-								<h2>Reset Password</h2>
-								<div class="section group">
-									<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
-									<div class="col span_1_of_6"><br></div>
-									<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty1234" required /></div>
-								</div>
-								<div class="section group">
-									<div class="col span_1_of_3">
-										<p>No account? &nbsp; <a href="?signup">Sign Up</a></p>
-										<p>Remembered it? &nbsp; <a href="?login">Login</a></p>
-									</div>
-									<div class="col span_1_of_6"><br></div>
-									<div class="col span_1_of_2">
-										<input type="submit" value="Reset" />
-									</div>
-								</div>
-							</form>
-							<div class="clear"></div>
-							<?php
+						if ( isset($_POST['pass']) ) {
+							Account_Change_Pass(false);
 						}
 
+						require $Header;
+						if ( !$Success ) {
+							Account_Reset_Pass_Form();
+						} else {
+							Runonce_Delete($Key, $Key_Info['Member_ID']);
+							echo '<h2>Password Reset Successfully</h2>';
+							echo '<h3>You should probably go <a href="?login">login</a>.</h3>';
+						}
+						require $Footer;
+
 					} else {
+						require $Header;
 						echo '
 						<h2>Error: Invalid Key</h2>
 						<h3><a href="?reset">Try again</a></h3>';
+						require $Footer;
 					}
 
 				} else if (isset($_POST['mail'])) { // Reset Mail Process
+
+					require $Header;
 
 					$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
 
@@ -558,7 +538,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 									'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
 								);
 
-								if ($Mail_Response) {
+								if ( $Mail_Response === true ) {
 									echo '
 									<h2>A Password Reset has been initiated.</h2>
 									<h3>Please check your email.</h3>';
@@ -577,6 +557,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					}
 
 				} else { // Reset Form
+					require $Header;
 					?>
 					<form class="col span_1_of_1" action="" method="post">
 						<h2>Reset Password</h2>

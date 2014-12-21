@@ -21,7 +21,7 @@ function Account_Change_Mail() {
 			// Construct Query
 			$Mail_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
 			$Mail_Change .= ' SET `Mail`=\''.$Member_Mail_New.'\', `Modified`=\''.$Time.'\'';
-			$Mail_Change .= ' WHERE `ID`=\''.$Member_ID.'\'';
+			$Mail_Change .= ' WHERE `ID`=\''.$Member_ID.'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Mail_Change = mysqli_query($Database['Connection'], $Mail_Change, MYSQLI_STORE_RESULT);
 			// IF Mail not Changed

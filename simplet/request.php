@@ -95,13 +95,14 @@ require 'functions/member.group.list.php';
 require 'functions/member.group.remove.php';
 require 'functions/member.login.form.php';
 
-require 'functions/account.sessions.php';
 require 'functions/account.change.mail.php';
 require 'functions/account.change.mail.form.php';
 require 'functions/account.change.name.php';
 require 'functions/account.change.name.form.php';
 require 'functions/account.change.pass.php';
 require 'functions/account.change.pass.form.php';
+require 'functions/account.reset.pass.form.php';
+require 'functions/account.sessions.php';
 
 require 'functions/feed.header.php';
 require 'functions/feed.files.php';

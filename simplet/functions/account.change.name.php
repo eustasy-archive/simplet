@@ -21,7 +21,7 @@ function Account_Change_Name() {
 			// Construct Query
 			$Name_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
 			$Name_Change .= ' SET `Name`=\''.$Member_Name_New.'\', `Modified`=\''.$Time.'\'';
-			$Name_Change .= ' WHERE `ID`=\''.$Member_ID.'\'';
+			$Name_Change .= ' WHERE `ID`=\''.$Member_ID.'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Name_Change = mysqli_query($Database['Connection'], $Name_Change, MYSQLI_STORE_RESULT);
 			// IF Name not Changed

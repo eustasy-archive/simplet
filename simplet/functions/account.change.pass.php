@@ -4,7 +4,7 @@
 //
 // Changes an accounts pass.
 
-function Account_Change_Pass() {
+function Account_Change_Pass($Redirect = true) {
 
 	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
 
@@ -27,7 +27,7 @@ function Account_Change_Pass() {
 			// Construct Query
 			$Pass_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
 			$Pass_Change .= ' SET `Pass`=\''.$Member_Pass_Hash.'\', `Salt`=\''.$Member_Salt.'\', `Modified`=\''.$Time.'\'';
-			$Pass_Change .= ' WHERE `ID`=\''.$Member_ID.'\'';
+			$Pass_Change .= ' WHERE `ID`=\''.$Member_ID.'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);
 			// IF Pass not Changed
@@ -38,9 +38,10 @@ function Account_Change_Pass() {
 			// IF Pass Changed
 			} else {
 				// Redirect
-				header('Location: '.$Sitewide_Account, TRUE, 302);
+				if ( $Redirect ) {
+					header('Location: '.$Sitewide_Account, TRUE, 302);
+				}
 				$Success = true;
-				// exit;
 			} // IF Pass Changed
 
 		} // END IF Pass is not Empty

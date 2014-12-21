@@ -71,6 +71,13 @@ function Browning_Send($Dear, $Subject, $Message, $Regards=false, $ReplyTo=false
 	$Browning_Response = curl_exec($Browning_Curl);
 	$Browning_Info = curl_getinfo($Browning_Curl);
 
+	if ( $Browning_Response == 'Forbidden' ) {
+		if ( $Debug ) {
+			return 'Unable to send email. Check your configuration and keys.';
+		}
+		return false;
+	}
+
 	if($Debug) {
 		var_dump($Browning_Response);
 		var_dump($Browning_Info);
