@@ -479,6 +479,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Browning
 			) {
 
+				$Success = false;
+				$Error = false;
+
 				// Reset Process
 				if ( isset($_GET['key']) ) {
 
@@ -491,9 +494,6 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						$Member_ID = $Key_Info['Member_ID'];
 
 						// TODO Member_Exists
-
-						$Success = false;
-						$Error = false;
 
 						if ( isset($_POST['pass']) ) {
 							Account_Change_Pass(false);
@@ -521,84 +521,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					// Reset Mail Process
 					if (isset($_POST['mail'])) {
+						Account_Reset_Mail();
+					}
 
-						require $Header;
-
-						$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
-
-						// TODO Member_Check Function
-						$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
-						$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-						if ( !$Member_Chxeck ) {
-							if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
-							// TODO Handle Error
-						} else {
-
-							$Member_Count = mysqli_num_rows($Member_Check);
-							if ($Member_Count == 0) {
-								echo '
-								<h2>Error: There is no user registered with that mail.</h2>
-								<h3><a href="?reset">Try again</a></h3>';
-							} else {
-
-								$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
-								$Member_ID = $Fetch_Member['ID'];; // Number
-								$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
-
-								if (isset($Browning) && $Browning) {
-
-									// Create a single-use key with a 1 hour timeout for resetting the password.
-									$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
-
-									require_once $Lib_Browning_Send;
-
-									$Mail_Response = Browning_Send(
-										$Reset_Mail,
-										'Password Reset',
-										'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
-									);
-
-									if ( $Mail_Response === true ) {
-										echo '
-										<h2>A Password Reset has been initiated.</h2>
-										<h3>Please check your email.</h3>';
-									} else {
-										echo '
-										<h2>Error: Unable to send reset mail.</h2>
-										<h3><a href="?reset">Try again</a></h3>';
-									}
-								} else {
-									echo '
-									<h2>Sorry, the administrator has not configured password resets.</h2>';
-								}
-
-							}
-
-						}
+					require $Header;
 
 					// Reset Form
-					} else {
-						require $Header;
-						?>
-						<form class="col span_1_of_1" action="" method="post">
-							<h2>Reset Password</h2>
-							<div class="section group">
-								<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
-								<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
-								<div class="col span_1_of_2"><input type="email" name="mail" placeholder="johnsmith@example.com" required /></div>
-							</div>
-							<div class="section group">
-								<div class="col span_1_of_3">
-									<p>No account? <a class="floatright" href="?signup">Sign Up</a></p>
-									<p>Remembered it? <a class="floatright" href="?login">Login</a></p>
-								</div>
-								<div class="col span_1_of_6"><br></div>
-								<div class="col span_1_of_2"><input type="submit" value="Reset" /></div>
-							</div>
-						</form>
-						<div class="clear"></div>
-						<?php
-					}
+					// Also handles successes and errors.
+					Account_Reset_Mail_Form();
 
 					require $Footer;
 

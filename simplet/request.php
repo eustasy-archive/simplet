@@ -101,6 +101,8 @@ require 'functions/account.change.name.php';
 require 'functions/account.change.name.form.php';
 require 'functions/account.change.pass.php';
 require 'functions/account.change.pass.form.php';
+require 'functions/account.reset.mail.php';
+require 'functions/account.reset.mail.form.php';
 require 'functions/account.reset.pass.form.php';
 require 'functions/account.sessions.php';
 

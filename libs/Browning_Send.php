@@ -78,7 +78,7 @@ function Browning_Send($Dear, $Subject, $Message, $Regards=false, $ReplyTo=false
 		return false;
 	}
 
-	if($Debug) {
+	if ( $Debug ) {
 		var_dump($Browning_Response);
 		var_dump($Browning_Info);
 	}
