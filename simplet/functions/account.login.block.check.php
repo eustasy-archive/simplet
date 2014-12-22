@@ -1,12 +1,12 @@
 <?php
 
-////	Member Block Check Function
+////	Account Login Block Check Function
 //
 // Checks whether or not a member is in a given group.
 //
-// Member_Block_Check($Login_Mail);
+// Account_Login_Block_Check($Login_Mail);
 
-function Member_Block_Check($Login_Mail, $Timeout = 180) {
+function Account_Login_Block_Check($Login_Mail, $Timeout = 180) {
 
 	global $Database, $Sitewide_Debug;
 

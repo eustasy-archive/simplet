@@ -88,12 +88,10 @@ require 'functions/pagination.preservequerystrings.php';
 require 'functions/pagination.pre.php';
 require 'functions/pagination.links.php';
 
-require 'functions/member.block.check.php';
 require 'functions/member.group.add.php';
 require 'functions/member.group.check.php';
 require 'functions/member.group.list.php';
 require 'functions/member.group.remove.php';
-require 'functions/member.login.form.php';
 
 require 'functions/account.change.mail.php';
 require 'functions/account.change.mail.form.php';
@@ -101,6 +99,8 @@ require 'functions/account.change.name.php';
 require 'functions/account.change.name.form.php';
 require 'functions/account.change.pass.php';
 require 'functions/account.change.pass.form.php';
+require 'functions/account.login.block.check.php';
+require 'functions/account.login.form.php';
 require 'functions/account.reset.mail.php';
 require 'functions/account.reset.mail.form.php';
 require 'functions/account.reset.pass.form.php';

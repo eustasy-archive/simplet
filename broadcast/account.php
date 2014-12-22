@@ -32,40 +32,60 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		$Database['Exists']['Sessions']
 	) {
 
-		// LOGIN
-		if (isset($_GET['login'])) {
+		$Success = false;
+		$Error = false;
+
+		// IF Login
+		if ( isset($_GET['login']) ) {
+
+			// Meta Information
+			$Title_HTML = 'Log In';
+			$Title_Plain = 'Log In';
+			$Keywords = 'log in account';
+			$Canonical = $Sitewide_Account.'?login';
 
 			// Handle redirection nicely.
 			if ( isset($_GET['redirect']) ) {
 				$Redirect = $_GET['redirect'];
+				// Stop a potential loop.
 				if ( $Redirect == 'account?logout' ) $Redirect = 'account';
 			}
 
-			// IFAUTH
+			// IF Already authenticated.
 			if ( $Member_Auth ) {
-				if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), true, 302);
-				else header('Location: '.$Sitewide_Account, true, 302);
-				die();
+				if ( isset($Redirect) ) {
+					header('Location: '.$Sitewide_Root.urldecode($Redirect), true, 302);
+				} else {
+					header('Location: '.$Sitewide_Account, true, 302);
+				}
 
-			// IFAUTH Post
-			} else if (isset($_POST['mail']) || isset($_POST['pass'])) {
+			// END IF Already authenticated.
+			// IF Authenticating.
+			} else if (
+				isset($_POST['mail']) ||
+				isset($_POST['pass'])
+			) {
 
-				if (empty($_POST['pass'])) $Error = 'No Pass received.';
-				else if (empty($_POST['mail'])) $Error = 'No Mail received.';
-				else {
+				if ( empty($_POST['pass']) ) {
+					$Error = 'Your password cannot be blank.';
+				} else if ( empty($_POST['mail']) ) {
+					$Error = 'Your e-mail cannot be blank.';
+				} else {
 
 					$Login_Mail = Input_Prepare(strtolower($_POST['mail']));
 					$Login_Pass = Input_Prepare($_POST['pass']);
 
 					// IFBLOCK
 					// TODO: Make configurable.
-					if ( Member_Block_Check($Login_Mail) < 3 ) {
+					if ( Account_Login_Block_Check($Login_Mail) < 3 ) {
 
 						$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
 						$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 						if ( !$Member_Check ) {
-							if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
-							// TODO Handle Error
+							if ( $Sitewide_Debug ) {
+								echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+							}
+							$Error = 'Login Error: Could not check member existence.';
 						} else {
 
 							$Member_Count = mysqli_num_rows($Member_Check);
@@ -81,6 +101,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 								$Member_Salt = $Member_Fetch['Salt'];
 
 								$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
+								unset($Login_Pass);
 
 								if ($Login_Hash === $Member_Pass) {
 
@@ -91,14 +112,16 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 									$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$Member_Cookie.'\', \''.$User_IP.'\', \'1\', \''.$Time.'\', \''.$Time.'\')';
 									$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
 									if ( !$Session_New ) {
-										if ( $Sitewide_Debug ) echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
-										// TODO Handle Error
+										if ( $Sitewide_Debug ) {
+											echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
+										}
+										$Error = 'Login Error: Could not create session.';
 									} else {
 
 										// Login Successful
 										if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), true, 302);
 										else header('Location: '.$Sitewide_Account, true, 302);
-										die(); // As in go away.
+										// exit;
 
 									}
 
@@ -107,8 +130,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 									$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member_ID.'\', \''.$Login_Mail.'\', \''.$User_IP.'\', \''.$Time.'\')';
 									$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
 									if ( !$Failures_New ) {
-										if ( $Sitewide_Debug ) echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
-										// TODO Handle Error
+										if ( $Sitewide_Debug ) {
+											echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
+										}
+										// Silently Fail
 									} else {
 
 										// TODO Use/Make Session Function
@@ -118,7 +143,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 										$Member_Auth = false;
 										$Member_ID = false;
-										$Error = 'Incorrect Pass.';
+
+										$Error = 'Wrong email or password.';
 
 									}
 
@@ -128,45 +154,33 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						}
 
 					// IFBLOCK
-					} else $Error = 'Too many login attempts. Please wait 3 minutes.';
+					} else {
+						$Error = 'Too many login attempts. Please wait 3 minutes.';
+					}
 
 				}
 
 				// Login Error
-				if (!empty($Error)) {
-
-					$Title_HTML = 'Log In';
-					$Title_Plain = 'Log In';
-
-					$Keywords = 'log in account';
-
-					$Canonical = $Sitewide_Account.'?login';
-
+				if ( !empty($Error) ) {
 					require $Header;
-
 					echo '<h2>Login Error</h2>';
 					echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login';
 					if (isset($Redirect)) echo '&redirect='.$Redirect;
 					echo '">Try Again</a></h3>';
-
 					require $Footer;
-
 				}
 
-			// IFAUTH Nothing
+			// END IF Authenticating.
+			// IF Not logged in or logging in.
 			} else {
-				$Title_HTML = 'Log In';
-				$Title_Plain = 'Log In';
-				$Keywords = 'log in account';
-				$Canonical = $Sitewide_Account.'?login';
 				require $Header;
-				Member_Login_Form();
+				Account_Login_Form();
 				require $Footer;
-			} // LOGIN
+			} // END IF Not logged in or logging in.
 
-		// LOGIN
+		// END IF Login
+		// IF Logout
 		} else if (isset($_GET['logout'])) {
-		// LOGOUT
 
 			// Are you logged out already?
 			if (!$Member_Auth) {
@@ -216,7 +230,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			// Register Redirect
 			if ($Member_Auth) {
 				header('Location: '.$Sitewide_Account, true, 302);
-				die();
+				exit;
 
 			// Register Check
 			} else if (!$Sitewide_Signups) {
@@ -347,12 +361,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=name'), true, 302);
-					die();
+					exit;
 
 				} else {
-
-					$Success = false;
-					$Error = false;
 
 					if ( isset($_POST['name']) ) {
 						Account_Change_Name();
@@ -378,12 +389,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=pass'), true, 302);
-					die();
+					// exit;
 
 				} else {
-
-					$Success = false;
-					$Error = false;
 
 					if ( isset($_POST['pass']) ) {
 						Account_Change_Pass();
@@ -409,7 +417,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				if (!$Member_Auth) {
 					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=mail'), true, 302);
-					die();
+					exit;
 
 				} else {
 
@@ -438,7 +446,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			// Session Redirect
 			if (!$Member_Auth) {
 				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?sessions'), true, 302);
-				die();
+				exit;
 
 			} else {
 
@@ -547,7 +555,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			if (!$Member_Auth) {
 				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?delete'), true, 302);
-				die();
+				exit;
 
 			} else if (isset($_GET['key'])) {
 				require $Header;
@@ -612,7 +620,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			if (!$Member_Auth) {
 				header('Location: ?login&redirect='.urlencode($Sitewide_Account), true, 302);
-				die();
+				exit;
 
 			} else {
 				require $Header;
