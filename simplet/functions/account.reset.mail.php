@@ -4,7 +4,7 @@
 //
 // Sends a reset password mail.
 
-function Account_Reset_Mail($Redirect = true) {
+function Account_Reset_Mail() {
 
 	global $Database, $Error, $Lib_Browning_Send, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Root, $Success, $Time;
 
@@ -12,11 +12,11 @@ function Account_Reset_Mail($Redirect = true) {
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
 		// Sanitize Mail
 		$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
-		// IF Pass is Empty
+		// IF Mail is Empty
 		if ( empty($Reset_Mail) ) {
 			$Error = '<h3 class="color-pomegranate">Error: Your e-mail address cannot be empty.</h3>';
-		// END IF Pass is Empty
-		// IF Pass is not Empty
+		// END IF Mail is Empty
+		// IF Mail is not Empty
 		} else {
 			// TODO Member_Check Function
 			$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
@@ -65,7 +65,7 @@ function Account_Reset_Mail($Redirect = true) {
 	// END IF CSRF Okay
 	// IF CSRF Not Okay
 	} else {
-		$Error = '<h3 class="color-pomegranate margin-0">Your Pass could not be changed.</h3>';
+		$Error = '<h3 class="color-pomegranate margin-0">Your password could not be reset.</h3>';
 		$Error .= '<p class="text-center">Your security token did not match. Please try again.</p><br>';
 	} // END IF CSRF Not Okay
 
