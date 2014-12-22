@@ -26,7 +26,9 @@ function Account_Change_Mail() {
 			$Mail_Change = mysqli_query($Database['Connection'], $Mail_Change, MYSQLI_STORE_RESULT);
 			// IF Mail not Changed
 			if ( !$Mail_Change ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
+				if ( $Sitewide_Debug ) {
+					echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
+				}
 				$Error = '<h3 class="color-pomegranate">Mail could not be changed.</h3>';
 			// END IF Mail not Changed
 			// IF Mail Changed

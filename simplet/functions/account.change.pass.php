@@ -32,14 +32,16 @@ function Account_Change_Pass($Redirect = true) {
 			$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);
 			// IF Pass not Changed
 			if ( !$Pass_Change ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']);
+				if ( $Sitewide_Debug ) {
+					echo 'Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']);
+				}
 				$Error = '<h3 class="color-pomegranate">Pass could not be changed.</h3>';
 			// END IF Pass not Changed
 			// IF Pass Changed
 			} else {
 				// Redirect
 				if ( $Redirect ) {
-					header('Location: '.$Sitewide_Account, TRUE, 302);
+					header('Location: '.$Sitewide_Account, true, 302);
 				}
 				$Success = true;
 			} // IF Pass Changed

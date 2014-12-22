@@ -22,7 +22,9 @@ function Account_Change_Mail_Form() {
 			<div class="section group">
 				<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
 				<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
-				<div class="col span_1_of_2"><input type="email" name="mail" placeholder="<?php echo $Member_Mail; ?>" value="<?php echo $Member_Mail; ?>" required /></div>
+				<div class="col span_1_of_2">
+					<?php echo '<input type="email" name="mail" placeholder="'.$Member_Mail.'" value="'.$Member_Mail.'" required />'; ?>
+				</div>
 			</div>
 			<div class="section group">
 				<div class="col span_1_of_3"><br></div>

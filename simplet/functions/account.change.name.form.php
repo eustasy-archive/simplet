@@ -22,7 +22,9 @@ function Account_Change_Name_Form() {
 			<div class="section group">
 				<div class="col span_1_of_3"><label for="name"><h3>Name</h3></label></div>
 				<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
-				<div class="col span_1_of_2"><input type="text" name="name" placeholder="<?php echo $Member_Name; ?>" value="<?php echo $Member_Name; ?>" required /></div>
+				<div class="col span_1_of_2">
+					<?php echo '<input type="text" name="name" placeholder="'.$Member_Name.'" value="'.$Member_Name.'" required />'; ?>
+				</div>
 			</div>
 			<div class="section group">
 				<div class="col span_1_of_3"><br></div>

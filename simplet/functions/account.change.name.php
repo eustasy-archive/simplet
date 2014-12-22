@@ -26,13 +26,15 @@ function Account_Change_Name() {
 			$Name_Change = mysqli_query($Database['Connection'], $Name_Change, MYSQLI_STORE_RESULT);
 			// IF Name not Changed
 			if ( !$Name_Change ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Name_Change): '.mysqli_error($Database['Connection']);
+				if ( $Sitewide_Debug ) {
+					echo 'Invalid Query (Name_Change): '.mysqli_error($Database['Connection']);
+				}
 				$Error = '<h3 class="color-pomegranate">Name could not be changed.</h3>';
 			// END IF Name not Changed
 			// IF Name Changed
 			} else {
 				// Redirect
-				header('Location: '.$Sitewide_Account, TRUE, 302);
+				header('Location: '.$Sitewide_Account, true, 302);
 				$Success = true;
 				// exit;
 			} // IF Name Changed

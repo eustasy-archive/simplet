@@ -43,8 +43,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			// IFAUTH
 			if ( $Member_Auth ) {
-				if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
-				else header('Location: '.$Sitewide_Account, TRUE, 302);
+				if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), true, 302);
+				else header('Location: '.$Sitewide_Account, true, 302);
 				die();
 
 			// IFAUTH Post
@@ -96,8 +96,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 									} else {
 
 										// Login Successful
-										if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), TRUE, 302);
-										else header('Location: '.$Sitewide_Account, TRUE, 302);
+										if (isset($Redirect)) header('Location: '.$Sitewide_Root.urldecode($Redirect), true, 302);
+										else header('Location: '.$Sitewide_Account, true, 302);
 										die(); // As in go away.
 
 									}
@@ -132,7 +132,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				}
 
-				if (!empty($Error)) { // Login Error
+				// Login Error
+				if (!empty($Error)) {
 
 					$Title_HTML = 'Log In';
 					$Title_Plain = 'Log In';
@@ -152,7 +153,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				}
 
-			} else { // IFAUTH Nothing
+			// IFAUTH Nothing
+			} else {
 				$Title_HTML = 'Log In';
 				$Title_Plain = 'Log In';
 				$Keywords = 'log in account';
@@ -166,7 +168,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		} else if (isset($_GET['logout'])) {
 		// LOGOUT
 
-			if (!$Member_Auth) { // Are you logged out already?
+			// Are you logged out already?
+			if (!$Member_Auth) {
 				$Error = 'We can\'t log you out, you aren\'t logged in.';
 
 			} else {
@@ -207,18 +210,22 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			require $Footer;
 
-		} else if (isset($_GET['register'])) { // Register
+		// Register
+		} else if (isset($_GET['register'])) {
 
-			if ($Member_Auth) { // Register Redirect
-				header('Location: '.$Sitewide_Account, TRUE, 302);
+			// Register Redirect
+			if ($Member_Auth) {
+				header('Location: '.$Sitewide_Account, true, 302);
 				die();
 
-			} else if (!$Sitewide_Signups) { // Register Check
+			// Register Check
+			} else if (!$Sitewide_Signups) {
 				require $Header;
 				echo '<h2>Sorry, new Registrations are not allowed at this time.</h2>';
 				require $Footer;
 
-			} else if (isset($_POST['name']) || isset($_POST['mail']) || isset($_POST['pass'])) { // Register Process
+			// Register Process
+			} else if (isset($_POST['name']) || isset($_POST['mail']) || isset($_POST['pass'])) {
 
 				if (empty($_POST['name'])) {
 					$Error = 'We really need an name.';
@@ -245,7 +252,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					} else {
 
 						$Member_Count = mysqli_num_rows($Member_Check);
-						if ($Member_Count == 0) { // Not a member. Register.
+						// Not a member. Register.
+						if ($Member_Count == 0) {
 
 							$Member_ID  = Generator_String(12);
 
@@ -269,13 +277,15 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 							}
 
-						} else { // Already a member. Sorry..?
+						// Already a member. Sorry..?
+						} else {
 							$Error = 'Sorry, you seem to already be registered. <a href="?login">Log In</a>?';
 						}
 					}
 				}
 
-				if (!empty($Error)) { // Register Error
+				// Register Error
+				if (!empty($Error)) {
 
 					$Title_HTML = 'Register';
 					$Title_Plain = 'Register';
@@ -322,9 +332,11 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				<?php
 				require $Footer;
 			}
-		} else if (!empty($_GET['change'])) { // Change
+		// Change
+		} else if (!empty($_GET['change'])) {
 
-			if (Input_Prepare($_GET['change']) == 'name') { // Change Name
+			// Change Name
+			if (Input_Prepare($_GET['change']) == 'name') {
 
 				$Title_HTML = 'Change Name';
 				$Title_Plain = 'Change Name';
@@ -334,7 +346,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Canonical = $Sitewide_Account.'?change=name';
 
 				if (!$Member_Auth) {
-					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=name'), TRUE, 302);
+					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=name'), true, 302);
 					die();
 
 				} else {
@@ -354,7 +366,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				}
 
-			} else if (Input_Prepare($_GET['change']) == 'pass') { // Change Pass
+			// Change Pass
+			} else if (Input_Prepare($_GET['change']) == 'pass') {
 
 				$Title_HTML = 'Change Pass';
 				$Title_Plain = 'Change Pass';
@@ -364,7 +377,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Canonical = $Sitewide_Account.'?change=pass';
 
 				if (!$Member_Auth) {
-					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=pass'), TRUE, 302);
+					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=pass'), true, 302);
 					die();
 
 				} else {
@@ -384,7 +397,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				}
 
-			} else if (Input_Prepare($_GET['change']) == 'mail') { // Change Mail
+			// Change Mail
+			} else if (Input_Prepare($_GET['change']) == 'mail') {
 
 				$Title_HTML = 'Change Mail';
 				$Title_Plain = 'Change Mail';
@@ -394,7 +408,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Canonical = $Sitewide_Account.'?change=mail';
 
 				if (!$Member_Auth) {
-					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=mail'), TRUE, 302);
+					header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?change=mail'), true, 302);
 					die();
 
 				} else {
@@ -418,10 +432,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Error = 'Invalid Change Variable';
 			}
 
-		} else if (isset($_GET['sessions'])) { // Sessions
+		// Sessions
+		} else if (isset($_GET['sessions'])) {
 
-			if (!$Member_Auth) { // Session Redirect
-				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?sessions'), TRUE, 302);
+			// Session Redirect
+			if (!$Member_Auth) {
+				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?sessions'), true, 302);
 				die();
 
 			} else {
@@ -454,8 +470,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			$Canonical = $Sitewide_Account.'?reset';
 
 			if ($Member_Auth) {
-				header('Location: '.$Sitewide_Account, TRUE, 302);
-				die();
+				header('Location: '.$Sitewide_Account, true, 302);
+				exit;
 
 			// TODO Expand mail system support.
 			} else if (
@@ -463,7 +479,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Browning
 			) {
 
-				if ( isset($_GET['key']) ) { // Reset Process
+				// Reset Process
+				if ( isset($_GET['key']) ) {
 
 					$Key = Input_Prepare($_GET['key']);
 
@@ -500,86 +517,92 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						require $Footer;
 					}
 
-				} else if (isset($_POST['mail'])) { // Reset Mail Process
+				} else {
 
-					require $Header;
+					// Reset Mail Process
+					if (isset($_POST['mail'])) {
 
-					$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
+						require $Header;
 
-					// TODO Member_Check Function
-					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
-					$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-					if ( !$Member_Check ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
-						// TODO Handle Error
-					} else {
+						$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
 
-						$Member_Count = mysqli_num_rows($Member_Check);
-						if ($Member_Count == 0) {
-							echo '
-							<h2>Error: There is no user registered with that mail.</h2>
-							<h3><a href="?reset">Try again</a></h3>';
+						// TODO Member_Check Function
+						$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
+						$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
+						if ( !$Member_Chxeck ) {
+							if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+							// TODO Handle Error
 						} else {
 
-							$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
-							$Member_ID = $Fetch_Member['ID'];; // Number
-							$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
+							$Member_Count = mysqli_num_rows($Member_Check);
+							if ($Member_Count == 0) {
+								echo '
+								<h2>Error: There is no user registered with that mail.</h2>
+								<h3><a href="?reset">Try again</a></h3>';
+							} else {
 
-							if (isset($Browning) && $Browning) {
+								$Fetch_Member = mysqli_fetch_assoc($Member_Check); // Bring them to me. Alive.
+								$Member_ID = $Fetch_Member['ID'];; // Number
+								$Member_Name = $Fetch_Member['Name'];; // Do they have a name?
 
-								// Create a single-use key with a 1 hour timeout for resetting the password.
-								$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
+								if (isset($Browning) && $Browning) {
 
-								require_once $Lib_Browning_Send;
+									// Create a single-use key with a 1 hour timeout for resetting the password.
+									$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
 
-								$Mail_Response = Browning_Send(
-									$Reset_Mail,
-									'Password Reset',
-									'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
-								);
+									require_once $Lib_Browning_Send;
 
-								if ( $Mail_Response === true ) {
-									echo '
-									<h2>A Password Reset has been initiated.</h2>
-									<h3>Please check your email.</h3>';
+									$Mail_Response = Browning_Send(
+										$Reset_Mail,
+										'Password Reset',
+										'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
+									);
+
+									if ( $Mail_Response === true ) {
+										echo '
+										<h2>A Password Reset has been initiated.</h2>
+										<h3>Please check your email.</h3>';
+									} else {
+										echo '
+										<h2>Error: Unable to send reset mail.</h2>
+										<h3><a href="?reset">Try again</a></h3>';
+									}
 								} else {
 									echo '
-									<h2>Error: Unable to send reset mail.</h2>
-									<h3><a href="?reset">Try again</a></h3>';
+									<h2>Sorry, the administrator has not configured password resets.</h2>';
 								}
-							} else {
-								echo '
-								<h2>Sorry, the administrator has not configured password resets.</h2>';
+
 							}
 
 						}
 
+					// Reset Form
+					} else {
+						require $Header;
+						?>
+						<form class="col span_1_of_1" action="" method="post">
+							<h2>Reset Password</h2>
+							<div class="section group">
+								<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
+								<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
+								<div class="col span_1_of_2"><input type="email" name="mail" placeholder="johnsmith@example.com" required /></div>
+							</div>
+							<div class="section group">
+								<div class="col span_1_of_3">
+									<p>No account? <a class="floatright" href="?signup">Sign Up</a></p>
+									<p>Remembered it? <a class="floatright" href="?login">Login</a></p>
+								</div>
+								<div class="col span_1_of_6"><br></div>
+								<div class="col span_1_of_2"><input type="submit" value="Reset" /></div>
+							</div>
+						</form>
+						<div class="clear"></div>
+						<?php
 					}
 
-				} else { // Reset Form
-					require $Header;
-					?>
-					<form class="col span_1_of_1" action="" method="post">
-						<h2>Reset Password</h2>
-						<div class="section group">
-							<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="email" name="mail" placeholder="johnsmith@example.com" required /></div>
-						</div>
-						<div class="section group">
-							<div class="col span_1_of_3">
-								<p>No account? <a class="floatright" href="?signup">Sign Up</a></p>
-								<p>Remembered it? <a class="floatright" href="?login">Login</a></p>
-							</div>
-							<div class="col span_1_of_6"><br></div>
-							<div class="col span_1_of_2"><input type="submit" value="Reset" /></div>
-						</div>
-					</form>
-					<div class="clear"></div>
-					<?php
-				}
+					require $Footer;
 
-				require $Footer;
+				}
 
 			} else {
 				require $Header;
@@ -590,10 +613,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				require $Footer;
 			}
 
-		} else if (isset($_GET['delete'])) { // Delete
+		} else if (isset($_GET['delete'])) {
 
-			if (!$Member_Auth) { // Login Redirect
-				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?delete'), TRUE, 302);
+			if (!$Member_Auth) {
+				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?delete'), true, 302);
 				die();
 
 			} else if (isset($_GET['key'])) {
@@ -658,7 +681,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		} else {
 
 			if (!$Member_Auth) {
-				header('Location: ?login&redirect='.urlencode($Sitewide_Account), TRUE, 302);
+				header('Location: ?login&redirect='.urlencode($Sitewide_Account), true, 302);
 				die();
 
 			} else {
@@ -683,7 +706,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		}
 
 	// IFDATABASEMEMBERS
-	} else { // Members are not enabled
+	// Members are not enabled.
+	} else {
 		// TODO ERROR
 	} // IFDATABASEMEMBERS
 
