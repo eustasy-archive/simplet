@@ -6,7 +6,7 @@
 
 function Member_Delete_Form() {
 
-	global $Error, $Key, $Success;
+	global $Error, $Key, $Sitewide_Account, $Success;
 
 	if ( !empty($Success) ) {
 		echo $Success;

@@ -558,11 +558,11 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				exit;
 
 			} else {
-			
-				if ( isset($_GET['key']) ) {
+
+				if ( isset($_POST['delete_key']) ) {
 					Member_Delete();
 				}
-				
+
 				require $Header;
 				if ( !$Success) {
 					$Key = Runonce_Create($Time+(60*3), 1, 'Account Deletion');

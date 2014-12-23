@@ -2,7 +2,7 @@
 
 // TODO Move to Functions folder and require.
 function Member_Auth_False($ClearCookie = false) {
-	global $Cookie_Session, $Member_Admin, $Member_Auth, $Member_ID, $Member_Name;
+	global $Cookie_Session, $Member_Admin, $Member_Auth, $Member_ID, $Member_Name, $Request;
 	if ( $ClearCookie ) {
 		setcookie ($Cookie_Session, '', 1, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
 		setcookie ($Cookie_Session, false, 1, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
