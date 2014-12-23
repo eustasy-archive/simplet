@@ -4,7 +4,7 @@
 //
 // Changes an accounts pass.
 
-function Account_Change_Pass($Redirect = true) {
+function Member_Change_Pass($Redirect = true) {
 
 	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
 

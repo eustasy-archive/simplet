@@ -4,9 +4,9 @@
 //
 // Checks whether or not a member is in a given group.
 //
-// Account_Login_Block_Check($Login_Mail);
+// Member_Login_Block_Check($Login_Mail);
 
-function Account_Login_Block_Check($Login_Mail, $Timeout = 180) {
+function Member_Login_Block_Check($Login_Mail, $Timeout = 180) {
 
 	global $Database, $Sitewide_Debug;
 

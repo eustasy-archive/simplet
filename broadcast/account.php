@@ -77,7 +77,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					// IFBLOCK
 					// TODO: Make configurable.
-					if ( Account_Login_Block_Check($Login_Mail) < 3 ) {
+					if ( Member_Login_Block_Check($Login_Mail) < 3 ) {
 
 						$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
 						$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
@@ -174,7 +174,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			// IF Not logged in or logging in.
 			} else {
 				require $Header;
-				Account_Login_Form();
+				Member_Login_Form();
 				require $Footer;
 			} // END IF Not logged in or logging in.
 
@@ -366,12 +366,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				} else {
 
 					if ( isset($_POST['name']) ) {
-						Account_Change_Name();
+						Member_Change_Name();
 					}
 
 					if ( !$Success ) {
 						require $Header;
-						Account_Change_Name_Form();
+						Member_Change_Name_Form();
 						require $Footer;
 					}
 
@@ -394,12 +394,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				} else {
 
 					if ( isset($_POST['pass']) ) {
-						Account_Change_Pass();
+						Member_Change_Pass();
 					}
 
 					if ( !$Success ) {
 						require $Header;
-						Account_Change_Pass_Form();
+						Member_Change_Pass_Form();
 						require $Footer;
 					}
 
@@ -425,12 +425,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Error = false;
 
 					if ( isset($_POST['mail']) ) {
-						Account_Change_Mail();
+						Member_Change_Mail();
 					}
 
 					if ( !$Success ) {
 						require $Header;
-						Account_Change_Mail_Form();
+						Member_Change_Mail_Form();
 						require $Footer;
 					}
 
@@ -461,7 +461,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 				echo '<h2>Sessions</h2>';
 
-				Account_Sessions();
+				Member_Sessions();
 
 				require $Footer;
 
@@ -477,9 +477,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Canonical = $Sitewide_Account.'?reset';
 
-			if ($Member_Auth) {
+			if ( $Member_Auth ) {
 				header('Location: '.$Sitewide_Account, true, 302);
-				exit;
+				// exit;
 
 			// TODO Expand mail system support.
 			} else if (
@@ -504,12 +504,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 						// TODO Member_Exists
 
 						if ( isset($_POST['pass']) ) {
-							Account_Change_Pass(false);
+							Member_Change_Pass(false);
 						}
 
 						require $Header;
 						if ( !$Success ) {
-							Account_Reset_Pass_Form();
+							Member_Reset_Pass_Form();
 						} else {
 							Runonce_Delete($Key, $Key_Info['Member_ID']);
 							echo '<h2>Password Reset Successfully</h2>';
@@ -529,14 +529,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					// Reset Mail Process
 					if (isset($_POST['mail'])) {
-						Account_Reset_Mail();
+						Member_Reset_Mail();
 					}
 
 					require $Header;
 
 					// Reset Form
 					// Also handles successes and errors.
-					Account_Reset_Mail_Form();
+					Member_Reset_Mail_Form();
 
 					require $Footer;
 
@@ -557,70 +557,26 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				header('Location: ?login&redirect='.urlencode($Sitewide_Account.'?delete'), true, 302);
 				exit;
 
-			} else if (isset($_GET['key'])) {
-				require $Header;
-
-				$Key = Input_Prepare($_GET['key']);
-				if (Runonce_Check($Key, $Member_ID, 'Account Deletion')) {
-
-					$Member_Delete = 'UPDATE `'.$Database['Prefix'].'Members` SET `Status`=\'Deactivated\', `Modified`=\''.$Time.'\' WHERE `ID`=\''.$Member_ID.'\'';
-					$Member_Delete = mysqli_query($Database['Connection'], $Member_Delete, MYSQLI_STORE_RESULT);
-					if ( !$Member_Delete ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']);
-						// TODO Handle Error
-					} else {
-
-						Runonce_Delete($Key, $Member_ID);
-
-						echo '
-						<h2>User Deleted</h2>
-						<h3>You no longer exist. Bye.</h3>';
-
-					}
-
-				} else {
-					echo '
-					<h2>Error: Invalid Key</h2>
-					<h3>User deletion keys are only valid for three minutes. <a href="?delete">Try again</a></h3>';
-				}
-
-				require $Footer;
-
 			} else {
+			
+				if ( isset($_GET['key']) ) {
+					Member_Delete();
+				}
+				
 				require $Header;
-
-				$Key = Runonce_Create($Time+(60*3), 1, 'Account Deletion');
-				?>
-
-				<h2>Are you sure you want to delete your account?</h2>
-				<div class="section group">
-					<div class="col span_1_of_8"><br></div>
-					<div class="col span_6_of_8">
-						<p>This won't remove any of your posts, replies, reviews or comments, nor your helpfulness votes, but it will stop displaying your name and picture next to them.</p>
-						<p>You can change your <a href="?change=name">name</a> or <a href="?change=mail">mail</a> if you'd prefer.</p>
-						<br>
-						<div class="section group">
-							<div class="col span_5_of_11">
-								<a href="<?php echo $Sitewide_Account; ?>" class="button blue textcenter">No, go back.</a>
-							</div>
-							<div class="col span_1_of_11"><br></div>
-							<div class="col span_5_of_11">
-								<a href="?delete&key=<?php echo $Key['Key']; ?>" class="button red textcenter">Yes, delete.</a>
-							</div>
-						</div>
-					</div>
-					<div class="col span_1_of_8"><br></div>
-				</div>
-
-				<?php
+				if ( !$Success) {
+					$Key = Runonce_Create($Time+(60*3), 1, 'Account Deletion');
+				}
+				Member_Delete_Form();
 				require $Footer;
+
 			}
 
 		} else {
 
 			if (!$Member_Auth) {
 				header('Location: ?login&redirect='.urlencode($Sitewide_Account), true, 302);
-				exit;
+				// exit;
 
 			} else {
 				require $Header;

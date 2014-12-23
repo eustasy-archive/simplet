@@ -4,7 +4,7 @@
 //
 // Sends a reset password mail.
 
-function Account_Reset_Mail() {
+function Member_Reset_Mail() {
 
 	global $Database, $Error, $Lib_Browning_Send, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Root, $Success, $Time;
 

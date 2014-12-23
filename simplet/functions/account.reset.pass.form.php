@@ -7,7 +7,7 @@
 ////	TODO
 // No "Cancel" Button
 
-function Account_Reset_Pass_Form() {
+function Member_Reset_Pass_Form() {
 
 	global $Error;
 

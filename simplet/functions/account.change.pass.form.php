@@ -7,7 +7,7 @@
 ////	TODO
 // No "Cancel" Button
 
-function Account_Change_Pass_Form() {
+function Member_Change_Pass_Form() {
 
 	global $Error;
 

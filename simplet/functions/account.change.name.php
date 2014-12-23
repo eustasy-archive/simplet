@@ -4,7 +4,7 @@
 //
 // Changes an accounts name.
 
-function Account_Change_Name() {
+function Member_Change_Name() {
 
 	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
 

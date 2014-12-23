@@ -1,6 +1,6 @@
 <?php
 
-function Account_Login_Form() {
+function Member_Login_Form() {
 	global $Sitewide_Signups;
 	?>
 				<form class="col span_1_of_1" action="" method="post">

@@ -7,7 +7,7 @@
 ////	TODO
 // No "Cancel" Button
 
-function Account_Reset_Mail_Form() {
+function Member_Reset_Mail_Form() {
 
 	global $Error, $Success;
 

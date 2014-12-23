@@ -8,7 +8,7 @@
 // It is possible to terminate the current session,
 // even though there is not link to it.
 
-function Account_Sessions() {
+function Member_Sessions() {
 
 	global $Database, $Member_ID, $Session, $Sitewide_Debug, $Time, $User_Cookie;
 

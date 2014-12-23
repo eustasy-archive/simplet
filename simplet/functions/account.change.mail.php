@@ -4,7 +4,7 @@
 //
 // Changes an accounts mail.
 
-function Account_Change_Mail() {
+function Member_Change_Mail() {
 
 	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
 

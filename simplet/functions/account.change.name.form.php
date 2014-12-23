@@ -7,7 +7,7 @@
 ////	TODO
 // No "Cancel" Button
 
-function Account_Change_Name_Form() {
+function Member_Change_Name_Form() {
 
 	global $Error, $Member_Name;
 

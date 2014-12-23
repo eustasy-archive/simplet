@@ -99,6 +99,8 @@ require 'functions/account.change.name.php';
 require 'functions/account.change.name.form.php';
 require 'functions/account.change.pass.php';
 require 'functions/account.change.pass.form.php';
+require 'functions/account.delete.php';
+require 'functions/account.delete.form.php';
 require 'functions/account.login.block.check.php';
 require 'functions/account.login.form.php';
 require 'functions/account.reset.mail.php';
