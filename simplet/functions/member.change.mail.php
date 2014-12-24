@@ -34,7 +34,7 @@ function Member_Change_Mail() {
 			// IF Mail Changed
 			} else {
 				// Redirect
-				header('Location: '.$Sitewide_Account, TRUE, 302);
+				header('Location: '.$Sitewide_Account, true, 302);
 				$Success = true;
 				// exit;
 			} // IF Mail Changed

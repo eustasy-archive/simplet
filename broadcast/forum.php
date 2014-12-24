@@ -103,7 +103,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 							Forum_Category_Modified($Topic_Category);
 							Forum_Category_Increment($Topic_Category);
 
-							header('Location: ?topic='.$Topic_Slug, TRUE, 302);
+							header('Location: ?topic='.$Topic_Slug, true, 302);
 							die();
 
 						}

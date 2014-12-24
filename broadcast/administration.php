@@ -26,7 +26,7 @@
 if ($Request['path'] === $Place['path'].$Canonical) {
 
 	if (!$Member_Auth) { // Login Redirect
-		header('Location: '.$Place['path'].'account', TRUE, 302);
+		header('Location: '.$Place['path'].'account', true, 302);
 		die();
 
 	} else if (isset($_GET['key'])) {
