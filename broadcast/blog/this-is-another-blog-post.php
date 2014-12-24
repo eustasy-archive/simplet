@@ -2,16 +2,16 @@
 
 	$Title_HTML = 'This is another Blog Post';
 	$Title_Plain = 'This is another Blog Post';
-	
+
 	$Description_HTML = 'This is another description for a blog post.';
 	$Description_Plain = 'This is another description for a blog post.';
-	
+
 	$Keywords = 'blog post';
-	
+
 	$Featured_Image = '';
-	
+
 	$Canonical = 'blog/this-is-another-blog-post';
-	
+
 	$Post_Type = 'Blog Post';
 	$Post_Category = 'Examples';
 
