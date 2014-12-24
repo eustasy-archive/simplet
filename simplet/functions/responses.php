@@ -255,7 +255,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					?>
 		<div class="breaker"></div>
 		<div class="clear"></div>
-		<form action="?respond<?php echo $PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic']; ?>&page=<?php echo $Pagination['Page']; ?>&show=<?php echo $Pagination['Show']; ?>" method="post" id="respond">
+
+		<?php
+			echo '<form action="?respond'.$PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic'].'&page='.$Pagination['Page'].'&show='.$Pagination['Show'].'" method="post" id="respond">';
+		?>
+
 			<div class="section group">
 				<div class="col span_1_of_12"><br></div>
 				<div class="col span_10_of_12">
@@ -272,8 +276,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					<p class="floatleft"><small>If you wish, you can use Markdown for formatting.<br>
 					Markdown can be used to make [<a href="#">links</a>](https://example.com),<br>
 					<strong>**bold text**</strong>, <em>_italics_</em> and <code>`code`</code>.</small></p>
-				<?php if ($Type === 'Review') {
-					echo '
+
+				<?php
+					if ($Type === 'Review') {
+						echo '
 					<select name="rating" class="floatright">
 						<option value="5" selected="selected">5</option>
 						<option value="4">4</option>
@@ -281,7 +287,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						<option value="2">2</option>
 						<option value="1">1</option>
 					</select>';
-				} ?>
+					}
+				?>
+
 					<div class="clear"></div>
 				</div>
 				<div class="col span_1_of_12"><br></div>
@@ -299,7 +307,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				if ($Helpfulness_Show) { ?>
 				$('.helpfulness').each(function() {
 					var Response_ID = $(this).attr('id').substring(12);
-					$.getJSON('<?php echo $Sitewide_Root; ?>api?helpfulness&fetch&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID, function(data) {
+
+					<?php
+						echo '$.getJSON(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, function(data) {';
+					?>
+
 						if (data.vote == 'none') {
 							console.log('Has No Vote on ' + Response_ID);
 							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
@@ -328,7 +340,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						if ($(this).hasClass('faded')) {
 							console.log('Voted Up on ' + Response_ID);
 							$.post(
-								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+
+								<?php
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+								?>
+
 								{ vote: 'up' },
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -342,7 +358,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						} else {
 							console.log('Cleared Up on ' + Response_ID);
 							$.post(
-								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+
+								<?php
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+								?>
+
 								{ vote: 'none' },
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -361,7 +381,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						if ($(this).hasClass('faded')) {
 							console.log('Voted Down on ' + Response_ID);
 							$.post(
-								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+
+								<?php
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+								?>
+
 								{ vote: 'down' },
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -375,7 +399,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						} else {
 							console.log('Cleared Down on ' + Response_ID);
 							$.post(
-								'<?php echo $Sitewide_Root; ?>api?helpfulness&set&canonical=<?php echo $Response_Canonical_Encoded; ?>&id=' + Response_ID,
+
+								<?php
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+								?>
+
 								{ vote: 'none' },
 								function( data ) {
 									if (data.vote == 'confirm') {

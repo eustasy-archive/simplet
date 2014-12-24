@@ -15,10 +15,18 @@ function Generator_String($Length = 64, $Caps = false, $Special = false, $Letter
 	$String = '';
 
 	// Add character options according to selection
-	if ( $Caps ) $String_Characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	if ( $Special ) $String_Characters .= '`¬!"£$%^&*()_+-={}[]:@~;\'#<>?,./|\\';
-	if ( $Letters ) $String_Characters .= 'abcdefghijklmnopqrstuvwxyz';
-	if ( $Numbers ) $String_Characters .= '0123456789';
+	if ( $Caps ) {
+		$String_Characters .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	}
+	if ( $Special ) {
+		$String_Characters .= '`¬!"£$%^&*()_+-={}[]:@~;\'#<>?,./|\\';
+	}
+	if ( $Letters ) {
+		$String_Characters .= 'abcdefghijklmnopqrstuvwxyz';
+	}
+	if ( $Numbers ) {
+		$String_Characters .= '0123456789';
+	}
 
 	// Count the number available
 	$String_Characters_Count = strlen($String_Characters) - 1;

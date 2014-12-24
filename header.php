@@ -81,7 +81,11 @@
 
 	<header class="group">
 		<div class="col span_1_of_2">
-			<h1><a href="<?php echo $Sitewide_Root; ?>"><?php echo $Sitewide_Title; ?></a></h1>
+
+			<?php
+				echo '<h1><a href="'.$Sitewide_Root.'">'.$Sitewide_Title.'</a></h1>';
+			?>
+
 		</div>
 		<nav class="col span_1_of_2">
 			<ul>
