@@ -116,8 +116,6 @@ function Forum_Categories() {
 						if ( $Category_Status == 'Private' ) echo ' private';
 
 						// Echo the Item
-
-
 						$Category_Timestamp = Time_Readable_Difference($Category_Fetch['Modified']);
 						echo '">
 							<div class="col span_1_of_12"><li class="icon unread"></li></div>
