@@ -40,9 +40,11 @@ function Member_Group_Check($Group, $Member_ID_Override = false) {
 			// IFGROUP
 			// WARNING: !== false is necessary because `strpos` will return `0`,
 			// a false-y value, if it is the first group in the list.
-			if ( strpos($Member_Group_Check_Fetch['Groups'] , '|'.$Group.'|') !== false ) return array('success' => '\''.$Check_Member.'\' is in a member of \''.$Group.'\'');
-			else return false;
-			// IFGROUP
+			if ( strpos($Member_Group_Check_Fetch['Groups'], '|'.$Group.'|') !== false ) {
+				return array('success' => '\''.$Check_Member.'\' is in a member of \''.$Group.'\'');
+			} else {
+				return false;
+			} // IFGROUP
 
 		} // IFQUERY
 

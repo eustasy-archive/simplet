@@ -35,7 +35,7 @@ function API_Output_XML($Array) {
 				// Convert Numeric Keys
 				$Key = is_numeric($Key) ? 'item_'.$Key : $Key;
 				// Add to XML
-				$Return->addChild($Key,$Value);
+				$Return->addChild($Key, $Value);
 
 			} // IFARRAY
 
