@@ -17,10 +17,10 @@ function API_Output_XML($Array) {
 		$Return = new SimpleXMLElement('<?xml version="1.0"?><root></root>');
 
 		// FOREACHKEY
-		foreach($Array as $Key => $Value) {
+		foreach ( $Array as $Key => $Value ) {
 
 			// IFARRAY
-			if(is_array($Value)) {
+			if ( is_array($Value) ) {
 
 				// Convert Numeric Keys
 				$Key = is_numeric($Key) ? 'item_'.$Key : $Key;

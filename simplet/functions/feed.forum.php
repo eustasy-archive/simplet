@@ -47,7 +47,7 @@ function Feed_Forum() {
 			} else {
 
 				// WHILERESPONSES
-				while($Fetch = mysqli_fetch_assoc($Query)) {
+				while ( $Fetch = mysqli_fetch_assoc($Query) ) {
 
 					// Parse the Post (strip_tags to remove html)
 					$Post = strip_tags(Parsedown::instance()->parse(html_entity_decode($Fetch['Post'], ENT_QUOTES, 'UTF-8')));
@@ -111,7 +111,7 @@ function Feed_Forum() {
 			} else {
 
 				// WHILETOPICS
-				while($Fetch = mysqli_fetch_assoc($Query)) {
+				while ( $Fetch = mysqli_fetch_assoc($Query) ) {
 
 					// Fetch the Title
 					$Title = $Fetch['Title'];

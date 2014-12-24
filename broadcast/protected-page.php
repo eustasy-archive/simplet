@@ -20,7 +20,7 @@
 if ($Request['path'] === $Place['path'].$Canonical) {
 	require '../header.php';
 
-	if($Member_Auth) {
+	if ( $Member_Auth ) {
 		echo '
 		<h2>Top Secret</h2>
 		<p class="textcenter">You are now authorized to view this super secret page.</p>

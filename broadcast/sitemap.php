@@ -75,7 +75,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Forum_Categories_Count = mysqli_num_rows($Forum_Categories);
 
 				if ($Forum_Categories_Count != 0) {
-					while($Forum_Categories_Fetch = mysqli_fetch_assoc($Forum_Categories)) {
+					while ( $Forum_Categories_Fetch = mysqli_fetch_assoc($Forum_Categories) ) {
 						// Echo out the Item
 						echo '
 		<url>
@@ -102,7 +102,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Forum_Topics_Count = mysqli_num_rows($Forum_Topics);
 
 				if ($Forum_Topics_Count != 0) {
-					while($Forum_Topics_Fetch = mysqli_fetch_assoc($Forum_Topics)) {
+					while ( $Forum_Topics_Fetch = mysqli_fetch_assoc($Forum_Topics) ) {
 						// Echo out the Item
 						echo '
 		<url>

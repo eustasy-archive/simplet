@@ -17,7 +17,8 @@
 
 	require_once __DIR__.'/../simplet/request.php';
 
-	$Administration = $Canonical; // Canonical may change later, Account won't
+	// Canonical may change later, Administration won't
+	$Administration = $Canonical;
 	$Header = '../header.php';
 	$Footer = '../footer.php';
 	$Lib_Browning_Config = __DIR__.'/../libs/Browning_Config.php';
@@ -25,7 +26,7 @@
 
 if ($Request['path'] === $Place['path'].$Canonical) {
 
-	if (!$Member_Auth) { // Login Redirect
+	if (!$Member_Auth) {
 		header('Location: '.$Place['path'].'account', true, 302);
 		die();
 

@@ -89,7 +89,7 @@ function Forum_Topics() {
 					$Responses_Prefetch_Count = array();
 					$Responses_Prefetch_Modified = array();
 
-					while($Responses_Prefetch_Fetch = mysqli_fetch_assoc($Responses_Prefetch)) {
+					while ( $Responses_Prefetch_Fetch = mysqli_fetch_assoc($Responses_Prefetch) ) {
 						$Responses_Prefetch_Count[$Responses_Prefetch_Fetch['Canonical']] = $Responses_Prefetch_Fetch['Count'];
 						$Responses_Prefetch_Modified[$Responses_Prefetch_Fetch['Canonical']] = $Responses_Prefetch_Fetch['Modified'];
 					}
@@ -123,9 +123,16 @@ function Forum_Topics() {
 						// TODO Wrap
 					}
 
-					while($Topics_Fetch = mysqli_fetch_assoc($Topics)) {
+					while ( $Topics_Fetch = mysqli_fetch_assoc($Topics) ) {
 
-						if ($Topics_Fetch['Status'] == 'Public' || $Topics_Fetch['Status'] == 'Locked' || $Topics_Fetch['Status'] == 'Private' && $Member_Auth) {
+						if (
+							$Topics_Fetch['Status'] == 'Public' ||
+							$Topics_Fetch['Status'] == 'Locked' ||
+							(
+								$Topics_Fetch['Status'] == 'Private' &&
+								$Member_Auth
+							)
+						) {
 
 							// TODO Use $Topics_Modified and Cookies to label Unread/Read
 

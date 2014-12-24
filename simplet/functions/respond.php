@@ -21,7 +21,11 @@ function Respond($Status_Override = false) {
 		$Database['Exists']['Responses']
 	) {
 
-		if ( isset($_POST['canonical']) && isset($_POST['type']) && isset($_POST['post']) ) {
+		if (
+			isset($_POST['canonical']) &&
+			isset($_POST['type']) &&
+			isset($_POST['post'])
+		) {
 
 			// Set Variables
 			$Response_Canonical = Input_Prepare($_POST['canonical']);
@@ -47,9 +51,9 @@ function Respond($Status_Override = false) {
 					// Fetch Status of Topic
 					$Topic_Status_Query = 'SELECT `Status` FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
 					$Topic_Status_Query = mysqli_query($Database['Connection'], $Topic_Status_Query, MYSQLI_STORE_RESULT);
-					if (!$Topic_Status_Query) array_push($Response_Return['error'], 'Topic Status Query Error.');
+					if ( !$Topic_Status_Query ) array_push($Response_Return['error'], 'Topic Status Query Error.');
 					$Topic_Status_Count = mysqli_num_rows($Topic_Status_Query);
-					if($Topic_Status_Count === 0) {
+					if ( $Topic_Status_Count === 0 ) {
 						array_push($Response_Return['error'], 'Topic Status Check Error. Using Fallback.');
 						$Response_Status = $Forum_Reply_Default;
 					} else {
@@ -94,17 +98,21 @@ function Respond($Status_Override = false) {
 
 		} else {
 			// Catch errors
-			if(!isset($_POST['canonical'])) {
+			if ( !isset($_POST['canonical']) ) {
 				array_push($Response_Return['error'], 'Could not determine which post you wanted to leave a response to.');
-			} if(!isset($_POST['type'])) {
+			}
+			if( !isset($_POST['type']) ) {
 				array_push($Response_Return['error'], 'Response type was not set correctly.');
-			} if(!isset($_POST['post'])) {
+			}
+			if ( !isset($_POST['post']) ) {
 				array_push($Response_Return['error'], 'You didn\'t enter a post.');
 			}
 		}
 
 	// IFEXISTSRESPOND
-	} else array_push($Response_Return['error'], 'This site has not been correctly configured to have responses.');
+	} else {
+		array_push($Response_Return['error'], 'This site has not been correctly configured to have responses.');
+	}
 
 	return $Response_Return;
 }

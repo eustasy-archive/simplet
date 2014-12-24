@@ -21,7 +21,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		// CATCHRESPOND Catch any responses that didn't go to the API
 		if ( isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply') ) {
 
-			if(!$Member_Auth) {
+			if ( !$Member_Auth ) {
 				// Handle Not Authenticated Error on POST without JavaScript
 				echo '
 				<h3 class="warning red">Error: You cannot post a response as you are not <a href="account?login&redirect='.urlencode($Canonical).'">logged in</a>.</h3>';
@@ -161,7 +161,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					$Responses_Members_Avatar = array();
 
 					// While there are responses
-					while($Responses_Fetch = mysqli_fetch_assoc($Responses)) {
+					while ( $Responses_Fetch = mysqli_fetch_assoc($Responses) ) {
 
 						// Get all the information you can.
 						$Responses_ID = $Responses_Fetch['ID'];

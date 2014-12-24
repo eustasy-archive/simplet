@@ -65,7 +65,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if (!$Responses) array_push($Helpfulness_Return['error'], 'Responses Query Error.');
 				$Responses_Count = mysqli_num_rows($Responses);
 
-				if($Responses_Count === 0) {
+				if ( $Responses_Count === 0 ) {
 					array_push($Helpfulness_Return['error'], 'Response not found.');
 
 				} else {
@@ -77,7 +77,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 					$Helpfulness = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Helpfulness` WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
 					if (!$Helpfulness) array_push($Helpfulness_Return['error'], 'Helpfulness Query Error.');
 					$Helpfulness_Count = mysqli_num_rows($Helpfulness);
-					if($Helpfulness_Count == 0) {
+					if ( $Helpfulness_Count == 0 ) {
 
 						if (isset($_GET['fetch'])) {
 							// No Vote

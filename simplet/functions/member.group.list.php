@@ -12,8 +12,9 @@ function Member_Group_List($Group, $Status_Check = false) {
 	global $Database;
 
 	// IFEXISTSMEMBERS
-	if ( !$Database['Exists']['Members'] ) return false;
-	else {
+	if ( !$Database['Exists']['Members'] ) {
+		return false;
+	} else {
 
 		// Find the Groups for a given Member_ID
 		$Member_Group_List = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Groups` LIKE \'%|'.$Group.'|%\'';
@@ -35,7 +36,7 @@ function Member_Group_List($Group, $Status_Check = false) {
 			// Fetch Results
 			while ($Member_Group_List_Result = mysqli_fetch_assoc($Member_Group_List)) {
 				$Return[$Member_Group_List_Result['ID']] = array();
-				foreach ($Member_Group_List_Result as $Key => $Value) { // Loops 4 times because there are 4 columns
+				foreach ($Member_Group_List_Result as $Key => $Value) {
 					$Return[$Member_Group_List_Result['ID']][$Key] = $Value;
 				}
 			}

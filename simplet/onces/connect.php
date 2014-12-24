@@ -4,7 +4,7 @@ $Database = array();
 
 include_once __DIR__.'/../config.database.php';
 
-if(
+if (
 	!empty($Database['Host']) &&
 	!empty($Database['User']) &&
 	!empty($Database['Pass']) &&

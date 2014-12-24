@@ -194,14 +194,14 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 				// TODO What..?
 				$Topic_Slug = substr($Topic_Slug, 7);
 
-				if (empty($Topic_Slug)) { // HOME
+				// IFHOME
+				if ( empty($Topic_Slug) ) {
 					require $Header;
 					echo '
 					<h2>Forum</h2>';
 					Forum_Categories();
 					require $Footer;
-
-				}
+				} // END IFHOME
 
 			} // IFINDEX
 

@@ -15,8 +15,8 @@ function Pagination_PreserveQueryStrings() {
 	$PreserveQueryStrings['Show'] = '';
 	$PreserveQueryStrings['Topic'] = '';
 
-	if (isset($_GET)) {
-		foreach($_GET as $Get_Key => $Get_Value) {
+	if ( isset($_GET) ) {
+		foreach ( $_GET as $Get_Key => $Get_Value ) {
 			// Ignore old page and show variables
 			if (strtolower($Get_Key) == 'page') {
 				$PreserveQueryStrings['Page'] .= '&'.$Get_Key.'='.$Get_Value;
