@@ -1,32 +1,32 @@
 <?php
-	
+
 	$Title_HTML = 'Example Page';
 	$Title_Plain = 'Example Page';
-	
+
 	$Description_HTML = 'An example page to show default styles.';
 	$Description_Plain = 'An example page to show default styles.';
-	
+
 	$Keywords = 'example page default styles';
-	
+
 	$Featured_Image = '';
-	
+
 	$Canonical = 'page';
-	
+
 	$Post_Type = 'Page';
 	$Post_Category = '';
-	
+
 	require_once __DIR__.'/../simplet/request.php';
-	
+
 if ($Request['path'] === $Place['path'].$Canonical) {
 	require '../header.php';
 	?>
-		
+
 		<h2>Example Page</h2>
 		<p>Simplet is a small, simple PHP Framework for building file-based that includes a responsive, HTML5 website layout with 12 fluid width columns and an integrated database-managed user system.</p>
 		<p>This page will present some of the default styles to show how Simplet will typically look on a clean install. What follows is a standard page break, which only extends the width of the text. All subsequent page-breaks are made by ending <code>.content</code> and starting a new one.</p>
-		
+
 		<hr>
-		
+
 		<div class="section group">
 			<div class="col span_1_of_2">
 				<h3>Easy Peasy</h3>
@@ -41,10 +41,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				<caption>Douglas Adams, The Hitchhiker's Guide to the Galaxy</caption>
 			</div>
 		</div>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<div class="section group">
 			<div class="col span_1_of_3">
 				<h1>Header 1</h1>
@@ -87,37 +87,37 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<h3>Code Snippets</h3>
 		<code>( Lines of Code ) / 42 = ( Total Number of Bugs )</code>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<h3>Text</h3>
-		
+
 		<p>The purpose of this HTML is to help determine what default settings are with CSS and to make sure that all possible HTML Elements are included in this HTML so as to not miss any possible Elements when designing a site.</p>
 		<p class="textleft">This text is aligned to the left.</p>
 		<p class="textright">This text is aligned to the right.</p>
 		<p class="textcenter">This text is centered horizontally.</p>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<h3>Images</h3>
-		
+
 		<img class="floatright" style="max-width:33%;-webkit-border-radius:50%;border-radius:50%;" src="http://lewisgoddard.eustasy.org/images/faces/circular-blue-small-cropped-compressed.png" alt="CSS &vert; God's Language" />
 		<p>Lorem ipsum dolor sit amet, <a href="#" title="test link">test link</a> adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p><p>Lorem ipsum dolor sit amet, <em>emphasis</em> consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p>
-		
+
 		<img class="floatleft" style="max-width:33%;" src="http://lewisgoddard.eustasy.org/images/faces/circular-red-small-compressed.png" alt="CSS &vert; God's Language" />
 		<p>Lorem ipsum dolor sit amet, <a href="#" title="test link">test link</a> adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p><p>Lorem ipsum dolor sit amet, <em>emphasis</em> consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.</p>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<h3>Fieldsets, Legends, and Form Elements</h3>
 		<fieldset>
 			<legend>Legend</legend>
@@ -197,10 +197,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				</div>
 			</div>
 		</form>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<h3 id="tables">Tables</h3>
 		<table>
 			<tr>
@@ -224,14 +224,14 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				<td>Division 3</td>
 			</tr>
 		</table>
-		
+
 	</div>
 	<div class="content">
-		
+
 		<h3>Misc Stuff - abbr, acronym, pre, code, sub, sup, etc.</h3>
 		<p>Lorem <sup>superscript</sup> dolor <sub>subscript</sub> amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. <cite>cite</cite>. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. <abbr title="National Basketball Association">NBA</abbr> Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. <abbr title="Avenue">AVE</abbr></p>
 		<pre>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. <abbr title="National Basketball Association">NBA</abbr> Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. <abbr title="Avenue">AVE</abbr></pre>
-		
+
 	<?php
 	require '../footer.php';
 }

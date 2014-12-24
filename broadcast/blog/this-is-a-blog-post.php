@@ -2,16 +2,16 @@
 
 	$Title_HTML = 'This is a Blog Post';
 	$Title_Plain = 'This is a Blog Post';
-	
+
 	$Description_HTML = 'This is a description for a blog post. It is used in the meta description on the page.';
 	$Description_Plain = 'This is a description for a blog post. It is used as an excerpt in the blog index.';
-	
+
 	$Keywords = 'blog post';
-	
+
 	$Featured_Image = '';
-	
+
 	$Canonical = 'blog/this-is-a-blog-post';
-	
+
 	$Post_Type = 'Blog Post';
 	$Post_Category = 'Examples';
 
