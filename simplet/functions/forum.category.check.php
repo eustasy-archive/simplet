@@ -39,8 +39,11 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 			$Forum_Category_Check_Fetch = mysqli_fetch_assoc($Forum_Category_Check);
 
 			// Return Results
-			if ($Forum_Category_Check_Fetch['Count'] > 0) return true;
-			else return false;
+			if ($Forum_Category_Check_Fetch['Count'] > 0) {
+				return true;
+			} else {
+				return false;
+			}
 
 		} // IFQUERY
 

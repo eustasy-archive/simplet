@@ -11,8 +11,9 @@ function Member_Login_Block_Check($Login_Mail, $Timeout = 180) {
 	global $Database, $Sitewide_Debug;
 
 	// IFEXISTSFAILURES
-	if ( !$Database['Exists']['Failures'] ) return false;
-	else {
+	if ( !$Database['Exists']['Failures'] ) {
+		return false;
+	} else {
 
 		$Block_Check = 'SELECT * FROM `'.$Database['Prefix'].'Failures` WHERE `Mail`=\''.$Login_Mail.'\' AND `Created` > ( UNIX_TIMESTAMP() - '.$Timeout.' )';
 		$Block_Check = mysqli_query($Database['Connection'], $Block_Check, MYSQLI_STORE_RESULT);

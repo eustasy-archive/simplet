@@ -79,7 +79,12 @@ if ( // If it is possible for them to be logged in.
 			// If they're not a member, that Session can be ended.
 			if ( $Member_Count === 0 ) {
 				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_Cookie.'\'', MYSQLI_STORE_RESULT);
-				if ( !$Session_End && $Sitewide_Debug ) echo 'Invalid Query (Session_End): ' . mysqli_error($Database['Connection']);
+				if (
+					!$Session_End &&
+					$Sitewide_Debug
+				) {
+					echo 'Invalid Query (Session_End): ' . mysqli_error($Database['Connection']);
+				}
 
 			// They are authenticated as a valid member.
 			} else {

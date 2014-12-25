@@ -12,8 +12,9 @@ function Runonce_Used($Key, $Key_Owner = '') {
 	global $Database, $Member_ID, $Time;
 
 	// IFEXISTSRUNONCE
-	if ( !$Database['Exists']['Runonce'] ) return false;
-	else {
+	if ( !$Database['Exists']['Runonce'] ) {
+		return false;
+	} else {
 
 		if (empty($Key_Owner)) $Key_Owner = $Member_ID;
 

@@ -17,8 +17,9 @@ function Member_Group_Remove($Group, $Member_ID_Override = false) {
 	else $Check_Member = $Member_ID;
 
 	// IFEXISTSMEMBERS
-	if ( !$Database['Exists']['Members'] ) return false;
-	else {
+	if ( !$Database['Exists']['Members'] ) {
+		return false;
+	} else {
 
 		// Find the Groups for a given Member_ID
 		$Member_Group_Check = 'SELECT `Groups` FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Check_Member.'\'';
@@ -26,7 +27,9 @@ function Member_Group_Remove($Group, $Member_ID_Override = false) {
 
 		// IFCHECK
 		if ( !$Member_Group_Check ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Group_Check): '.mysqli_error($Database['Connection']);
+			if ( $Sitewide_Debug ) {
+				echo 'Invalid Query (Member_Group_Check): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFCHECK Query Successful
@@ -47,14 +50,20 @@ function Member_Group_Remove($Group, $Member_ID_Override = false) {
 
 				// IFREMOVE
 				if ( !$Member_Group_Remove ) {
-					if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Group_Remove): '.mysqli_error($Database['Connection']);
+					if ( $Sitewide_Debug ) {
+						echo 'Invalid Query (Member_Group_Remove): '.mysqli_error($Database['Connection']);
+					}
 					return false;
 
 				// IFREMOVE Query Successful
-				} else return array('success' => '\''.$Check_Member.'\' was removed from \''.$Group.'\'');
+				} else {
+					return array('success' => '\''.$Check_Member.'\' was removed from \''.$Group.'\'');
+				}
 
 			// IFGROUP
-			} else return array('success' => '\''.$Check_Member.'\' wasn\'t in \''.$Group.'\'');
+			} else {
+				return array('success' => '\''.$Check_Member.'\' wasn\'t in \''.$Group.'\'');
+			}
 
 		} // IFCHECK
 

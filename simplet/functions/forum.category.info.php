@@ -11,8 +11,9 @@ function Forum_Category_Info($Category_Slug) {
 	global $Database, $Member_Auth;
 
 	// IFEXISTSCATEGORIES
-	if ( !$Database['Exists']['Categories'] ) return false;
-	else {
+	if ( !$Database['Exists']['Categories'] ) {
+		return false;
+	} else {
 
 		// Select everything we know about the Category
 		$Forum_Category_Info_Query = 'SELECT * FROM `'.$Database['Prefix'].'Categories` WHERE `Slug`=\''.$Category_Slug.'\' AND';

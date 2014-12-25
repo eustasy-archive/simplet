@@ -143,12 +143,18 @@ function Forum_Topics() {
 								<div class="col span_1_of_12"><li class="icon unread"></li></div>
 								<div class="col span_7_of_12"><p class="title">'.$Topics_Fetch['Title'].'</p></div>
 								<div class="col span_2_of_12 textcenter"><p><span>';
-							if (isset($Responses_Prefetch_Count[$Topics_Fetch['Slug']])) echo $Responses_Prefetch_Count[$Topics_Fetch['Slug']];
-							else echo '0';
+							if ( isset($Responses_Prefetch_Count[$Topics_Fetch['Slug']]) ) {
+								echo $Responses_Prefetch_Count[$Topics_Fetch['Slug']];
+							} else {
+								echo '0';
+							}
 							echo '<span></p></div>
 								<div class="col span_2_of_12 textcenter"><p><span>';
-							if ( isset($Responses_Prefetch_Modified[$Topics_Fetch['Slug']]) && $Responses_Prefetch_Modified[$Topics_Fetch['Slug']] > $Topics_Fetch['Modified'] ) $Topic_Timestamp = Time_Readable_Difference($Responses_Prefetch_Modified[$Topics_Fetch['Slug']]);
-							else $Topic_Timestamp = Time_Readable_Difference($Topics_Fetch['Modified']);
+							if ( isset($Responses_Prefetch_Modified[$Topics_Fetch['Slug']]) && $Responses_Prefetch_Modified[$Topics_Fetch['Slug']] > $Topics_Fetch['Modified'] ) {
+								$Topic_Timestamp = Time_Readable_Difference($Responses_Prefetch_Modified[$Topics_Fetch['Slug']]);
+							} else {
+								$Topic_Timestamp = Time_Readable_Difference($Topics_Fetch['Modified']);
+							}
 							echo $Topic_Timestamp['Prefered'].'</span></p></div>
 							</a>';
 

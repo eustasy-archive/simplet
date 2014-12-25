@@ -101,7 +101,7 @@ function Respond($Status_Override = false) {
 			if ( !isset($_POST['canonical']) ) {
 				array_push($Response_Return['error'], 'Could not determine which post you wanted to leave a response to.');
 			}
-			if( !isset($_POST['type']) ) {
+			if ( !isset($_POST['type']) ) {
 				array_push($Response_Return['error'], 'Response type was not set correctly.');
 			}
 			if ( !isset($_POST['post']) ) {
