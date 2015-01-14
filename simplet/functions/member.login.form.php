@@ -21,7 +21,7 @@ function Member_Login_Form() {
 							<p>No account? <a class="floatright" href="?register">Register</a></p>'; ?>
 							<p>Forgot password? <a class="floatright" href="?reset">Reset</a></p>
 						</div>
-						<div class="col span_1_of_6"><br></div>
+						<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
 						<div class="col span_1_of_2"><input type="submit" value="Log In" /></div>
 					</div>
 				</form>

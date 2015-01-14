@@ -100,6 +100,7 @@ require 'functions/member.group.add.php';
 require 'functions/member.group.check.php';
 require 'functions/member.group.list.php';
 require 'functions/member.group.remove.php';
+require 'functions/member.login.php';
 require 'functions/member.login.block.check.php';
 require 'functions/member.login.form.php';
 require 'functions/member.reset.mail.php';

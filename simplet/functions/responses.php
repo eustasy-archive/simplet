@@ -10,7 +10,7 @@
 
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
-	global $Canonical, $Comment_Helpful, $Database, $Forum_Reply_Helpful, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Time;
+	global $Canonical, $Database, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $Time;
 
 	// IFEXISTSRESPONSES
 	if (
@@ -47,10 +47,19 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		// If the helpfulness should be shown.
 		if (
 			$Type === 'Review' ||
-			($Type === 'Comment' && $Comment_Helpful === true) ||
-			($Type === 'Post' && $Forum_Reply_Helpful === true)
-		) $Helpfulness_Show = true;
-		else $Helpfulness_Show = false;
+			(
+				$Type === 'Comment' &&
+				$Sitewide_Comments_Helpful === true
+			) ||
+			(
+				$Type === 'Post' &&
+				$Sitewide_Posts_Helpful === true
+			)
+		) {
+			$Helpfulness_Show = true;
+		} else {
+			$Helpfulness_Show = false;
+		}
 
 		// Count things first
 		$Responses_Query_Select = 'SELECT COUNT(*) AS `Count`';
@@ -302,14 +311,12 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		<script>
 			$(function(){
 			<?php
-				$Response_Canonical_Encoded = urlencode($Response_Canonical);
-
 				if ($Helpfulness_Show) { ?>
 				$('.helpfulness').each(function() {
 					var Response_ID = $(this).attr('id').substring(12);
 
 					<?php
-						echo '$.getJSON(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID, function(data) {';
+						echo '$.getJSON(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical.'&id=\' + Response_ID, function(data) {';
 					?>
 
 						if (data.vote == 'none') {
@@ -342,7 +349,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{ vote: 'up' },
@@ -360,7 +367,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{ vote: 'none' },
@@ -383,7 +390,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{ vote: 'down' },
@@ -401,7 +408,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical_Encoded.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{ vote: 'none' },
