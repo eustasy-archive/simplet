@@ -137,10 +137,16 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		// Register
 		} else if (isset($_GET['register'])) {
 
+			$Title_HTML = 'Register';
+			$Title_Plain = 'Register';
+
+			$Keywords = 'register account';
+
+			$Canonical = $Sitewide_Account.'?register';
+
 			// Register Redirect
-			if ($Member_Auth) {
+			if ( $Member_Auth ) {
 				header('Location: '.$Sitewide_Account, true, 302);
-				exit;
 
 			// Register Check
 			} else if (!$Sitewide_Signups) {
@@ -149,113 +155,33 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				require $Footer;
 
 			// Register Process
-			} else if (isset($_POST['name']) || isset($_POST['mail']) || isset($_POST['pass'])) {
+			} else if (
+				isset($_POST['name']) ||
+				isset($_POST['mail']) ||
+				isset($_POST['pass'])
+			) {
 
-				if (empty($_POST['name'])) {
-					$Error = 'We really need an name.';
-
-				} else if (empty($_POST['mail'])) {
-					$Error = 'We really need an email.';
-
-				} else if (empty($_POST['pass'])) {
-					$Error = 'You really need a password.';
-
-				} else {
-
-					$Signup_Name = Input_Prepare($_POST['name']);
-					// TODO Unit Test
-					$Signup_Mail = Input_Prepare(strtolower($_POST['mail']));
-					$Signup_Pass = Input_Prepare($_POST['pass']);
-
-					// TODO Member_Check Function
-					$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Signup_Mail.'\' LIMIT 0, 1';
-					$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
-					if ( !$Member_Check ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
-						// TODO Handle Error
-					} else {
-
-						$Member_Count = mysqli_num_rows($Member_Check);
-						// Not a member. Register.
-						if ($Member_Count == 0) {
-
-							$Member_ID  = Generator_String(12);
-
-							$Salt = Generator_String();
-
-							$Pass_Hash = Pass_Hash($Signup_Pass, $Salt);
-
-							$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time.'\', \''.$Time.'\')';
-							$Member_New = mysqli_query($Database['Connection'], $Member_New, MYSQLI_STORE_RESULT);
-							if ( !$Member_New ) {
-								if ( $Sitewide_Debug ) echo 'Invalid Query (Member_New): '.mysqli_error($Database['Connection']);
-								// TODO Handle Error
-							} else {
-
-								require $Header;
-
-								echo '<h2>All Signed Up.</h2>';
-								echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
-
-								require $Footer;
-
-							}
-
-						// Already a member. Sorry..?
-						} else {
-							$Error = 'Sorry, you seem to already be registered. <a href="?login">Log In</a>?';
-						}
-					}
-				}
+				$Error = Member_Register();
 
 				// Register Error
-				if (!empty($Error)) {
-
-					$Title_HTML = 'Register';
-					$Title_Plain = 'Register';
-
-					$Keywords = 'register account';
-
-					$Canonical = $Sitewide_Account.'?register';
-
+				if ( !empty($Error) ) {
 					require $Header;
 					echo '<h2>Registration Error</h2>';
 					echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?register">Try Again</a></h3>';
 					require $Footer;
+				} else {
+					require $Header;
+					echo '<h2>All Signed Up.</h2>';
+					echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
+					require $Footer;
 				}
 
 			} else {
-				require $Header; ?>
-				<form class="col span_1_of_1" action="" method="post">
-					<h2>Register</h2>
-					<div class="section group">
-						<div class="col span_1_of_3"><label for="name"><h3>Name</h3></label></div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="text" name="name" placeholder="John Smith" required /></div>
-					</div>
-					<div class="section group">
-						<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="email" name="mail" placeholder="johnsmith@example.com" required /></div>
-					</div>
-					<div class="section group">
-						<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty1234" required /></div>
-					</div>
-					<div class="section group">
-						<div class="col span_1_of_3">
-							<p>Already one of us? &nbsp; <a class="floatright" href="?login">Login</a></p>
-							<p>Forgot password? &nbsp; <a class="floatright" href="?reset">Reset</a></p>
-						</div>
-						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="submit" value="Register" /></div>
-					</div>
-				</form>
-				<div class="clear"></div>
-				<?php
+				require $Header;
+				Member_Register_Form();
 				require $Footer;
 			}
+
 		// Change
 		} else if (!empty($_GET['change'])) {
 

@@ -103,6 +103,8 @@ require 'functions/member.group.remove.php';
 require 'functions/member.login.php';
 require 'functions/member.login.block.check.php';
 require 'functions/member.login.form.php';
+require 'functions/member.register.php';
+require 'functions/member.register.form.php';
 require 'functions/member.reset.mail.php';
 require 'functions/member.reset.mail.form.php';
 require 'functions/member.reset.pass.form.php';
