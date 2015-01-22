@@ -11,7 +11,7 @@ function Time_Readable_Difference($Original) {
 	global $Time;
 
 	// IFNOTUNIX If not a unix timestamp, convert it.
-	if( !ctype_digit($Original) ) {
+	if ( !ctype_digit($Original) ) {
 		$Original = strtotime($Original);
 	}
 
