@@ -96,15 +96,22 @@
 			</ul>
 			<ul>
 				<li><a href="<?php echo $Sitewide_Root; ?>forum">forum</a></li>
-				<?php if (isset($Member_Auth) && $Member_Auth == true) {
-					echo '<li><a href="'.$Sitewide_Root.'account">account</a></li>
-				<li><a href="'.$Sitewide_Root.'account?logout">logout</a></li>
-';
-				} else {
-					echo '<li><a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">login</a></li>
-					<li><a href="'.$Sitewide_Root.'account?register">register</a></li>
-';
-				} ?>
+
+				<?php
+					if (isset($Member_Auth) && $Member_Auth == true) {
+						echo '
+							<li><a href="'.$Sitewide_Root.'account">account</a></li>
+							<form style="display:inline-block;" action="'.$Sitewide_Root.'account?logout" method="POST">
+								'.Runonce_CSRF_Form().'
+								<li><input style="font:inherit;color:inherit;background:inherit;border:inherit;margin-top:inherit;margin-bottom:inherit;padding:inherit;width:auto;" type="submit" value="logout"></li>
+							</form>';
+					} else {
+						echo '
+							<li><a href="'.$Sitewide_Root.'account?login&redirect='.urlencode($Canonical).'">login</a></li>
+							<li><a href="'.$Sitewide_Root.'account?register">register</a></li>';
+					}
+				?>
+
 			</ul>
 		</nav>
 	</header>

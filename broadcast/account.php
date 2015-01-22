@@ -96,24 +96,24 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 			if (!$Member_Auth) {
 				$Error = 'We can\'t log you out, you aren\'t logged in.';
 
-			} else {
+			} else if ( empty($_POST['csrf_protection']) ) {
+				$Error = 'CSRF Protection token not set.';
+			} else if ( !Runonce_CSRF_Check($_POST['csrf_protection']) ) {
+				$Error = 'CSRF Protection token failed checks.';
 
+			} else {
 				$Session_End = 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\', `Modified`=\''.$Time.'\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_Cookie.'\' AND `IP`=\''.$User_IP.'\'';
 				$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
 				if ( !$Session_End ) {
 					if ( $Sitewide_Debug ) echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
 					// TODO Handle Error
 				} else {
-
 					// TODO Function
 					setcookie ($Cookie_Session, '', time() - 3600, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
 					setcookie ($Cookie_Session, false, time() - 3600, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
 					unset($_COOKIE[$Cookie_Session]);
-
 					$Member_Auth = $Member_ID = $Member_Admin = false;
-
 				}
-
 			}
 
 			$Title_HTML = 'Log Out';
@@ -125,7 +125,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			require $Header;
 
-			if (!empty($Error)) {
+			if ( !empty($Error) ) {
 				echo '<h2>Logout Error</h2>';
 				echo '<h3>'.$Error.'</h3>';
 			} else {

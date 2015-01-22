@@ -6,7 +6,7 @@
 
 function Member_Login() {
 
-	global $Cookie_Session, $Database, $Login_Mail, $Request, $Sitewide_Account, $Sitewide_Debug, $Time, $User_IP;
+	global $Cookie_Session, $Database, $Login_Mail, $Redirect, $Request, $Sitewide_Account, $Sitewide_Debug, $Time, $User_IP;
 
 	$Error = false;
 

@@ -178,7 +178,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 
 		}
 
-	} else if (!empty($_GET['topic'])) {
+	} else if ( !empty($_GET['topic']) ) {
 		// TODO Move to Function
 
 		if (
@@ -187,103 +187,111 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 		) {
 
 			$Topic_Slug = Input_Prepare($_GET['topic']);
-
 			// IFINDEX
 			if (substr($Topic_Slug, 0, strlen($Sitewide_Forum)+1) == '/'.$Sitewide_Forum) {
-
 				// TODO What..?
-				$Topic_Slug = substr($Topic_Slug, 7);
+				$Topic_Slug = substr($Topic_Slug, strlen($Sitewide_Forum)+1);
+				if ( substr($Topic_Slug, 0, 1) == '/' ) {
+					$Topic_Slug = substr($Topic_Slug, 1);
+				}
+			} // IFINDEX
 
-				// IFHOME
-				if ( empty($Topic_Slug) ) {
+
+			// IFNOTTOPIC
+			if ( empty($Topic_Slug) ) {
+				if ( !empty($_GET['category']) ) {
+					Forum_Topics();
+				} else {
 					require $Header;
 					echo '
 					<h2>Forum</h2>';
 					Forum_Categories();
 					require $Footer;
-				} // END IFHOME
-
-			} // IFINDEX
-
-			// TODO Topic Check Function
-			$Topic_Check = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic_Slug.'\' LIMIT 0, 1';
-			$Topic_Check = mysqli_query($Database['Connection'], $Topic_Check, MYSQLI_STORE_RESULT);
-			if (!$Topic_Check ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']);
-				// TODO Handle error
+				}
+			// END IFNOTTOPIC
 			} else {
 
-				$Topic_Count = mysqli_num_rows($Topic_Check);
-				if ($Topic_Count==0) {
-					header('HTTP/1.1 404 Not Found');
-					require $Header;
-					echo '
-					<h2>Error: Topic does not exist</h2>
-					<p class="textcenter">Try the forum, or search for something like '.$Topic_Slug.'.</p>';
-					require $Footer;
+				// TODO Topic Check Function
+				$Topic_Check = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic_Slug.'\' LIMIT 0, 1';
+				$Topic_Check = mysqli_query($Database['Connection'], $Topic_Check, MYSQLI_STORE_RESULT);
+				if (!$Topic_Check ) {
+					if ( $Sitewide_Debug ) echo 'Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']);
+					// TODO Handle error
 				} else {
 
-					// TODO Topic Info Function
-					$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
-					$Topic_Status = $Topic_Fetch['Status'];
-					$Topic_Title = $Topic_Fetch['Title'];
-					$Topic_Created = $Topic_Fetch['Created'];
-					$Topic_Modified = $Topic_Fetch['Modified'];
-
-					if ($Topic_Status=='Public' || $Topic_Status=='Locked' || $Topic_Status=='Private' && $Member_Auth) {
-
-						$Title_HTML = $Topic_Title;
-						$Title_Plain = $Topic_Title;
-
-						$Description_HTML = $Topic_Title;
-						$Description_Plain = $Topic_Title;
-
-						$Keywords = $Topic_Title.' topic forum';
-
-						$Featured_Image = '';
-
-						$Canonical = 'forum';
-
-						$Post_Type = 'Forum Topic';
-
-						Views_Count();
-
+					$Topic_Count = mysqli_num_rows($Topic_Check);
+					if ( $Topic_Count == 0 ) {
+						header('HTTP/1.1 404 Not Found');
 						require $Header;
 						echo '
-						<h2>'.$Topic_Title.'</h2>';
-
-						Responses('Post', $Topic_Slug);
-
-						require $Footer;
-					} else if ($Topic_Status=='Private' && !$Member_Auth) {
-						header('HTTP/1.1 401 Unauthorized');
-						require $Header;
-						echo '
-						<h2>Error: Topic is private</h2>
-						<p class="textcenter">You need to login.</p>';
-						require $Footer;
-					} else if ($Topic_Status=='Pending') {
-						header('HTTP/1.1 403 Forbidden');
-						require $Header;
-						echo '
-						<h2>Error: Topic is Pending</h2>
-						<p class="textcenter">This topic is pending approval by moderators.</p>';
-						require $Footer;
-					} else if ($Topic_Status=='Hidden') {
-						header('HTTP/1.1 403 Forbidden');
-						require $Header;
-						echo '
-						<h2>Error: Topic is Hidden</h2>
-						<p class="textcenter">You may never know what is here...</p>';
+						<h2>Error: Topic does not exist</h2>
+						<p class="textcenter">Try the forum, or search for something like '.$Topic_Slug.'.</p>';
 						require $Footer;
 					} else {
-						header('HTTP/1.1 403 Forbidden');
-						require $Header;
-						echo '
-						<h2>Unknown Error: Topic Status is Unknown</h2>
-						<p class="textcenter">Please contact the site owner if possible.</p>';
-						require $Footer;
+
+						// TODO Topic Info Function
+						$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
+						$Topic_Status = $Topic_Fetch['Status'];
+						$Topic_Title = $Topic_Fetch['Title'];
+						$Topic_Created = $Topic_Fetch['Created'];
+						$Topic_Modified = $Topic_Fetch['Modified'];
+
+						if ($Topic_Status=='Public' || $Topic_Status=='Locked' || $Topic_Status=='Private' && $Member_Auth) {
+
+							$Title_HTML = $Topic_Title;
+							$Title_Plain = $Topic_Title;
+
+							$Description_HTML = $Topic_Title;
+							$Description_Plain = $Topic_Title;
+
+							$Keywords = $Topic_Title.' topic forum';
+
+							$Featured_Image = '';
+
+							$Canonical = 'forum';
+
+							$Post_Type = 'Forum Topic';
+
+							Views_Count();
+
+							require $Header;
+							echo '
+							<h2>'.$Topic_Title.'</h2>';
+
+							Responses('Post', $Topic_Slug);
+
+							require $Footer;
+						} else if ($Topic_Status=='Private' && !$Member_Auth) {
+							header('HTTP/1.1 401 Unauthorized');
+							require $Header;
+							echo '
+							<h2>Error: Topic is private</h2>
+							<p class="textcenter">You need to login.</p>';
+							require $Footer;
+						} else if ($Topic_Status=='Pending') {
+							header('HTTP/1.1 403 Forbidden');
+							require $Header;
+							echo '
+							<h2>Error: Topic is Pending</h2>
+							<p class="textcenter">This topic is pending approval by moderators.</p>';
+							require $Footer;
+						} else if ($Topic_Status=='Hidden') {
+							header('HTTP/1.1 403 Forbidden');
+							require $Header;
+							echo '
+							<h2>Error: Topic is Hidden</h2>
+							<p class="textcenter">You may never know what is here...</p>';
+							require $Footer;
+						} else {
+							header('HTTP/1.1 403 Forbidden');
+							require $Header;
+							echo '
+							<h2>Unknown Error: Topic Status is Unknown</h2>
+							<p class="textcenter">Please contact the site owner if possible.</p>';
+							require $Footer;
+						}
 					}
+
 				}
 
 			}
@@ -292,8 +300,7 @@ if (substr($Request['path'], 0, strlen($Place['path'].$Canonical)) === $Place['p
 			// TODO ERROR No Topic Table
 		}
 
-	} else if (!empty($_GET['category'])) {
-
+	} else if ( !empty($_GET['category']) ) {
 		Forum_Topics();
 
 	} else {

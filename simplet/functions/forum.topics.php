@@ -21,7 +21,7 @@ function Forum_Topics() {
 
 		$Forum_Topics_Category_Info = Forum_Category_Info($Forum_Topics_Category_Slug);
 
-		if ($Forum_Topics_Category_Info === false) {
+		if ( $Forum_Topics_Category_Info === false ) {
 			require $Header;
 			if ($Member_Auth) echo '
 				<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>
