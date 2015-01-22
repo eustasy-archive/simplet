@@ -10,7 +10,7 @@
 
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
-	global $Canonical, $Database, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $Time;
+	global $Canonical, $Database, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $Time, $User_CSRF;
 
 	// IFEXISTSRESPONSES
 	if (
@@ -314,29 +314,31 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				if ($Helpfulness_Show) { ?>
 				$('.helpfulness').each(function() {
 					var Response_ID = $(this).attr('id').substring(12);
-
-					<?php
-						echo '$.getJSON(\''.$Sitewide_Root.'api?helpfulness&fetch&canonical='.$Response_Canonical.'&id=\' + Response_ID, function(data) {';
-					?>
-
-						if (data.vote == 'none') {
-							console.log('Has No Vote on ' + Response_ID);
-							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
-						} else if (data.vote == 'up') {
-							console.log('Has Up Vote on ' + Response_ID);
-							$('.response.' + Response_ID + ' .up').removeClass('faded');
-							$('.response.' + Response_ID + ' .down').addClass('faded');
-							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
-						} else if (data.vote == 'down') {
-							console.log('Has Down Vote on ' + Response_ID);
-							$('.response.' + Response_ID + ' .up').addClass('faded');
-							$('.response.' + Response_ID + ' .down').removeClass('faded');
-							$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
-						} else if (data.vote == 'invalid') console.log('Invalid on ' + Response_ID);
-						else console.log('Error on ' + Response_ID + ': ' + data);
-					})
-					.fail(function() {
-						console.log('Failed to Load Helpfulness for ' + Response_ID + ': ' + data);
+					$.post(
+						'<?php echo $Sitewide_Root; ?>api?helpfulness&fetch&canonical=<?php echo $Response_Canonical; ?>&id=' + Response_ID,
+						{
+							csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+						},
+						function(data) {
+							if (data.vote == 'none') {
+								console.log('Has No Vote on ' + Response_ID);
+								$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
+							} else if (data.vote == 'up') {
+								console.log('Has Up Vote on ' + Response_ID);
+								$('.response.' + Response_ID + ' .up').removeClass('faded');
+								$('.response.' + Response_ID + ' .down').addClass('faded');
+								$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
+							} else if (data.vote == 'down') {
+								console.log('Has Down Vote on ' + Response_ID);
+								$('.response.' + Response_ID + ' .up').addClass('faded');
+								$('.response.' + Response_ID + ' .down').removeClass('faded');
+								$('.response.' + Response_ID + ' .helpfulness').removeClass('hidden');
+							} else if (data.vote == 'invalid') console.log('Invalid on ' + Response_ID);
+							else console.log('Error on ' + Response_ID + ': ' + data);
+						},
+						'json'
+					).fail(function() {
+						console.log('Failed to Load Helpfulness for ' + Response_ID);
 					})
 				});
 				function HelpfulnessClick() {
@@ -352,7 +354,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
-								{ vote: 'up' },
+								{
+									vote: 'up',
+									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+								},
 								function( data ) {
 									if (data.vote == 'confirm') {
 										console.log('Complete Up ' + Response_ID);
@@ -370,7 +375,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
-								{ vote: 'none' },
+								{
+									vote: 'none',
+									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+								},
 								function( data ) {
 									if (data.vote == 'confirm') {
 										console.log('Complete Clear ' + Response_ID);
@@ -393,7 +401,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
-								{ vote: 'down' },
+								{
+									vote: 'down',
+									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+								},
 								function( data ) {
 									if (data.vote == 'confirm') {
 										console.log('Complete Down ' + Response_ID);
@@ -411,7 +422,10 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
-								{ vote: 'none' },
+								{
+									vote: 'none',
+									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+								},
 								function( data ) {
 									if (data.vote == 'confirm') {
 										console.log('Complete Clear ' + Response_ID);
@@ -440,7 +454,8 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							type: postType,
 							canonical: '<?php echo $Response_Canonical; ?>',
 							rating: rating,
-							post: post
+							post: post,
+							csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
 						}
 					);
 					respond.done(function(data) {
