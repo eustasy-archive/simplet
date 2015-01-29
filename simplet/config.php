@@ -21,7 +21,7 @@
 
 	// Enable or Disable Browning Mail
 	// Requires Setup in libs
-	$Browning = true;
+	$Sitewide_Browning = true;
 
 	// Strip .php Extensions
 	// IMPORTANT: Requires additional server-side setup.

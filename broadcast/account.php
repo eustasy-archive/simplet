@@ -19,8 +19,9 @@
 
 	$Header = '../header.php';
 	$Footer = '../footer.php';
-	$Lib_Browning_Config = __DIR__.'/../libs/Browning_Config.php';
-	$Lib_Browning_Send = __DIR__.'/../libs/Browning_Send.php';
+
+	$Lib_Browning_Config = __DIR__.'/../libs/config.browning.php';
+	$Lib_Browning_Send = __DIR__.'/../libs/function.browning.php';
 
 if ($Request['path'] === $Place['path'].$Canonical) {
 
@@ -319,8 +320,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			// TODO Expand mail system support.
 			} else if (
-				isset($Browning) &&
-				$Browning
+				isset($Sitewide_Browning) &&
+				$Sitewide_Browning &&
+				is_readable($Lib_Browning_Config)
 			) {
 
 				$Success = false;
@@ -365,6 +367,8 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					// Reset Mail Process
 					if (isset($_POST['mail'])) {
+						require_once $Lib_Browning_Config;
+						require_once $Lib_Browning_Send;
 						Member_Reset_Mail();
 					}
 

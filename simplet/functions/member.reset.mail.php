@@ -6,7 +6,7 @@
 
 function Member_Reset_Mail() {
 
-	global $Database, $Error, $Lib_Browning_Send, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Root, $Success, $Time;
+	global $Database, $Error, $Lib_Browning_Config, $Lib_Browning_Send, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Root, $Success, $Time;
 
 	// IF CSRF Okay
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
@@ -40,21 +40,20 @@ function Member_Reset_Mail() {
 					// Create a single-use key with a 1 hour timeout for resetting the password.
 					$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
 
-					require_once $Lib_Browning_Send;
-
-					$Mail_Response = Browning_Send(
+					$Mail_Response = Browning(
 						$Reset_Mail,
 						'Password Reset',
 						'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
 					);
 
-					if ( $Mail_Response === true ) {
+					if ( $Mail_Response['Success'] ) {
 						$Success = '
 						<h2>A Password Reset has been initiated.</h2>
 						<h3>Please check your email.</h3>';
 					} else {
 						$Error = '
-						<h3 class="color-pomegranate">Error: Unable to send reset mail.</h3>';
+						<h3 class="color-pomegranate">Error: Unable to send reset mail.</h3>
+						<p>'.$Mail_Response['Error'].'</p>';
 					}
 
 				}
