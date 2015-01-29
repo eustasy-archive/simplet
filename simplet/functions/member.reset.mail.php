@@ -31,14 +31,14 @@ function Member_Reset_Mail() {
 					if ( $Sitewide_Debug ) {
 						echo 'SIMPLET WARNING: No member with that email address.';
 					}
-					$Error = '<h3 class="color-pomegranate">Error: User check failed.</h3>';
+					$Error = '<h3 class="color-pomegranate">Error: User does not exist.</h3>';
 				} else {
 					$Fetch_Member = mysqli_fetch_assoc($Member_Check);
 					$Member_ID = $Fetch_Member['ID'];
 					$Member_Name = $Fetch_Member['Name'];
 
 					// Create a single-use key with a 1 hour timeout for resetting the password.
-					$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset');
+					$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset', Generator_String(), $Member_ID);
 
 					$Mail_Response = Browning(
 						$Reset_Mail,

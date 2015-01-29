@@ -4,7 +4,7 @@
 //
 // Changes an accounts pass.
 
-function Member_Change_Pass($Redirect = true) {
+function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 
 	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
 
@@ -12,6 +12,9 @@ function Member_Change_Pass($Redirect = true) {
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
 		// Sanitize Pass
 		$Member_Pass_New = Input_Prepare($_POST['pass']);
+		if ( !$Override_Member_ID ) {
+			$Override_Member_ID = $Member_ID;
+		}
 		// IF Pass is Empty
 		if ( empty($Member_Pass_New) ) {
 			$Error = '<h3 class="color-pomegranate">Your new Pass cannot be empty.</h3>';
@@ -27,7 +30,7 @@ function Member_Change_Pass($Redirect = true) {
 			// Construct Query
 			$Pass_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
 			$Pass_Change .= ' SET `Pass`=\''.$Member_Pass_Hash.'\', `Salt`=\''.$Member_Salt.'\', `Modified`=\''.$Time.'\'';
-			$Pass_Change .= ' WHERE `ID`=\''.$Member_ID.'\' AND `Status`=\'Active\'';
+			$Pass_Change .= ' WHERE `ID`=\''.$Override_Member_ID.'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);
 			// IF Pass not Changed

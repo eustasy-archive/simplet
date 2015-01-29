@@ -337,12 +337,12 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					if ( $Key_Info ) {
 
-						$Member_ID = $Key_Info['Member_ID'];
+						$Override_Member_ID = $Key_Info['Member_ID'];
 
 						// TODO Member_Exists
 
 						if ( isset($_POST['pass']) ) {
-							Member_Change_Pass(false);
+							Member_Change_Pass(false, $Override_Member_ID);
 						}
 
 						require $Header;
