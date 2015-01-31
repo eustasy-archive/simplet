@@ -2,7 +2,7 @@
 
 function Member_Register_Form() {
 
-	global $Sitewide_Signups;
+	global $Sitewide_Security_Password_Length, $Sitewide_Signups;
 
 	if ( $Sitewide_Signups ) {
 		?>
@@ -21,7 +21,7 @@ function Member_Register_Form() {
 					<div class="section group">
 						<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
 						<div class="col span_1_of_6"><br></div>
-						<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty1234" required /></div>
+						<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty1234" required pattern=".{<?php echo $Sitewide_Security_Password_Length; ?>,}" title="Passwords must be at least <?php echo $Sitewide_Security_Password_Length; ?> characters in length." /></div>
 					</div>
 					<div class="section group">
 						<div class="col span_1_of_3">

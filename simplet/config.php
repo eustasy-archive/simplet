@@ -79,6 +79,7 @@
 	// 'SweetCaptcha' = Require SweetCaptcha. (Requires SweetCaptcha Keys)
 	// 'Block' = Block attempts until the limit is passed
 	$Sitewide_Security_Limit_Action = 'Block';
+	$Sitewide_Security_Password_Length = 10;
 
 	$Sitewide_Account = 'account';
 	$Sitewide_Forum = 'forum';

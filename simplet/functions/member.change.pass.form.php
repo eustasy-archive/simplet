@@ -9,7 +9,7 @@
 
 function Member_Change_Pass_Form() {
 
-	global $Error;
+	global $Error, $Sitewide_Security_Password_Length;
 
 	?>
 		<form class="col span_1_of_1" action="" method="post">
@@ -22,7 +22,7 @@ function Member_Change_Pass_Form() {
 			<div class="section group">
 				<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
 				<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
-				<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty12345" required /></div>
+				<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty12345" required pattern=".{<?php echo $Sitewide_Security_Password_Length; ?>,}" title="Passwords must be at least <?php echo $Sitewide_Security_Password_Length; ?> characters in length." /></div>
 			</div>
 			<div class="section group">
 				<div class="col span_1_of_3"><br></div>
