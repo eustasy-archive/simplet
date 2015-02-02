@@ -6,7 +6,7 @@
 
 function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 
-	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Security_Password_Length, $Success, $Time;
+	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Security_Hash_Current, $Sitewide_Security_Password_Length, $Success, $Time;
 
 	// IF CSRF Okay
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
@@ -23,8 +23,8 @@ function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 		// END IF Pass is Empty
 
 		// IF Pass is too Short
-		} else if ( strlen($Signup_Pass) < $Sitewide_Security_Password_Length ) {
-			$Error = 'Your password must be at least '.$Sitewide_Security_Password_Length.' characters in lenght.';
+		} else if ( strlen($Member_Pass_New) < $Sitewide_Security_Password_Length ) {
+			$Error = 'Your password must be at least '.$Sitewide_Security_Password_Length.' characters in length.';
 		// END IF Pass is too Short
 
 		// IF Pass is good
@@ -37,7 +37,7 @@ function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 			unset($Member_Pass_New);
 			// Construct Query
 			$Pass_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
-			$Pass_Change .= ' SET `Pass`=\''.$Member_Pass_Hash.'\', `Salt`=\''.$Member_Salt.'\', `Modified`=\''.$Time.'\'';
+			$Pass_Change .= ' SET `PassV`=\''.$Sitewide_Security_Hash_Current.'\', `Pass`=\''.$Member_Pass_Hash.'\', `Salt`=\''.$Member_Salt.'\', `Modified`=\''.$Time.'\'';
 			$Pass_Change .= ' WHERE `ID`=\''.$Override_Member_ID.'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);

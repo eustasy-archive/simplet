@@ -3,7 +3,7 @@
 
 function Member_Register() {
 
-	global $Database, $Header, $Footer, $Sitewide_Debug, $Sitewide_Security_Password_Length, $Time;
+	global $Database, $Header, $Footer, $Sitewide_Debug, $Sitewide_Security_Hash_Current, $Sitewide_Security_Password_Length, $Time;
 
 	$Error = false;
 
@@ -49,7 +49,7 @@ function Member_Register() {
 
 					$Pass_Hash = Pass_Hash($Signup_Pass, $Salt);
 
-					$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time.'\', \''.$Time.'\')';
+					$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `PassV`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Sitewide_Security_Hash_Current.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time.'\', \''.$Time.'\')';
 					$Member_New = mysqli_query($Database['Connection'], $Member_New, MYSQLI_STORE_RESULT);
 					if ( !$Member_New ) {
 						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_New): '.mysqli_error($Database['Connection']);

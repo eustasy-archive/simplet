@@ -43,10 +43,12 @@ function Member_Login() {
 					$Member_Fetch = mysqli_fetch_assoc($Member_Check);
 					$Member_ID = $Member_Fetch['ID'];
 					$Member_Name = $Member_Fetch['Name'];
+					$Member_PassV = $Member_Fetch['PassV'];
 					$Member_Pass = $Member_Fetch['Pass'];
 					$Member_Salt = $Member_Fetch['Salt'];
+					unset($Member_Fetch);
 
-					$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt);
+					$Login_Hash = Pass_Hash($Login_Pass, $Member_Salt, $Member_PassV);
 					unset($Login_Pass);
 
 					if ( $Login_Hash === $Member_Pass ) {

@@ -67,9 +67,11 @@
 
 
 	// Choose a hash method.
-	$Sitewide_Security_HashMethod = 'sha512';
-	// Note: Could also use sha1, sha512 etc, etc
+	$Sitewide_Security_Hash_Method = 'sha512';
+	// Note: Could also use whirlpool.
 	// Note: See also https://github.com/eustasy/labs-hash-check
+	$Sitewide_Security_Hash_Iterations = 1000;
+	$Sitewide_Security_Hash_Current = 2;
 
 	$Sitewide_Security_Limit = true; // Enable or disable Security Limits
 	$Sitewide_Security_Limit_Time = '300'; // Time in seconds to count attempts for

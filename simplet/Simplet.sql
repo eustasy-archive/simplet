@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
 	`Admin` int(1) NOT NULL,
 	`Groups` varchar(1000) NOT NULL,
 	`Status` varchar(100) NOT NULL,
+	`PassV` int(2) NOT NULL,
 	`Pass` varchar(1000) NOT NULL,
 	`Salt` varchar(64) NOT NULL,
 	`Created` int(11) NOT NULL,
