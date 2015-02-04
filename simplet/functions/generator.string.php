@@ -29,7 +29,7 @@ function Generator_String($Length = 64, $Caps = false, $Special = false, $Letter
 	}
 
 	// Count the number available
-	$String_Characters_Count = strlen($String_Characters) - 1;
+	$String_Characters_Count = strlen($String_Characters);
 
 	// Iterate the number of letters needed
 	for ( $Iterate = 0; $Iterate < $Length; $Iterate++ ) {
