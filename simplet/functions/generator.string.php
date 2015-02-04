@@ -33,7 +33,8 @@ function Generator_String($Length = 64, $Caps = false, $Special = false, $Letter
 
 	// Iterate the number of letters needed
 	for ( $Iterate = 0; $Iterate < $Length; $Iterate++ ) {
-		$String .= $String_Characters[rand( 0, $String_Characters_Count )];
+		// $String .= $String_Characters[rand( 0, $String_Characters_Count )];
+		$String .= $String_Characters[hexdec(bin2hex(openssl_random_pseudo_bytes(1))) % $String_Characters_Count];
 	}
 
 	return $String;
