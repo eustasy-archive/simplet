@@ -15,7 +15,7 @@ function Runonce_CSRF_Info($Key) {
 
 	$Runonce_Info['Info'] = Runonce_Info($Key, $Owner, 'CSRF Protection');
 
-	if ( isset($_COOKIE[$Cookie_Prefix.'_csrf_protection']) ) $Runonce_Info['Cookie'] = Input_Prepare($_COOKIE[$Cookie_Prefix.'_csrf_protection']);
+	if ( isset($_COOKIE[$Cookie['CSRF']]) ) $Runonce_Info['Cookie'] = Input_Prepare($_COOKIE[$Cookie['CSRF']]);
 
 	return $Runonce_Info;
 

@@ -1,24 +1,18 @@
 <?php
 
-	$Title_HTML = 'Example Page';
-	$Title_Plain = 'Example Page';
+$Page['Title']['HTML'] = 'Example Page';
+$Page['Title']['Plain'] = 'Example Page';
+$Page['Description']['HTML'] = 'An example page to show default styles.';
+$Page['Description']['Plain'] = 'An example page to show default styles.';
+$Page['Keywords'] = 'example page default styles';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Page';
+$Page['Category'] = '';
+$Canonical = 'page';
 
-	$Description_HTML = 'An example page to show default styles.';
-	$Description_Plain = 'An example page to show default styles.';
-
-	$Keywords = 'example page default styles';
-
-	$Featured_Image = '';
-
-	$Canonical = 'page';
-
-	$Post_Type = 'Page';
-	$Post_Category = '';
-
-	require_once __DIR__.'/../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
-	require '../header.php';
+require_once __DIR__.'/_simplet/request.php';
+if ($Request['Path'] === $Place['path'].$Canonical) {
+	require $Templates['Header'];
 	?>
 
 		<h2>Example Page</h2>
@@ -233,5 +227,5 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		<pre>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam dignissim convallis est. Quisque aliquam. Donec faucibus. Nunc iaculis suscipit dui. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. <abbr title="National Basketball Association">NBA</abbr> Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. <abbr title="Avenue">AVE</abbr></pre>
 
 	<?php
-	require '../footer.php';
+	require $Templates['Footer'];
 }

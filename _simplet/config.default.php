@@ -1,31 +1,31 @@
 <?php
 
-	// Site Configuration
-	$Sitewide_Debug = true;
-
 	// This is the Title of your Site
-	$Sitewide_Title = 'The Title of your Site';
+	$Sitewide['Title'] = 'The Title of your Site';
 
 	// And the tagline
-	$Sitewide_Tagline = 'The Tagline of your site.';
+	$Sitewide['Tagline'] = 'The Tagline of your site.';
 
 	// This is the Base URL of your Site
 	// Do include a trailing slash
 	// Do include a http:// or https://
-	$Sitewide_Root = 'http://simplet.com/';
-	// $Sitewide_Root = 'http://example.com/';
-	// $Sitewide_Root = 'https://something.000space.com/';
+	$Sitewide['Root'] = 'http://simplet.com/';
+	// $Sitewide['Root'] = 'http://example.com/';
+	// $Sitewide['Root'] = 'https://something.000space.com/';
 
 	// Allow or disallow Signups
-	$Sitewide_Signups = true;
+	$Sitewide['Signups'] = true;
+
+	// Strip .php Extensions
+	// IMPORTANT: Requires additional server-side setup for extension-less PHP.
+	$Backend['Strip PHP from URLs'] = true;
+
+	// Debug
+	$Backend['Debug'] = true;
 
 	// Enable or Disable Browning Mail
 	// Requires Setup in libs
-	$Sitewide_Browning = true;
-
-	// Strip .php Extensions
-	// IMPORTANT: Requires additional server-side setup.
-	$PHP_Strip = true;
+	$Libs['Browning'] = true;
 
 	// Values:
 	// true = Full checking
@@ -86,3 +86,5 @@
 	$Sitewide_Account = 'account';
 	$Sitewide_Forum = 'forum';
 	$Sitewide_AllowHTML = false;
+	$Sitewide['AutoLoad']['Functions'] = true;
+	$Sitewide['AutoLoad']['Libs'] = true;

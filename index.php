@@ -1,24 +1,18 @@
 <?php
 
-	$Title_HTML = 'Simplet';
-	$Title_Plain = 'Simplet';
+$Page['Title']['HTML'] = 'Simplet';
+$Page['Title']['Plain'] = 'Simplet';
+$Page['Description']['HTML'] = 'a simple, modular, cms framework written in php';
+$Page['Description']['Plain'] = 'a simple, modular, cms framework written in php';
+$Page['Keywords'] = 'blog posts';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Page';
+$Page['Category'] = '';
+$Canonical = '';
 
-	$Description_HTML = 'a simple, modular, cms framework written in php';
-	$Description_Plain = 'a simple, modular, cms framework written in php';
-
-	$Keywords = 'blog posts';
-
-	$Featured_Image = '';
-
-	$Canonical = '';
-
-	$Post_Type = 'Page';
-	$Post_Category = '';
-
-	require_once __DIR__.'/../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
-	require '../header.php';
+require_once __DIR__.'/_simplet/request.php';
+if ($Request['Path'] === $Place['path'].$Canonical) {
+	require $Templates['Header'];
 	?>
 
 	<div class="content spanpage wild">
@@ -85,5 +79,5 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		</div>
 
 	<?php
-	require '../footer.php';
+	require $Templates['Footer'];
 }

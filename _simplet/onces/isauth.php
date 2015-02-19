@@ -1,29 +1,18 @@
 <?php
 
-// TODO Move to Functions folder and require.
-function Member_Auth_False($ClearCookie = false) {
-	global $Cookie_Session, $Member_Admin, $Member_Auth, $Member_ID, $Member_Name, $Request;
-	if ( $ClearCookie ) {
-		setcookie ($Cookie_Session, '', 1, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
-		setcookie ($Cookie_Session, false, 1, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
-		unset($_COOKIE[$Cookie_Session]);
-	}
-	$Member_Auth = false;
-	$Member_ID = false;
-	$Member_Name = false;
-	$Member_Admin = false;
-	return true;
-}
+require_once $Backend['functions'].'member.auth.false.php';
 
 if ( // If it is possible for them to be logged in.
-	isset($_COOKIE[$Cookie_Session]) &&
+	isset($_COOKIE[$Cookie['Session']]) &&
 	$Database['Connection'] &&
 	$Database['Exists']['Members'] &&
 	$Database['Exists']['Sessions']
 ) {
 
+	require_once $Backend['functions'].'input.prepare.php';
+
 	// Make a note of their Cookie
-	$User_Cookie = Input_Prepare($_COOKIE[$Cookie_Session]);
+	$User_Cookie = Input_Prepare($_COOKIE[$Cookie['Session']]);
 
 	// Check if the Cookie and IP have an active session in the database
 	// Database Existence has already been checked.
@@ -34,10 +23,9 @@ if ( // If it is possible for them to be logged in.
 	} else $Session_Count = mysqli_num_rows($Session_Check);
 
 	// That Cookie doesn't exist or isn't active.
-	if ($Session_Count === 0) Member_Auth_False(true);
-
-	// Or maybe you are
-	else {
+	if ($Session_Count === 0) {
+		Member_Auth_False(true);
+	} else {
 
 		$Session_Fetch = mysqli_fetch_assoc($Session_Check);
 		$Session_IP = $Session_Fetch['IP'];
@@ -47,25 +35,29 @@ if ( // If it is possible for them to be logged in.
 		if ( $IP_Checking ) {
 			// WARNING: Potential Security Issue
 			// Anyone without an IP skips IP checking.
-			if( empty($Session_IP) ) $IP_Check = true;
-			else if ( $IP_Checking === 'Partial' ) {
-				if ( strpos($Session_IP, ':') === false && strpos($User_IP, ':') === false ) {
+			if( empty($Session_IP) ) {
+				$IP_Check = true;
+			} else if ( $IP_Checking === 'Partial' ) {
+				if (
+					strpos($Session_IP, ':') === false &&
+					strpos($User['IP'], ':') === false
+				) {
 					$Session_IP_Pieces = explode('.', $Session_IP);
-					$User_IP_Pieces = explode('.', $User_IP);
+					$User['IP Pieces'] = explode('.', $User['IP']);
 				} else {
 					$Session_IP_Pieces = explode(':', $Session_IP);
-					$User_IP_Pieces = explode(':', $User_IP);
+					$User['IP Pieces'] = explode(':', $User['IP']);
 				}
-				if ( $User_IP_Pieces[0] == $Session_IP_Pieces[0] && $User_IP_Pieces[1] == $Session_IP_Pieces[1] ) $IP_Check = true;
+				if ( $User['IP Pieces'][0] == $Session_IP_Pieces[0] && $User['IP Pieces'][1] == $Session_IP_Pieces[1] ) $IP_Check = true;
 				else $IP_Check = false;
 			} else {
-				if ( $User_IP === $Session_IP ) $IP_Check = true;
+				if ( $User['IP'] === $Session_IP ) $IP_Check = true;
 				else $IP_Check = false;
 			}
 		} else $IP_Check = true;
 
 		// If the user passed the IP Check.
-		if ($IP_Check) {
+		if ( $IP_Check ) {
 
 			$Member_ID = $Session_Fetch['Member_ID'];
 
@@ -89,16 +81,21 @@ if ( // If it is possible for them to be logged in.
 			// They are authenticated as a valid member.
 			} else {
 				$Member_Fetch = mysqli_fetch_assoc($Member_Check);
-				$Member_Auth = true; // Truly
-				$Member_Name = $Member_Fetch['Name']; // Do they have a name?
-				$Member_Mail = $Member_Fetch['Mail'];
-				$Member_Admin = $Member_Fetch['Admin']; // Are they a VIP?
+				$Member['Auth'] = true; // Truly
+				$Member['Name'] = $Member_Fetch['Name'];
+				$Member['Mail'] = $Member_Fetch['Mail'];
+				$Member['Admin'] = $Member_Fetch['Admin'];
+				$Member['Groups'] = $Member_Fetch['Groups'];
 			}
 
 		// IP Check Failed
-		} else Member_Auth_False(true);
+		} else {
+			Member_Auth_False(true);
+		}
 
 	}
 
 // They don't have a Cookie or the database is not suitably set up.
-} else Member_Auth_False();
+} else {
+	Member_Auth_False();
+}

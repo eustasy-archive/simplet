@@ -1,8 +1,6 @@
 <?php
 
-$Database = array();
-
-include_once __DIR__.'/../config.database.php';
+include_once $Backend['simplet'].'config.database.php';
 
 if (
 	!empty($Database['Host']) &&
