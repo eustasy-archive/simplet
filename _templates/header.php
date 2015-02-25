@@ -17,10 +17,10 @@
 	<title><?php echo $Page['Title']['Plain'].' &nbsp;&middot;&nbsp; '.$Sitewide['Title']; ?></title>
 
 	<link rel="canonical" href="<?php echo $Sitewide['Root'].$Canonical; ?>">
-	<link rel="icon" href="<?php echo $Sitewide['Root']; ?>favicon.ico">
-	<link rel="shortcut icon" href="<?php echo $Sitewide['Root']; ?>favicon.ico">
+	<link rel="icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
+	<link rel="shortcut icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
 	<link rel="stylesheet" media="all" href="//cdn.jsdelivr.net/g/normalize,colors.css">
-	<link rel="stylesheet" media="all" href="<?php echo $Sitewide['Root']; ?>assets/css/combined.min.css">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide['Root']; ?>/assets/css/combined.min.css">
 	<style>
 		.text-left {
 			text-align: left;
@@ -88,32 +88,35 @@
 		<div class="col span_1_of_2">
 
 			<?php
-				echo '<h1><a href="'.$Sitewide['Root'].'">'.$Sitewide['Title'].'</a></h1>';
+				echo '<h1><a href="'.$Sitewide['Root'].'/">'.$Sitewide['Title'].'</a></h1>';
 			?>
 
 		</div>
 		<nav class="col span_1_of_2">
 			<ul>
-				<li><a href="<?php echo $Sitewide['Root']; ?>">home</a></li>
-				<li><a href="<?php echo $Sitewide['Root']; ?>page">page</a></li>
-				<li><a href="<?php echo $Sitewide['Root']; ?>blog/">blog</a></li>
-				<li><a href="<?php echo $Sitewide['Root']; ?>contact">contact</a></li>
+				<li><a href="<?php echo $Sitewide['Root']; ?>/">home</a></li>
+				<li><a href="<?php echo $Sitewide['Root']; ?>/page">page</a></li>
+				<li><a href="<?php echo $Sitewide['Root']; ?>/blog/">blog</a></li>
+				<li><a href="<?php echo $Sitewide['Root']; ?>/contact">contact</a></li>
 			</ul>
 			<ul>
-				<li><a href="<?php echo $Sitewide['Root']; ?>forum">forum</a></li>
+				<li><a href="<?php echo $Sitewide['Root']; ?>/forum">forum</a></li>
 
 				<?php
-					if (isset($Member['Auth']) && $Member['Auth'] == true) {
+					if (
+						isset($Member['Auth']) &&
+						$Member['Auth'] == true
+					) {
 						echo '
-							<li><a href="'.$Sitewide['Root'].'account">account</a></li>
-							<form style="display:inline-block;" action="'.$Sitewide['Root'].'account?logout" method="POST">
+							<li><a href="'.$Sitewide['Root'].'/account">account</a></li>
+							<form style="display:inline-block;" action="'.$Sitewide['Root'].'/account?logout" method="POST">
 								'.Runonce_CSRF_Form().'
 								<li><input style="font:inherit;color:inherit;background:inherit;border:inherit;margin-top:inherit;margin-bottom:inherit;padding:inherit;width:auto;" type="submit" value="logout"></li>
 							</form>';
 					} else {
 						echo '
-							<li><a href="'.$Sitewide['Root'].'account?login&redirect='.urlencode($Canonical).'">login</a></li>
-							<li><a href="'.$Sitewide['Root'].'account?register">register</a></li>';
+							<li><a href="'.$Sitewide['Root'].'/account?login&redirect='.urlencode($Canonical).'">login</a></li>
+							<li><a href="'.$Sitewide['Root'].'/account?register">register</a></li>';
 					}
 				?>
 
@@ -122,6 +125,6 @@
 	</header>
 
 	<?php
-		if ($Canonical != '') {
+		if ($Canonical != '/') {
 			echo '<div class="content">';
 		}

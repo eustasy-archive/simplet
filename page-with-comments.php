@@ -8,10 +8,10 @@ $Page['Keywords'] = 'example page markdown comments';
 $Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
 $Page['Category'] = '';
-$Canonical = 'page-with-comments';
+$Canonical = '/page-with-comments';
 
 require_once __DIR__.'/_simplet/request.php';
-if ($Request['Path'] === $Place['path'].$Canonical) {
+if ( $Request['Path'] === $Canonical ) {
 	require $Templates['Header'];
 	?>
 

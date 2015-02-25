@@ -7,11 +7,11 @@
 	$Sitewide['Tagline'] = 'The Tagline of your site.';
 
 	// This is the Base URL of your Site
-	// Do include a trailing slash
+	// Do NOT include a trailing slash
 	// Do include a http:// or https://
-	$Sitewide['Root'] = 'http://simplet.com/';
-	// $Sitewide['Root'] = 'http://example.com/';
-	// $Sitewide['Root'] = 'https://something.000space.com/';
+	$Sitewide['Root'] = 'http://simplet.com';
+	// $Sitewide['Root'] = 'http://example.com';
+	// $Sitewide['Root'] = 'https://something.000space.com';
 
 	// Allow or disallow Signups
 	$Sitewide['Signups'] = true;
@@ -83,8 +83,9 @@
 	$Sitewide_Security_Limit_Action = 'Block';
 	$Sitewide_Security_Password_Length = 10;
 
-	$Sitewide_Account = 'account';
-	$Sitewide_Forum = 'forum';
-	$Sitewide_AllowHTML = false;
+	$Sitewide['Account'] = '/account';
+	$Sitewide['Forum'] = '/forum';
+	$Sitewide['Security']['AllowHTML'] = false;
+	$Sitewide['Security']['HonorDNT'] = true;
 	$Sitewide['AutoLoad']['Functions'] = true;
 	$Sitewide['AutoLoad']['Libs'] = true;

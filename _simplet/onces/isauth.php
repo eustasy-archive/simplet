@@ -12,11 +12,11 @@ if ( // If it is possible for them to be logged in.
 	require_once $Backend['functions'].'input.prepare.php';
 
 	// Make a note of their Cookie
-	$User_Cookie = Input_Prepare($_COOKIE[$Cookie['Session']]);
+	$Member['Cookie'] = Input_Prepare($_COOKIE[$Cookie['Session']]);
 
 	// Check if the Cookie and IP have an active session in the database
 	// Database Existence has already been checked.
-	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Cookie`=\''.$User_Cookie.'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
+	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Cookie`=\''.$Member['Cookie'].'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 	if ( !$Session_Check ) {
 		if ( $Sitewide_Debug ) echo 'Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']);
 		$Session_Count = 0;
@@ -59,10 +59,10 @@ if ( // If it is possible for them to be logged in.
 		// If the user passed the IP Check.
 		if ( $IP_Check ) {
 
-			$Member_ID = $Session_Fetch['Member_ID'];
+			$Member['ID'] = $Session_Fetch['Member_ID'];
 
 			// Check their membership status
-			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE ID=\''.$Member_ID.'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
+			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE ID=\''.$Member['ID'].'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
 				if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): ' . mysqli_error($Database['Connection']);
 				$Member_Count = 0;
@@ -70,7 +70,7 @@ if ( // If it is possible for them to be logged in.
 
 			// If they're not a member, that Session can be ended.
 			if ( $Member_Count === 0 ) {
-				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member_ID.'\' AND `Cookie`=\''.$User_Cookie.'\'', MYSQLI_STORE_RESULT);
+				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member['ID'].'\' AND `Cookie`=\''.$Member['Cookie'].'\'', MYSQLI_STORE_RESULT);
 				if (
 					!$Session_End &&
 					$Sitewide_Debug

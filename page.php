@@ -8,10 +8,10 @@ $Page['Keywords'] = 'example page default styles';
 $Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
 $Page['Category'] = '';
-$Canonical = 'page';
+$Canonical = '/page';
 
 require_once __DIR__.'/_simplet/request.php';
-if ($Request['Path'] === $Place['path'].$Canonical) {
+if ( $Request['Path'] === $Canonical ) {
 	require $Templates['Header'];
 	?>
 

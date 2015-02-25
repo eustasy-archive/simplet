@@ -8,10 +8,10 @@ $Page['Keywords'] = 'blog posts';
 $Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
 $Page['Category'] = '';
-$Canonical = '';
+$Canonical = '/';
 
 require_once __DIR__.'/_simplet/request.php';
-if ($Request['Path'] === $Place['path'].$Canonical) {
+if ( $Request['Path'] === $Canonical ) {
 	require $Templates['Header'];
 	?>
 
@@ -37,9 +37,9 @@ if ($Request['Path'] === $Place['path'].$Canonical) {
 			</div>
 			<div class="col span_1_of_2">
 				<h3>Pieces</h3>
-				<h3><a href="<?php echo $Sitewide_Root; ?>/blog/">Blog</a></h3>
-				<h3><a href="<?php echo $Sitewide_Root; ?>/forum/">Forum</a></h3>
-				<h3><a href="<?php echo $Sitewide_Root; ?>/account/">Members</a></h3>
+				<h3><a href="<?php echo $Sitewide['Root']; ?>/blog/">Blog</a></h3>
+				<h3><a href="<?php echo $Sitewide['Root']; ?>/forum/">Forum</a></h3>
+				<h3><a href="<?php echo $Sitewide['Root']; ?>/account/">Members</a></h3>
 			</div>
 		</div>
 	</div>
