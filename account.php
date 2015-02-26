@@ -13,6 +13,7 @@ require_once __DIR__.'/_simplet/request.php';
 
 if ( $Request['Path'] === $Canonical ) {
 
+	// TODO Conditional (Once/Libs)
 	// TODO Move to Config
 	$Lib_Browning_Config = __DIR__.'/../libs/config.browning.php';
 	$Lib_Browning_Send = __DIR__.'/../libs/function.browning.php';
@@ -136,7 +137,7 @@ if ( $Request['Path'] === $Canonical ) {
 				exit;
 
 			// Register Check
-			} else if (!$Sitewide_Signups) {
+			} else if ( !$Sitewide_Signups ) {
 				require $Templates['Header'];
 				echo '<h2>Sorry, new Registrations are not allowed at this time.</h2>';
 				require $Templates['Footer'];
@@ -175,12 +176,10 @@ if ( $Request['Path'] === $Canonical ) {
 
 				$Page['Title']['HTML'] = 'Change Name';
 				$Page['Title']['Plain'] = 'Change Name';
-
 				$Page['Keywords'] = 'change name account';
-
 				$Canonical = $Sitewide['Account'].'?change=name';
 
-				if (!$Member['Auth']) {
+				if ( !$Member['Auth'] ) {
 					header('Location: ?login&redirect='.urlencode($Sitewide['Account'].'?change=name'), true, 302);
 					exit;
 
@@ -199,18 +198,16 @@ if ( $Request['Path'] === $Canonical ) {
 				}
 
 			// Change Pass
-			} else if (Input_Prepare($_GET['change']) == 'pass') {
+			} else if ( Input_Prepare($_GET['change']) == 'pass' ) {
 
 				$Page['Title']['HTML'] = 'Change Pass';
 				$Page['Title']['Plain'] = 'Change Pass';
-
 				$Page['Keywords'] = 'change pass account';
-
 				$Canonical = $Sitewide['Account'].'?change=pass';
 
-				if (!$Member['Auth']) {
+				if ( !$Member['Auth'] ) {
 					header('Location: ?login&redirect='.urlencode($Sitewide['Account'].'?change=pass'), true, 302);
-					// exit;
+					exit;
 
 				} else {
 
@@ -227,16 +224,14 @@ if ( $Request['Path'] === $Canonical ) {
 				}
 
 			// Change Mail
-			} else if (Input_Prepare($_GET['change']) == 'mail') {
+			} else if ( Input_Prepare($_GET['change']) == 'mail' ) {
 
 				$Page['Title']['HTML'] = 'Change Mail';
 				$Page['Title']['Plain'] = 'Change Mail';
-
 				$Page['Keywords'] = 'change mail account';
-
 				$Canonical = $Sitewide['Account'].'?change=mail';
 
-				if (!$Member['Auth']) {
+				if ( !$Member['Auth'] ) {
 					header('Location: ?login&redirect='.urlencode($Sitewide['Account'].'?change=mail'), true, 302);
 					exit;
 
@@ -273,17 +268,12 @@ if ( $Request['Path'] === $Canonical ) {
 
 				$Page['Title']['HTML'] = 'Sessions';
 				$Page['Title']['Plain'] = 'Sessions';
-
 				$Page['Keywords'] = 'sessions account';
-
 				$Canonical = $Sitewide['Account'].'?sessions';
 
 				require $Templates['Header'];
-
 				echo '<h2>Sessions</h2>';
-
 				Member_Sessions();
-
 				require $Templates['Footer'];
 
 			}
@@ -293,14 +283,12 @@ if ( $Request['Path'] === $Canonical ) {
 
 			$Page['Title']['HTML'] = 'Password Reset';
 			$Page['Title']['Plain'] = 'Password Reset';
-
 			$Page['Keywords'] = 'password reset account';
-
 			$Canonical = $Sitewide['Account'].'?reset';
 
 			if ( $Member['Auth'] ) {
 				header('Location: '.$Sitewide['Account'], true, 302);
-				// exit;
+				exit;
 
 			// TODO Expand mail system support.
 			} else if (
@@ -351,17 +339,16 @@ if ( $Request['Path'] === $Canonical ) {
 
 					// Reset Mail Process
 					if (isset($_POST['mail'])) {
+						// TODO Conditionally load based on LibLoad
 						require_once $Lib_Browning_Config;
 						require_once $Lib_Browning_Send;
 						Member_Reset_Mail();
 					}
 
-					require $Templates['Header'];
-
 					// Reset Form
 					// Also handles successes and errors.
+					require $Templates['Header'];
 					Member_Reset_Mail_Form();
-
 					require $Templates['Footer'];
 
 				}
@@ -375,9 +362,9 @@ if ( $Request['Path'] === $Canonical ) {
 				require $Templates['Footer'];
 			}
 
-		} else if (isset($_GET['delete'])) {
+		} else if ( isset($_GET['delete']) ) {
 
-			if (!$Member['Auth']) {
+			if ( !$Member['Auth'] ) {
 				header('Location: ?login&redirect='.urlencode($Sitewide['Account'].'?delete'), true, 302);
 				exit;
 
@@ -389,7 +376,7 @@ if ( $Request['Path'] === $Canonical ) {
 
 				require $Templates['Header'];
 				if ( !$Success) {
-					$Key = Runonce_Create($Time+(60*3), 1, 'Account Deletion');
+					$Key = Runonce_Create($Time['Now']+(60*3), 1, 'Account Deletion');
 				}
 				Member_Delete_Form();
 				require $Templates['Footer'];
@@ -398,26 +385,24 @@ if ( $Request['Path'] === $Canonical ) {
 
 		} else {
 
-			if (!$Member['Auth']) {
+			if ( !$Member['Auth'] ) {
 				header('Location: ?login&redirect='.urlencode($Sitewide['Account']), true, 302);
 				exit;
 
 			} else {
 				require $Templates['Header'];
 				?>
-
 				<div class="section group">
 					<div class="col span_1_of_8"><br></div>
 					<div class="col span_6_of_8">
-						<h2 class="textleft">Hello <?php echo $Member_Name; ?>. <a class="floatright" href="?change=name">Change Name</a></h2>
-						<h3 class="textleft"><?php echo $Member_Mail; ?> <a class="floatright" href="?change=mail">Change Mail</a></h3>
+						<h2 class="textleft">Hello <?php echo $Member['Name']; ?>. <a class="floatright" href="?change=name">Change Name</a></h2>
+						<h3 class="textleft"><?php echo $Member['Mail']; ?> <a class="floatright" href="?change=mail">Change Mail</a></h3>
 						<h3 class="textleft">Your password is encrypted. <a class="floatright" href="?change=pass">Change Pass</a></h3>
 						<br>
-						<p>Your Member ID is <?php echo $Member_ID; ?>. This cannot be changed. <a class="floatright red" href="?delete">Delete Account</a></p>
+						<p>Your Member ID is <?php echo $Member['ID']; ?>. This cannot be changed. <a class="floatright red" href="?delete">Delete Account</a></p>
 					</div>
 					<div class="col span_1_of_8"><br></div>
 				</div>
-
 				<?php
 				require $Templates['Footer'];
 			}
