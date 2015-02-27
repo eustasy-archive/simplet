@@ -39,10 +39,8 @@ require_once $Backend['onces'].'headers.php';
 
 // Handle Tracking
 require_once $Backend['onces'].'trackme.php';
+require_once $Backend['onces'].'posttypes.php';
 require_once $Backend['onces'].'view.php';
-
-// TODO Where is this used?
-// require_once $Backend['onces'].'posttypes.php';
 
 // Load everything that hasn't been loaded.
 // This is why we use require_once.

@@ -31,10 +31,10 @@ function Blog_Categories($Caller, $Exclude = false) {
 			require $Item;
 
 			// IFPOST
-			if ($Post_Type === 'Blog Post') {
+			if ( $Page['Type'] === 'Blog Post' ) {
 
 				// Add Category or Increment
-				$Categories_Return[$Post_Category] = isset($Categories_Return[$Post_Category]) ? $Categories_Return[$Post_Category]++ : 1;
+				$Categories_Return[$Page['Category']] = isset($Categories_Return[$Page['Category']]) ? $Categories_Return[$Page['Category']]++ : 1;
 
 			} // IFPOST
 
@@ -44,7 +44,9 @@ function Blog_Categories($Caller, $Exclude = false) {
 
 	// Unset current page to avoid require problems
 	unset($Categories_Return['']);
-	if ($Exclude) unset($Categories_Return[$Exclude]);
+	if ( $Exclude ) {
+		unset($Categories_Return[$Exclude]);
+	}
 
 	// Order by Count
 	arsort($Categories_Return);

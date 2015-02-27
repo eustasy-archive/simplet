@@ -1,24 +1,18 @@
 <?php
 
-	$Title_HTML = 'Example Product';
-	$Title_Plain = 'Example Product';
+$Page['Title']['HTML'] = 'Example Product';
+$Page['Title']['Plain'] = 'Example Product';
+$Page['Description']['HTML'] = 'An Example Product to demo Reviews.';
+$Page['Description']['Plain'] = 'An Example Product to demo Reviews.';
+$Page['Keywords'] = 'product example rocks reviews demo';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Page';
+$Page['Category'] = '';
+$Canonical = '/product';
 
-	$Description_HTML = 'An Example Product to demo Reviews.';
-	$Description_Plain = 'An Example Product to demo Reviews.';
-
-	$Keywords = 'product example rocks reviews demo';
-
-	$Featured_Image = '';
-
-	$Canonical = 'product';
-
-	$Post_Type = 'Page';
-	$Post_Category = '';
-
-	require_once __DIR__.'/../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
-	require '../header.php';
+require_once __DIR__.'/_simplet/request.php';
+if ( $Request['Path'] === $Canonical ) {
+	require $Templates['Header'];
 	?>
 
 		<h2>Example Product</h2>
@@ -35,5 +29,5 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	<?php
 	Responses('Review');
-	require '../footer.php';
+	require $Templates['Footer'];
 }

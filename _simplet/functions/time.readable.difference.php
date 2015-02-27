@@ -18,7 +18,7 @@ function Time_Readable_Difference($Original) {
 	$Difference = array();
 
 	// Figure out the differences.
-	$Difference['Seconds'] = $Time - $Original;
+	$Difference['Seconds'] = $Time['Now'] - $Original;
 
 	// IFFUTURE If it is positive, it is in the future.
 	if ( $Difference['Seconds'] ==  0 ) {

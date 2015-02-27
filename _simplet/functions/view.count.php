@@ -13,7 +13,7 @@
 
 function View_Count() {
 
-	global $Backend, $Canonical, $Database, $Member, $Page, $Request, $Sitewide_Root, $Time, $User_Cookie, $User;
+	global $Backend, $Canonical, $Database, $Member, $Page, $Request, $Time, $User;
 
 	// IFEXISTSVIEWS
 	if ( $Database['Exists']['Views'] ) {
@@ -24,7 +24,7 @@ function View_Count() {
 		// Assemble the Query
 		$Query = 'INSERT INTO `'.$Database['Prefix'].'Views` '.
 		'(`Request`, `Canonical`, `Post_Type`, `IP`, `Cookie`, `Auth`, `Member_ID`, `Admin`, `Time`) VALUES '.
-		'(\''.$Requested.'\', \''.$Canonical.'\', \''.$Page['Type'].'\', \''.$User['IP'].'\', \''.$User_Cookie.'\', \''.$Member['Auth'].'\', \''.$Member['ID'].'\', \''.$Member['Admin'].'\', \''.$Time['Now'].'\')';
+		'(\''.$Requested.'\', \''.$Canonical.'\', \''.$Page['Type'].'\', \''.$User['IP'].'\', \''.$Member['Cookie'].'\', \''.$Member['Auth'].'\', \''.$Member['ID'].'\', \''.$Member['Admin'].'\', \''.$Time['Now'].'\')';
 
 		// Run the Query
 		$Views_Count = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);

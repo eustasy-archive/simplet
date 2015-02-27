@@ -1,24 +1,18 @@
 <?php
 
-	$Title_HTML = 'This is a Blog Post';
-	$Title_Plain = 'This is a Blog Post';
+$Page['Title']['HTML'] = 'This is a Blog Post';
+$Page['Title']['Plain'] = 'This is a Blog Post';
+$Page['Description']['HTML'] = 'This is a description for a blog post. It is used in the meta description on the page.';
+$Page['Description']['Plain'] = 'This is a description for a blog post. It is used as an excerpt in the blog index.';
+$Page['Keywords'] = 'blog post';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Blog Post';
+$Page['Category'] = 'Examples';
+$Canonical = '/blog/this-is-a-blog-post';
 
-	$Description_HTML = 'This is a description for a blog post. It is used in the meta description on the page.';
-	$Description_Plain = 'This is a description for a blog post. It is used as an excerpt in the blog index.';
-
-	$Keywords = 'blog post';
-
-	$Featured_Image = '';
-
-	$Canonical = 'blog/this-is-a-blog-post';
-
-	$Post_Type = 'Blog Post';
-	$Post_Category = 'Examples';
-
-	require_once __DIR__.'/../../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
-	require '../../header.php';
+require_once __DIR__.'/../_simplet/request.php';
+if ( $Request['Path'] === $Canonical ) {
+	require $Templates['Header'];
 	?>
 
 	<h2>Blog Post</h2>
@@ -26,5 +20,5 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	<p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains.</p>
 
 	<?php
-	require '../../footer.php';
+	require $Templates['Footer'];
 }

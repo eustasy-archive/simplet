@@ -1,26 +1,20 @@
 <?php
 
-	$Title_HTML = 'Protected Page';
-	$Title_Plain = 'Protected Page';
+$Page['Title']['HTML'] = 'Protected Page';
+$Page['Title']['Plain'] = 'Protected Page';
+$Page['Description']['HTML'] = 'An example Protected Page.';
+$Page['Description']['Plain'] = 'An example Protected Page.';
+$Page['Keywords'] = 'example demo protected page authorization members';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Protected';
+$Page['Category'] = '';
+$Canonical = '/protected-page';
 
-	$Description_HTML = 'An example Protected Page.';
-	$Description_Plain = 'An example Protected Page.';
+require_once __DIR__.'/_simplet/request.php';
+if ( $Request['Path'] === $Canonical ) {
+	require $Templates['Header'];
 
-	$Keywords = 'example demo protected page authorization members';
-
-	$Featured_Image = '';
-
-	$Canonical = 'protected-page';
-
-	$Post_Type = 'Protected';
-	$Post_Category = '';
-
-	require_once __DIR__.'/../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
-	require '../header.php';
-
-	if ( $Member_Auth ) {
+	if ( $Member['Auth'] ) {
 		echo '
 		<h2>Top Secret</h2>
 		<p class="textcenter">You are now authorized to view this super secret page.</p>
@@ -32,5 +26,5 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 		<p class="textcenter">Sorry, you need to <a href="account?login&redirect='.urlencode($Canonical).'">log in</a> to view this super secret content.</p>';
 	}
 
-	require '../footer.php';
+	require $Templates['Footer'];
 }

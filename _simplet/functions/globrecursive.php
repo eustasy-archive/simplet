@@ -11,12 +11,14 @@ function globRecursive($Pattern, $Flags = 0) {
 
 	// FOREACHDIRECTORY
 	// Search in ALL sub-directories.
-	foreach (glob(dirname($Pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $Directory) {
+	foreach (glob(dirname($Pattern).'/*', GLOB_ONLYDIR | GLOB_NOSORT) as $Directory) {
 		// This is a recursive function.
 		// Usually, THIS IS VERY BAD.
 		// For searching recursively however,
 		// it does make some sense.
-		$Return = array_merge($Return, globRecursive($Directory.'/'.basename($Pattern), $Flags));
+		if ( substr($Directory, 0, 3) != './_' ) {
+			$Return = array_merge($Return, globRecursive($Directory.'/'.basename($Pattern), $Flags));
+		}
 	} // FOREACHDIRECTORY
 
 	return $Return;

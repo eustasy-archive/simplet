@@ -14,7 +14,7 @@
 
 function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 
-	global $Place, $Request, $Sitewide_Root;
+	global $Place, $Request, $Sitewide;
 
 	// Start a section for the Blog to appear in.
 	echo '
@@ -40,10 +40,10 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 			require $Item;
 
 			// IFPOST If it is a Blog Post.
-			if ($Post_Type == 'Blog Post') {
+			if ( $Page['Type'] == 'Blog Post' ) {
 
 				// IFCHECKCATEGORY If no category or category matches
-				if ( $Category && ( $Category != $Post_Category ) ) {
+				if ( $Category && ( $Category != $Page['Category'] ) ) {
 
 					// Remove from the List.
 					unset($Posts_Return[$Key]);
@@ -55,7 +55,7 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 			// IFPOST
 
 			// Set Post Type to Invalid to override posts or files with one.
-			$Post_Type = 'INVALID';
+			$Page['Type'] = 'INVALID';
 
 		} // IFCALLER
 
@@ -84,7 +84,7 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 		require $Item;
 
 		// Make the link
-		$Post_Link = $Sitewide_Root.$Canonical;
+		$Post_Link = $Sitewide['Root'].$Canonical;
 
 		// Echo out the Item
 		if ($Posts_PerLine == 1) echo '
@@ -94,9 +94,9 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 		if ($Posts_PerLine == 3) echo '
 			<div class="col span_3_of_11">';
 		echo '
-				<h2><a href="'.$Post_Link.'">' . $Title_HTML . '</a></h2>
-				<p class="textright faded"><small>' . date ('d/m/Y', filemtime($Item)) .'</small></p>
-				<p>' . $Description_HTML . '</p>
+				<h2><a href="'.$Post_Link.'">'.$Page['Title']['HTML'].'</a></h2>
+				<p class="textright faded"><small>'.date('d/m/Y', filemtime($Item)).'</small></p>
+				<p>'.$Page['Description']['HTML'].'</p>
 			</div>';
 
 		// Increment Looper and echo a break where needed.

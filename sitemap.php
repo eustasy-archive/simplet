@@ -1,23 +1,17 @@
 <?php
 
-	$Title_HTML = 'Sitemap';
-	$Title_Plain = 'Sitemap';
+$Page['Title']['HTML'] = 'Sitemap';
+$Page['Title']['Plain'] = 'Sitemap';
+$Page['Description']['HTML'] = 'Root Sitemap.';
+$Page['Description']['Plain'] = 'Root Sitemap.';
+$Page['Keywords'] = 'sitemap';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Sitemap';
+$Page['Category'] = '';
+$Canonical = '/sitemap';
 
-	$Description_HTML = 'Root Sitemap.';
-	$Description_Plain = 'Root Sitemap.';
-
-	$Keywords = 'sitemap';
-
-	$Featured_Image = '';
-
-	$Canonical = 'sitemap';
-
-	$Post_Type = 'Sitemap';
-	$Post_Category = '';
-
-	require_once __DIR__.'/../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
+require_once __DIR__.'/_simplet/request.php';
+if ( $Request['Path'] === $Canonical ) {
 
 	// Send the right header for a Sitemap
 	header('Content-Type: application/xml');
@@ -36,18 +30,18 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 	foreach ($Items as $Item) {
 
 		// IFNOTTHIS: So long as it isn't this file
-		if ($Item != basename(__FILE__)) {
+		if ( $Item != basename(__FILE__) ) {
 
 			// Require it
 			require $Item;
 
 			// IFRECOGNISE If the Post_Type is Recognized
-			if (in_array($Post_Type, $Post_Types)) {
+			if (in_array($Page['Type'], $Post_Types)) {
 
 				// Echo out the Item
 				echo '
 	<url>
-		<loc>'.$Sitewide_Root.$Canonical.'</loc>
+		<loc>'.$Sitewide['Root'].$Canonical.'</loc>
 		<lastmod>'.date('Y-m-d', filemtime($Item)).'</lastmod>
 		<priority>1</priority>
 		<changefreq>daily</changefreq>
@@ -55,7 +49,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			} // IFRECOGNISE
 
-			$Post_Type = 'INVALID';
+			$Post['Type'] = 'INVALID';
 
 		} // IFNOTTHIS
 
@@ -68,7 +62,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Categories) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Categories): ' . mysqli_error($Database['Connection']);
+				if ( $Sitewide['Debug'] ) echo 'Invalid Query (Forum_Categories): ' . mysqli_error($Database['Connection']);
 				// TODO Handle Error
 			} else {
 
@@ -77,9 +71,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if ($Forum_Categories_Count != 0) {
 					while ( $Forum_Categories_Fetch = mysqli_fetch_assoc($Forum_Categories) ) {
 						// Echo out the Item
+						// TODO Support Nice Links
 						echo '
 		<url>
-			<loc>'.$Sitewide_Root.$Sitewide_Forum.'?category='.$Forum_Categories_Fetch['Slug'].'</loc>
+			<loc>'.$Sitewide['Root'].$Sitewide['Forum'].'?category='.$Forum_Categories_Fetch['Slug'].'</loc>
 			<lastmod>'.date('Y-m-d', $Forum_Categories_Fetch['Modified']).'</lastmod>
 			<priority>1</priority>
 			<changefreq>daily</changefreq>
@@ -95,7 +90,7 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Topics) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Topics): ' . mysqli_error($Database['Connection']);
+				if ( $Sitewide['Debug'] ) echo 'Invalid Query (Forum_Topics): ' . mysqli_error($Database['Connection']);
 				// TODO Handle Error
 			} else {
 
@@ -104,9 +99,10 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				if ($Forum_Topics_Count != 0) {
 					while ( $Forum_Topics_Fetch = mysqli_fetch_assoc($Forum_Topics) ) {
 						// Echo out the Item
+						// TODO Support Nice Links
 						echo '
 		<url>
-			<loc>'.$Sitewide_Root.$Sitewide_Forum.'?topic='.$Forum_Topics_Fetch['Slug'].'</loc>
+			<loc>'.$Sitewide['Root'].$Sitewide['Forum'].'?topic='.$Forum_Topics_Fetch['Slug'].'</loc>
 			<lastmod>'.date('Y-m-d', $Forum_Topics_Fetch['Modified']).'</lastmod>
 			<priority>1</priority>
 			<changefreq>daily</changefreq>

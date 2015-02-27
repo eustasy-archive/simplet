@@ -8,7 +8,7 @@
 
 function Forum_Topics() {
 
-	global $Database, $Footer, $Header, $Member_Auth, $Sitewide_Root, $Sitewide_Title;
+	global $Database, $Footer, $Header, $Member, $Sitewide, $Templates, $User;
 
 	// IFEXISTSTOPICS
 	if (
@@ -23,7 +23,7 @@ function Forum_Topics() {
 
 		if ( $Forum_Topics_Category_Info === false ) {
 			require $Header;
-			if ($Member_Auth) echo '
+			if ($Member['Auth']) echo '
 				<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>
 				<p><a href="?category=">Return to the Forum Index</a></p>';
 			else echo '
@@ -45,15 +45,15 @@ function Forum_Topics() {
 			$Featured_Image = '';
 			$Keywords = $Category_Title.' category topics forum '.$Category_Description;
 
-			Views_Count();
+			View_Count();
 
-			require $Header;
+			require $Templates['Header'];
 
 			// Select Topics
 			$Topics_Query_Select = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 
 			// Limit by Status
-			if ($Member_Auth) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+			if ($Member['Auth']) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
 			else $Topics_Query_Status = ' `Status`=\'Public\'';
 
 			// Order by Creation
@@ -71,7 +71,7 @@ function Forum_Topics() {
 
 				$Topics_Count = mysqli_num_rows($Topics);
 				if ($Topics_Count == 0) {
-					if ($Member_Auth) echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a></h3>';
+					if ($Member['Auth']) echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a></h3>';
 					else echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
 				} else {
 
@@ -99,7 +99,7 @@ function Forum_Topics() {
 					echo '
 						<h2>'.$Category_Title.'</h2>
 						<p>'.$Category_Description;
-					if ($Member_Auth) echo '<a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a>';
+					if ($Member['Auth']) echo '<a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a>';
 					echo '</p>
 						<div id="topics">
 							<div class="section group darkrow">
@@ -130,7 +130,7 @@ function Forum_Topics() {
 							$Topics_Fetch['Status'] == 'Locked' ||
 							(
 								$Topics_Fetch['Status'] == 'Private' &&
-								$Member_Auth
+								$Member['Auth']
 							)
 						) {
 
@@ -179,7 +179,7 @@ function Forum_Topics() {
 
 			}
 
-			require $Footer;
+			require $Templates['Footer'];
 		}
 
 	// IFEXISTSTOPICS

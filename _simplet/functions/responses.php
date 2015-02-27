@@ -10,7 +10,7 @@
 
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
-	global $Canonical, $Database, $Member_Auth, $Member_Mail, $Member_Name, $Request, $Sitewide_AllowHTML, $Sitewide_Root, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $Time, $User_CSRF;
+	global $Canonical, $Database, $Member, $Request, $Sitewide, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $User_CSRF;
 
 	// IFEXISTSRESPONSES
 	if (
@@ -19,12 +19,18 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 	) {
 
 		// CATCHRESPOND Catch any responses that didn't go to the API
-		if ( isset($_GET['respond']) || (isset($_POST['action']) && $_POST['action']=='reply') ) {
+		if (
+			isset($_GET['respond']) ||
+			(
+				isset($_POST['action']) &&
+				$_POST['action']=='reply'
+			)
+		) {
 
-			if ( !$Member_Auth ) {
+			if ( !$Member['Auth'] ) {
 				// Handle Not Authenticated Error on POST without JavaScript
 				echo '
-				<h3 class="warning red">Error: You cannot post a response as you are not <a href="account?login&redirect='.urlencode($Canonical).'">logged in</a>.</h3>';
+				<h3 class="warning red">Error: You cannot post a response as you are not <a href="'.$Sitewide['Account'].'?login&redirect='.urlencode($Canonical).'">logged in</a>.</h3>';
 
 			} else {
 				// Handle Response (an array, not JSON) without JavaScript
@@ -41,7 +47,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		// CATCHRESPOND
 
 		// Set Response_Canonical for use later
-		if ( empty($Response_Canonical) ) $Response_Canonical = $Canonical;
+		if ( empty($Response_Canonical) ) {
+			$Response_Canonical = $Canonical;
+		}
 		$Response_Canonical = urlencode($Response_Canonical);
 
 		// If the helpfulness should be shown.
@@ -69,7 +77,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		$Responses_Query_Where = ' FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Response_Canonical.'\' AND `Type`=\''.$Type.'\'';
 
 		// Limit by Status
-		if ($Member_Auth) $Responses_Query_Status = ' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
+		if ($Member['Auth']) $Responses_Query_Status = ' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
 		else $Responses_Query_Status = ' AND `Status`=\'Public\'';
 
 		// Build Responses_Query
@@ -78,7 +86,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		// Get Responses
 		$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 		if ( !$Responses ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+			if ( $Sitewide['Debug'] ) {
+				echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+			}
 			// TODO Handle Error
 		} else {
 
@@ -129,7 +139,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				// Get Responses
 				$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 				if ( !$Responses ) {
-					if ( $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+					if ( $Sitewide['Debug'] ) {
+						echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+					}
 					// TODO Handle Error
 				} else {
 					// TODO Wrap
@@ -191,7 +203,9 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 						} else {
 							$Responses_Member = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Responses_Member_ID.'\' AND `Status`=\'Active\'', MYSQLI_STORE_RESULT);
 							if (!$Responses_Member) {
-								if ( $Sitewide_Debug ) echo 'Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']);
+								if ( $Sitewide['Debug'] ) {
+									echo 'Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']);
+								}
 								// TODO Handle Error
 							} else {
 								// TODO WRap
@@ -236,7 +250,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							echo '
 					<div class="helpfulness hidden" id="helpfulness_'.$Responses_ID.'">
 						<p>'.number_format($Responses_Helpfulness).' Helpful</p>
-						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>
+						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide['Root'].'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide['Root'].'assets/images/thumbs_up.png"></div>
 					</div>
 				</div>
 			</div>';
@@ -260,7 +274,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 				}
 
-				if ($Member_Auth) {
+				if ($Member['Auth']) {
 					?>
 		<div class="breaker"></div>
 		<div class="clear"></div>
@@ -315,7 +329,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				$('.helpfulness').each(function() {
 					var Response_ID = $(this).attr('id').substring(12);
 					$.post(
-						'<?php echo $Sitewide_Root; ?>api?helpfulness&fetch&canonical=<?php echo $Response_Canonical; ?>&id=' + Response_ID,
+						'<?php echo $Sitewide['Root']; ?>/api?helpfulness&fetch&canonical=<?php echo $Response_Canonical; ?>&id=' + Response_ID,
 						{
 							csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
 						},
@@ -351,7 +365,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -372,7 +386,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -398,7 +412,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -419,7 +433,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide_Root.'api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -449,7 +463,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					else var rating = 0;
 					var post = $('#respond textarea[name="post"]').val();
 					var respond = $.post(
-						'<?php echo $Sitewide_Root; ?>api?respond',
+						'<?php echo $Sitewide['Root']; ?>api?respond',
 						{
 							type: postType,
 							canonical: '<?php echo $Response_Canonical; ?>',
@@ -474,11 +488,11 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 
 							var toAppend = '\
 			<div class="section group darkrow" id="header_' + data.id + '">\
-				<div class="col span_2_of_12 textcenter"><p><?php echo $Member_Name; ?></p></div>\
+				<div class="col span_2_of_12 textcenter"><p><?php echo $Member['Name']; ?></p></div>\
 				<div class="col span_10_of_12 textright"><p>Now</p></div>\
 			</div>\
 			<div class="section group response ' + data.id + '" id="response_' + data.id + '">\
-				<div class="col span_2_of_12"><img class="avatar" src="https://www.gravatar.com/avatar/<?php echo md5($Member_Mail); ?>?s=128&d=identicon"></div>\
+				<div class="col span_2_of_12"><img class="avatar" src="https://www.gravatar.com/avatar/<?php echo md5($Member['Mail']); ?>?s=128&d=identicon"></div>\
 				<?php
 					if ($Helpfulness_Show) {
 						echo '<div class="col span_8_of_12">\
@@ -491,7 +505,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 							echo '\
 					<div class="helpfulness" id="helpfulness_\' + data.id + \'">\
 						<p>0 Helpful</p>\
-						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide_Root.'assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide_Root.'assets/images/thumbs_up.png"></div>\
+						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide['Root'].'/assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide['Root'].'/assets/images/thumbs_up.png"></div>\
 					</div>\
 				</div>\
 			</div>\';
@@ -539,7 +553,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					<?php
 				} else {
 					echo '
-		<h3>You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode('forum?topic='.$Response_Canonical).'">Log In</a> to '.$Type.'.</h3>';
+		<h3>You must <a href="'.$Sitewide['Account'].'?login&redirect='.$Response_Canonical.'">Log In</a> to '.$Type.'.</h3>';
 				}
 			}
 

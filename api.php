@@ -1,25 +1,17 @@
 <?php
 
-	$Title_HTML = 'API';
-	$Title_Plain = 'API';
+$Page['Title']['HTML'] = 'API';
+$Page['Title']['Plain'] = 'API';
+$Page['Description']['HTML'] = 'API';
+$Page['Description']['Plain'] = 'API';
+$Page['Keywords'] = 'api';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'API';
+$Page['Category'] = '';
+$Canonical = '/api';
 
-	$Description_HTML = 'API';
-	$Description_Plain = 'API';
-
-	$Keywords = 'api';
-
-	$Featured_Image = '';
-
-	$Canonical = 'api';
-
-	$Post_Type = 'API';
-	$Post_Category = '';
-
-	require_once __DIR__.'/../simplet/request.php';
-
-	$Account = 'account';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
+require_once __DIR__.'/_simplet/request.php';
+if ($Request['Path'] === $Canonical) {
 
 	header('X-Frame-Options: SAMEORIGIN');
 
@@ -76,7 +68,9 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 			// Check Response is Viewable
 			$Responses = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Responses` WHERE `ID`=\''.$Response_ID.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')', MYSQLI_STORE_RESULT);
-			if (!$Responses) array_push($Helpfulness_Return['error'], 'Responses Query Error.');
+			if ( !$Responses ) {
+				array_push($Helpfulness_Return['error'], 'Responses Query Error.');
+			}
 			$Responses_Count = mysqli_num_rows($Responses);
 
 			if ( $Responses_Count === 0 ) {
@@ -88,21 +82,30 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 				$Responses_Fetch = mysqli_fetch_assoc($Responses);
 				$Responses_Helpfulness = $Responses_Fetch['Helpfulness'];
 
-				$Helpfulness = mysqli_query($Database['Connection'], "SELECT * FROM `".$Database['Prefix']."Helpfulness` WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
-				if (!$Helpfulness) array_push($Helpfulness_Return['error'], 'Helpfulness Query Error.');
+				$Helpfulness = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Helpfulness` WHERE `Response_ID`=\''.$Response_ID.'\' AND `Member_ID`=\''.$Member['ID'].'\' ORDER BY `Created` DESC LIMIT 1', MYSQLI_STORE_RESULT);
+				if ( !$Helpfulness ) {
+					array_push($Helpfulness_Return['error'], 'Helpfulness Query Error.');
+				}
 				$Helpfulness_Count = mysqli_num_rows($Helpfulness);
 				if ( $Helpfulness_Count == 0 ) {
 
-					if (isset($_GET['fetch'])) {
+					if ( isset($_GET['fetch']) ) {
 						// No Vote
 						$Helpfulness_Return['vote'] =  'none';
 
-					} else if (isset($_GET['set'])) {
+					} else if ( isset($_GET['set']) ) {
 						$Response_Vote = strval(Input_Prepare($_POST['vote']));
-						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
-							$Helpfulness_Insert = mysqli_query($Database['Connection'], "INSERT INTO `".$Database['Prefix']."Helpfulness` (`Response_Canonical`, `Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES ('$Response_Canonical', '$Response_ID', '$Member_ID', '$Response_Vote', '$Time', '$Time')", MYSQLI_STORE_RESULT);
-							if (!$Helpfulness_Insert) array_push($Helpfulness_Return['error'], 'Vote Insert Failed.');
-							else $Helpfulness_Return['vote'] = 'confirm';
+						if (
+							$Response_Vote === 'up' ||
+							$Response_Vote === 'down'  ||
+							$Response_Vote === 'none'
+						) {
+							$Helpfulness_Insert = mysqli_query($Database['Connection'], 'INSERT INTO `'.$Database['Prefix'].'Helpfulness` (`Response_Canonical`, `Response_ID`, `Member_ID`, `Helpfulness`, `Created`, `Modified`) VALUES (\''.$Response_Canonical.'\', \''.$Response_ID.'\', \''.$Member['ID'].'\', \''.$Response_Vote.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')', MYSQLI_STORE_RESULT);
+							if ( !$Helpfulness_Insert ) {
+								array_push($Helpfulness_Return['error'], 'Vote Insert Failed.');
+							} else {
+								$Helpfulness_Return['vote'] = 'confirm';
+							}
 
 							if ($Response_Vote == 'up') {
 								$Helpfulness_Return['change'] = 1;
@@ -136,20 +139,49 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 					} else if (isset($_GET['set'])) {
 						$Response_Vote = strval(Input_Prepare($_POST['vote']));
-						if ($Response_Vote === 'up' || $Response_Vote === 'down'  || $Response_Vote === 'none') {
-							$Helpfulness_Update = mysqli_query($Database['Connection'], "UPDATE `".$Database['Prefix']."Helpfulness` SET `Helpfulness`='$Response_Vote', `Modified`='$Time' WHERE `Response_ID`='$Response_ID' AND `Member_ID`='$Member_ID' ORDER BY `Created` DESC LIMIT 1", MYSQLI_STORE_RESULT);
-							if (!$Helpfulness_Update) array_push($Helpfulness_Return['error'], 'Vote Update Failed.');
-							else $Helpfulness_Return['vote'] = 'confirm';
+						if (
+							$Response_Vote === 'up' ||
+							$Response_Vote === 'down' ||
+							$Response_Vote === 'none'
+						) {
+							$Helpfulness_Update = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Helpfulness` SET `Helpfulness`=\''.$Response_Vote.'\', `Modified`=\''.$Time['Now'].'\' WHERE `Response_ID`=\''.$Response_ID.'\' AND `Member_ID`=\''.$Member['ID'].'\' ORDER BY `Created` DESC LIMIT 1', MYSQLI_STORE_RESULT);
+							if ( !$Helpfulness_Update ) {
+								array_push($Helpfulness_Return['error'], 'Vote Update Failed.');
+							} else {
+								$Helpfulness_Return['vote'] = 'confirm';
+							}
 
-							if ($Helpfulness_Vote == $Response_Vote) {
+							if ( $Helpfulness_Vote == $Response_Vote ) {
 								$Helpfulness_Return['change'] = 0;
-							} else if ( ( $Helpfulness_Vote == 'up' && $Response_Vote == 'none' ) || ( $Helpfulness_Vote == 'none' && $Response_Vote == 'down' ) ) {
+							} else if (
+								(
+									$Helpfulness_Vote == 'up' &&
+									$Response_Vote == 'none'
+								) || (
+									$Helpfulness_Vote == 'none' &&
+									$Response_Vote == 'down'
+								)
+							) {
 								$Helpfulness_Return['change'] = -1;
-							} else if ( ( $Helpfulness_Vote == 'down' && $Response_Vote == 'none' ) || ( $Helpfulness_Vote == 'none' && $Response_Vote == 'up' ) ) {
+							} else if (
+								(
+									$Helpfulness_Vote == 'down' &&
+									$Response_Vote == 'none'
+								) || (
+									$Helpfulness_Vote == 'none' &&
+									$Response_Vote == 'up'
+								)
+							) {
 								$Helpfulness_Return['change'] = 1;
-							} else if ( $Helpfulness_Vote == 'down' && $Response_Vote == 'up' ) {
+							} else if (
+								$Helpfulness_Vote == 'down' &&
+								$Response_Vote == 'up'
+							) {
 								$Helpfulness_Return['change'] = 2;
-							} else if ( $Helpfulness_Vote == 'up' && $Response_Vote == 'down' ) {
+							} else if (
+								$Helpfulness_Vote == 'up' &&
+								$Response_Vote == 'down'
+							) {
 								$Helpfulness_Return['change'] = -2;
 							} else {
 								array_push($Helpfulness_Return['error'], 'Unknown Change.');

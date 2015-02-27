@@ -10,14 +10,15 @@
 
 function Feed_Forum() {
 
-	global $Canonical, $Database, $Member_Auth, $Sitewide_Root;
+	global $Canonical, $Database, $Member, $Sitewide;
 
 	// IFTOPIC
 	if ( isset($_GET['topic']) ) {
 
 		// IFEXISTSRESPONSES
-		if ( !$Database['Exists']['Responses'] ) return false;
-		else {
+		if ( !$Database['Exists']['Responses'] ) {
+			return false;
+		} else {
 
 			// Get the Topic
 			$Topic = Input_Prepare($_GET['topic']);
@@ -31,8 +32,11 @@ function Feed_Forum() {
 			// Assemble Query
 			// TODO Feed Pagination
 			$Query = 'SELECT `Canonical`, `Post`, `Created` FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Topic.'\' AND';
-			if ($Member_Auth) $Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-			else $Query .= ' `Status`=\'Public\'';
+			if ( $Member['Auth'] ) {
+				$Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+			} else {
+				$Query .= ' `Status`=\'Public\'';
+			}
 			$Query .= ' ORDER BY `Created` DESC';
 
 			// Execute the query
@@ -40,7 +44,9 @@ function Feed_Forum() {
 
 			// IFTOPICSUCCESS
 			if ( !$Query ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+				if ( $Sitewide_Debug ) {
+					echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+				}
 				return false;
 
 			// IFTOPICSUCCESS
@@ -56,7 +62,7 @@ function Feed_Forum() {
 					// TODO
 					// Link should go to right page and #id of the topic,
 					// may not be the first. Could be done with Feed Pagination.
-					$Link = $Sitewide_Root.$Canonical.'?topic='.$Fetch['Canonical'];
+					$Link = $Sitewide['Root'].$Canonical.'?topic='.$Fetch['Canonical'];
 
 					// Echo the item
 					echo '
@@ -77,26 +83,38 @@ function Feed_Forum() {
 	} else {
 
 		// IFEXISTSTOPICS
-		if ( !$Database['Exists']['Topics'] ) return false;
-		else {
+		if ( !$Database['Exists']['Topics'] ) {
+			return false;
+		} else {
 
 			// Get the Category
-			if (isset($_GET['category'])) $Category = Input_Prepare($_GET['category']);
-			else $Category = false;
+			if ( isset($_GET['category']) ) {
+				$Category = Input_Prepare($_GET['category']);
+			} else {
+				$Category = false;
+			}
 
 			// Send the right header for an RSS Feed
 			header('Content-Type: application/rss+xml');
 
 			// Send the beginning of the RSS Feed
-			if ($Category) echo Feed_Header($Canonical.'?feed&category='.$Category);
-			else echo Feed_Header($Canonical.'?feed');
+			if ( $Category ) {
+				echo Feed_Header($Canonical.'?feed&category='.$Category);
+			} else {
+				echo Feed_Header($Canonical.'?feed');
+			}
 
 			// Assemble the Query
 			// TODO Feed Pagination
 			$Query = 'SELECT `Slug`, `Title`, `Created` FROM `'.$Database['Prefix'].'Topics` WHERE';
-			if ($Category) $Query .= ' `Category`=\''.$Category.'\' AND';
-			if ($Member_Auth) $Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-			else $Query .= ' `Status`=\'Public\'';
+			if ( $Category ) {
+				$Query .= ' `Category`=\''.$Category.'\' AND';
+			}
+			if ( $Member['Auth'] ) {
+				$Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+			} else {
+				$Query .= ' `Status`=\'Public\'';
+			}
 			$Query .= ' ORDER BY `Created` DESC';
 
 			// Execure the Query
@@ -104,7 +122,9 @@ function Feed_Forum() {
 
 			// IFCATEGORYSUCCESS
 			if ( !$Query ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
+				if ( $Sitewide_Debug ) {
+					echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
+				}
 				return false;
 
 			// IFCATEGORYSUCCESS

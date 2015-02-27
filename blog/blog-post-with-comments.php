@@ -1,24 +1,18 @@
 <?php
 
-	$Title_HTML = 'A Blog Post with Comments';
-	$Title_Plain = 'A Blog Post with Comments';
+$Page['Title']['HTML'] = 'A Blog Post with Comments';
+$Page['Title']['Plain'] = 'A Blog Post with Comments';
+$Page['Description']['HTML'] = 'This is a Blog Post with Comments powered by Markdown.';
+$Page['Description']['Plain'] = 'This is a Blog Post with Comments powered by Markdown.';
+$Page['Keywords'] = 'blog post comments markdown';
+$Page['Featured Image'] = '';
+$Page['Type'] = 'Blog Post';
+$Page['Category'] = 'Comment';
+$Canonical = '/blog/blog-post-with-comments';
 
-	$Description_HTML = 'This is a Blog Post with Comments powered by Markdown.';
-	$Description_Plain = 'This is a Blog Post with Comments powered by Markdown.';
-
-	$Keywords = 'blog post comments markdown';
-
-	$Featured_Image = '';
-
-	$Canonical = 'blog/blog-post-with-comments';
-
-	$Post_Type = 'Blog Post';
-	$Post_Category = 'Comment';
-
-	require_once __DIR__.'/../../simplet/request.php';
-
-if ($Request['path'] === $Place['path'].$Canonical) {
-	require '../../header.php';
+require_once __DIR__.'/../_simplet/request.php';
+if ( $Request['Path'] === $Canonical ) {
+	require $Templates['Header'];
 	?>
 
 	<h2>A Blog Post with Comments</h2>
@@ -26,5 +20,5 @@ if ($Request['path'] === $Place['path'].$Canonical) {
 
 	<?php
 	Responses();
-	require '../../footer.php';
+	require $Templates['Footer'];
 }

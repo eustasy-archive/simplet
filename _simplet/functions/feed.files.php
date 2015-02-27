@@ -8,29 +8,44 @@
 
 function Feed_Files() {
 
-	global $Canonical, $Database, $Member_Auth, $Sitewide_Debug, $Sitewide_Root;
+	global $Canonical, $Database, $Member, $Sitewide;
 
 	// IFEXISTSRESPONSES
-	if ( !$Database['Exists']['Responses'] ) return false;
-	else {
+	if ( !$Database['Exists']['Responses'] ) {
+		return false;
+	} else {
 
 		// If Type is set, Encode it.
-		if (isset($_GET['type'])) $Type = Input_Prepare($_GET['type']);
-		else $Type = false;
+		if ( isset($_GET['type']) ) {
+			$Type = Input_Prepare($_GET['type']);
+		} else {
+			$Type = false;
+		}
 
 		// If the Type is Invalid, set it to false.
-		if ($Type !== 'Comment' && $Type !== 'Review') $Type = false;
+		if (
+			$Type !== 'Comment' &&
+			$Type !== 'Review'
+		) {
+			$Type = false;
+		}
 
 		// Begin building the Query.
 		$Query = 'SELECT `Canonical`, `Post`, `Created` FROM `'.$Database['Prefix'].'Responses` WHERE';
 
 		// If type is set only include those, otherwise try both valid types.
-		if ( $Type ) $Query .= ' `Type`=\''.$Type.'\' AND';
-		else $Query .= ' (`Type`=\'Comment\' OR `Type`=\'Review\') AND';
+		if ( $Type ) {
+			$Query .= ' `Type`=\''.$Type.'\' AND';
+		} else {
+			$Query .= ' (`Type`=\'Comment\' OR `Type`=\'Review\') AND';
+		}
 
 		// If a Member, include Private, otherwise just Public.
-		if ( $Member_Auth ) $Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-		else $Query .= ' `Status`=\'Public\'';
+		if ( $Member['Auth'] ) {
+			$Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+		} else {
+			$Query .= ' `Status`=\'Public\'';
+		}
 
 		// Order by Creation Time.
 		$Query .= ' ORDER BY `Created` DESC';
@@ -42,7 +57,9 @@ function Feed_Files() {
 
 		// IFQUERY
 		if ( !$Query ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+			if ( $Sitewide['Debug'] ) {
+				echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 		// IFQUERY
 		} else {
@@ -64,8 +81,11 @@ function Feed_Files() {
 			} else {
 
 				// Send the beginning of the RSS Feed
-				if ( $Type ) echo Feed_Header($Canonical.'?type='.$Type);
-				else echo Feed_Header($Canonical);
+				if ( $Type ) {
+					echo Feed_Header($Canonical.'?type='.$Type);
+				} else {
+					echo Feed_Header($Canonical);
+				}
 
 			} // IFCANONICAL
 
@@ -76,7 +96,7 @@ function Feed_Files() {
 				$Post = strip_tags(Parsedown::instance()->parse(html_entity_decode($Fetch['Post'], ENT_QUOTES, 'UTF-8')));
 
 				// Create an absolute link.
-				$Link = $Sitewide_Root.urldecode($Fetch['Canonical']);
+				$Link = $Sitewide['Root'].urldecode($Fetch['Canonical']);
 				// TODO Link should go to right page, after Feed Pagination
 
 				// Echo the RSS Item.
