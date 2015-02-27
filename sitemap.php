@@ -62,7 +62,9 @@ if ( $Request['Path'] === $Canonical ) {
 
 			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Categories) {
-				if ( $Sitewide['Debug'] ) echo 'Invalid Query (Forum_Categories): ' . mysqli_error($Database['Connection']);
+				if ( $Sitewide['Debug'] ) {
+					echo 'Invalid Query (Forum_Categories): ' . mysqli_error($Database['Connection']);
+				}
 				// TODO Handle Error
 			} else {
 
@@ -90,7 +92,9 @@ if ( $Request['Path'] === $Canonical ) {
 
 			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Topics) {
-				if ( $Sitewide['Debug'] ) echo 'Invalid Query (Forum_Topics): ' . mysqli_error($Database['Connection']);
+				if ( $Sitewide['Debug'] ) {
+					echo 'Invalid Query (Forum_Topics): ' . mysqli_error($Database['Connection']);
+				}
 				// TODO Handle Error
 			} else {
 

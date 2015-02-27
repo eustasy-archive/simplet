@@ -224,7 +224,9 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 				$Topic_Check = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic_Slug.'\' LIMIT 0, 1';
 				$Topic_Check = mysqli_query($Database['Connection'], $Topic_Check, MYSQLI_STORE_RESULT);
 				if (!$Topic_Check ) {
-					if ( $Sitewide['Debug'] ) echo 'Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']);
+					if ( $Sitewide['Debug'] ) {
+						echo 'Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']);
+					}
 					// TODO Handle error
 				} else {
 
