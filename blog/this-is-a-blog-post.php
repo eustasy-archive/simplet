@@ -1,11 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'This is a Blog Post';
 $Page['Title']['Plain'] = 'This is a Blog Post';
 $Page['Description']['HTML'] = 'This is a description for a blog post. It is used in the meta description on the page.';
 $Page['Description']['Plain'] = 'This is a description for a blog post. It is used as an excerpt in the blog index.';
 $Page['Keywords'] = 'blog post';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Blog Post';
 $Page['Category'] = 'Examples';
 $Canonical = '/blog/this-is-a-blog-post';

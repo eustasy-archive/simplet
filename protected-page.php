@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Protected Page';
 $Page['Title']['Plain'] = 'Protected Page';
-$Page['Description']['HTML'] = 'An example Protected Page.';
 $Page['Description']['Plain'] = 'An example Protected Page.';
 $Page['Keywords'] = 'example demo protected page authorization members';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Protected';
-$Page['Category'] = '';
 $Canonical = '/protected-page';
 
 require_once __DIR__.'/_simplet/request.php';

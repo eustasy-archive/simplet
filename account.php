@@ -1,15 +1,11 @@
 <?php
 
-$Page['Title']['HTML'] = 'Account';
 $Page['Title']['Plain'] = 'Account';
-$Page['Description']['HTML'] = 'Account';
 $Page['Description']['Plain'] = 'Account';
 $Page['Keywords'] = 'account password email';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
-$Page['Category'] = '';
-$Canonical = '/account';
 require_once __DIR__.'/_simplet/request.php';
+$Canonical = $Sitewide['Account'];
 
 if ( $Request['Path'] === $Canonical ) {
 
@@ -33,8 +29,8 @@ if ( $Request['Path'] === $Canonical ) {
 		if ( isset($_GET['login']) ) {
 
 			// Meta Information
-			$Page['Title']['HTML'] = 'Log In';
 			$Page['Title']['Plain'] = 'Log In';
+			$Page['Description']['Plain'] = 'Log In';
 			$Page['Keywords'] = 'log in account';
 			$Canonical = $Sitewide['Account'].'?login';
 
@@ -109,8 +105,8 @@ if ( $Request['Path'] === $Canonical ) {
 				}
 			}
 
-			$Page['Title']['HTML'] = 'Log Out';
 			$Page['Title']['Plain'] = 'Log Out';
+			$Page['Description']['Plain'] = 'Log Out';
 			$Page['Keywords'] = 'log out account';
 			$Canonical = $Sitewide['Account'].'?logout';
 
@@ -126,8 +122,8 @@ if ( $Request['Path'] === $Canonical ) {
 		// Register
 		} else if (isset($_GET['register'])) {
 
-			$Page['Title']['HTML'] = 'Register';
 			$Page['Title']['Plain'] = 'Register';
+			$Page['Description']['Plain'] = 'Register';
 			$Page['Keywords'] = 'register account';
 			$Canonical = $Sitewide['Account'].'?register';
 
@@ -174,8 +170,8 @@ if ( $Request['Path'] === $Canonical ) {
 			// Change Name
 			if (Input_Prepare($_GET['change']) == 'name') {
 
-				$Page['Title']['HTML'] = 'Change Name';
 				$Page['Title']['Plain'] = 'Change Name';
+				$Page['Description']['Plain'] = 'Change Name';
 				$Page['Keywords'] = 'change name account';
 				$Canonical = $Sitewide['Account'].'?change=name';
 
@@ -200,8 +196,8 @@ if ( $Request['Path'] === $Canonical ) {
 			// Change Pass
 			} else if ( Input_Prepare($_GET['change']) == 'pass' ) {
 
-				$Page['Title']['HTML'] = 'Change Pass';
 				$Page['Title']['Plain'] = 'Change Pass';
+				$Page['Description']['Plain'] = 'Change Pass';
 				$Page['Keywords'] = 'change pass account';
 				$Canonical = $Sitewide['Account'].'?change=pass';
 
@@ -226,8 +222,8 @@ if ( $Request['Path'] === $Canonical ) {
 			// Change Mail
 			} else if ( Input_Prepare($_GET['change']) == 'mail' ) {
 
-				$Page['Title']['HTML'] = 'Change Mail';
 				$Page['Title']['Plain'] = 'Change Mail';
+				$Page['Description']['Plain'] = 'Change Mail';
 				$Page['Keywords'] = 'change mail account';
 				$Canonical = $Sitewide['Account'].'?change=mail';
 
@@ -266,8 +262,8 @@ if ( $Request['Path'] === $Canonical ) {
 
 			} else {
 
-				$Page['Title']['HTML'] = 'Sessions';
 				$Page['Title']['Plain'] = 'Sessions';
+				$Page['Description']['Plain'] = 'Sessions';
 				$Page['Keywords'] = 'sessions account';
 				$Canonical = $Sitewide['Account'].'?sessions';
 
@@ -281,8 +277,8 @@ if ( $Request['Path'] === $Canonical ) {
 		// Reset Password
 		} else if ( isset($_GET['reset']) ) {
 
-			$Page['Title']['HTML'] = 'Password Reset';
 			$Page['Title']['Plain'] = 'Password Reset';
+			$Page['Description']['Plain'] = 'Password Reset';
 			$Page['Keywords'] = 'password reset account';
 			$Canonical = $Sitewide['Account'].'?reset';
 

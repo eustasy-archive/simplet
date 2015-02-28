@@ -1,16 +1,12 @@
 <?php
 
-$Page['Title']['HTML'] = 'Forum';
 $Page['Title']['Plain'] = 'Forum';
-$Page['Description']['HTML'] = 'Forum';
 $Page['Description']['Plain'] = 'Forum';
 $Page['Keywords'] = 'forum';
-$Page['Featured Image'] = '';
-$Page['Type'] = 'Forum';
-$Page['Category'] = '';
-$Canonical = '/forum';
-
+$Page['Type'] = 'NOTRACK';
 require_once __DIR__.'/_simplet/request.php';
+$Canonical = $Sitewide['Forum'];
+
 // if ( $Request['Path'] === $Canonical ) {
 if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 
@@ -59,7 +55,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 						$Category_Fetch = mysqli_fetch_assoc($Category);
 						$Category_Status = $Category_Fetch['Status'];
 
-						$Topic_Title = trim(Input_Prepare($_POST['title']));
+						$Topic['Title'] = trim(Input_Prepare($_POST['title']));
 
 						if ( isset($_POST['post']) ) {
 							$Topic_Post = trim(Input_Prepare($_POST['post']));
@@ -68,14 +64,14 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 						}
 
 						if ( $Forum_Topic_Inherit ) {
-							$Topic_Status = $Category_Status;
+							$Topic['Status'] = $Category_Status;
 						} else {
-							$Topic_Status = $Forum_Topic_Default;
+							$Topic['Status'] = $Forum_Topic_Default;
 						}
 
-						$Topic_Slug = Forum_Topic_Slug($_POST['title']);
+						$Topic['Slug'] = Forum_Topic_Slug($_POST['title']);
 
-						$Topic_New ='INSERT INTO `'.$Database['Prefix'].'Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Responses`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Topic_Status.'\', \''.$Topic_Category.'\', \''.$Topic_Slug.'\', \''.$Topic_Title.'\', ';
+						$Topic_New ='INSERT INTO `'.$Database['Prefix'].'Topics` (`Member_ID`, `Status`, `Category`, `Slug`, `Title`, `Responses`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Topic['Status'].'\', \''.$Topic_Category.'\', \''.$Topic['Slug'].'\', \''.$Topic['Title'].'\', ';
 						if ( $Topic_Post ) {
 							$Topic_New .= '\'1\', ';
 						} else {
@@ -93,11 +89,11 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 
 							if ( $Topic_Post ) {
 								if ( $Forum_Reply_Inherit ) {
-									$Reply_Status = $Topic_Status;
+									$Reply_Status = $Topic['Status'];
 								} else {
 									$Reply_Status = $Forum_Reply_Default;
 								}
-								$Topic_First = mysqli_query($Database['Connection'], 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Topic_Slug.'\', \'Post\', \''.$Reply_Status.'\', \''.$Topic_Post.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')', MYSQLI_STORE_RESULT);
+								$Topic_First = mysqli_query($Database['Connection'], 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Topic['Slug'].'\', \'Post\', \''.$Reply_Status.'\', \''.$Topic_Post.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')', MYSQLI_STORE_RESULT);
 								if ( !$Topic_First ) {
 									if ( $Sitewide['Debug'] ) {
 										echo 'Invalid Query (Topic_First): '.mysqli_error($Database['Connection']);
@@ -109,7 +105,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 							Forum_Category_Modified($Topic_Category);
 							Forum_Category_Increment($Topic_Category);
 
-							header('Location: ?topic='.$Topic_Slug, true, 302);
+							header('Location: ?topic='.$Topic['Slug'], true, 302);
 							exit;
 
 						}
@@ -147,6 +143,9 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 			if (isset($_GET['category'])) {
 
 				$Category_Slug = Input_Prepare($_GET['category']);
+				$Page['Type'] = 'Forum New';
+				$Canonical = $Sitewide['Forum'].'?new';
+				View_Count();
 
 				require $Templates['Header'];
 				echo '
@@ -195,19 +194,19 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 			$Database['Exists']['Topics']
 		) {
 
-			$Topic_Slug = Input_Prepare($_GET['topic']);
+			$Topic['Slug'] = Input_Prepare($_GET['topic']);
 			// IFINDEX
-			if (substr($Topic_Slug, 0, strlen($Sitewide['Forum'])+1) == '/'.$Sitewide['Forum']) {
+			if (substr($Topic['Slug'], 0, strlen($Sitewide['Forum'])+1) == '/'.$Sitewide['Forum']) {
 				// TODO What..?
-				$Topic_Slug = substr($Topic_Slug, strlen($Sitewide['Forum'])+1);
-				if ( substr($Topic_Slug, 0, 1) == '/' ) {
-					$Topic_Slug = substr($Topic_Slug, 1);
+				$Topic['Slug'] = substr($Topic['Slug'], strlen($Sitewide['Forum'])+1);
+				if ( substr($Topic['Slug'], 0, 1) == '/' ) {
+					$Topic['Slug'] = substr($Topic['Slug'], 1);
 				}
 			} // IFINDEX
 
 
 			// IFNOTTOPIC
-			if ( empty($Topic_Slug) ) {
+			if ( empty($Topic['Slug']) ) {
 				if ( !empty($_GET['category']) ) {
 					Forum_Topics();
 				} else {
@@ -221,7 +220,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 			} else {
 
 				// TODO Topic Check Function
-				$Topic_Check = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic_Slug.'\' LIMIT 0, 1';
+				$Topic_Check = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic['Slug'].'\' LIMIT 0, 1';
 				$Topic_Check = mysqli_query($Database['Connection'], $Topic_Check, MYSQLI_STORE_RESULT);
 				if (!$Topic_Check ) {
 					if ( $Sitewide['Debug'] ) {
@@ -236,55 +235,57 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 						require $Templates['Header'];
 						echo '
 						<h2>Error: Topic does not exist</h2>
-						<p class="textcenter">Try the forum, or search for something like '.$Topic_Slug.'.</p>';
+						<p class="textcenter">Try the forum, or search for something like '.$Topic['Slug'].'.</p>';
 						require $Templates['Footer'];
 					} else {
 
 						// TODO Topic Info Function
-						$Topic_Fetch = mysqli_fetch_assoc($Topic_Check);
-						$Topic_Status = $Topic_Fetch['Status'];
-						$Topic_Title = $Topic_Fetch['Title'];
-						$Topic_Created = $Topic_Fetch['Created'];
-						$Topic_Modified = $Topic_Fetch['Modified'];
+						$Topic = mysqli_fetch_assoc($Topic_Check);
 
-						if ($Topic_Status=='Public' || $Topic_Status=='Locked' || $Topic_Status=='Private' && $Member['Auth']) {
+						if (
+							$Topic['Status'] == 'Public' ||
+							$Topic['Status'] == 'Locked' ||
+							(
+								$Topic['Status'] == 'Private' &&
+								$Member['Auth']
+							)
+						) {
 
-
-
-							$Page['Title']['HTML'] = $Topic_Title;
-							$Page['Title']['Plain'] = $Topic_Title;
-							$Page['Description']['HTML'] = $Topic_Title;
-							$Page['Description']['Plain'] = $Topic_Title;
-							$Page['Keywords'] = $Topic_Title.' topic forum';
+							$Page['Title']['HTML'] = $Topic['Title'];
+							$Page['Title']['Plain'] = $Topic['Title'];
+							$Page['Description']['HTML'] = $Topic['Title'];
+							$Page['Description']['Plain'] = $Topic['Title'];
+							$Page['Keywords'] = $Topic['Title'].' topic forum';
 							$Page['Featured Image'] = '';
 							$Page['Type'] = 'Forum Topic';
 							$Page['Category'] = '';
-							$Canonical = '/forum';
+							// TODO Topic Canonical
+							$Canonical = $Sitewide['Forum'].'/'.$Topic['Slug'];
 
 							View_Count();
 
 							require $Templates['Header'];
 							echo '
-							<h2>'.$Topic_Title.'</h2>';
+							<h2>'.$Topic['Title'].'</h2>';
 
-							Responses('Post', $Topic_Slug);
+							Responses('Post', $Canonical);
 
 							require $Templates['Footer'];
-						} else if ($Topic_Status=='Private' && !$Member['Auth']) {
+						} else if ($Topic['Status']=='Private' && !$Member['Auth']) {
 							header('HTTP/1.1 401 Unauthorized');
 							require $Templates['Header'];
 							echo '
 							<h2>Error: Topic is private</h2>
 							<p class="textcenter">You need to login.</p>';
 							require $Templates['Footer'];
-						} else if ($Topic_Status=='Pending') {
+						} else if ($Topic['Status']=='Pending') {
 							header('HTTP/1.1 403 Forbidden');
 							require $Templates['Header'];
 							echo '
 							<h2>Error: Topic is Pending</h2>
 							<p class="textcenter">This topic is pending approval by moderators.</p>';
 							require $Templates['Footer'];
-						} else if ($Topic_Status=='Hidden') {
+						} else if ($Topic['Status']=='Hidden') {
 							header('HTTP/1.1 403 Forbidden');
 							require $Templates['Header'];
 							echo '
@@ -312,17 +313,15 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 	} else if ( !empty($_GET['category']) ) {
 		Forum_Topics();
 
+	// Forum Index
 	} else {
-
+		$Page['Type'] = 'Forum Index';
+		View_Count();
 		require $Templates['Header'];
-
 		echo '
 		<h2>Forum</h2>';
-
 		Forum_Categories();
-
 		require $Templates['Footer'];
-
 	}
 
 }

@@ -11,5 +11,6 @@ function Member_Auth_False($ClearCookie = false) {
 	$Member['ID'] = false;
 	$Member['Name'] = false;
 	$Member['Admin'] = false;
+	$Member['Cookie'] = false;
 	return true;
 }

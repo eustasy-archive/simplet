@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Simplet';
 $Page['Title']['Plain'] = 'Simplet';
-$Page['Description']['HTML'] = 'a simple, modular, cms framework written in php';
 $Page['Description']['Plain'] = 'a simple, modular, cms framework written in php';
 $Page['Keywords'] = 'blog posts';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
-$Page['Category'] = '';
 $Canonical = '/';
 
 require_once __DIR__.'/_simplet/request.php';

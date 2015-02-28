@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'API';
 $Page['Title']['Plain'] = 'API';
-$Page['Description']['HTML'] = 'API';
 $Page['Description']['Plain'] = 'API';
 $Page['Keywords'] = 'api';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'API';
-$Page['Category'] = '';
 $Canonical = '/api';
 
 require_once __DIR__.'/_simplet/request.php';

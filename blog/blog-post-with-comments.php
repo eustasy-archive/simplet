@@ -1,11 +1,8 @@
 <?php
 
-$Page['Title']['HTML'] = 'A Blog Post with Comments';
 $Page['Title']['Plain'] = 'A Blog Post with Comments';
-$Page['Description']['HTML'] = 'This is a Blog Post with Comments powered by Markdown.';
 $Page['Description']['Plain'] = 'This is a Blog Post with Comments powered by Markdown.';
 $Page['Keywords'] = 'blog post comments markdown';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Blog Post';
 $Page['Category'] = 'Comment';
 $Canonical = '/blog/blog-post-with-comments';

@@ -8,7 +8,7 @@
 
 function Forum_Categories() {
 
-	global $Database, $Member_Auth;
+	global $Database, $Member, $Sitewide;
 
 	// IFEXISTSCATEGORIES
 	if ( !$Database['Exists']['Categories'] ) return false;
@@ -23,8 +23,11 @@ function Forum_Categories() {
 
 		// Limit by Status
 		// Allow authenticated users to see Private Categories, but others to only see Public ones.
-		if ( $Member_Auth ) $Categories_Query_Status = ' ( `Status`=\'Public\' OR `Status`=\'Private\' )';
-		else $Categories_Query_Status = ' `Status`=\'Public\'';
+		if ( $Member['Auth'] ) {
+			$Categories_Query_Status = ' ( `Status`=\'Public\' OR `Status`=\'Private\' )';
+		} else {
+			$Categories_Query_Status = ' `Status`=\'Public\'';
+		}
 
 		// Order by Creation Time
 		$Categories_Query_Order = ' ORDER BY `Created` DESC';
@@ -39,7 +42,9 @@ function Forum_Categories() {
 
 		// IFCOUNTSUCCESS If the Query was unsuccessful
 		if ( !$Categories ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+			if ( $Sitewide['Debug'] ) {
+				echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFCOUNTSUCCESS If the Query was successful
@@ -53,11 +58,14 @@ function Forum_Categories() {
 			if ( $Categories_Count == 0 ) {
 
 				// There are no Categories
-				if ( $Member_Auth ) echo '
+				if ( $Member['Auth'] ) {
+					echo '
 					<h3>There are no Categories.</h3>';
 				// There are no public Categories
-				else echo '
+				} else {
+					echo '
 					<h3>There are no public Categories.</h3>';
+				}
 
 			// IFCOUNT If the count was not zero
 			} else {

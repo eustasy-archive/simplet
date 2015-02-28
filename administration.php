@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Administration';
 $Page['Title']['Plain'] = 'Administration';
-$Page['Description']['HTML'] = 'Administration';
 $Page['Description']['Plain'] = 'Administration';
 $Page['Keywords'] = 'administration control manage management password email user';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
-$Page['Category'] = '';
 $Canonical = '/administration';
 
 require_once __DIR__.'/_simplet/request.php';

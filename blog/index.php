@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Blog';
 $Page['Title']['Plain'] = 'Blog';
-$Page['Description']['HTML'] = 'Our blog.';
 $Page['Description']['Plain'] = 'Our blog.';
 $Page['Keywords'] = 'blog posts';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Blog Index';
-$Page['Category'] = '';
 $Canonical = '/blog/';
 
 require_once __DIR__.'/../_simplet/request.php';
@@ -54,8 +50,12 @@ if ( $Request['Path'] === $Canonical ) {
 			} else {
 				include $Backend['root'].$Trending_Canonical.'.php';
 			}
+			if ( !isset($Page['Title']['HTML']) ) {
+				$Page['Title']['HTML'] = $Page['Title']['Plain'];
+			}
 			echo '
 				<p class="textcenter"><a href="'.$Sitewide['Root'].$Trending_Canonical.'">'.$Page['Title']['HTML'].' ('.$Trending_Count.')</a></p>';
+			$Page['Title']['HTML'] = null;
 		}
 	} else {
 		echo '

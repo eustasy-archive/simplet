@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Example Page';
 $Page['Title']['Plain'] = 'Example Page';
-$Page['Description']['HTML'] = 'An example page to show default styles.';
 $Page['Description']['Plain'] = 'An example page to show default styles.';
 $Page['Keywords'] = 'example page default styles';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
-$Page['Category'] = '';
 $Canonical = '/page';
 
 require_once __DIR__.'/_simplet/request.php';

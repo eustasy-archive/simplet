@@ -9,7 +9,7 @@
 
 function Respond($Status_Override = false) {
 
-	global $Database, $Forum_Reply_Default, $Forum_Reply_Inherit, $Member_Auth, $Member_ID, $Sitewide_Root, $Time;
+	global $Database, $Forum_Reply_Default, $Forum_Reply_Inherit, $Member, $Sitewide, $Time;
 
 	// Prepare an array to be returned as JSON.
 	$Response_Return = array();
@@ -52,16 +52,23 @@ function Respond($Status_Override = false) {
 		$Response_Prepared = trim(Input_Prepare($_POST['post']));
 
 		// TODO Redirect responsive
-		if ( !$Member_Auth ) return array('error' => array('Sorry, you aren\'t logged in anymore. You must <a href="'.$Sitewide_Root.'account?login&redirect='.urlencode('forum?topic='.$Response_Canonical).'">Log In</a> to '.$Response_Type.'.'));
+		if ( !$Member['Auth'] ) {
+			return array('error' => array('Sorry, you aren\'t logged in anymore. You must <a href="'.$Sitewide['Root'].'/account?login&redirect='.urlencode($Sitewide['Root'].$Response_Canonical).'">Log In</a> to '.$Response_Type.'.'));
+		}
 
 		// Response Rating
 		if ($Response_Type == 'Review') {
-			if(isset($_POST['rating'])) $Response_Rating = strval(Input_Prepare($_POST['rating']));
-			else array_push($Response_Return['error'], 'You didn\'t choose a rating.');
-		} else $Response_Rating = 0;
+			if ( isset($_POST['rating']) ) {
+				$Response_Rating = strval(Input_Prepare($_POST['rating']));
+			} else {
+				array_push($Response_Return['error'], 'You didn\'t choose a rating.');
+			}
+		} else {
+			$Response_Rating = 0;
+		}
 
 		// Response Status
-		if (isset($Status_Override) && $Status_Override) {
+		if ( isset($Status_Override) && $Status_Override ) {
 			$Response_Status = $Status_Override;
 		} else if ($Response_Type == 'Post') {
 			if ($Forum_Reply_Inherit === true) {
@@ -94,7 +101,9 @@ function Respond($Status_Override = false) {
 		// Query
 		$Response_Query = 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Prepared.'\', \''.$Time.'\', \''.$Time.'\')';
 		$Response_New = mysqli_query($Database['Connection'], $Response_Query, MYSQLI_STORE_RESULT);
-		if (!$Response_New) array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($Database['Connection']));
+		if (!$Response_New) {
+			array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($Database['Connection']));
+		}
 
 		// Prepare statements to be returned.
 		$Response_ID = mysqli_insert_id($Database['Connection']);
@@ -104,7 +113,13 @@ function Respond($Status_Override = false) {
 		$Response_Return['rating'] = $Response_Rating;
 
 		// If the response is (Public or Private) and is a Forum Post
-		if (($Response_Status === 'Public' || $Response_Status === 'Private') && $Response_Type == 'Post') {
+		if (
+			(
+				$Response_Status === 'Public' ||
+				$Response_Status === 'Private'
+			) &&
+			$Response_Type == 'Post'
+		) {
 			// Update Responses Count for Topic
 			// Also updates Modified Time for Topic
 			Forum_Topic_Increment($Response_Canonical);

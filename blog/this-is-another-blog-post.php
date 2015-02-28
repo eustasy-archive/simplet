@@ -1,11 +1,8 @@
 <?php
 
-$Page['Title']['HTML'] = 'This is another Blog Post';
 $Page['Title']['Plain'] = 'This is another Blog Post';
-$Page['Description']['HTML'] = 'This is another description for a blog post.';
 $Page['Description']['Plain'] = 'This is another description for a blog post.';
 $Page['Keywords'] = 'blog post';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Blog Post';
 $Page['Category'] = 'Examples';
 $Canonical = '/blog/this-is-another-blog-post';

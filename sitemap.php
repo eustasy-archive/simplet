@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Sitemap';
 $Page['Title']['Plain'] = 'Sitemap';
-$Page['Description']['HTML'] = 'Root Sitemap.';
 $Page['Description']['Plain'] = 'Root Sitemap.';
 $Page['Keywords'] = 'sitemap';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Sitemap';
-$Page['Category'] = '';
 $Canonical = '/sitemap';
 
 require_once __DIR__.'/_simplet/request.php';

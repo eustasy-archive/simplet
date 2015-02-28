@@ -1,13 +1,9 @@
 <?php
 
-$Page['Title']['HTML'] = 'Example Product';
 $Page['Title']['Plain'] = 'Example Product';
-$Page['Description']['HTML'] = 'An Example Product to demo Reviews.';
 $Page['Description']['Plain'] = 'An Example Product to demo Reviews.';
 $Page['Keywords'] = 'product example rocks reviews demo';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Page';
-$Page['Category'] = '';
 $Canonical = '/product';
 
 require_once __DIR__.'/_simplet/request.php';

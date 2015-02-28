@@ -80,11 +80,19 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 	// FOREACH: For each Item
 	foreach ($Posts_Return as $Item) {
 
+		// null out
+		$Page['Title']['HTML'] = null;
+
 		// Require it
 		require $Item;
 
 		// Make the link
 		$Post_Link = $Sitewide['Root'].$Canonical;
+
+		// Set the title
+		if ( !isset($Page['Title']['HTML']) ) {
+			$Page['Title']['HTML'] = $Page['Title']['Plain'];
+		}
 
 		// Echo out the Item
 		if ($Posts_PerLine == 1) echo '

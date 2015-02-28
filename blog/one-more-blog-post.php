@@ -5,7 +5,6 @@ $Page['Title']['Plain'] = 'One more Blog Post';
 $Page['Description']['HTML'] = 'You <strong>can</strong> put HTML in this description.';
 $Page['Description']['Plain'] = 'You shouldn\'t put HTML in this description.';
 $Page['Keywords'] = 'blog post';
-$Page['Featured Image'] = '';
 $Page['Type'] = 'Blog Post';
 $Page['Category'] = 'Padding';
 $Canonical = '/blog/one-more-blog-post';

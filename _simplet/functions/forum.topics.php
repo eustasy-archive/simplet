@@ -8,7 +8,7 @@
 
 function Forum_Topics() {
 
-	global $Database, $Footer, $Header, $Member, $Sitewide, $Templates, $User;
+	global $Database, $Footer, $Header, $Member, $Page, $Sitewide, $Templates, $User;
 
 	// IFEXISTSTOPICS
 	if (
@@ -32,18 +32,18 @@ function Forum_Topics() {
 			require $Footer;
 		} else {
 
-			//
 			$Category_Title = $Forum_Topics_Category_Info['Title'];
 			$Category_Description = $Forum_Topics_Category_Info['Description'];
 
-			$Title_HTML = $Category_Title;
-			$Title_Plain = $Category_Title;
-			$Description_HTML = $Category_Description;
-			$Description_Plain = $Category_Description;
-			$Canonical = '?category='.$Forum_Topics_Category_Slug;
-			$Post_Type = 'Forum Category';
-			$Featured_Image = '';
-			$Keywords = $Category_Title.' category topics forum '.$Category_Description;
+			$Page['Title']['HTML'] = $Category_Title;
+			$Page['Title']['Plain'] = $Category_Title;
+			$Page['Description']['HTML'] = $Category_Description;
+			$Page['Description']['Plain'] = $Category_Description;
+			$Page['Keywords'] = $Category_Title.' category topics forum '.$Category_Description;
+			$Page['Type'] = 'Forum Category';
+			$Page['Category'] = '';
+			// TODO Pretty URLS
+			$Canonical = $Sitewide['Forum'].'?category='.$Forum_Topics_Category_Slug;
 
 			View_Count();
 
@@ -65,7 +65,9 @@ function Forum_Topics() {
 			// Get Topics
 			$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
 			if (!$Topics) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Category_Check): '.mysqli_error($Database['Connection']);
+				if ( $Sitewide['Debug'] ) {
+					echo 'Invalid Query (Category_Check): '.mysqli_error($Database['Connection']);
+				}
 				// TODO Error
 			} else {
 
@@ -80,7 +82,9 @@ function Forum_Topics() {
 					$Responses_Prefetch_Query = $Responses_Prefetch_Query_Select.$Topics_Query_Status.$Responses_Prefetch_Query_Group;
 					$Responses_Prefetch = mysqli_query($Database['Connection'], $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);
 					if ( !$Responses_Prefetch ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']);
+						if ( $Sitewide['Debug'] ) {
+							echo 'Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']);
+						}
 						// TODO Error
 					} else {
 						// TODO Wrap
