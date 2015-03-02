@@ -24,7 +24,7 @@ function Pass_Hash($Pass, $Salt, $Version = 2) {
 	// Defaulted to sha512 and 1000 hashes.
 	} else {
 		$Hash = '';
-		for( $i = 0; $i < $Sitewide_Security_Hash_Iterations; $i++ ) {
+		for ( $i = 0; $i < $Sitewide_Security_Hash_Iterations; $i++ ) {
 			$Hash = hash(
 				$Sitewide_Security_Hash_Method,
 				$Pass.$Salt.$Hash,

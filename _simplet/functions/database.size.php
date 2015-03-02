@@ -38,6 +38,4 @@ function Database_Size() {
 		return mysqli_fetch_assoc($Database_Size_Query);
 	}
 
-
-
 }

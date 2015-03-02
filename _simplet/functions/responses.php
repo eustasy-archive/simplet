@@ -351,7 +351,11 @@ QUERY;
 				$('.helpfulness').each(function() {
 					var Response_ID = $(this).attr('id').substring(12);
 					$.post(
-						'<?php echo $Sitewide['Root']; ?>/api?helpfulness&fetch&canonical=<?php echo $Response_Canonical; ?>&id=' + Response_ID,
+
+						<?php
+						echo '\''.$Sitewide['Root'].'/api?helpfulness&fetch&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+						?>
+
 						{
 							csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 						},

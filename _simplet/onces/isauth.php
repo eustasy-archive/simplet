@@ -39,7 +39,7 @@ if ( // If it is possible for them to be logged in.
 		if ( $IP_Checking ) {
 			// WARNING: Potential Security Issue
 			// Anyone without an IP skips IP checking.
-			if( empty($Session_IP) ) {
+			if ( empty($Session_IP) ) {
 				$IP_Check = true;
 			} else if ( $IP_Checking === 'Partial' ) {
 				if (

@@ -23,7 +23,12 @@ function Member_Reset_Pass_Form() {
 			<div class="section group">
 				<div class="col span_1_of_3"><label for="pass"><h3>Pass</h3></label></div>
 				<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
-				<div class="col span_1_of_2"><input type="password" name="pass" placeholder="Qwerty1234" required pattern=".{<?php echo $Sitewide_Security_Password_Length; ?>,}" title="Passwords must be at least <?php echo $Sitewide_Security_Password_Length; ?> characters in length." /></div>
+				<div class="col span_1_of_2">
+
+					<?php
+					echo '<input type="password" name="pass" placeholder="Qwerty1234" required pattern=".{'.$Sitewide_Security_Password_Length.',}" title="Passwords must be at least '.$Sitewide_Security_Password_Length.' characters in length." /></div>';
+					?>
+
 			</div>
 			<div class="section group">
 				<div class="col span_1_of_3">
