@@ -6,29 +6,32 @@
 
 function Member_Reset_Mail() {
 
-	global $Database, $Error, $Lib_Browning_Config, $Lib_Browning_Send, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Root, $Success, $Time;
+	global $Backend, $Database, $Error, $Sitewide, $Success, $Time;
 
 	// IF CSRF Okay
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
+
 		// Sanitize Mail
 		$Reset_Mail = Input_Prepare(strtolower($_POST['mail']));
+
 		// IF Mail is Empty
 		if ( empty($Reset_Mail) ) {
 			$Error = '<h3 class="color-pomegranate">Error: Your e-mail address cannot be empty.</h3>';
 		// END IF Mail is Empty
+
 		// IF Mail is not Empty
 		} else {
 			// TODO Member_Check Function
 			$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Reset_Mail.'\' AND `Status`=\'Active\'';
 			$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
-				if ( $Sitewide_Debug ) {
+				if ( $Backend['Debug'] ) {
 					echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
 				}
 			} else {
 				$Member_Count = mysqli_num_rows($Member_Check);
 				if ( $Member_Count == 0 ) {
-					if ( $Sitewide_Debug ) {
+					if ( $Backend['Debug'] ) {
 						echo 'SIMPLET WARNING: No member with that email address.';
 					}
 					$Error = '<h3 class="color-pomegranate">Error: User does not exist.</h3>';
@@ -38,12 +41,12 @@ function Member_Reset_Mail() {
 					$Member_Name = $Fetch_Member['Name'];
 
 					// Create a single-use key with a 1 hour timeout for resetting the password.
-					$Key = Runonce_Create($Time+(60*60), 1, 'Password Reset', Generator_String(), $Member_ID);
+					$Key = Runonce_Create($Time['1hour'], 1, 'Password Reset', Generator_String(), $Member_ID);
 
 					$Mail_Response = Browning(
 						$Reset_Mail,
 						'Password Reset',
-						'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide_Root.$Sitewide_Account.'?reset&key='.$Key['Key']
+						'Hello '.$Member_Name.', you wanted to reset your password? '.$Sitewide['Root'].$Sitewide['Account'].'?reset&key='.$Key['Key']
 					);
 
 					if ( $Mail_Response['Success'] ) {

@@ -1,8 +1,8 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/member.group.add.php';
-include_once __DIR__.'/../functions/member.group.check.php';
+include_once $Backend['functions'].'member.group.add.php';
+include_once $Backend['functions'].'member.group.check.php';
 $Return['Name'] = 'Member Group Add';
 $Return['Status'] = 'Failure';
 

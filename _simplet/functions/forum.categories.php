@@ -8,11 +8,12 @@
 
 function Forum_Categories() {
 
-	global $Database, $Member, $Sitewide;
+	global $Backend, $Database, $Member;
 
 	// IFEXISTSCATEGORIES
-	if ( !$Database['Exists']['Categories'] ) return false;
-	else {
+	if ( !$Database['Exists']['Categories'] ) {
+		return false;
+	} else {
 
 		////	START Count Query Assembly
 
@@ -42,7 +43,7 @@ function Forum_Categories() {
 
 		// IFCOUNTSUCCESS If the Query was unsuccessful
 		if ( !$Categories ) {
-			if ( $Sitewide['Debug'] ) {
+			if ( $Backend['Debug'] ) {
 				echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
 			}
 			return false;
@@ -88,8 +89,11 @@ function Forum_Categories() {
 				$Categories_Query_Select = 'SELECT * FROM `'.$Database['Prefix'].'Categories` WHERE';
 
 				// Limit Selection by Page
-				if ($Pagination['Page'] === 1) $Categories_Query_Limit = ' LIMIT '.$Pagination['Show'];
-				else $Categories_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
+				if ($Pagination['Page'] === 1) {
+					$Categories_Query_Limit = ' LIMIT '.$Pagination['Show'];
+				} else {
+					$Categories_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
+				}
 
 				// Assemble new Query
 				$Categories_Query = $Categories_Query_Select.$Categories_Query_Status.$Categories_Query_Order.$Categories_Query_Limit;
@@ -99,7 +103,7 @@ function Forum_Categories() {
 
 				// IFCATEGORIES Failure
 				if ( !$Categories ) {
-					if ( $Sitwide_Debug ) echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+					if ( $Backend['Debug'] ) echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
 					return false;
 
 				// IFCATEGORIES Success

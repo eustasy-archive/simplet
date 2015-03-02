@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/forum.category.count.php';
+include_once $Backend['functions'].'forum.category.count.php';
 $Return['Name'] = 'Forum Category Count';
 $Return['Status'] = 'Failure';
 

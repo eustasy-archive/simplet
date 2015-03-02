@@ -1,10 +1,10 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/generator.string.php';
-include_once __DIR__.'/../functions/runonce.create.php';
-include_once __DIR__.'/../functions/runonce.csrf.create.php';
-include_once __DIR__.'/../functions/runonce.delete.php';
+include_once $Backend['functions'].'generator.string.php';
+include_once $Backend['functions'].'runonce.create.php';
+include_once $Backend['functions'].'runonce.csrf.create.php';
+include_once $Backend['functions'].'runonce.delete.php';
 $Return['Name'] = 'RunOnce CSRF Create';
 $Return['Status'] = 'Failure';
 

@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/feed.files.php';
+include_once $Backend['functions'].'feed.files.php';
 $Return['Name'] = 'Feed Files';
 $Return['Status'] = 'Pending';
 

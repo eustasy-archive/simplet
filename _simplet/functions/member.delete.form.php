@@ -6,7 +6,7 @@
 
 function Member_Delete_Form() {
 
-	global $Error, $Key, $Sitewide_Account, $Success;
+	global $Error, $Key, $Sitewide, $Success;
 
 	if ( !empty($Success) ) {
 		echo $Success;
@@ -26,7 +26,7 @@ function Member_Delete_Form() {
 					<br>
 					<div class="section group">
 						<div class="col span_5_of_11">
-							<a href="<?php echo $Sitewide_Account; ?>" class="button blue textcenter">No, go back.</a>
+							<a href="<?php echo $Sitewide['Account']; ?>" class="button blue textcenter">No, go back.</a>
 						</div>
 						<div class="col span_1_of_11"><br></div>
 						<div class="col span_5_of_11">

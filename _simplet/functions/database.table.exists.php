@@ -8,14 +8,16 @@
 
 function Database_Table_Exists($Table_Name, $AddPrefix = true) {
 
-	global $Database;
-
-	include __DIR__.'/../config.database.php';
+	global $Backend, $Database;
 
 	// Assemble the Query
+	require $Backend['simplet'].'config.database.php';
 	$Database_Table_Exists_Query = 'SELECT * FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA`=\''.$Database['Name'].'\' AND `TABLE_NAME`=\'';
-	if ( $AddPrefix ) $Database_Table_Exists_Query .= $Database['Prefix'];
+	if ( $AddPrefix ) {
+		$Database_Table_Exists_Query .= $Database['Prefix'];
+	}
 	$Database_Table_Exists_Query .= $Table_Name.'\'';
+	$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = true;
 
 	// Execute the Query
 	// SPECIAL CASE: This query doesn't need to be inside a table exists check because it is querying a table from outside Simplet.
@@ -23,17 +25,25 @@ function Database_Table_Exists($Table_Name, $AddPrefix = true) {
 
 	// IFNOTQUERY: The query failed.
 	if ( !$Database_Table_Exists_Query ) {
-		if ( $Sitewide_Debug ) echo 'Invalid Query (Key_Check): '.mysqli_error($Database['Connection']);
+		if ( $Backend['Debug'] ) {
+			echo 'Invalid Query (Key_Check): '.mysqli_error($Database['Connection']);
+		}
 		return false;
 
 	// The Query was executed successfully.
 	} else {
+
 		// Fetch the count.
 		$Database_Table_Exists_Query_Count = mysqli_num_rows($Database_Table_Exists_Query);
+
 		// If the count is positive it exists.
-		if ( $Database_Table_Exists_Query_Count > 0 ) return true;
+		if ( $Database_Table_Exists_Query_Count > 0 ) {
+			return true;
+
 		// If the count is zero it does not.
-		else return false;
+		} else {
+			return false;
+		}
 
 	} // IFNOTQUERY
 

@@ -1,8 +1,8 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/globrecursive.php';
-include_once __DIR__.'/../functions/blog.categories.php';
+include_once $Backend['functions'].'globrecursive.php';
+include_once $Backend['functions'].'blog.categories.php';
 $Return['Name'] = 'Blog Categories';
 $Return['Status'] = 'Pending';
 

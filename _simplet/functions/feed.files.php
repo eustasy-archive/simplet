@@ -8,7 +8,7 @@
 
 function Feed_Files() {
 
-	global $Canonical, $Database, $Member, $Sitewide;
+	global $Backend, $Canonical, $Database, $Member, $Sitewide;
 
 	// IFEXISTSRESPONSES
 	if ( !$Database['Exists']['Responses'] ) {
@@ -57,7 +57,7 @@ function Feed_Files() {
 
 		// IFQUERY
 		if ( !$Query ) {
-			if ( $Sitewide['Debug'] ) {
+			if ( $Backend['Debug'] ) {
 				echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
 			}
 			return false;

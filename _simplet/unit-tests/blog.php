@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/blog.php';
+include_once $Backend['functions'].'blog.php';
 $Return['Name'] = 'Blog';
 $Return['Status'] = 'Pending';
 

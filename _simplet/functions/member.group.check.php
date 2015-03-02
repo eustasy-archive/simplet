@@ -9,15 +9,19 @@
 
 function Member_Group_Check($Group, $Member_ID_Override = false) {
 
-	global $Database, $Member_ID;
+	global $Backend, $Database, $Member;
 
 	// If there is a Member_ID_Override, then override.
-	if ( $Member_ID_Override ) $Check_Member = $Member_ID_Override;
-	else $Check_Member = $Member_ID;
+	if ( $Member_ID_Override ) {
+		$Check_Member = $Member_ID_Override;
+	} else {
+		$Check_Member = $Member['ID'];
+	}
 
 	// IFEXISTSMEMBERS
-	if ( !$Database['Exists']['Members'] ) return false;
-	else {
+	if ( !$Database['Exists']['Members'] ) {
+		return false;
+	} else {
 
 		// Find the Groups for a given Member_ID
 		$Member_Group_Check = 'SELECT `Groups` FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Check_Member.'\'';
@@ -28,7 +32,9 @@ function Member_Group_Check($Group, $Member_ID_Override = false) {
 
 		// IFQUERY
 		if ( !$Member_Group_Check ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Group_Check): '.mysqli_error($Database['Connection']);
+			if ( $Backend['Debug'] ) {
+				echo 'Invalid Query (Member_Group_Check): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFQUERY Query Successful

@@ -9,11 +9,6 @@ $Canonical = $Sitewide['Account'];
 
 if ( $Request['Path'] === $Canonical ) {
 
-	// TODO Conditional (Once/Libs)
-	// TODO Move to Config
-	$Lib_Browning_Config = __DIR__.'/../libs/config.browning.php';
-	$Lib_Browning_Send = __DIR__.'/../libs/function.browning.php';
-
 	// IFDATABASEMEMBERS
 	if ( // If it is possible for them to be logged in.
 		$Database['Connection'] &&
@@ -97,7 +92,9 @@ if ( $Request['Path'] === $Canonical ) {
 				$Session_End = 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\', `Modified`=\''.$Time['Now'].'\' WHERE `Member_ID`=\''.$Member['ID'].'\' AND `Cookie`=\''.$Member['Cookie'].'\' AND `IP`=\''.$User['IP'].'\'';
 				$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
 				if ( !$Session_End ) {
-					if ( $Sitewide['Debug'] ) echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
+					if ( $Sitewide['Debug'] ) {
+						echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
+					}
 					// TODO Handle Error
 				} else {
 					$Bye = $Member['Name'];
@@ -288,9 +285,9 @@ if ( $Request['Path'] === $Canonical ) {
 
 			// TODO Expand mail system support.
 			} else if (
-				isset($Sitewide_Browning) &&
-				$Sitewide_Browning &&
-				is_readable($Lib_Browning_Config)
+				isset($Libs['Browning']) &&
+				$Libs['Browning'] &&
+				$Browning['Key']
 			) {
 
 				$Success = false;
@@ -336,8 +333,10 @@ if ( $Request['Path'] === $Canonical ) {
 					// Reset Mail Process
 					if (isset($_POST['mail'])) {
 						// TODO Conditionally load based on LibLoad
-						require_once $Lib_Browning_Config;
-						require_once $Lib_Browning_Send;
+						if ( !$Sitewide['AutoLoad']['Libs'] ) {
+							require_once $Backend['libs'].'config.browning.php';
+							require_once $Backend['libs'].'function.browning.php';
+						}
 						Member_Reset_Mail();
 					}
 

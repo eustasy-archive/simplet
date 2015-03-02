@@ -19,7 +19,9 @@ function Input_Prepare($Thing, $Like = false) {
 	$Thing = htmlspecialchars($Thing, ENT_QUOTES, 'UTF-8');
 	$Thing = mysqli_real_escape_string($Database['Connection'], $Thing);
 
-	if ( $Like ) $Thing = addcslashes($Thing, '%_');
+	if ( $Like ) {
+		$Thing = addcslashes($Thing, '%_');
+	}
 
 	return $Thing;
 

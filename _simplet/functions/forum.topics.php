@@ -8,7 +8,7 @@
 
 function Forum_Topics() {
 
-	global $Database, $Footer, $Header, $Member, $Page, $Sitewide, $Templates, $User;
+	global $Backend, $Database, $Footer, $Header, $Member, $Page, $Sitewide, $Templates, $User;
 
 	// IFEXISTSTOPICS
 	if (
@@ -23,12 +23,15 @@ function Forum_Topics() {
 
 		if ( $Forum_Topics_Category_Info === false ) {
 			require $Header;
-			if ($Member['Auth']) echo '
-				<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>
-				<p><a href="?category=">Return to the Forum Index</a></p>';
-			else echo '
-				<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>
-				<p><a href="?category=">Return to the Forum Index</a></p>';
+			if ($Member['Auth']) {
+				echo '
+					<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>
+					<p><a href="?category=">Return to the Forum Index</a></p>';
+			} else {
+				echo '
+					<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>
+					<p><a href="?category=">Return to the Forum Index</a></p>';
+			}
 			require $Footer;
 		} else {
 
@@ -53,8 +56,11 @@ function Forum_Topics() {
 			$Topics_Query_Select = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
 
 			// Limit by Status
-			if ($Member['Auth']) $Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-			else $Topics_Query_Status = ' `Status`=\'Public\'';
+			if ( $Member['Auth'] ) {
+				$Topics_Query_Status = ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+			} else {
+				$Topics_Query_Status = ' `Status`=\'Public\'';
+			}
 
 			// Order by Creation
 			$Topics_Query_Order = ' ORDER BY `Modified` DESC';
@@ -64,17 +70,20 @@ function Forum_Topics() {
 
 			// Get Topics
 			$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
-			if (!$Topics) {
-				if ( $Sitewide['Debug'] ) {
+			if ( !$Topics ) {
+				if ( $Backend['Debug'] ) {
 					echo 'Invalid Query (Category_Check): '.mysqli_error($Database['Connection']);
 				}
 				// TODO Error
 			} else {
 
 				$Topics_Count = mysqli_num_rows($Topics);
-				if ($Topics_Count == 0) {
-					if ($Member['Auth']) echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a></h3>';
-					else echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
+				if ( $Topics_Count == 0 ) {
+					if ( $Member['Auth'] ) {
+						echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a></h3>';
+					} else {
+						echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
+					}
 				} else {
 
 					$Responses_Prefetch_Query_Select = 'SELECT `Canonical`, MAX(`Modified`) AS `Modified`, COUNT(*) AS `Count` FROM `'.$Database['Prefix'].'Responses` WHERE `Type`=\'Post\' AND ';
@@ -82,7 +91,7 @@ function Forum_Topics() {
 					$Responses_Prefetch_Query = $Responses_Prefetch_Query_Select.$Topics_Query_Status.$Responses_Prefetch_Query_Group;
 					$Responses_Prefetch = mysqli_query($Database['Connection'], $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);
 					if ( !$Responses_Prefetch ) {
-						if ( $Sitewide['Debug'] ) {
+						if ( $Backend['Debug'] ) {
 							echo 'Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']);
 						}
 						// TODO Error
@@ -114,14 +123,19 @@ function Forum_Topics() {
 							</div>';
 
 					$Topics_Query_Select = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Category`=\''.$Forum_Topics_Category_Slug.'\' AND';
-					if ($Pagination['Page'] === 1) $Topics_Query_Limit = ' LIMIT '.$Pagination['Show'];
-					else $Topics_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
+					if ($Pagination['Page'] === 1) {
+						$Topics_Query_Limit = ' LIMIT '.$Pagination['Show'];
+					} else {
+						$Topics_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
+					}
 
 					$Topics_Query = $Topics_Query_Select.$Topics_Query_Status.$Topics_Query_Order.$Topics_Query_Limit;
 
 					$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
 					if ( !$Topics ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
+						if ( $Backend['Debug'] ) {
+							echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
+						}
 						// TODO Error
 					} else {
 						// TODO Wrap

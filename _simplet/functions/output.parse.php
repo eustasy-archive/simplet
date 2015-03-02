@@ -6,7 +6,7 @@
 
 function Output_Parse($String, $AllowHTML = false) {
 
-	global $Sitewide_AllowHTML;
+	global $Sitewide;
 
 	$Prepared = array(
 		'&amp;amp;',
@@ -28,7 +28,9 @@ function Output_Parse($String, $AllowHTML = false) {
 		'&apos;'
 	);
 
-	if ( $Sitewide_AllowHTML || $AllowHTML ) $String = htmlspecialchars_decode($String, ENT_QUOTES, 'UTF-8');
+	if ( $Sitewide['Security']['AllowHTML'] || $AllowHTML ) {
+		$String = htmlspecialchars_decode($String, ENT_QUOTES, 'UTF-8');
+	}
 	$String = Parsedown::instance()->parse($String);
 	$String = str_replace($Prepared, $PrePrepared, $String);
 

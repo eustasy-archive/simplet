@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/member.group.list.php';
+include_once $Backend['functions'].'member.group.list.php';
 $Return['Name'] = 'Member Group List';
 $Return['Status'] = 'Failure';
 

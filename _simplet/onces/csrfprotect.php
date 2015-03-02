@@ -11,25 +11,25 @@ if (
 
 	// If there is no CSRF Protection cookie
 	if ( !isset($_COOKIE[$Cookie['CSRF']]) ) {
-		$User_CSRF = Runonce_CSRF_Create();
-		$User_CSRF['Cookie'] = false;
+		$User['CSRF'] = Runonce_CSRF_Create();
+		$User['CSRF']['Cookie'] = false;
 
 	// If there is an existing CSRF Protection cookie
 	} else {
 
-		$User_CSRF['Cookie'] = Input_Prepare($_COOKIE[$Cookie['CSRF']]);
-		$User_CSRF['Check'] = Runonce_CSRF_Check($User_CSRF['Cookie'], true);
+		$User['CSRF']['Cookie'] = Input_Prepare($_COOKIE[$Cookie['CSRF']]);
+		$User['CSRF']['Check'] = Runonce_CSRF_Check($User['CSRF']['Cookie'], true);
 
-		if ( $User_CSRF['Check'] ) {
-			$User_CSRF['Key'] = $User_CSRF['Cookie'];
+		if ( $User['CSRF']['Check'] ) {
+			$User['CSRF']['Key'] = $User['CSRF']['Cookie'];
 
 		} else {
-			$User_CSRF = Runonce_CSRF_Create();
-			$User_CSRF['Cookie'] = false;
+			$User['CSRF'] = Runonce_CSRF_Create();
+			$User['CSRF']['Cookie'] = false;
 		}
 
 	}
 
 } else {
-	$User_CSRF = false;
+	$User['CSRF'] = false;
 }

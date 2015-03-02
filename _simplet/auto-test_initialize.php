@@ -4,8 +4,25 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(-1);
 
-include_once __DIR__.'/config.php';
-$Sitewide_Debug = true;
+$Backend['root'] = __DIR__.'/../';
+$Backend['libs'] = $Backend['root'].'_libs/';
+$Backend['simplet'] = $Backend['root'].'_simplet/';
+$Backend['onces'] = $Backend['simplet'].'onces/';
+$Backend['functions'] = $Backend['simplet'].'functions/';
+
+$Backend['templates'] = $Backend['root'].'_templates/';
+$Templates['root'] = $Backend['templates'];
+$Templates['Header'] = $Templates['root'].'header.php';
+$Templates['Footer'] = $Templates['root'].'footer.php';
+
+////	Require the Configuration
+require_once $Backend['simplet'].'config.default.php';
+if ( is_readable($Backend['simplet'].'config.custom.php') ) {
+	require_once $Backend['simplet'].'config.custom.php';
+}
+
+$Backend['Debug'] = true;
+$Sitewide['Debug'] = true;
 
 $Return = array();
 $Return['Errors'] = array();
@@ -15,7 +32,7 @@ include_once __DIR__.'/config.database.php';
 $Database['Prefix'] = 'UNIT_TESTS_';
 $Database['Connection'] = mysqli_connect($Database['Host'], $Database['User'], $Database['Pass'], $Database['Name']);
 $Database['Error'] = false;
-include_once __DIR__.'/functions/database.table.exists.php';
+include_once $Backend['functions'].'database.table.exists.php';
 $Database['Exists'] = array();
 $Database['Exists']['Members'] = Database_Table_Exists('UNIT_TESTS_Members', false);
 $Database['Exists']['Sessions'] = Database_Table_Exists('UNIT_TESTS_Sessions', false);
@@ -38,35 +55,29 @@ if (
 	!$Database['Exists']['Responses'] ||
 	!$Database['Exists']['Helpfulness'] ||
 	!$Database['Exists']['Views']
-) include_once __DIR__.'/onces/autoinstall.php';
+) {
+	include_once $Backend['onces'].'autoinstall.php';
+}
 
-$Place = parse_url($Sitewide_Root);
+$Place = parse_url($Sitewide['Root']);
 
-$Request = parse_url($Place['scheme'].'://'.$Place['host'].$_SERVER['REQUEST_URI']);
-if ( $Request['scheme'] == 'https' ) $Request['Secure'] = true;
-else $Request['Secure'] = false;
+include_once $Backend['onces'].'cookies.php';
+include_once $Backend['onces'].'timezone.php';
+include_once $Backend['onces'].'request.php';
+include_once $Backend['onces'].'user.php';
+include_once $Backend['onces'].'posttypes.php';
 
-$Time = time();
-$Time_15mins = $Time+900;
-$Time_1hour = $Time+3600;
+include_once $Backend['functions'].'input.prepare.php';
+include_once $Backend['functions'].'generator.string.php';
 
-$Cookie_Prefix = str_replace( '.', '_', $Place['host']);
-$Cookie_Session = str_replace( '.', '_', $Place['host']).'_session';
+include_once $Backend['functions'].'runonce.create.php';
+include_once $Backend['functions'].'runonce.check.php';
+include_once $Backend['functions'].'runonce.used.php';
+include_once $Backend['functions'].'runonce.delete.php';
 
-include_once __DIR__.'/functions/input.prepare.php';
-include_once __DIR__.'/functions/generator.string.php';
+include_once $Backend['functions'].'runonce.csrf.create.php';
+include_once $Backend['functions'].'runonce.csrf.check.php';
 
-include_once __DIR__.'/functions/runonce.create.php';
-include_once __DIR__.'/functions/runonce.check.php';
-include_once __DIR__.'/functions/runonce.used.php';
-include_once __DIR__.'/functions/runonce.delete.php';
+include_once $Backend['onces'].'csrfprotect.php';
 
-include_once __DIR__.'/functions/runonce.csrf.create.php';
-include_once __DIR__.'/functions/runonce.csrf.check.php';
-
-include_once __DIR__.'/onces/csrfprotect.php';
-
-$User_IP = Input_Prepare($_SERVER['REMOTE_ADDR']);
-$Post_Types = array('Page', 'Blog', 'Blog Index', 'Blog Category', 'Blog Post', 'Forum', 'Forum Index', 'Forum Category', 'Forum Topic');
-
-include_once __DIR__.'/functions/api.output.php';
+include_once $Backend['functions'].'api.output.php';

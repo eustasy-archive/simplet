@@ -21,7 +21,7 @@ function API_Output($Array) {
 	) {
 		return json_encode($Array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-	// IFNOTMAL Just standard JSON then.
+	// IFNORMAL Just standard JSON then.
 	} else {
 		return json_encode($Array);
 	}

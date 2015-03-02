@@ -1,8 +1,8 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/member.group.check.php';
-include_once __DIR__.'/../functions/member.group.remove.php';
+include_once $Backend['functions'].'member.group.check.php';
+include_once $Backend['functions'].'member.group.remove.php';
 $Return['Name'] = 'Member Group Remove';
 $Return['Status'] = 'Failure';
 

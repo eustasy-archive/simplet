@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/database.table.exists.php';
+include_once $Backend['functions'].'database.table.exists.php';
 $Return['Name'] = 'Database Table Exists';
 $Return['Status'] = 'Failure';
 

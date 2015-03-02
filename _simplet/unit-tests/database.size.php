@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/database.size.php';
+include_once $Backend['functions'].'database.size.php';
 $Return['Name'] = 'Database Size';
 $Return['Status'] = 'Failure';
 

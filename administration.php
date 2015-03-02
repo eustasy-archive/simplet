@@ -15,7 +15,7 @@ if ( $Request['Path'] === $Canonical ) {
 	$Lib_Browning_Send = __DIR__.'/../libs/Browning_Send.php';
 
 	// Unauthenticated
-	if ( !$Member['Admin'] ) {
+	if ( !$Member['Auth'] ) {
 		header('Location: '.$Sitewide['Account'], true, 302);
 		exit;
 
@@ -24,6 +24,20 @@ if ( $Request['Path'] === $Canonical ) {
 		$Keywords = 'administration password email';
 		require $Templates['Header'];
 		echo htmlentites($_GET['key'], ENT_QUOTES, 'UTF-8');
+		require $Templates['Footer'];
+
+	// Key Set
+	} else if (isset($_GET['database'])) {
+		$Keywords = 'administration database';
+		require $Templates['Header'];
+		// TODO Neaten Design
+		echo '<p>';
+		$Database_Size_Results = Database_Size();
+		foreach ($Database_Size_Results as $Key => $Value) {
+			// TODO Sensible data units.
+			echo $Key.': '.$Value.' bytes<br>';
+		}
+		echo '</p>';
 		require $Templates['Footer'];
 
 	// Index

@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/input.prepare.php';
+include_once $Backend['functions'].'input.prepare.php';
 $Return['Name'] = 'Input Prepare';
 $Return['Status'] = 'Failure';
 

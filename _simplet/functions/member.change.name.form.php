@@ -9,7 +9,7 @@
 
 function Member_Change_Name_Form() {
 
-	global $Error, $Member_Name;
+	global $Error, $Member;
 
 	?>
 		<form class="col span_1_of_1" action="" method="post">
@@ -23,7 +23,7 @@ function Member_Change_Name_Form() {
 				<div class="col span_1_of_3"><label for="name"><h3>Name</h3></label></div>
 				<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
 				<div class="col span_1_of_2">
-					<?php echo '<input type="text" name="name" placeholder="'.$Member_Name.'" value="'.$Member_Name.'" required />'; ?>
+					<?php echo '<input type="text" name="name" placeholder="'.$Member['Name'].'" value="'.$Member['Name'].'" required />'; ?>
 				</div>
 			</div>
 			<div class="section group">

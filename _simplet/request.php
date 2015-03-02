@@ -44,5 +44,6 @@ require_once $Backend['onces'].'view.php';
 
 // Load everything that hasn't been loaded.
 // This is why we use require_once.
+$Browning['Key'] = false;
 require_once $Backend['onces'].'functions.php';
 require_once $Backend['onces'].'libs.php';

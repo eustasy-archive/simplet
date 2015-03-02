@@ -8,25 +8,30 @@
 
 function Forum_Topic_Modified($Topic_Slug) {
 
-	global $Database, $Time;
+	global $Backend, $Database, $Time;
 
 	// IFEXISTSTOPICS
-	if ( !$Database['Exists']['Topics'] ) return false;
-	else {
+	if ( !$Database['Exists']['Topics'] ) {
+		return false;
+	} else {
 
 		// Count things first
-		$Forum_Topic_Modified = 'UPDATE `'.$Database['Prefix'].'Topics` SET `Modified`=\''.$Time.'\' WHERE `Slug`=\''.$Topic_Slug.'\'';
+		$Forum_Topic_Modified = 'UPDATE `'.$Database['Prefix'].'Topics` SET `Modified`=\''.$Time['Now'].'\' WHERE `Slug`=\''.$Topic_Slug.'\'';
 
 		// Execute Query
 		$Forum_Topic_Modified = mysqli_query($Database['Connection'], $Forum_Topic_Modified, MYSQLI_STORE_RESULT);
 
 		// IFQUERY
 		if ( !$Forum_Topic_Modified ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Topic_Modified): '.mysqli_error($Database['Connection']);
+			if ( $Backend['Debug'] ) {
+				echo 'Invalid Query (Forum_Topic_Modified): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFQUERY
-		} else return true;
+		} else {
+			return true;
+		}
 
 	} // IFEXISTSTOPICS
 

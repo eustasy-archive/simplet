@@ -8,11 +8,12 @@
 
 function Forum_Topic_Count($Topic_Slug, $Status_Check = false) {
 
-	global $Database;
+	global $Backend, $Database;
 
 	// IFEXISTSRESPONSES
-	if ( !$Database['Exists']['Responses'] ) return false;
-	else {
+	if ( !$Database['Exists']['Responses'] ) {
+		return false;
+	} else {
 
 		$Forum_Topic_Count = 'SELECT COUNT(`Canonical`) AS `Count` FROM `'.$Database['Prefix'].'Responses` WHERE `Canonical`=\''.$Topic_Slug.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
 		// TODO Implement $Status_Check
@@ -20,7 +21,9 @@ function Forum_Topic_Count($Topic_Slug, $Status_Check = false) {
 
 		// IFQUERY Unsuccessful
 		if (!$Forum_Topic_Count) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Topic_Count): '.mysqli_error($Database['Connection']);
+			if ( $Backend['Debug'] ) {
+				echo 'Invalid Query (Forum_Topic_Count): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFQUERY Successful

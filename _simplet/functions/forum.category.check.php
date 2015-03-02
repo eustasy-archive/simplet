@@ -8,11 +8,12 @@
 
 function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 
-	global $Database, $Member_Auth;
+	global $Database, $Member;
 
 	// IFEXISTSCATEGORIES
-	if ( !$Database['Exists']['Categories'] ) return false;
-	else {
+	if ( !$Database['Exists']['Categories'] ) {
+		return false;
+	} else {
 
 		// Count the number of Categories with a matching slug
 		$Forum_Category_Check_Query = 'SELECT COUNT(`Slug`) AS `Count` FROM `'.$Database['Prefix'].'Categories` WHERE `Slug`=\''.$Category_Slug.'\'';
@@ -20,8 +21,11 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 		// IFSTATUS
 		if ( $Status_Check ) {
 			// Limit by Status
-			if ( $Member_Auth ) $Forum_Category_Check_Query .= ' AND(`Status`=\'Public\' OR `Status`=\'Private\')';
-			else $Forum_Category_Check_Query .= ' AND `Status`=\'Public\'';
+			if ( $Member['Auth'] ) {
+				$Forum_Category_Check_Query .= ' AND(`Status`=\'Public\' OR `Status`=\'Private\')';
+			} else {
+				$Forum_Category_Check_Query .= ' AND `Status`=\'Public\'';
+			}
 		} // IFSTATUS
 
 		// Execute Query
@@ -29,7 +33,9 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 
 		// IFQUERY
 		if ( !$Forum_Category_Check ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Category_Check): '.mysqli_error($Database['Connection']);
+			if ( $Backend['Debug'] ) {
+				echo 'Invalid Query (Forum_Category_Check): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFQUERY Query Successful

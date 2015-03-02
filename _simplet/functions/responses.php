@@ -10,7 +10,7 @@
 
 function Responses($Type = 'Comment', $Response_Canonical = '') {
 
-	global $Canonical, $Database, $Member, $Request, $Sitewide, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $User_CSRF;
+	global $Canonical, $Database, $Member, $Request, $Sitewide, $Sitewide_Comments_Helpful, $Sitewide_Posts_Helpful, $User;
 
 	// IFEXISTSRESPONSES
 	if (
@@ -345,7 +345,7 @@ QUERY;
 					$.post(
 						'<?php echo $Sitewide['Root']; ?>/api?helpfulness&fetch&canonical=<?php echo $Response_Canonical; ?>&id=' + Response_ID,
 						{
-							csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+							csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 						},
 						function(data) {
 							if (data.vote == 'none') {
@@ -384,7 +384,7 @@ QUERY;
 
 								{
 									vote: 'up',
-									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+									csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 								},
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -405,7 +405,7 @@ QUERY;
 
 								{
 									vote: 'none',
-									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+									csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 								},
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -431,7 +431,7 @@ QUERY;
 
 								{
 									vote: 'down',
-									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+									csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 								},
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -452,7 +452,7 @@ QUERY;
 
 								{
 									vote: 'none',
-									csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+									csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 								},
 								function( data ) {
 									if (data.vote == 'confirm') {
@@ -483,7 +483,7 @@ QUERY;
 							canonical: '<?php echo $Response_Canonical; ?>',
 							rating: rating,
 							post: post,
-							csrf_protection: '<?php echo $User_CSRF['Key']; ?>',
+							csrf_protection: '<?php echo $User['CSRF']['Key']; ?>',
 						}
 					);
 					respond.done(function(data) {

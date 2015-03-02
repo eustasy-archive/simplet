@@ -1,8 +1,8 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/forum.topic.check.php';
-include_once __DIR__.'/../functions/forum.topic.slug.php';
+include_once $Backend['functions'].'forum.topic.check.php';
+include_once $Backend['functions'].'forum.topic.slug.php';
 $Return['Name'] = 'Forum Topic Slug';
 $Return['Status'] = 'Failure';
 

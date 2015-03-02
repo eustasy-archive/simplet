@@ -16,7 +16,7 @@ function globRecursive($Pattern, $Flags = 0) {
 		// Usually, THIS IS VERY BAD.
 		// For searching recursively however,
 		// it does make some sense.
-		if ( substr($Directory, 0, 3) != './_' ) {
+		if ( strpos($Directory, '/_') === false ) {
 			$Return = array_merge($Return, globRecursive($Directory.'/'.basename($Pattern), $Flags));
 		}
 	} // FOREACHDIRECTORY

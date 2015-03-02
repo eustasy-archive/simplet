@@ -1,8 +1,8 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../../libs/Parsedown.php';
-include_once __DIR__.'/../functions/output.parse.php';
+include_once $Backend['libs'].'Parsedown.php';
+include_once $Backend['functions'].'output.parse.php';
 $Return['Name'] = 'Output Parse';
 $Return['Status'] = 'Failure';
 

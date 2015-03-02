@@ -14,28 +14,40 @@
 function Runonce_Check($Key, $Key_Owner = '', $Key_Notes = '*') {
 
 	// Set some Globals so the required scripts don't error.
-	global $Database, $Member_ID, $Time;
+	global $Backend, $Database, $Member, $Time;
 
 	// IFEXISTSRUNONCE
-	if ( !$Database['Exists']['Runonce'] ) return false;
-	else {
+	if ( !$Database['Exists']['Runonce'] ) {
+		return false;
+	} else {
 
-		if (empty($Key_Owner)) $Key_Owner = $Member_ID;
+		if ( empty($Key_Owner) ) {
+			$Key_Owner = $Member['ID'];
+		}
 
 		$Key_Query = 'SELECT * FROM `'.$Database['Prefix'].'Runonce` WHERE';
 		$Key_Query .= ' `Key`=\''.$Key.'\' AND `Status`=\'Active\'';
-		if ($Key_Owner !== '*') $Key_Query .= ' AND ( `Member_ID`=\''.$Key_Owner.'\' OR  `Member_ID`=\'*\')';
-		if ($Key_Notes !== '*') $Key_Query .= ' AND `Notes`=\''.$Key_Notes.'\'';
-		$Key_Query .= ' AND `Timeout` > \''.$Time.'\'';
+		if ($Key_Owner !== '*') {
+			$Key_Query .= ' AND ( `Member_ID`=\''.$Key_Owner.'\' OR `Member_ID`=\'*\')';
+		}
+		if ($Key_Notes !== '*') {
+			$Key_Query .= ' AND `Notes`=\''.$Key_Notes.'\'';
+		}
+		$Key_Query .= ' AND `Timeout` > \''.$Time['Now'].'\'';
 		$Key_Query .= ' LIMIT 0, 1';
 
 		$Key_Check = mysqli_query($Database['Connection'], $Key_Query, MYSQLI_STORE_RESULT);
-		if (!$Key_Check) return array('Error' => 'Invalid Query (Key_Check): '.mysqli_error($Database['Connection']));
+		if (!$Key_Check) {
+			if ( $Backend['Debug'] ) {
+				return array('Error' => 'Invalid Query (Key_Check): '.mysqli_error($Database['Connection']));
+			}
+			return false;
+		}
 
 		$Key_Count = mysqli_num_rows($Key_Check);
 
 		// IFKEYCOUNT
-		if ($Key_Count > 0) {
+		if ( $Key_Count > 0 ) {
 
 			$Key_Check_Fetch = mysqli_fetch_assoc($Key_Check);
 
@@ -43,8 +55,11 @@ function Runonce_Check($Key, $Key_Owner = '', $Key_Notes = '*') {
 				$Key_Check_Fetch['Uses'] > $Key_Check_Fetch['Used'] || // If it has uses left
 				$Key_Check_Fetch['Uses'] == 0 // Or it doesn't have a limit
 				// TODO IP Check too
-			) return $Key_Check_Fetch;
-			else return false;
+			) {
+				return $Key_Check_Fetch;
+			} else {
+				return false;
+			}
 
 		// IFKEYCOUNT
 		} else return false;

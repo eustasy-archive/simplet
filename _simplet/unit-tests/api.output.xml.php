@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/api.output.xml.php';
+include_once $Backend['functions'].'api.output.xml.php';
 $Return['Name'] = 'API Output XML';
 $Return['Status'] = 'Success';
 

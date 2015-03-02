@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/forum.category.check.php';
+include_once $Backend['functions'].'forum.category.check.php';
 $Return['Name'] = 'Forum Category Check';
 $Return['Status'] = 'Failure';
 
@@ -17,14 +17,14 @@ $Check_Public = Forum_Category_Check('forum-category-check-public');
 $Check_Private = Forum_Category_Check('forum-category-check-private');
 $Check_None = Forum_Category_Check('forum-category-check-none');
 
-$Member_Auth = false;
+$Member['Auth'] = false;
 
 $Check_Status_Open = Forum_Category_Check('forum-category-check-open', true);
 $Check_Status_Public = Forum_Category_Check('forum-category-check-public', true);
 $Check_Status_Private = Forum_Category_Check('forum-category-check-private', true);
 $Check_Status_None = Forum_Category_Check('forum-category-check-none', true);
 
-$Member_Auth = true;
+$Member['Auth'] = true;
 
 $Check_Auth_Open = Forum_Category_Check('forum-category-check-open', true);
 $Check_Auth_Public = Forum_Category_Check('forum-category-check-public', true);

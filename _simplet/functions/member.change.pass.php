@@ -6,7 +6,7 @@
 
 function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 
-	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Sitewide_Security_Hash_Current, $Sitewide_Security_Password_Length, $Success, $Time;
+	global $Backend, $Database, $Error, $Member, $Sitewide, $Sitewide_Security_Hash_Current, $Sitewide_Security_Password_Length, $Success, $Time;
 
 	// IF CSRF Okay
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
@@ -14,7 +14,7 @@ function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 		// Sanitize Pass
 		$Member_Pass_New = Input_Prepare($_POST['pass']);
 		if ( !$Override_Member_ID ) {
-			$Override_Member_ID = $Member_ID;
+			$Override_Member_ID = $Member['ID'];
 		}
 
 		// IF Pass is Empty
@@ -29,37 +29,41 @@ function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 
 		// IF Pass is good
 		} else {
+
 			// Generate a new Salt.
-			$Member_Salt = Generator_String();
+			$Member['Salt'] = Generator_String();
 			// Hash the new Pass.
-			$Member_Pass_Hash = Pass_Hash($Member_Pass_New, $Member_Salt);
+			$Member['Pass'] = Pass_Hash($Member_Pass_New, $Member['Salt']);
 			// Now forget the Pass immediately.
 			unset($Member_Pass_New);
+
 			// Construct Query
 			$Pass_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
-			$Pass_Change .= ' SET `PassV`=\''.$Sitewide_Security_Hash_Current.'\', `Pass`=\''.$Member_Pass_Hash.'\', `Salt`=\''.$Member_Salt.'\', `Modified`=\''.$Time.'\'';
+			$Pass_Change .= ' SET `PassV`=\''.$Sitewide_Security_Hash_Current.'\', `Pass`=\''.$Member['Pass'].'\', `Salt`=\''.$Member['Salt'].'\', `Modified`=\''.$Time['Now'].'\'';
 			$Pass_Change .= ' WHERE `ID`=\''.$Override_Member_ID.'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Pass_Change = mysqli_query($Database['Connection'], $Pass_Change, MYSQLI_STORE_RESULT);
+
 			// IF Pass not Changed
 			if ( !$Pass_Change ) {
-				if ( $Sitewide_Debug ) {
+				if ( $Backend['Debug'] ) {
 					echo 'Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']);
 				}
 				$Error = '<h3 class="color-pomegranate">Pass could not be changed.</h3>';
 			// END IF Pass not Changed
+
 			// IF Pass Changed
 			} else {
 				// Redirect
 				if ( $Redirect ) {
-					header('Location: '.$Sitewide_Account, true, 302);
+					header('Location: '.$Sitewide['Account'], true, 302);
 				}
 				$Success = true;
 			} // IF Pass Changed
 
 		} // END IF Pass is good
-
 	// END IF CSRF Okay
+
 	// IF CSRF Not Okay
 	} else {
 		$Error = '<h3 class="color-pomegranate margin-0">Your Pass could not be changed.</h3>';

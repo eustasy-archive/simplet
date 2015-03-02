@@ -6,7 +6,7 @@
 
 function Member_Change_Mail() {
 
-	global $Database, $Error, $Member_ID, $Sitewide_Account, $Sitewide_Debug, $Success, $Time;
+	global $Backend, $Database, $Error, $Member, $Sitewide, $Success, $Time;
 
 	// IF CSRF Okay
 	if ( Runonce_CSRF_Check($_POST['csrf_protection']) ) {
@@ -20,13 +20,13 @@ function Member_Change_Mail() {
 		} else {
 			// Construct Query
 			$Mail_Change = 'UPDATE `'.$Database['Prefix'].'Members`';
-			$Mail_Change .= ' SET `Mail`=\''.$Member_Mail_New.'\', `Modified`=\''.$Time.'\'';
-			$Mail_Change .= ' WHERE `ID`=\''.$Member_ID.'\' AND `Status`=\'Active\'';
+			$Mail_Change .= ' SET `Mail`=\''.$Member_Mail_New.'\', `Modified`=\''.$Time['Now'].'\'';
+			$Mail_Change .= ' WHERE `ID`=\''.$Member['ID'].'\' AND `Status`=\'Active\'';
 			// Execute Query
 			$Mail_Change = mysqli_query($Database['Connection'], $Mail_Change, MYSQLI_STORE_RESULT);
 			// IF Mail not Changed
 			if ( !$Mail_Change ) {
-				if ( $Sitewide_Debug ) {
+				if ( $Backend['Debug'] ) {
 					echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
 				}
 				$Error = '<h3 class="color-pomegranate">Mail could not be changed.</h3>';
@@ -34,7 +34,7 @@ function Member_Change_Mail() {
 			// IF Mail Changed
 			} else {
 				// Redirect
-				header('Location: '.$Sitewide_Account, true, 302);
+				header('Location: '.$Sitewide['Account'], true, 302);
 				$Success = true;
 				// exit;
 			} // IF Mail Changed

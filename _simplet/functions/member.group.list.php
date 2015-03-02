@@ -9,7 +9,7 @@
 
 function Member_Group_List($Group, $Status_Check = false) {
 
-	global $Database;
+	global $Backend, $Database;
 
 	// IFEXISTSMEMBERS
 	if ( !$Database['Exists']['Members'] ) {
@@ -18,14 +18,18 @@ function Member_Group_List($Group, $Status_Check = false) {
 
 		// Find the Groups for a given Member_ID
 		$Member_Group_List = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Groups` LIKE \'%|'.$Group.'|%\'';
-		if ( $Status_Check ) $Member_Group_List .= ' AND `Status`=\'Active\'';
+		if ( $Status_Check ) {
+			$Member_Group_List .= ' AND `Status`=\'Active\'';
+		}
 
 		// Execute Query
 		$Member_Group_List = mysqli_query($Database['Connection'], $Member_Group_List, MYSQLI_STORE_RESULT);
 
 		// IFQUERY
 		if ( !$Member_Group_List ) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Group_List): '.mysqli_error($Database['Connection']);
+			if ( $Backend['Debug'] ) {
+				echo 'Invalid Query (Member_Group_List): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFQUERY Query Successful

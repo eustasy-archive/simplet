@@ -10,8 +10,9 @@
 function API_Output_XML($Array) {
 
 	// IFSIMPLEXML If SimpleXML is not available, error out now.
-	if ( !extension_loaded('simplexml') ) return false;
-	else {
+	if ( !extension_loaded('simplexml') ) {
+		return false;
+	} else {
 
 		// Create New XML
 		$Return = new SimpleXMLElement('<?xml version="1.0"?><root></root>');
@@ -33,7 +34,10 @@ function API_Output_XML($Array) {
 			} else {
 
 				// Convert Numeric Keys
-				$Key = is_numeric($Key) ? 'item_'.$Key : $Key;
+				if ( is_numeric($Key) ) {
+					$Key = 'item_'.$Key;
+				}
+
 				// Add to XML
 				$Return->addChild($Key, $Value);
 

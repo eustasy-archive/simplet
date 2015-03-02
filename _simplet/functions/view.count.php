@@ -9,7 +9,7 @@
 // protocol	=> http
 // domain	=> example.com
 // path		=> product
-// get		=> array('id' => '2', 'utm_source' => 'twitter');
+// query	=> array('id' => '2', 'utm_source' => 'twitter');
 
 function View_Count() {
 
@@ -20,6 +20,12 @@ function View_Count() {
 
 		// Encode and Assemble the requested URL.
 		$Requested = $Request['Scheme'].'://'.$Request['Host'].Input_Prepare($Request['Path']);
+		if ( !empty($Request['Query']) ) {
+			$Requested .= Input_Prepare($Request['Query']);
+		}
+		if ( !empty($Request['Fragment']) ) {
+			$Requested .= Input_Prepare($Request['Fragment']);
+		}
 
 		// Assemble the Query
 		$Query = 'INSERT INTO `'.$Database['Prefix'].'Views` '.
@@ -30,11 +36,11 @@ function View_Count() {
 		$Views_Count = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 
 		// If it fails, return false.
-		if (
-			!$Views_Count &&
-			$Backend['Debug']
-		) {
-			return array('Error' => 'Invalid Query (Views_Count): '.mysqli_error($Database['Connection']));
+		if ( !$Views_Count ) {
+			if ( $Backend['Debug'] ) {
+				return array('Error' => 'Invalid Query (Views_Count): '.mysqli_error($Database['Connection']));
+			}
+			return false;
 		} else {
 			return true;
 		}

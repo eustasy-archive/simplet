@@ -6,6 +6,7 @@
 //
 ////	TODO
 // No "Cancel" Button
+// Conditional Signup link.
 
 function Member_Reset_Pass_Form() {
 

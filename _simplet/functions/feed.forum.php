@@ -10,8 +10,9 @@
 
 function Feed_Forum() {
 
-	global $Canonical, $Database, $Member, $Sitewide;
+	global $Backend, $Canonical, $Database, $Member, $Sitewide;
 
+	// TODO Feed_Forum_Topic
 	// IFTOPIC
 	if ( isset($_GET['topic']) ) {
 
@@ -44,7 +45,7 @@ function Feed_Forum() {
 
 			// IFTOPICSUCCESS
 			if ( !$Query ) {
-				if ( $Sitewide_Debug ) {
+				if ( $Backend['Debug'] ) {
 					echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
 				}
 				return false;
@@ -122,7 +123,7 @@ function Feed_Forum() {
 
 			// IFCATEGORYSUCCESS
 			if ( !$Query ) {
-				if ( $Sitewide_Debug ) {
+				if ( $Backend['Debug'] ) {
 					echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
 				}
 				return false;

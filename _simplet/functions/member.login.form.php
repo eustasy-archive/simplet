@@ -1,7 +1,7 @@
 <?php
 
 function Member_Login_Form() {
-	global $Sitewide_Signups;
+	global $Sitewide;
 	?>
 				<form class="col span_1_of_1" action="" method="post">
 					<h2>Log In</h2>
@@ -17,7 +17,7 @@ function Member_Login_Form() {
 					</div>
 					<div class="section group">
 						<div class="col span_1_of_3">
-							<?php if ($Sitewide_Signups) echo '
+							<?php if ( $Sitewide['Signups'] ) echo '
 							<p>No account? <a class="floatright" href="?register">Register</a></p>'; ?>
 							<p>Forgot password? <a class="floatright" href="?reset">Reset</a></p>
 						</div>

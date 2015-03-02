@@ -42,7 +42,7 @@ function Respond($Status_Override = false) {
 
 	// IFCSRFPROTECTED
 	} else if ( !Runonce_CSRF_Check($_POST['csrf_protection']) ) {
-			array_push($Response_Return['error'], 'CSRF Protection failed. Please try again.');
+		array_push($Response_Return['error'], 'CSRF Protection failed. Please try again.');
 	} else {
 
 		// Set Variables
@@ -53,7 +53,7 @@ function Respond($Status_Override = false) {
 
 		// TODO Redirect responsive
 		if ( !$Member['Auth'] ) {
-			return array('error' => array('Sorry, you aren\'t logged in anymore. You must <a href="'.$Sitewide['Root'].'/account?login&redirect='.urlencode($Sitewide['Root'].$Response_Canonical).'">Log In</a> to '.$Response_Type.'.'));
+			return array('error' => array('Sorry, you aren\'t logged in anymore. You must <a href="'.$Sitewide['Root'].$Sitewide['Account'].'?login&redirect='.urlencode($Sitewide['Root'].$Response_Canonical).'">Log In</a> to '.$Response_Type.'.'));
 		}
 
 		// Response Rating
@@ -71,12 +71,14 @@ function Respond($Status_Override = false) {
 		if ( isset($Status_Override) && $Status_Override ) {
 			$Response_Status = $Status_Override;
 		} else if ($Response_Type == 'Post') {
-			if ($Forum_Reply_Inherit === true) {
+			if ( $Forum_Reply_Inherit === true ) {
 
 				// Fetch Status of Topic
 				$Topic_Status_Query = 'SELECT `Status` FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Response_Canonical.'\' AND (`Status`=\'Public\' OR `Status`=\'Private\')';
 				$Topic_Status_Query = mysqli_query($Database['Connection'], $Topic_Status_Query, MYSQLI_STORE_RESULT);
-				if ( !$Topic_Status_Query ) array_push($Response_Return['error'], 'Topic Status Query Error.');
+				if ( !$Topic_Status_Query ) {
+					array_push($Response_Return['error'], 'Topic Status Query Error.');
+				}
 				$Topic_Status_Count = mysqli_num_rows($Topic_Status_Query);
 				if ( $Topic_Status_Count === 0 ) {
 					array_push($Response_Return['error'], 'Topic Status Check Error. Using Fallback.');
@@ -99,9 +101,9 @@ function Respond($Status_Override = false) {
 		}
 
 		// Query
-		$Response_Query = 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Prepared.'\', \''.$Time.'\', \''.$Time.'\')';
+		$Response_Query = 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Helpfulness`, `Rating`, `Post`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Response_Canonical.'\', \''.$Response_Type.'\', \''.$Response_Status.'\', \'0\', \''.$Response_Rating.'\', \''.$Response_Prepared.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')';
 		$Response_New = mysqli_query($Database['Connection'], $Response_Query, MYSQLI_STORE_RESULT);
-		if (!$Response_New) {
+		if ( !$Response_New ) {
 			array_push($Response_Return['error'], 'Invalid Query (Review_New): '.mysqli_error($Database['Connection']));
 		}
 

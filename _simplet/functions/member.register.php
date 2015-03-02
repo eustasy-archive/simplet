@@ -3,7 +3,7 @@
 
 function Member_Register() {
 
-	global $Database, $Header, $Footer, $Sitewide_Debug, $Sitewide_Security_Hash_Current, $Sitewide_Security_Password_Length, $Time;
+	global $Backend, $Database, $Sitewide_Security_Hash_Current, $Sitewide_Security_Password_Length, $Time;
 
 	$Error = false;
 
@@ -35,7 +35,7 @@ function Member_Register() {
 			$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Signup_Mail.'\' LIMIT 0, 1';
 			$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+				if ( $Backend['Debug'] ) echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
 				// TODO Handle Error
 			} else {
 
@@ -49,10 +49,10 @@ function Member_Register() {
 
 					$Pass_Hash = Pass_Hash($Signup_Pass, $Salt);
 
-					$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `PassV`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Sitewide_Security_Hash_Current.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time.'\', \''.$Time.'\')';
+					$Member_New = 'INSERT INTO `'.$Database['Prefix'].'Members` (`ID`, `Mail`, `Name`, `PassV`, `Pass`, `Salt`, `Status`, `Created`, `Modified`) VALUES (\''.$Member_ID.'\', \''.$Signup_Mail.'\', \''.$Signup_Name.'\', \''.$Sitewide_Security_Hash_Current.'\', \''.$Pass_Hash.'\', \''.$Salt.'\', \'Active\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')';
 					$Member_New = mysqli_query($Database['Connection'], $Member_New, MYSQLI_STORE_RESULT);
 					if ( !$Member_New ) {
-						if ( $Sitewide_Debug ) echo 'Invalid Query (Member_New): '.mysqli_error($Database['Connection']);
+						if (  $Backend['Debug'] ) echo 'Invalid Query (Member_New): '.mysqli_error($Database['Connection']);
 						// TODO Handle Error
 					}
 

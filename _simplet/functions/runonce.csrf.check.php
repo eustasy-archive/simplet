@@ -10,13 +10,13 @@
 
 function Runonce_CSRF_Check($Submitted, $Initial = false) {
 
-	global $User_CSRF;
+	global $User;
 
 	if (
-		$Submitted == $User_CSRF['Cookie'] &&
+		$Submitted == $User['CSRF']['Cookie'] &&
 		(
 			$Initial ||
-			$Submitted == $User_CSRF['Key']
+			$Submitted == $User['CSRF']['Key']
 		)
 	) {
 		return true;

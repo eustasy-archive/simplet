@@ -69,9 +69,9 @@ function Time_Readable_Difference($Original) {
 			$Difference['Prefered'] = $Difference['Minutes'].' Minutes';
 		} else if ( $Difference['Minutes'] ) {
 			$Difference['Prefered'] = $Difference['Minutes'].' Minute';
-		} else if ( $Difference['Seconds'] ) {
-			$Difference['Prefered'] = $Difference['Seconds'].' Second';
 		} else if ( $Difference['Seconds'] > 1 ) {
+			$Difference['Prefered'] = $Difference['Seconds'].' Second';
+		} else if ( $Difference['Seconds'] ) {
 			$Difference['Prefered'] = $Difference['Seconds'].' Seconds';
 		}
 

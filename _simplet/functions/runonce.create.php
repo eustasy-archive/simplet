@@ -37,30 +37,44 @@
 function Runonce_Create($Timeout = '15mins', $Uses = 1, $Notes = '', $Key = '', $Key_Owner = '') {
 
 	// Set some Globals so the required scripts don't error.
-	global $Database, $Member_ID, $Time, $Time_15mins, $Time_1hour, $User_IP;
+	global $Backend, $Database, $Member, $Time, $User;
 
 	// IFEXISTSRUNONCE
-	if ( !$Database['Exists']['Runonce'] ) return false;
-	else {
+	if ( !$Database['Exists']['Runonce'] ) {
+		return false;
+	} else {
 
-		if ( empty($Key) ) $Key = Generator_String();
-		if ( empty($Key_Owner) ) $Key_Owner = $Member_ID;
+		if ( empty($Key) ) {
+			$Key = Generator_String();
+		}
+		if ( empty($Key_Owner) ) {
+			$Key_Owner = $Member['ID'];
+		}
 
 		// TODO Make timeout intelligent using end of string
-		if ($Timeout == '15mins') $Timeout = $Time['15mins'];
-		if ($Timeout == '1hour') $Timeout = $Time['1hour'];
+		if ( $Timeout == '15mins' ) {
+			$Timeout = $Time['15mins'];
+		}
+		if ( $Timeout == '1hour' ) {
+			$Timeout = $Time['1hour'];
+		}
 
-		$Key_New = 'INSERT INTO `'.$Database['Prefix'].'Runonce` (`Member_ID`, `Key`, `Status`, `IP`, `Timeout`, `Uses`, `Created`, `Modified`, `Notes`) VALUES (\''.$Key_Owner.'\', \''.$Key.'\', \'Active\', \''.$User_IP.'\', \''.$Timeout.'\', \''.$Uses.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\', \''.$Notes.'\')';
+		$Key_New = 'INSERT INTO `'.$Database['Prefix'].'Runonce` (`Member_ID`, `Key`, `Status`, `IP`, `Timeout`, `Uses`, `Created`, `Modified`, `Notes`) VALUES (\''.$Key_Owner.'\', \''.$Key.'\', \'Active\', \''.$User['IP'].'\', \''.$Timeout.'\', \''.$Uses.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\', \''.$Notes.'\')';
 		$Key_New = mysqli_query($Database['Connection'], $Key_New, MYSQLI_STORE_RESULT);
-		if (!$Key_New) return array('Error' => 'Invalid Query (Key_New): '.mysqli_error($Database['Connection']));
+		if ( !$Key_New ) {
+			if ( $Backend['Debug'] ) {
+				return array('Error' => 'Invalid Query (Key_New): '.mysqli_error($Database['Connection']));
+			}
+			return false;
+		}
 
 		return array(
 			'Key' => $Key,
 			'Key_Owner' => $Key_Owner,
-			'Key_IP' => $User_IP,
+			'Key_IP' => $User['IP'],
 			'Key_Timeout' => $Timeout,
 			'Key_Uses' => $Uses,
-			'Key_Time' => $Time,
+			'Key_Time' => $Time['Now'],
 			'Key_Notes' => $Notes,
 		);
 

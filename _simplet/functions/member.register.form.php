@@ -2,9 +2,9 @@
 
 function Member_Register_Form() {
 
-	global $Sitewide_Security_Password_Length, $Sitewide_Signups;
+	global $Sitewide, $Sitewide_Security_Password_Length;
 
-	if ( $Sitewide_Signups ) {
+	if ( $Sitewide['Signups'] ) {
 		?>
 				<form class="col span_1_of_1" action="" method="post">
 					<h2>Register</h2>
@@ -36,7 +36,7 @@ function Member_Register_Form() {
 		<?php
 	} else {
 		echo '
-		<h2>Sorry, registrations are not available at this time.</h2>';
+		<h2>Sorry, new registrations are not available at this time.</h2>';
 	}
 
 }

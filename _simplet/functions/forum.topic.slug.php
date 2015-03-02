@@ -23,7 +23,9 @@ function Forum_Topic_Slug($Topic_Slug) {
 	$Topic_Slug = strtr($Topic_Slug, $Characters_Special, $Characters_Replace);
 	$Topic_Slug = preg_replace(array('/\s/', '/--+/', '/---+/'), '-', $Topic_Slug);
 	$Topic_Slug = trim($Topic_Slug, '-');
-	if ( empty($Topic_Slug) ) $Topic_Slug = 'topic-1';
+	if ( empty($Topic_Slug) ) {
+		$Topic_Slug = 'topic-1';
+	}
 
 	// Effectively a WHILE recursive
 	if (Forum_Topic_Check($Topic_Slug)) {
@@ -35,7 +37,11 @@ function Forum_Topic_Slug($Topic_Slug) {
 			$Topic_Slug_End = $Topic_Slug_Last + 1;
 			$Topic_Slug = substr($Topic_Slug, 0, -$Topic_Slug_Last_Length).$Topic_Slug_End;
 			return Forum_Topic_Slug($Topic_Slug, false);
-		} else return Forum_Topic_Slug($Topic_Slug.'-1', false);
-	} else return $Topic_Slug;
+		} else {
+			return Forum_Topic_Slug($Topic_Slug.'-1', false);
+		}
+	} else {
+		return $Topic_Slug;
+	}
 
 }

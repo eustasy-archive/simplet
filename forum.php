@@ -260,7 +260,8 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 							$Page['Type'] = 'Forum Topic';
 							$Page['Category'] = '';
 							// TODO Topic Canonical
-							$Canonical = $Sitewide['Forum'].'/'.$Topic['Slug'];
+							// $Canonical = $Sitewide['Forum'].'/'.$Topic['Slug'];
+							$Canonical = $Topic['Slug'];
 
 							View_Count();
 

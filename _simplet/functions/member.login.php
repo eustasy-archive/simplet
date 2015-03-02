@@ -6,7 +6,7 @@
 
 function Member_Login() {
 
-	global $Cookie, $Database, $Login_Mail, $Redirect, $Request, $Sitewide, $Time, $User;
+	global $Backend, $Cookie, $Database, $Login_Mail, $Redirect, $Request, $Sitewide, $Time, $User;
 
 	$Error = false;
 
@@ -25,6 +25,7 @@ function Member_Login() {
 		// TODO: Make configurable.
 		if ( Member_Login_Block_Check($Login_Mail) < 3 ) {
 
+			// TODO Member_Check() Function
 			$Member_Check = 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE `Mail`=\''.$Login_Mail.'\' AND `Status`=\'Active\'';
 			$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
@@ -60,7 +61,7 @@ function Member_Login() {
 						$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Login_Mail.'\', \''.$Member['Cookie'].'\', \''.$User['IP'].'\', \'1\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')';
 						$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
 						if ( !$Session_New ) {
-							if ( $Sitewide_Debug ) {
+							if ( $Backend['Debug'] ) {
 								echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
 							}
 							$Error = 'Login Error: Could not create session.';
@@ -68,38 +69,29 @@ function Member_Login() {
 						// Login Successful
 						} else {
 							if ( isset($Redirect) ) {
-								header('Location: '.$Sitewide_Root.urldecode($Redirect), true, 302);
+								header('Location: '.$Sitewide['Root'].urldecode($Redirect), true, 302);
 							} else {
-								header('Location: '.$Sitewide_Account, true, 302);
+								header('Location: '.$Sitewide['Account'], true, 302);
 							}
 						}
 
 					} else {
 
-						$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member['ID'].'\', \''.$Login_Mail.'\', \''.$User_IP.'\', \''.$Time.'\')';
+						$Failures_New = 'INSERT INTO `'.$Database['Prefix'].'Failures` (`Member_ID`, `Mail`, `IP`, `Created`) VALUES (\''.$Member['ID'].'\', \''.$Login_Mail.'\', \''.$User['IP'].'\', \''.$Time['Now'].'\')';
 						$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
 						if ( !$Failures_New ) {
-							if ( $Sitewide['Debug'] ) {
+							if ( $Backend['Debug'] ) {
 								echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
 							}
 							// Silently Fail
+
 						} else {
-
-							// TODO Use/Make Session Function
-							setcookie ($Cookie['Session'], '', time() - 3600, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
-							setcookie ($Cookie['Session'], false, time() - 3600, '/', $Request['host'], $Request['Secure'], $Request['HTTPOnly']);
-							unset($_COOKIE[$Cookie['Session']]);
-
-							$Member_Auth = false;
-							$Member['ID'] = false;
-
+							Member_Auth_False();
 							$Error = 'Wrong email or password.';
-
 						}
 
 					}
 				}
-
 			}
 
 		// IFBLOCK

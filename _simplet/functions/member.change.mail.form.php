@@ -9,7 +9,7 @@
 
 function Member_Change_Mail_Form() {
 
-	global $Error, $Member_Mail;
+	global $Error, $Member;
 
 	?>
 		<form class="col span_1_of_1" action="" method="post">
@@ -23,7 +23,7 @@ function Member_Change_Mail_Form() {
 				<div class="col span_1_of_3"><label for="mail"><h3>Mail</h3></label></div>
 				<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>
 				<div class="col span_1_of_2">
-					<?php echo '<input type="email" name="mail" placeholder="'.$Member_Mail.'" value="'.$Member_Mail.'" required />'; ?>
+					<?php echo '<input type="email" name="mail" placeholder="'.$Member['Mail'].'" value="'.$Member['Mail'].'" required />'; ?>
 				</div>
 			</div>
 			<div class="section group">

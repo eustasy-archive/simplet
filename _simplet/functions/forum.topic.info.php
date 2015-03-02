@@ -8,17 +8,21 @@
 
 function Forum_Topic_Info($Topic_Slug) {
 
-	global $Database, $Member_Auth;
+	global $Backend, $Database, $Member;
 
 	// IFEXISTSTOPICS
-	if ( !$Database['Exists']['Topics'] ) return false;
-	else {
+	if ( !$Database['Exists']['Topics'] ) {
+		return false;
+	} else {
 
 		// Create Query
 		$Forum_Topic_Info_Query = 'SELECT * FROM `'.$Database['Prefix'].'Topics` WHERE `Slug`=\''.$Topic_Slug.'\' AND';
 		// Limit by Status
-		if ($Member_Auth) $Forum_Topic_Info_Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
-		else $Forum_Topic_Info_Query .= ' `Status`=\'Public\'';
+		if ( $Member['Auth'] ) {
+			$Forum_Topic_Info_Query .= ' (`Status`=\'Public\' OR `Status`=\'Private\')';
+		} else {
+			$Forum_Topic_Info_Query .= ' `Status`=\'Public\'';
+		}
 		// Order by Creation
 		$Forum_Topic_Info_Query .= ' ORDER BY `Modified` DESC';
 
@@ -27,7 +31,9 @@ function Forum_Topic_Info($Topic_Slug) {
 
 		// IFQUERY Unsuccessful
 		if (!$Forum_Topic_Info) {
-			if ( $Sitewide_Debug ) echo 'Invalid Query (Forum_Topic_Info): '.mysqli_error($Database['Connection']);
+			if ( $Backend['Debug'] ) {
+				echo 'Invalid Query (Forum_Topic_Info): '.mysqli_error($Database['Connection']);
+			}
 			return false;
 
 		// IFQUERY Successful
@@ -41,7 +47,9 @@ function Forum_Topic_Info($Topic_Slug) {
 				return $Forum_Topic_Info_Fetch;
 
 			// IFCOUNT Unsuccessful
-			} else return false;
+			} else {
+				return false;
+			}
 
 		} // IFQUERY
 

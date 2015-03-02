@@ -24,7 +24,9 @@ function Pagination_PreserveQueryStrings() {
 				$PreserveQueryStrings['Show'] .= '&'.$Get_Key.'='.$Get_Value;
 			} else if (strtolower($Get_Key) == 'topic') {
 				// Preserve Topic if Necessary
-				if (substr($Get_Value, 0, 1) != '/') $PreserveQueryStrings['Topic'] .= '&'.$Get_Key.'='.$Get_Value;
+				if (substr($Get_Value, 0, 1) != '/') {
+					$PreserveQueryStrings['Topic'] .= '&'.$Get_Key.'='.$Get_Value;
+				}
 			} else {
 				$PreserveQueryStrings['Miscellaneous'] .= '&'.$Get_Key.'='.$Get_Value;
 			}

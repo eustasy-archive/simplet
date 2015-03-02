@@ -218,8 +218,11 @@ if ($Request['Path'] === $Canonical) {
 
 	} else if (isset($_GET['trending'])) {
 
-		if (isset($_GET['type'])) echo API_Output(Trending('', $_GET['type']));
-		else echo API_Output(Trending(''));
+		if ( isset($_GET['type']) ) {
+			echo API_Output(Trending('', $_GET['type']));
+		} else {
+			echo API_Output(Trending(''));
+		}
 
 
 

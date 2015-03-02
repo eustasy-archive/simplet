@@ -10,9 +10,11 @@
 function Runonce_CSRF_Form($Key = false) {
 
 	// Set some Globals so the required scripts don't error.
-	global $Cookie_Prefix, $User_CSRF;
+	global $User;
 
-	if ( !$Key ) $Key = $User_CSRF['Key'];
+	if ( !$Key ) {
+		$Key = $User['CSRF']['Key'];
+	}
 
 	return '<input type="hidden" name="csrf_protection" value="'.$Key.'">';
 

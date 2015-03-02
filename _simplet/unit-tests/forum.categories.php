@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__.'/../auto-test_initialize.php';
-include_once __DIR__.'/../functions/forum.categories.php';
+include_once $Backend['functions'].'forum.categories.php';
 $Return['Name'] = 'Forum Categories';
 $Return['Status'] = 'Pending';
 
