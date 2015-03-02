@@ -22,6 +22,10 @@ if ( empty($Runonce_Create['error']) ) {
 
 $Runonce_Delete = 'DELETE FROM `'.$Database['Prefix'].'Runonce` WHERE `Key`=\''.$Runonce_Create['Key'].'\'';
 $Runonce_Delete = mysqli_query($Database['Connection'], $Runonce_Delete, MYSQLI_STORE_RESULT);
-if (!$Runonce_Delete) 'Error: Invalid Query (Key_Delete): '.mysqli_error($Database['Connection']);
+if ( !$Runonce_Delete ) {
+	if ( $Backend['Debug'] ) {
+		echo 'Error: Invalid Query (Key_Delete): '.mysqli_error($Database['Connection']);
+	}
+}
 
 echo API_Output($Return);

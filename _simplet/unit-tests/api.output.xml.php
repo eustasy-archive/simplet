@@ -7,8 +7,9 @@ $Return['Status'] = 'Success';
 
 $XML = API_Output_XML($Return);
 
-if ( $XML ) echo json_encode($XML);
-else {
+if ( $XML ) {
+	echo json_encode($XML);
+} else {
 	$Return['Status'] = 'Failure';
 	$Return['Errors'] = array();
 	array_push($Return['Errors'], 'Functions returned false.');

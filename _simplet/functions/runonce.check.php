@@ -62,7 +62,9 @@ function Runonce_Check($Key, $Key_Owner = '', $Key_Notes = '*') {
 			}
 
 		// IFKEYCOUNT
-		} else return false;
+		} else {
+			return false;
+		}
 
 	} // IFEXISTSRUNONCE
 

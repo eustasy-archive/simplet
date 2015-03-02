@@ -20,9 +20,7 @@ require_once $Backend['simplet'].'config.default.php';
 if ( is_readable($Backend['simplet'].'config.custom.php') ) {
 	require_once $Backend['simplet'].'config.custom.php';
 }
-
 $Backend['Debug'] = true;
-$Sitewide['Debug'] = true;
 
 $Return = array();
 $Return['Errors'] = array();

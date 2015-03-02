@@ -125,15 +125,21 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				$Responses_Query_Select = 'SELECT *';
 
 				// Order in a helpful way
-				if ($Type == 'Review') $Responses_Query_Order = ' ORDER BY `Helpfulness` DESC, `Created` ASC';
-				else $Responses_Query_Order = ' ORDER BY `Created` ASC';
+				if ($Type == 'Review') {
+					$Responses_Query_Order = ' ORDER BY `Helpfulness` DESC, `Created` ASC';
+				} else {
+					$Responses_Query_Order = ' ORDER BY `Created` ASC';
+				}
 
 				// Pagination
 				$Pagination = Pagination_Pre($Responses_Count);
 
 				// Honor pagination
-				if ($Pagination['Page'] === 1) $Responses_Query_Limit = ' LIMIT '.$Pagination['Show'];
-				else $Responses_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
+				if ($Pagination['Page'] === 1) {
+					$Responses_Query_Limit = ' LIMIT '.$Pagination['Show'];
+				} else {
+					$Responses_Query_Limit = ' LIMIT '.$Pagination['Start'].', '.$Pagination['Show'];
+				}
 
 				// Preserve Query Strings
 				$PreserveQueryStrings = Pagination_PreserveQueryStrings();
@@ -259,8 +265,10 @@ QUERY;
 					'.$Responses_Post.'
 				</div>
 				<div class="col span_2_of_12">';
-							if ($Type === 'Review') echo '
+							if ($Type === 'Review') {
+								echo '
 					<p class="rating">'.$Responses_Rating.' Stars</p>';
+							}
 							echo '
 					<div class="helpfulness hidden" id="helpfulness_'.$Responses_ID.'">
 						<p>'.number_format($Responses_Helpfulness).' Helpful</p>

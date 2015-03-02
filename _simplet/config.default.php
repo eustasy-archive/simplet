@@ -22,7 +22,6 @@
 
 	// Debug
 	$Backend['Debug'] = true;
-	$Sitewide['Debug'] = true;
 
 	// Enable or Disable Browning Mail
 	// Requires Setup in libs

@@ -15,7 +15,9 @@ if (
 	$Return['Status'] = 'Success';
 	$Return['Result']['Empty'] = $Empty;
 } else {
-	if ( $Empty == 'topic-1' ) array_push($Return['Errors'], '$Empty doesn\'t return the expected value.');
+	if ( $Empty == 'topic-1' ) {
+		array_push($Return['Errors'], '$Empty doesn\'t return the expected value.');
+	}
 }
 
 echo API_Output($Return);

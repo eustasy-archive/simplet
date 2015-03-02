@@ -103,7 +103,9 @@ function Forum_Categories() {
 
 				// IFCATEGORIES Failure
 				if ( !$Categories ) {
-					if ( $Backend['Debug'] ) echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+					if ( $Backend['Debug'] ) {
+						echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+					}
 					return false;
 
 				// IFCATEGORIES Success
@@ -125,7 +127,9 @@ function Forum_Categories() {
 						<a href="?category='.$Category_Fetch['Slug'].'" class="section group category topic';
 
 						// Add private as a class if that's its Status
-						if ( $Category_Status == 'Private' ) echo ' private';
+						if ( $Category_Status == 'Private' ) {
+							echo ' private';
+						}
 
 						// Echo the Item
 						$Category_Timestamp = Time_Readable_Difference($Category_Fetch['Modified']);

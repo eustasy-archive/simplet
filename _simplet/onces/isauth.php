@@ -18,9 +18,13 @@ if ( // If it is possible for them to be logged in.
 	// Database Existence has already been checked.
 	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Cookie`=\''.$Member['Cookie'].'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 	if ( !$Session_Check ) {
-		if ( $Sitewide_Debug ) echo 'Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']);
+		if ( $Backend['Debug'] ) {
+			echo 'Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']);
+		}
 		$Session_Count = 0;
-	} else $Session_Count = mysqli_num_rows($Session_Check);
+	} else {
+		$Session_Count = mysqli_num_rows($Session_Check);
+	}
 
 	// That Cookie doesn't exist or isn't active.
 	if ($Session_Count === 0) {
@@ -48,13 +52,24 @@ if ( // If it is possible for them to be logged in.
 					$Session_IP_Pieces = explode(':', $Session_IP);
 					$User['IP Pieces'] = explode(':', $User['IP']);
 				}
-				if ( $User['IP Pieces'][0] == $Session_IP_Pieces[0] && $User['IP Pieces'][1] == $Session_IP_Pieces[1] ) $IP_Check = true;
-				else $IP_Check = false;
+				if (
+					$User['IP Pieces'][0] == $Session_IP_Pieces[0] &&
+					$User['IP Pieces'][1] == $Session_IP_Pieces[1]
+				) {
+					$IP_Check = true;
+				} else {
+					$IP_Check = false;
+				}
 			} else {
-				if ( $User['IP'] === $Session_IP ) $IP_Check = true;
-				else $IP_Check = false;
+				if ( $User['IP'] === $Session_IP ) {
+					$IP_Check = true;
+				} else {
+					$IP_Check = false;
+				}
 			}
-		} else $IP_Check = true;
+		} else {
+			$IP_Check = true;
+		}
 
 		// If the user passed the IP Check.
 		if ( $IP_Check ) {
@@ -64,18 +79,21 @@ if ( // If it is possible for them to be logged in.
 			// Check their membership status
 			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE ID=\''.$Member['ID'].'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
-				if ( $Sitewide_Debug ) echo 'Invalid Query (Member_Check): ' . mysqli_error($Database['Connection']);
+				if ( $Backend['Debug'] ) {
+					echo 'Invalid Query (Member_Check): ' . mysqli_error($Database['Connection']);
+				}
 				$Member_Count = 0;
-			} else $Member_Count = mysqli_num_rows($Member_Check);
+			} else {
+				$Member_Count = mysqli_num_rows($Member_Check);
+			}
 
 			// If they're not a member, that Session can be ended.
 			if ( $Member_Count === 0 ) {
 				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member['ID'].'\' AND `Cookie`=\''.$Member['Cookie'].'\'', MYSQLI_STORE_RESULT);
-				if (
-					!$Session_End &&
-					$Sitewide_Debug
-				) {
-					echo 'Invalid Query (Session_End): ' . mysqli_error($Database['Connection']);
+				if ( !$Session_End ) {
+					if ( $Backend['Debug'] ) {
+						echo 'Invalid Query (Session_End): ' . mysqli_error($Database['Connection']);
+					}
 				}
 
 			// They are authenticated as a valid member.

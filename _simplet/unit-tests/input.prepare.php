@@ -34,8 +34,12 @@ if (
 	$Return['Result']['Like']['Output'] = $String_Like_Out;
 
 } else {
-	if ( $String_Out != $String_Proper ) array_push($Return['Errors'], 'String_Out does not match.');
-	if ( $String_Like_Out != $String_Like_Proper ) array_push($Return['Errors'], 'String_Like_Out does not match.');
+	if ( $String_Out != $String_Proper ) {
+		array_push($Return['Errors'], 'String_Out does not match.');
+	}
+	if ( $String_Like_Out != $String_Like_Proper ) {
+		array_push($Return['Errors'], 'String_Like_Out does not match.');
+	}
 
 }
 
