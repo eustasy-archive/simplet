@@ -13,7 +13,7 @@ $Runonce_CSRF_Form = Runonce_CSRF_Form();
 
 if (
 	empty($Runonce_CSRF_Form['error']) &&
-	$Runonce_CSRF_Form == '<input type="hidden" name="csrf_protection" value="'.$User_CSRF['Key'].'">'
+	$Runonce_CSRF_Form == '<input type="hidden" name="csrf_protection" value="'.$User['CSRF']['Key'].'">'
 ) {
 	$Return['Status'] = 'Success';
 	$Return['Result'] = $Runonce_CSRF_Form;

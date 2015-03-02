@@ -17,8 +17,12 @@ function Member_Login_Form() {
 					</div>
 					<div class="section group">
 						<div class="col span_1_of_3">
-							<?php if ( $Sitewide['Signups'] ) echo '
-							<p>No account? <a class="floatright" href="?register">Register</a></p>'; ?>
+							<?php
+								if ( $Sitewide['Signups'] ) {
+									echo '
+									<p>No account? <a class="floatright" href="?register">Register</a></p>';
+								}
+							?>
 							<p>Forgot password? <a class="floatright" href="?reset">Reset</a></p>
 						</div>
 						<div class="col span_1_of_6"><br><?php echo Runonce_CSRF_Form(); ?></div>

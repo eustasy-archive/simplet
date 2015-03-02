@@ -14,8 +14,12 @@ if ( $Check_True && !$Check_False ) {
 	$Return['Result']['Topics'] = $Check_True;
 	$Return['Result']['NOTATABLE'] = $Check_False;
 } else {
-	if ( !$Check_True ) $Return['Errors']['Topics'] = 'Database_Table_Exists Function returned false when it should be true.';
-	if ( $Check_False ) $Return['Errors']['NOTATABLE'] = 'Database_Table_Exists Function returned true when it should be false.';
+	if ( !$Check_True ) {
+		$Return['Errors']['Topics'] = 'Database_Table_Exists Function returned false when it should be true.';
+	}
+	if ( $Check_False ) {
+		$Return['Errors']['NOTATABLE'] = 'Database_Table_Exists Function returned true when it should be false.';
+	}
 }
 
 echo API_Output($Return);

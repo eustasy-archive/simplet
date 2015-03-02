@@ -10,7 +10,7 @@ include_once $Backend['functions'].'runonce.delete.php';
 $Return['Name'] = 'RunOnce CSRF Check';
 $Return['Status'] = 'Failure';
 
-$Runonce_CSRF_Check = Runonce_CSRF_Check($User_CSRF['Cookie']);
+$Runonce_CSRF_Check = Runonce_CSRF_Check($User['CSRF']['Cookie']);
 
 if ( empty($Runonce_CSRF_Check['error']) ) {
 	$Return['Status'] = 'Success';

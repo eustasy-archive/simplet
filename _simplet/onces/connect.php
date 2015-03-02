@@ -44,7 +44,9 @@ if (
 				!$Database['Exists']['Helpfulness'] ||
 				!$Database['Exists']['Views']
 			)
-		) require 'autoinstall.php';
+		) {
+			require 'autoinstall.php';
+		}
 
 	}
 
@@ -52,10 +54,18 @@ if (
 
 	$Database['Connection'] = false;
 	$Database['Error'] = 'Error(s): ';
-	if (empty($Database['Host'])) $Database['Error'] .= 'No Database Host Configured. ';
-	if (empty($Database['User'])) $Database['Error'] .= 'No Database User Configured. ';
-	if (empty($Database['Pass'])) $Database['Error'] .= 'No Database Pass Configured. ';
-	if (empty($Database['Name'])) $Database['Error'] .= 'No Database Name Configured. ';
+	if ( empty($Database['Host']) ) {
+		$Database['Error'] .= 'No Database Host Configured. ';
+	}
+	if ( empty($Database['User']) ) {
+		$Database['Error'] .= 'No Database User Configured. ';
+	}
+	if ( empty($Database['Pass']) ) {
+		$Database['Error'] .= 'No Database Pass Configured. ';
+	}
+	if ( empty($Database['Name']) ) {
+		$Database['Error'] .= 'No Database Name Configured. ';
+	}
 
 	$Database['Host'] = $Database['User'] = $Database['Pass'] = $Database['Name'] = false;
 
@@ -64,7 +74,10 @@ if (
 // TODO
 // Different Error for unconfigured. Suggest editing.
 // Also, suggest auto-install if fatal and no tables.
-if (!$Database['Connection'] && $Database['FatalOnError']) {
+if (
+	!$Database['Connection'] &&
+	$Database['FatalOnError']
+) {
 	echo '<!DocType html>
 <html>
 	<head>

@@ -19,8 +19,11 @@ $Proper = '<?xml version="1.0" encoding="utf-8"?>
 		<language>en</language>
 		<generator>Simplet</generator>';
 
-if ($Result == $Proper) $Return['Status'] = 'Success';
-else array_push($Return['Errors'], 'Forum_Header did not return the expected text.');
+if ($Result == $Proper) {
+	$Return['Status'] = 'Success';
+} else {
+	array_push($Return['Errors'], 'Forum_Header did not return the expected text.');
+}
 
 $Return['Result'] = $Result;
 $Return['Proper'] = $Proper;

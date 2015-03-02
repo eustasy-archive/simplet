@@ -33,8 +33,9 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 	foreach ($Posts_Return as $Key => $Item) {
 
 		// IFCALLER If it is the page being loaded (stops require recursion).
-		if ($Item == $Caller) unset($Posts_Return[$Key]);
-		else {
+		if ($Item == $Caller) {
+			unset($Posts_Return[$Key]);
+		} else {
 
 			// Require the Item.
 			require $Item;
@@ -51,7 +52,9 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 				} // IFCHECKCATEGORY
 
 			// If it isn't a Blog Post, remove it from the list.
-			} else unset($Posts_Return[$Key]);
+			} else {
+				unset($Posts_Return[$Key]);
+			}
 			// IFPOST
 
 			// Set Post Type to Invalid to override posts or files with one.
@@ -95,12 +98,19 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 		}
 
 		// Echo out the Item
-		if ($Posts_PerLine == 1) echo '
-			<div class="col span_1_of_1">';
-		if ($Posts_PerLine == 2) echo '
-			<div class="col span_5_of_11">';
-		if ($Posts_PerLine == 3) echo '
-			<div class="col span_3_of_11">';
+		if ($Posts_PerLine == 1) {
+			echo '
+				<div class="col span_1_of_1">';
+		}
+		if ($Posts_PerLine == 2) {
+			echo '
+				<div class="col span_5_of_11">';
+		}
+		if ($Posts_PerLine == 3) {
+			echo '
+				<div class="col span_3_of_11">';
+		}
+
 		echo '
 				<h2><a href="'.$Post_Link.'">'.$Page['Title']['HTML'].'</a></h2>
 				<p class="textright faded"><small>'.date('d/m/Y', filemtime($Item)).'</small></p>
@@ -125,20 +135,26 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 	$PreserveQueryStrings = Pagination_PreserveQueryStrings();
 
 	// Paginate if necessary
-	if ($Pagination['Page Max'] > 1) {
+	if ( $Pagination['Page Max'] > 1 ) {
 		echo '<div class="breaker"></div>';
 		Pagination_Links($Pagination, $PreserveQueryStrings);
 	}
 
 	// IFNOPOSTS
-	if ($Looper === 0) {
+	if ( $Looper === 0 ) {
+
 		// IFNOPOSTSCATEGORY
-		if ($Category) echo '<h2>Sorry, no posts found in the Category &ldquo;'.$Category.'&rdquo;.</h2>';
-		else echo '<h2>Sorry, no posts found.</h2>';
+		if ( $Category ) {
+			echo '<h2>Sorry, no posts found in the Category &ldquo;'.$Category.'&rdquo;.</h2>';
+		} else {
+			echo '<h2>Sorry, no posts found.</h2>';
+		}
 		// IFNOPOSTSCATEGORY
+
 		echo '
 		</div>';
 		return false;
+
 	} // IFNOPOSTS
 
 	// End Blog Section.

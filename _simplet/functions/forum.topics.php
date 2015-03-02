@@ -112,7 +112,9 @@ function Forum_Topics() {
 					echo '
 						<h2>'.$Category_Title.'</h2>
 						<p>'.$Category_Description;
-					if ($Member['Auth']) echo '<a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a>';
+					if ( $Member['Auth'] ) {
+						echo '<a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a>';
+					}
 					echo '</p>
 						<div id="topics">
 							<div class="section group darkrow">
@@ -156,7 +158,9 @@ function Forum_Topics() {
 
 							echo '
 							<a href="?topic='.$Topics_Fetch['Slug'].'" class="section group topic';
-							if ($Topics_Fetch['Status'] == 'Private') echo ' private';
+							if ( $Topics_Fetch['Status'] == 'Private' ) {
+								echo ' private';
+							}
 							echo '">
 								<div class="col span_1_of_12"><li class="icon unread"></li></div>
 								<div class="col span_7_of_12"><p class="title">'.$Topics_Fetch['Title'].'</p></div>
