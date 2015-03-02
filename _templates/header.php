@@ -21,6 +21,7 @@
 	<link rel="shortcut icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
 	<link rel="stylesheet" media="all" href="//cdn.jsdelivr.net/g/normalize,colors.css">
 	<link rel="stylesheet" media="all" href="<?php echo $Sitewide['Root']; ?>/assets/css/combined.min.css">
+	<!-- TODO Move to Stylesheet -->
 	<style>
 		.text-left {
 			text-align: left;
@@ -35,13 +36,20 @@
 			margin: 0;
 		}
 		.likelink {
-			display: inline-block !important;
+			display: inline-block;
 		}
-		.likelink input {
-			background: transparent !important;
-			border: none !important;
-			color: #3a8ee6 !important;
-			width: 100% !important;
+		.likelink input[type="submit"] {
+			background: transparent;
+			border: none;
+			width: 100%;
+			font: inherit;
+			color: inherit;
+			background: inherit;
+			border: inherit;
+			margin-top: inherit;
+			margin-bottom: inherit;
+			padding: inherit;
+			width: auto;
 		}
 	</style>
 
@@ -109,9 +117,9 @@
 					) {
 						echo '
 							<li><a href="'.$Sitewide['Root'].'/account">account</a></li>
-							<form style="display:inline-block;" action="'.$Sitewide['Root'].'/account?logout" method="POST">
+							<form class="likelink" action="'.$Sitewide['Root'].'/account?logout" method="POST">
 								'.Runonce_CSRF_Form().'
-								<li><input style="font:inherit;color:inherit;background:inherit;border:inherit;margin-top:inherit;margin-bottom:inherit;padding:inherit;width:auto;" type="submit" value="logout"></li>
+								<li><input type="submit" value="logout"></li>
 							</form>';
 					} else {
 						echo '
