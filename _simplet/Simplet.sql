@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `Members` (
 	`PassV` int(2) NOT NULL,
 	`Pass` varchar(1000) NOT NULL,
 	`Salt` varchar(64) NOT NULL,
+	`2fa` VARCHAR(16) NOT NULL,
 	`Created` int(11) NOT NULL,
 	`Modified` int(11) NOT NULL,
 	UNIQUE KEY `ID` (`ID`),
