@@ -357,6 +357,77 @@ if ( $Request['Path'] === $Canonical ) {
 				require $Templates['Footer'];
 			}
 
+		} else if ( isset($_GET['twofactorauth']) ) {
+
+			if ( !$Member['Auth'] ) {
+				header('Location: ?login&redirect='.urlencode($Sitewide['Account'].'?twofactorauth'), true, 302);
+				exit;
+
+			} else {
+
+				require $Templates['Header'];
+				echo '<h2>Two-Factor Authentication</h2>';
+
+				$Error = false;
+				$Success = false;
+				if (
+					!empty($_POST['csrf_protection']) &&
+					!empty($_POST['secret']) &&
+					!empty($_POST['code'])
+				) {
+
+					if ( !Runonce_CSRF_Check($_POST['csrf_protection']) ) {
+						$Error = 'CSRF Protection token failed checks. Please try again.';
+					} else if ( !Authenticatron_Check(Input_Prepare($_POST['code']), Input_Prepare($_POST['secret']), $Sitewide_Security_Authenticatron_Variance) ) {
+						$Error = 'Sorry, that\'s not the right code. Please try again.';
+					} else {
+						$Success = true;
+					}
+				}
+
+				if ( $Error ) {
+					echo '<h3 class="error color-pomegranate">'.$Error.'</h3>';
+				}
+
+				if ( !$Success ) {
+					$Authenticatron_New = Authenticatron_New($Member['Name']);
+					var_dump(Authenticatron_Acceptable($Authenticatron_New['Secret'], 3));
+					?>
+
+					<div class="group">
+						<div class="col span_1_of_2">
+							<p>1. Scan this code with <a href="https://m.google.com/authenticator" target="_blank">Google Authenticator</a></p>
+							<p><img src="<?php echo $Authenticatron_New['QR']; ?>"></p>
+							<p><?php echo $Authenticatron_New['URL']; ?></p>
+						</div>
+						<div class="col span_1_of_2">
+							<p>2. Confirm with the 6-digit code your phone generates.</p>
+							<form method="POST" action="">
+								<div class="group">
+									<div class="col span_5_of_11">
+										<input type="tel" name="code">
+									</div>
+									<div class="col span_1_of_11"><br></div>
+									<div class="col span_5_of_11">
+
+										<?php echo Runonce_CSRF_Form(); ?>
+
+										<input type="hidden" name="secret" value="<?php echo $Authenticatron_New['Secret']; ?>">
+										<input type="submit" value="Confirm">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				<?php
+				} else {
+					echo 'OK';
+				}
+				require $Templates['Footer'];
+
+			}
+
 		} else if ( isset($_GET['delete']) ) {
 
 			if ( !$Member['Auth'] ) {
@@ -370,7 +441,7 @@ if ( $Request['Path'] === $Canonical ) {
 				}
 
 				require $Templates['Header'];
-				if ( !$Success) {
+				if ( !$Success ) {
 					$Key = Runonce_Create($Time['Now']+(60*3), 1, 'Account Deletion');
 				}
 				Member_Delete_Form();

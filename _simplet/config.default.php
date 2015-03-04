@@ -82,6 +82,7 @@
 	// 'Block' = Block attempts until the limit is passed
 	$Sitewide_Security_Limit_Action = 'Block';
 	$Sitewide_Security_Password_Length = 10;
+	$Sitewide_Security_Authenticatron_Variance = 3;
 
 	$Sitewide['Account'] = '/account';
 	$Sitewide['Forum'] = '/forum';

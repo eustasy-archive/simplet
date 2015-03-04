@@ -20,38 +20,8 @@
 	<link rel="icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
 	<link rel="shortcut icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
 	<link rel="stylesheet" media="all" href="//cdn.jsdelivr.net/g/normalize,colors.css">
-	<link rel="stylesheet" media="all" href="<?php echo $Sitewide['Root']; ?>/assets/css/combined.min.css">
-	<!-- TODO Move to Stylesheet -->
-	<style>
-		.text-left {
-			text-align: left;
-		}
-		.text-center {
-			text-align: center;
-		}
-		.text-right {
-			text-align: right;
-		}
-		.margin-0 {
-			margin: 0;
-		}
-		.likelink {
-			display: inline-block;
-		}
-		.likelink input[type="submit"] {
-			background: transparent;
-			border: none;
-			width: 100%;
-			font: inherit;
-			color: inherit;
-			background: inherit;
-			border: inherit;
-			margin-top: inherit;
-			margin-bottom: inherit;
-			padding: inherit;
-			width: auto;
-		}
-	</style>
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide['Root']; ?>/assets/css/col.min.css">
+	<link rel="stylesheet" media="all" href="<?php echo $Sitewide['Root']; ?>/assets/css/simplet.css">
 
 	<!-- SelfXSS Protection. -->
 	<script>
