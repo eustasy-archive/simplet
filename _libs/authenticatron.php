@@ -1,12 +1,12 @@
 <?php
 
 ////	Authenticatron
-// v0.7 - MIT Licensed - Property of eustasy
+// v0.7.1 - MIT Licensed - Property of eustasy
 // https://github.com/eustasy/authenticatron
 // http://labs.eustasy.org/authenticatron/example.php
 
-//$Sitewide['Title'] = 'Example Site'; // This is a short name to identify your site or service.
-//$Member['Name'] = 'John Smith'; // This could be their email, name, or username.
+$Sitewide['Title'] = 'Example Site'; // This is a short name to identify your site or service.
+$Member['Name'] = 'John Smith'; // This could be their email, name, or username.
 
 // Secret Length defaults to 16.
 // Code Length is set to 6.
@@ -188,7 +188,7 @@ function Base32_Decode($Secret) {
 		$eightBits_Count = count($eightBits);
 
 		// Got each bit, convert the numbers to ASCII codes.
-		for ($z = 0; $z < count($eightBits); $z++) {
+		for ($z = 0; $z < $eightBits_Count; $z++) {
 			$Secret_Decoded .= ( ($Convert = chr(base_convert($eightBits[$z], 2, 10))) || ord($Convert) == 48 ) ? $Convert:'';
 		}
 
