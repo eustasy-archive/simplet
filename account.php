@@ -478,7 +478,7 @@ if ( $Request['Path'] === $Canonical ) {
 						<div class="col span_1_of_2"><br></div>
 						<form method="POST" action="" class="col span_1_of_4 likelink">
 							<input type="hidden" name="disable" required>
-							<input type="submit" class="padding-button color-pomegranate" value="Disable">
+							<input type="submit" class="padding-button faded" value="Disable">
 						</form>
 						<form method="POST" action="" class="col span_1_of_4">
 							<input type="hidden" name="add_device" required>
