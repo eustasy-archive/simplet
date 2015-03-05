@@ -16,6 +16,6 @@ function Runonce_CSRF_Form($Key = false) {
 		$Key = $User['CSRF']['Key'];
 	}
 
-	return '<input type="hidden" name="csrf_protection" value="'.$Key.'">';
+	return '<input type="hidden" name="csrf_protection" value="'.$Key.'" required>';
 
 }

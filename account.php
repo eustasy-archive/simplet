@@ -332,7 +332,6 @@ if ( $Request['Path'] === $Canonical ) {
 
 					// Reset Mail Process
 					if (isset($_POST['mail'])) {
-						// TODO Conditionally load based on LibLoad
 						if ( !$Sitewide['AutoLoad']['Libs'] ) {
 							require_once $Backend['libs'].'config.browning.php';
 							require_once $Backend['libs'].'function.browning.php';
@@ -370,132 +369,167 @@ if ( $Request['Path'] === $Canonical ) {
 
 				$Error = [];
 				$Success = false;
+
+				// IF TFA ENABLE
 				if (
-					isset($_POST['csrf_protection']) ||
-					isset($_POST['secret']) ||
-					isset($_POST['code'])
+					isset($_POST['enable'])
 				) {
+					Member_TFA_New();
+				} // END IF TFA ENABLE
 
-					$Runonce_CSRF_Check = Runonce_CSRF_Check($_POST['csrf_protection']);
-					$TFA_Secret = Input_Prepare($_POST['secret']);
-					$TFA_Secret_Length = strlen($TFA_Secret);
-					$TFA_Code = Input_Prepare($_POST['code']);
-					$TFA_Code_Length = strlen($TFA_Code);
-
-					if (
-						!$Runonce_CSRF_Check ||
-						$TFA_Secret_Length != 16 ||
-						!is_numeric($TFA_Code) ||
-						$TFA_Code_Length != 6
-					) {
-						if ( !$Runonce_CSRF_Check ) {
-							$Error[] = 'CSRF Protection token failed checks.';
-						}
-						if ( $TFA_Secret_Length != 16 ) {
-							$Error[] = 'The secret appears to be malformed.';
-						}
-						if ( !is_numeric($TFA_Code) ) {
-							$Error[] = 'The code contains non-numerical characters. It should be 6 numerical digits..';
-						}
-						if ( $TFA_Code_Length != 6 ) {
-							$Error[] = 'The code you entered was not 6 digits long. The code should be 6 numerical digits.';
-						}
-					} else if ( !Authenticatron_Check($TFA_Code, $TFA_Secret, $Sitewide_Security_Authenticatron_Variance) ) {
-						$Error[] = 'Sorry, that\'s not the right code.';
-					} else {
-						$TFA_Update = 'UPDATE `'.$Database['Prefix'].'Members` SET `2fa`=\''.$TFA_Secret.'\', `Modified`=\''.$Time['Now'].'\' WHERE `ID`=\''.$Member['ID'].'\' AND `Status`=\'Active\' LIMIT 1';
-						$TFA_Update = mysqli_query($Database['Connection'], $TFA_Update, MYSQLI_STORE_RESULT);
-						if ( !$TFA_Update ) {
-							if ( $Backend['Debug'] ) {
-								echo 'Invalid Query (TFA_Update): ' . mysqli_error($Database['Connection']);
-							}
-							$Error[] = 'Sorry, we were unable to save you code to the database.';
-						} else {
-							$Success = true;
-						}
-					}
+				// Fetch Current TFA Secret
+				$TFA_Current = Member_TFA_Current();
+				if ( !$TFA_Current['Error'] ) {
+					$TFA['Secret'] = $TFA_Current['Result'];
 				}
 
+				// IF TFA AUTH
+				if (
+					$TFA['Secret'] &&
+					isset($_POST['auth'])
+				) {
+					$Member_TFA_Auth = Member_TFA_Auth();
+					if ( !empty($Member_TFA_Auth['Error']) ) {
+						$Error = array_merge($Error, $Member_TFA_Auth['Error']);
+					} else {
+						$TFA['Auth'] = $Member_TFA_Auth['Auth'];
+					}
+				} // END IF TFA AUTH
+
+				// IF TFA ERROR
 				if ( !empty($Error) ) {
 					echo '
 						<div class="error color-pomegranate">
-							<h4 class="text-left error-title color-pomegranate">Error:</h4>';
+							<h4 class="text-left error-title color-pomegranate">Error(s):</h4>';
 					foreach ( $Error as $Issue ) {
 						echo '<p>'.$Issue.'</p>';
 					}
-					echo '
+					echo '<hr>
 						</div>';
-				}
+				} // END IF TFA ERROR
 
-				// TODO function Member_Secret()
-				$SecondFactor = mysqli_query($Database['Connection'], 'SELECT `2fa` FROM `'.$Database['Prefix'].'Members` WHERE `ID`=\''.$Member['ID'].'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
-				if ( !$SecondFactor ) {
-					if ( $Backend['Debug'] ) {
-						echo 'Invalid Query (SecondFactor): ' . mysqli_error($Database['Connection']);
-					}
-					// return array('error' => 'Could not select second factor key.');
-					$SecondFactor = false;
-				} else {
-					$SecondFactor_Fetch = mysqli_fetch_assoc($SecondFactor);
-					$SecondFactor = $SecondFactor_Fetch['2fa'];
-				}
+				// Add a Device
+				if (
+					$TFA['Secret'] &&
+					isset($_POST['add_device'])
+				) {
+					// Scan on new Device
+					if (
+						isset($TFA['Auth']) &&
+						$TFA['Auth']
+					) {
+						$Authenticatron_QR = Authenticatron_QR(Authenticatron_URL($Member['Name'], $TFA['Secret']));
+						echo '
+							<h3>Scan this QR code with your new Device</h3>
+							<p class="text-center"><img src="'.$Authenticatron_QR.'"></p>';
 
-				////	TODO
-				// POSTING
-				// Regenerating
-				// Viewing
-				// First-Time
-
-				if ( !$Success ) {
-					if ( $SecondFactor ) {
-						// TODO Enabled Page
-						// TODO Enter Code and Disable
-						// TODO Fallback: EMail link to disable.
-						echo $SecondFactor;
+					// Enter Code
 					} else {
-						if (
-							!empty($TFA_Secret) &&
-							$TFA_Secret_Length == 16
-						) {
-							$Authenticatron_QR = Authenticatron_QR(Authenticatron_URL($Member['Name'], $TFA_Secret));
-						} else {
-							$Authenticatron_New = Authenticatron_New($Member['Name']);
-							$Authenticatron_QR = $Authenticatron_New['QR'];
-							$TFA_Secret = $Authenticatron_New['Secret'];
-						}
-						var_dump(Authenticatron_Acceptable($TFA_Secret, 3));
 						?>
 
+						<h3>Enter your current code to add a Device</h3>
 						<div class="group">
-							<div class="col span_1_of_2">
-								<p>1. Scan this code with <a href="https://m.google.com/authenticator" target="_blank">Google Authenticator</a></p>
-								<p><img src="<?php echo $Authenticatron_QR; ?>"></p>
+							<div class="col span_3_of_11">
+								<p class="likeinput text-center"><a href="?twofactorauth">Cancel</a></p>
 							</div>
-							<div class="col span_1_of_2">
-								<p>2. Confirm with the 6-digit code your phone generates.</p>
-								<form method="POST" action="">
-									<div class="group">
-										<div class="col span_5_of_11">
-											<input type="tel" name="code">
-										</div>
-										<div class="col span_1_of_11"><br></div>
-										<div class="col span_5_of_11">
+							<div class="col span_1_of_11"><br></div>
+							<form method="POST" action="">
+								<div class="col span_3_of_11">
+									<input type="tel" name="code" autocomplete="off" autofocus required>
+								</div>
+								<div class="col span_1_of_11"><br></div>
+								<div class="col span_3_of_11">
+									<input type="hidden" name="add_device" required>
+									<input type="hidden" name="auth" required>
 
-											<?php echo Runonce_CSRF_Form(); ?>
+									<?php echo Runonce_CSRF_Form(); ?>
 
-											<input type="hidden" name="secret" value="<?php echo $TFA_Secret; ?>">
-											<input type="submit" value="Confirm">
-										</div>
-									</div>
-								</form>
-							</div>
+									<input type="submit" value="Confirm">
+								</div>
+							</form>
 						</div>
 
 						<?php
 					}
+
+				// Disable TFA
+				} else if (
+					$TFA['Secret'] &&
+					isset($_POST['disable'])
+				) {
+					// TODO Enter Code and Disable
+					// TODO Fallback: EMail link to disable.
+					echo 'Disable';
+
+				// Already Enabled
+				} else if ( $TFA['Secret'] ) {
+					echo '
+					<img class="float-left" src="'.$Sitewide['Root'].'/assets/images/locked_128.png">';
+					if ( $Success ) {
+						echo '
+							<h3 class="text-left color-nephritis">Your account is now secured with two-factor authentication.</h3>';
+					} else {
+						echo '
+							<h3 class="text-left">Your account is currently secured with two-factor authentication.</h3>';
+					}
+					?>
+
+					<div class="clear-both group">
+						<div class="col span_1_of_2"><br></div>
+						<form method="POST" action="" class="col span_1_of_4 likelink">
+							<input type="hidden" name="disable" required>
+							<input type="submit" class="padding-button color-pomegranate" value="Disable">
+						</form>
+						<form method="POST" action="" class="col span_1_of_4">
+							<input type="hidden" name="add_device" required>
+							<input type="submit" value="Add Device">
+						</form>
+					</div>
+
+					<?php
+
+				// First Time
+				// Or error, who knows, we dealt with those.
 				} else {
-					// TODO Done Page
-					echo 'OK';
+					if (
+						!empty($TFA['Secret']) &&
+						$TFA['Secret Length'] == 16
+					) {
+						$Authenticatron_QR = Authenticatron_QR(Authenticatron_URL($Member['Name'], $TFA['Secret']));
+					} else {
+						$Authenticatron_New = Authenticatron_New($Member['Name']);
+						$Authenticatron_QR = $Authenticatron_New['QR'];
+						$TFA['Secret'] = $Authenticatron_New['Secret'];
+					}
+					?>
+
+					<div class="group">
+						<div class="col span_1_of_2">
+							<p>1. Scan this code with <a href="https://m.google.com/authenticator" target="_blank">Google Authenticator</a></p>
+							<p><img src="<?php echo $Authenticatron_QR; ?>"></p>
+						</div>
+						<div class="col span_1_of_2">
+							<p>2. Confirm with the 6-digit code your phone generates.</p>
+							<form method="POST" action="">
+								<div class="group">
+									<div class="col span_5_of_11">
+										<input type="tel" name="code" autocomplete="off" autofocus required>
+									</div>
+									<div class="col span_1_of_11"><br></div>
+									<div class="col span_5_of_11">
+										<input type="hidden" name="enable" required>
+
+										<?php echo Runonce_CSRF_Form(); ?>
+
+										<input type="hidden" name="secret" value="<?php echo $TFA['Secret']; ?>" required>
+										<input type="submit" value="Confirm">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<?php
 				}
 				require $Templates['Footer'];
 

@@ -195,13 +195,17 @@ table { width: 100%; }
 .textcenter { text-align: center; }
 .textleft { text-align: left; }
 
-.clear { clear: both; }
+.clear, .clear-both { clear: both; }
 .clearleft { clear: left; }
 .clearright { clear: right; }
 
 .floatnone { float: none; }
 .floatleft { float: left; }
 .floatright { float: right; }
+.float-none { float: none; }
+.float-left { float: left; }
+.float-right { float: right; }
+.float-center { margin: 0 auto; }
 
 .breaker { margin: 3% 0; padding: 1px; height: 1px; }
 
@@ -600,7 +604,14 @@ input::-moz-focus-inner {
 	margin-top: inherit;
 	margin-bottom: inherit;
 	padding: inherit;
-	width: auto;
+}
+.likelink input[type="submit"].padding-button,
+.likeinput {
+	margin: .5em 0;
+	padding: 2%;
+}
+.likelink input[type="submit"].color-pomegranate {
+	color: #c0392b;
 }
 
 
