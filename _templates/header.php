@@ -87,7 +87,7 @@
 					) {
 						echo '
 							<li><a href="'.$Sitewide['Root'].'/account">account</a></li>
-							<form class="likelink" action="'.$Sitewide['Root'].'/account?logout" method="POST">
+							<form class="like-link" action="'.$Sitewide['Root'].'/account?logout" method="POST">
 								'.Runonce_CSRF_Form().'
 								<li><input type="submit" value="logout"></li>
 							</form>';
