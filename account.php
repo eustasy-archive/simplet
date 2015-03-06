@@ -430,7 +430,7 @@ if ( $Request['Path'] === $Canonical ) {
 						<h3>Enter your current code to add a Device</h3>
 						<div class="group">
 							<div class="col span_3_of_11">
-								<p class="likeinput text-center"><a href="?twofactorauth">Cancel</a></p>
+								<p class="like-input text-center"><a class="color-pomegranate" href="?twofactorauth">Cancel</a></p>
 							</div>
 							<div class="col span_1_of_11"><br></div>
 							<form method="POST" action="">
@@ -476,9 +476,9 @@ if ( $Request['Path'] === $Canonical ) {
 
 					<div class="clear-both group">
 						<div class="col span_1_of_2"><br></div>
-						<form method="POST" action="" class="col span_1_of_4 likelink">
+						<form method="POST" action="" class="col span_1_of_4">
 							<input type="hidden" name="disable" required>
-							<input type="submit" class="padding-button faded" value="Disable">
+							<input type="submit" class="button-link" value="Disable">
 						</form>
 						<form method="POST" action="" class="col span_1_of_4">
 							<input type="hidden" name="add_device" required>

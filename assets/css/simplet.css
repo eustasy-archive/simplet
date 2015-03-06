@@ -590,10 +590,10 @@ input::-moz-focus-inner {
 .margin-0 {
 	margin: 0;
 }
-.likelink {
+.like-link {
 	display: inline-block;
 }
-.likelink input[type="submit"] {
+.like-link input[type="submit"] {
 	background: transparent;
 	border: none;
 	width: 100%;
@@ -605,13 +605,18 @@ input::-moz-focus-inner {
 	margin-bottom: inherit;
 	padding: inherit;
 }
-.likelink input[type="submit"].padding-button,
-.likeinput {
+.like-link input[type="submit"].padding-button,
+.like-input {
 	margin: .5em 0;
 	padding: 2%;
 }
-.likelink input[type="submit"].color-pomegranate {
+.like-link input[type="submit"].color-pomegranate {
 	color: #c0392b;
+}
+input[type="submit"].button-link {
+	color: #777;
+	border: none;
+	background: transparent;
 }
 
 
