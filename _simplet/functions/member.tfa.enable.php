@@ -1,6 +1,6 @@
 <?php
 
-function Member_TFA_New() {
+function Member_TFA_Enable() {
 	global $Backend, $Database, $Error, $Member, $Time, $TFA, $Sitewide_Security_Authenticatron_Variance, $Success;
 
 	$Runonce_CSRF_Check = Runonce_CSRF_Check($_POST['csrf_protection']);

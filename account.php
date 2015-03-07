@@ -59,7 +59,7 @@ if ( $Request['Path'] === $Canonical ) {
 				if ( !empty($Error) ) {
 					require $Templates['Header'];
 					echo '<h2>Login Error</h2>';
-					echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?login';
+					echo '<h3 class="text-left">'.$Error.' <a class="floatright" href="?login';
 					if ( isset($Redirect) ) {
 						echo '&redirect='.$Redirect;
 					}
@@ -148,7 +148,7 @@ if ( $Request['Path'] === $Canonical ) {
 				require $Templates['Header'];
 				if ( !empty($Error) ) {
 					echo '<h2>Registration Error</h2>';
-					echo '<h3 class="textleft">'.$Error.' <a class="floatright" href="?register">Try Again</a></h3>';
+					echo '<h3 class="text-left">'.$Error.' <a class="floatright" href="?register">Try Again</a></h3>';
 				} else {
 					echo '<h2>All Signed Up.</h2>';
 					echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
@@ -374,13 +374,15 @@ if ( $Request['Path'] === $Canonical ) {
 				if (
 					isset($_POST['enable'])
 				) {
-					Member_TFA_New();
+					Member_TFA_Enable();
 				} // END IF TFA ENABLE
 
 				// Fetch Current TFA Secret
 				$TFA_Current = Member_TFA_Current();
 				if ( !$TFA_Current['Error'] ) {
 					$TFA['Secret'] = $TFA_Current['Result'];
+				} else {
+					$TFA['Secret'] = false;
 				}
 
 				// IF TFA AUTH
@@ -422,34 +424,14 @@ if ( $Request['Path'] === $Canonical ) {
 						echo '
 							<h3>Scan this QR code with your new Device</h3>
 							<p class="text-center"><img src="'.$Authenticatron_QR.'"></p>';
+						// TODO Continue / Back / Account buttons
+
 
 					// Enter Code
 					} else {
-						?>
-
-						<h3>Enter your current code to add a Device</h3>
-						<div class="group">
-							<div class="col span_3_of_11">
-								<p class="like-input text-center"><a class="color-pomegranate" href="?twofactorauth">Cancel</a></p>
-							</div>
-							<div class="col span_1_of_11"><br></div>
-							<form method="POST" action="">
-								<div class="col span_3_of_11">
-									<input type="tel" name="code" autocomplete="off" autofocus required>
-								</div>
-								<div class="col span_1_of_11"><br></div>
-								<div class="col span_3_of_11">
-									<input type="hidden" name="add_device" required>
-									<input type="hidden" name="auth" required>
-
-									<?php echo Runonce_CSRF_Form(); ?>
-
-									<input type="submit" value="Confirm">
-								</div>
-							</form>
-						</div>
-
-						<?php
+						echo '
+							<h3>Enter your current code to add a Device</h3>';
+						Member_TFA_Auth_Form('add_device');
 					}
 
 				// Disable TFA
@@ -457,9 +439,27 @@ if ( $Request['Path'] === $Canonical ) {
 					$TFA['Secret'] &&
 					isset($_POST['disable'])
 				) {
-					// TODO Enter Code and Disable
-					// TODO Fallback: EMail link to disable.
-					echo 'Disable';
+					// Disabled
+					if (
+						isset($TFA['Auth']) &&
+						$TFA['Auth']
+					) {
+						$TFA['Disable'] = Member_TFA_Disable();
+						if ( $TFA['Disable'] ) {
+							echo '
+								<h3>Two-Factor Authentication has been disabled.</h3>';
+						} else {
+							echo '
+								<h3>Sorry, Two-Factor Authentication could not be disabled.</h3>';
+						}
+						// TODO Continue / Back / Account buttons
+
+					// Enter Code
+					} else {
+						echo '
+							<h3>Enter your current code to disable two-factor authentication</h3>';
+						Member_TFA_Auth_Form('disable');
+					}
 
 				// Already Enabled
 				} else if ( $TFA['Secret'] ) {
@@ -475,10 +475,13 @@ if ( $Request['Path'] === $Canonical ) {
 					?>
 
 					<div class="clear-both group">
-						<div class="col span_1_of_2"><br></div>
+						<div class="col span_1_of_4">
+							<p class="like-input"><a href="<?php echo $Sitewide['Root'].$Sitewide['Account']; ?>">Back to Account</a></p>
+						</div>
+						<div class="col span_1_of_4"><br></div>
 						<form method="POST" action="" class="col span_1_of_4">
 							<input type="hidden" name="disable" required>
-							<input type="submit" class="button-link" value="Disable">
+							<input type="submit" class="button-link color-pomegranate" value="Disable">
 						</form>
 						<form method="POST" action="" class="col span_1_of_4">
 							<input type="hidden" name="add_device" required>
@@ -563,16 +566,30 @@ if ( $Request['Path'] === $Canonical ) {
 				exit;
 
 			} else {
+				$TFA_Current = Member_TFA_Current();
+				if ( !$TFA_Current['Error'] ) {
+					$TFA['Secret'] = $TFA_Current['Result'];
+				} else {
+					$TFA['Secret'] = false;
+				}
 				require $Templates['Header'];
 				?>
 				<div class="section group">
 					<div class="col span_1_of_8"><br></div>
 					<div class="col span_6_of_8">
-						<h2 class="textleft">Hello <?php echo $Member['Name']; ?>. <a class="floatright" href="?change=name">Change Name</a></h2>
-						<h3 class="textleft"><?php echo $Member['Mail']; ?> <a class="floatright" href="?change=mail">Change Mail</a></h3>
-						<h3 class="textleft">Your password is encrypted. <a class="floatright" href="?change=pass">Change Pass</a></h3>
-						<br>
-						<p>Your Member ID is <?php echo $Member['ID']; ?>. This cannot be changed. <a class="floatright red" href="?delete">Delete Account</a></p>
+						<h2 class="text-left margin-0">Hello <?php echo $Member['Name']; ?>. <a class="floatright" href="?change=name">Change Name</a></h2>
+						<h3 class="text-left margin-0"><?php echo $Member['Mail']; ?> <a class="floatright" href="?change=mail">Change Mail</a></h3>
+						<h3 class="text-left margin-0">Your password is encrypted. <a class="floatright" href="?change=pass">Change Pass</a></h3>
+
+						<?php
+							if ( $TFA['Secret'] ) {
+								echo '<p class="text-left">Your account is secured with two-factor authentication. <a class="floatright" href="?twofactorauth">Add Devices or Disable</a></p>';
+							} else {
+								echo '<p class="text-left color-pomegranate">Your account is not secured with two-factor authentication. <a class="floatright" href="?twofactorauth">Enable Now</a></p>';
+							}
+						?>
+
+						<p>Your Member ID is <?php echo $Member['ID']; ?>. This cannot be changed. <a class="floatright color-pomegranate" href="?delete">Delete Account</a></p>
 					</div>
 					<div class="col span_1_of_8"><br></div>
 				</div>
