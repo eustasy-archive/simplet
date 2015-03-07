@@ -426,7 +426,6 @@ if ( $Request['Path'] === $Canonical ) {
 							<p class="text-center"><img src="'.$Authenticatron_QR.'"></p>';
 						// TODO Continue / Back / Account buttons
 
-
 					// Enter Code
 					} else {
 						echo '
