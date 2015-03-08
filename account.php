@@ -45,29 +45,30 @@ if ( $Request['Path'] === $Canonical ) {
 				} else {
 					header('Location: '.$Sitewide['Account'], true, 302);
 				}
-
 			// END IF Already authenticated.
+
 			// IF Authenticating.
 			} else if (
 				isset($_POST['mail']) ||
 				isset($_POST['pass'])
 			) {
 
-				$Error = Member_Login();
+				$Login_Result = Member_Login();
 
-				// Login Error
-				if ( !empty($Error) ) {
+				// IF Login Error
+				if ( !empty($Login_Result) ) {
 					require $Templates['Header'];
 					echo '<h2>Login Error</h2>';
-					echo '<h3 class="text-left">'.$Error.' <a class="floatright" href="?login';
+					echo '<h3 class="text-left">'.$Login_Result.' <a class="floatright" href="?login';
 					if ( isset($Redirect) ) {
 						echo '&redirect='.$Redirect;
 					}
 					echo '">Try Again</a></h3>';
 					require $Templates['Footer'];
-				}
+				} // END IF Login Error
 
 			// END IF Authenticating.
+
 			// IF Not logged in or logging in.
 			} else {
 				require $Templates['Header'];
@@ -76,6 +77,7 @@ if ( $Request['Path'] === $Canonical ) {
 			} // END IF Not logged in or logging in.
 
 		// END IF Login
+
 		// IF Logout
 		} else if (isset($_GET['logout'])) {
 

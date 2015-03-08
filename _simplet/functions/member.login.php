@@ -6,7 +6,7 @@
 
 function Member_Login() {
 
-	global $Backend, $Cookie, $Database, $Login_Mail, $Redirect, $Request, $Sitewide, $Time, $User;
+	global $Backend, $Cookie, $Database, $Login_Mail, $Redirect, $Request, $Sitewide, $Time, $TFA, $User;
 
 	$Error = false;
 
@@ -47,6 +47,7 @@ function Member_Login() {
 					$Member['PassV'] = $Member_Fetch['PassV'];
 					$Member['Pass'] = $Member_Fetch['Pass'];
 					$Member['Salt'] = $Member_Fetch['Salt'];
+					$TFA['Secret'] = $Member_Fetch['2fa'];
 					unset($Member_Fetch);
 
 					$Login_Hash = Pass_Hash($Login_Pass, $Member['Salt'], $Member['PassV']);
@@ -54,24 +55,13 @@ function Member_Login() {
 
 					if ( $Login_Hash === $Member['Pass'] ) {
 
-						$Member['Cookie'] = Generator_String();
-
-						setcookie($Cookie['Session'], $Member['Cookie'], time()+60*60*24*28, '/', $Request['Host'], $Request['Secure'], $Request['HTTPOnly']);
-
-						$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Login_Mail.'\', \''.$Member['Cookie'].'\', \''.$User['IP'].'\', \'1\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')';
-						$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
-						if ( !$Session_New ) {
-							if ( $Backend['Debug'] ) {
-								echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
-							}
-							$Error = 'Login Error: Could not create session.';
-
-						// Login Successful
+						if ( $TFA['Secret'] ) {
+							// TODO Second Factor Form
 						} else {
-							if ( isset($Redirect) ) {
-								header('Location: '.$Sitewide['Root'].urldecode($Redirect), true, 302);
-							} else {
-								header('Location: '.$Sitewide['Account'], true, 302);
+							$Session_New = Member_Session_New();
+							// Login Successful
+							if ( $Session_New != true ) {
+								$Error = $Session_New;
 							}
 						}
 
