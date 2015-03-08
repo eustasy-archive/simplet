@@ -216,6 +216,7 @@ if ( $Request['Path'] === $Canonical ) {
 				} else {
 					echo '<h2>All Signed Up.</h2>';
 					echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
+					// TODO Prompt for two-factor
 				}
 				require $Templates['Footer'];
 

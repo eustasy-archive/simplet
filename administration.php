@@ -15,7 +15,7 @@ if ( $Request['Path'] === $Canonical ) {
 	$Lib_Browning_Send = __DIR__.'/../libs/Browning_Send.php';
 
 	// Unauthenticated
-	if ( !$Member['Auth'] ) {
+	if ( !$Member['Admin'] ) {
 		header('Location: '.$Sitewide['Account'], true, 302);
 		exit;
 
