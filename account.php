@@ -47,6 +47,57 @@ if ( $Request['Path'] === $Canonical ) {
 				}
 			// END IF Already authenticated.
 
+			// IF TFA Authenticating.
+			} else if ( isset($_POST['code']) ) {
+				// Get key from post.
+				foreach($_POST as $Key => $Value) {
+					if ( strpos($Key, 'key-') === 0 ) {
+						$TFA['Key'] = substr($Key, 4);
+					}
+				}
+				// Fetch RunOnce with MemberID
+				$Runonce = Runonce_Check($TFA['Key'], '*');
+				Runonce_Used($TFA['Key'], '*');
+				// Get Members Secret
+				$Member_TFA_Current = Member_TFA_Current($Runonce['Member_ID']);
+				if ( $Member_TFA_Current['Success'] ) {
+					$TFA['Secret'] = $Member_TFA_Current['Result'];
+				} else {
+					// TODO Error Better
+					echo 'Could not find the secret for the given member.';
+				}
+
+				// IF TFA Auth
+				$Member_TFA_Auth = Member_TFA_Auth();
+				if ( $Member_TFA_Auth['Auth'] ) {
+
+					$Member['ID'] = $Runonce['Member_ID'];
+
+					// TODO $Login_Mail Not defined
+					// Get mail from id
+
+					$Session_New = Member_Session_New();
+
+					if ( $Session_New != true ) {
+						$Error = $Session_New;
+					} else {
+						Runonce_Delete($TFA['Key'], '*');
+						// Login Successful
+						return true;
+					}
+				// END IF TFA Auth
+
+				// IF NOT TFA Auth
+				} else {
+					// TODO Error Better
+					echo 'Error:';
+					foreach ( $Member_TFA_Auth['Error'] as $Error ) {
+						echo $Error;
+					}
+				} // END IF NOT TFA Auth
+
+			// END IF TFA Authenticating.
+
 			// IF Authenticating.
 			} else if (
 				isset($_POST['mail']) ||
@@ -55,8 +106,19 @@ if ( $Request['Path'] === $Canonical ) {
 
 				$Login_Result = Member_Login();
 
+				// IF Needs TFA
+				if ( $Login_Result == '__NEEDS_TFA__' ) {
+					require $Templates['Header'];
+					echo '<h2>Two-Factor Authentication</h2>';
+					echo '<p class="text-center">Please enter your two-factor authentication code.</p>';
+					$TFA['Key'] = Generator_String();
+					Runonce_Create('15mins', 3, 'Two-Factor Authentication', $TFA['Key'], $Member['ID']);
+					Member_TFA_Auth_Form('key-'.$TFA['Key'], false);
+					require $Templates['Footer'];
+				// END IF Needs TFA
+
 				// IF Login Error
-				if ( !empty($Login_Result) ) {
+				} else if ( $Login_Result != true ) {
 					require $Templates['Header'];
 					echo '<h2>Login Error</h2>';
 					echo '<h3 class="text-left">'.$Login_Result.' <a class="floatright" href="?login';

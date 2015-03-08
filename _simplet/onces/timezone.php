@@ -8,4 +8,4 @@ date_default_timezone_set('UTC');
 $Time['Now']    = time();
 $Time['15mins'] = $Time['Now'] + 900;
 $Time['1hour']  = $Time['Now'] + 3600;
-$Time['1Month'] = $Time['Now'] + 2419200;
+$Time['1month'] = $Time['Now'] + 2419200;

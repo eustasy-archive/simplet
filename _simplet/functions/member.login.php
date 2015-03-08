@@ -6,7 +6,7 @@
 
 function Member_Login() {
 
-	global $Backend, $Cookie, $Database, $Login_Mail, $Redirect, $Request, $Sitewide, $Time, $TFA, $User;
+	global $Backend, $Cookie, $Database, $Login_Mail, $Member, $Redirect, $Request, $Sitewide, $Time, $TFA, $User;
 
 	$Error = false;
 
@@ -56,12 +56,15 @@ function Member_Login() {
 					if ( $Login_Hash === $Member['Pass'] ) {
 
 						if ( $TFA['Secret'] ) {
-							// TODO Second Factor Form
+							unset($TFA['Secret']);
+							return '__NEEDS_TFA__';
 						} else {
 							$Session_New = Member_Session_New();
-							// Login Successful
 							if ( $Session_New != true ) {
 								$Error = $Session_New;
+							} else {
+								// Login Successful
+								return true;
 							}
 						}
 

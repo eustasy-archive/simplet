@@ -1,7 +1,7 @@
 <?php
 
 function Member_Session_New() {
-	global $Backend, $Cookie, $Database, $Login_Mail, $Member, $Redirect, $Request, $Time, $User;
+	global $Backend, $Cookie, $Database, $Login_Mail, $Member, $Redirect, $Request, $Sitewide, $Time, $User;
 	$Member['Cookie'] = Generator_String();
 	setcookie($Cookie['Session'], $Member['Cookie'], $Time['1month'], '/', $Request['Host'], $Request['Secure'], $Request['HTTPOnly']);
 	$Session_New = 'INSERT INTO `'.$Database['Prefix'].'Sessions` (`Member_ID`, `Mail`, `Cookie`, `IP`, `Active`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Login_Mail.'\', \''.$Member['Cookie'].'\', \''.$User['IP'].'\', \'1\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')';
