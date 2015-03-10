@@ -2,11 +2,11 @@
 
 // TODO Fallback: Add Optional E-Mail backup.
 
-function Member_TFA_Auth_Form($Additional, $Cancel = true) {
+function Member_TFA_Auth_Form($Additional, $Cancel = true, $AllowEmail = false) {
 	?>
 
 	<div class="group">
-		
+
 		<?php
 			if ( $Cancel ) {
 				echo '
@@ -19,7 +19,7 @@ function Member_TFA_Auth_Form($Additional, $Cancel = true) {
 		<div class="col span_2_of_11"><br></div>';
 			}
 		?>
-		
+
 		<form method="POST" action="">
 			<div class="col span_3_of_11">
 				<input type="tel" name="code" autocomplete="off" autofocus required>
