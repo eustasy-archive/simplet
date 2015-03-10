@@ -48,13 +48,30 @@ if ( $Request['Path'] === $Canonical ) {
 			// END IF Already authenticated.
 
 			// IF TFA Authenticating.
-			} else if ( isset($_POST['code']) ) {
-				// Get key from post.
-				foreach($_POST as $Key => $Value) {
-					if ( strpos($Key, 'key-') === 0 ) {
-						$TFA['Key'] = substr($Key, 4);
+			} else if (
+				isset($_POST['code']) ||
+				isset($_GET['once'])
+			) {
+
+				// IF TFA POST
+				// Get the runonce key that accompanied the code.
+				if ( isset($_POST['code']) ) {
+					// Get key from POST.
+					foreach($_POST as $Key => $Value) {
+						if ( strpos($Key, 'key-') === 0 ) {
+							$TFA['Key'] = Input_Prepare(substr($Key, 4));
+						}
 					}
-				}
+				// END IF TFA POST
+
+				// IF TFA GET
+				// Get the once key that was emailed.
+				} else if ( isset($_GET['once']) ) {
+					// Get key from GET.
+					$TFA['Key'] = Input_Prepare($_GET['once']);
+				} // END IF TFA GET
+				// NO ELSE
+
 				// Fetch RunOnce with MemberID
 				$Runonce = Runonce_Check($TFA['Key'], '*');
 				Runonce_Used($TFA['Key'], '*');
