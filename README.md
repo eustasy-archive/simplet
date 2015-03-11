@@ -1,4 +1,4 @@
-# Simplet [![Codacy Badge](https://www.codacy.com/project/badge/7d7a0ee3f38b46a18a27515142668b0f)](https://www.codacy.com/public/eustasy/simplet)
+# Simplet [![Codacy Badge](https://www.codacy.com/project/badge/7d7a0ee3f38b46a18a27515142668b0f)](https://www.codacy.com/public/eustasy/simplet) [![Code Climate](https://codeclimate.com/github/eustasy/simplet/badges/gpa.svg)](https://codeclimate.com/github/eustasy/simplet)
 Simplet is a simple, file-based, cms framework written in php, with members, forums, and blogging built in.
 
 ## Features
