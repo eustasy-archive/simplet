@@ -1,4 +1,4 @@
-# Simplet
+# Simplet [![Codacy Badge](https://www.codacy.com/project/badge/7d7a0ee3f38b46a18a27515142668b0f)](https://www.codacy.com/public/eustasy/simplet)
 Simplet is a simple, file-based, cms framework written in php, with members, forums, and blogging built in.
 
 ## Features
@@ -37,7 +37,8 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 - [Sweet Captcha (1.1.0)](https://github.com/sweetcaptcha/sweetcaptcha-sdk-php)
 
 ### CSS
-- [HTML5 Reset (2.1.2)](https://github.com/murtaugh/HTML5-Reset)
+- [Normalize](https://github.com/necolas/normalize.css/)
+- [Colors.css](https://github.com/eustasy/colors.css)
 
 ### JavaScript
 - [Modernizr](http://modernizr.com/)
