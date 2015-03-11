@@ -57,7 +57,7 @@ if ( $Request['Path'] === $Canonical ) {
 				// Get the runonce key that accompanied the code.
 				if ( isset($_POST['code']) ) {
 					// Get key from POST.
-					foreach($_POST as $Key => $Value) {
+					foreach ($_POST as $Key => $Value) {
 						if ( strpos($Key, 'key-') === 0 ) {
 							$TFA['Key'] = Input_Prepare(substr($Key, 4));
 						}
