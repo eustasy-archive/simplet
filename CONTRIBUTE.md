@@ -3,17 +3,19 @@
 * Tabs, not spaces.
 * Blank lines should not include whitespace.
 * Function Globals should be in Alphabetical Order, and only include variables that may be used.
-* `if`s should be commented at open and close, as below.
+* Long `if`s should be commented at open and close, as below.
 
 ```
-function Object_ActionFoo( $Hello, $World ) {
+function Object_Action_Foo( $Hello, $World ) {
 	
 	global $Connection, $Stuff;
 	
 	$Array = array();
 	
 	// This if does a thing
-	if ( !empty($Hello) ) $Array['Hello'] = $Hello;
+	if ( !empty($Hello) ) {
+		$Array['Hello'] = $Hello;
+	}
 		
 	// Else do another thing
 	else $Array['Hello'] = 'Hello';
@@ -21,10 +23,17 @@ function Object_ActionFoo( $Hello, $World ) {
 	// IF WORLD: What this if does
 	if ( !empty($World) ) {
 		$Array['World'] = $World;
-		if ( $Sitewide_Debug && $World = 'World' ) echo '<p>Debug: You do not need to set \'$World\' as \'World\'.</p>';
+		if (
+			$Sitewide['Debug'] &&
+			$World = 'World'
+		) {
+			echo '<p>Debug: You do not need to set \'$World\' as \'World\'.</p>';
+		}
 	
 	// or do the thing
-	} else DoThing();
+	} else {
+		DoThing();
+	}
 	// END IF WORLD
 	
 	return $Array;
