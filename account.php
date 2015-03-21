@@ -211,7 +211,7 @@ if ( $Request['Path'] === $Canonical ) {
 				exit;
 
 			// Register Check
-			} else if ( !$Sitewide_Signups ) {
+			} else if ( !$Sitewide['Signups']  ) {
 				require $Templates['Header'];
 				echo '<h2>Sorry, new Registrations are not allowed at this time.</h2>';
 				require $Templates['Footer'];
