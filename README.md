@@ -4,9 +4,9 @@ Simplet is a simple, file-based, cms framework written in php, with members, for
 ## Features
 - Responsive Layout
 - Server Side
-	- Nginx Compatible
-	- PHP 5.3+
-	- MySQL and MariaDB Tested
+	- Nginx
+	- [A Supported Version of PHP](http://php.net/supported-versions.php)
+	- MySQL and MariaDB
 - Members
 	- Signup
 	- Login
