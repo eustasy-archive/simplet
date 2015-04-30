@@ -27,7 +27,7 @@ function Member_Change_Mail() {
 			// IF Mail not Changed
 			if ( !$Mail_Change ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Mail_Change): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Mail_Change): ',mysqli_error($Database['Connection']);
 				}
 				$Error = '<h3 class="color-pomegranate">Mail could not be changed.</h3>';
 			// END IF Mail not Changed

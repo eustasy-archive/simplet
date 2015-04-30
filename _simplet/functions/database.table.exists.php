@@ -26,7 +26,7 @@ function Database_Table_Exists($Table_Name, $AddPrefix = true) {
 	// IFNOTQUERY: The query failed.
 	if ( !$Database_Table_Exists_Query ) {
 		if ( $Backend['Debug'] ) {
-			echo 'Invalid Query (Key_Check): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query (Key_Check): ',mysqli_error($Database['Connection']);
 		}
 		return false;
 

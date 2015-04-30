@@ -30,7 +30,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 			if ( !$Member['Auth'] ) {
 				// Handle Not Authenticated Error on POST without JavaScript
 				echo '
-					<h3 class="warning red">Error: You cannot post a response as you are not <a href="'.$Sitewide['Account'].'?login&redirect='.urlencode($Canonical).'">logged in</a>.</h3>';
+					<h3 class="warning red">Error: You cannot post a response as you are not <a href="',$Sitewide['Account'],'?login&redirect=',urlencode($Canonical),'">logged in</a>.</h3>';
 
 			} else {
 				// Handle Response (an array, not JSON) without JavaScript
@@ -38,7 +38,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				if (!empty($Response_Submit['error'])) {
 					foreach ($Response_Submit['error'] as $Response_Submit_Errors) {
 						echo '
-				<h3 class="warning red">Error: '.$Response_Submit_Errors.'</h3>';
+				<h3 class="warning red">Error: ',$Response_Submit_Errors,'</h3>';
 					}
 				}
 			}
@@ -92,7 +92,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 		$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 		if ( !$Responses ) {
 			if ( $Sitewide['Debug'] ) {
-				echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Responses): ',mysqli_error($Database['Connection']);
 			}
 			// TODO Handle Error
 		} else {
@@ -151,7 +151,7 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 				$Responses = mysqli_query($Database['Connection'], $Responses_Query, MYSQLI_STORE_RESULT);
 				if ( !$Responses ) {
 					if ( $Sitewide['Debug'] ) {
-						echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+						echo 'Invalid Query (Responses): ',mysqli_error($Database['Connection']);
 					}
 					// TODO Handle Error
 				} else {
@@ -171,16 +171,16 @@ function Responses($Type = 'Comment', $Response_Canonical = '') {
 					if ($Responses_Count === 1) {
 						echo '
 			<hr>
-			<h3>1 '.$Type.'</h3>';
+			<h3>1 ',$Type,'</h3>';
 					} else {
 						if ($Type === 'Review') {
 							echo '
 			<hr>
-			<h3>'.$Responses_Count.' Reviews &nbsp;&mdash;&nbsp; '.$Responses_Rating_Average.' Stars Average</h3>';
+			<h3>',$Responses_Count,' Reviews &nbsp;&mdash;&nbsp; ',$Responses_Rating_Average,' Stars Average</h3>';
 						} else {
 							echo '
 			<hr>
-			<h3>'.$Responses_Count.' '.$Type.'s</h3>';
+			<h3>',$Responses_Count,' ',$Type,'s</h3>';
 						}
 					}
 
@@ -222,7 +222,7 @@ QUERY;
 							$Responses_Member = mysqli_query($Database['Connection'], $Query, MYSQLI_STORE_RESULT);
 							if (!$Responses_Member) {
 								if ( $Sitewide['Debug'] ) {
-									echo 'Invalid Query (Responses_Member): '.mysqli_error($Database['Connection']);
+									echo 'Invalid Query (Responses_Member): ',mysqli_error($Database['Connection']);
 								}
 								// TODO Handle Error
 							} else {
@@ -243,43 +243,43 @@ QUERY;
 						}
 
 						echo '
-			<div class="section group darkrow" id="header_'.$Responses_ID.'">
+			<div class="section group darkrow" id="header_',$Responses_ID,'">
 				<div class="col span_2_of_12 textcenter';
 						if ( $Responses_Store_Name === 'Deactivated' ) {
 							echo ' faded';
 						}
-						echo '"><p>'.$Responses_Store_Name.'</p></div>
+						echo '"><p>',$Responses_Store_Name,'</p></div>
 				<div class="col span_10_of_12 textright"><p>';
 						if ($Responses_Modified > $Responses_Created) {
 							$Responses_Modified = Time_Readable_Difference($Responses_Modified);
-							echo '<span class="faded edited-time">edited '.$Responses_Modified['Prefered'].' &nbsp;&middot;&nbsp; </span>';
+							echo '<span class="faded edited-time">edited ',$Responses_Modified['Prefered'],' &nbsp;&middot;&nbsp; </span>';
 						}
 						$Responses_Created = Time_Readable_Difference($Responses_Created);
-						echo $Responses_Created['Prefered'].'</p></div>
+						echo $Responses_Created['Prefered'],'</p></div>
 			</div>
-			<div class="section group response '.$Responses_ID.'" id="response_'.$Responses_ID.'">
-				<div class="col span_2_of_12"><img class="avatar" src="'.$Responses_Store_Avatar.'"></div>';
+			<div class="section group response ',$Responses_ID,'" id="response_',$Responses_ID,'">
+				<div class="col span_2_of_12"><img class="avatar" src="',$Responses_Store_Avatar,'"></div>';
 						if ($Helpfulness_Show) {
 							echo '
 				<div class="col span_8_of_12">
-					'.$Responses_Post.'
+					',$Responses_Post,'
 				</div>
 				<div class="col span_2_of_12">';
 							if ($Type === 'Review') {
 								echo '
-					<p class="rating">'.$Responses_Rating.' Stars</p>';
+					<p class="rating">',$Responses_Rating,' Stars</p>';
 							}
 							echo '
-					<div class="helpfulness hidden" id="helpfulness_'.$Responses_ID.'">
-						<p>'.number_format($Responses_Helpfulness).' Helpful</p>
-						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide['Root'].'/assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide['Root'].'/assets/images/thumbs_up.png"></div>
+					<div class="helpfulness hidden" id="helpfulness_',$Responses_ID,'">
+						<p>',number_format($Responses_Helpfulness),' Helpful</p>
+						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="',$Sitewide['Root'],'/assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="',$Sitewide['Root'],'/assets/images/thumbs_up.png"></div>
 					</div>
 				</div>
 			</div>';
 						} else {
 							echo '
 				<div class="col span_10_of_12">
-					'.$Responses_Post.'
+					',$Responses_Post,'
 				</div>
 			</div>';
 						}
@@ -302,7 +302,7 @@ QUERY;
 		<div class="clear"></div>
 
 		<?php
-			echo '<form action="?respond'.$PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic'].'&page='.$Pagination['Page'].'&show='.$Pagination['Show'].'" method="post" id="respond">';
+			echo '<form action="?respond',$PreserveQueryStrings['Miscellaneous'],$PreserveQueryStrings['Topic'],'&page=',$Pagination['Page'],'&show=',$Pagination['Show'],'" method="post" id="respond">';
 		?>
 
 			<div class="section group">
@@ -353,7 +353,7 @@ QUERY;
 					$.post(
 
 						<?php
-						echo '\''.$Sitewide['Root'].'/api?helpfulness&fetch&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+						echo '\'',$Sitewide['Root'],'/api?helpfulness&fetch&canonical=',$Response_Canonical,'&id=\' + Response_ID,';
 						?>
 
 						{
@@ -391,7 +391,7 @@ QUERY;
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\'',$Sitewide['Root'],'/api?helpfulness&set&canonical=',$Response_Canonical,'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -412,7 +412,7 @@ QUERY;
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\'',$Sitewide['Root'],'/api?helpfulness&set&canonical=',$Response_Canonical,'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -438,7 +438,7 @@ QUERY;
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\'',$Sitewide['Root'],'/api?helpfulness&set&canonical=',$Response_Canonical,'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -459,7 +459,7 @@ QUERY;
 							$.post(
 
 								<?php
-									echo '\''.$Sitewide['Root'].'/api?helpfulness&set&canonical='.$Response_Canonical.'&id=\' + Response_ID,';
+									echo '\'',$Sitewide['Root'],'/api?helpfulness&set&canonical=',$Response_Canonical,'&id=\' + Response_ID,';
 								?>
 
 								{
@@ -533,7 +533,7 @@ QUERY;
 							echo '\
 					<div class="helpfulness" id="helpfulness_\' + data.id + \'">\
 						<p>0 Helpful</p>\
-						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="'.$Sitewide['Root'].'/assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="'.$Sitewide['Root'].'/assets/images/thumbs_up.png"></div>\
+						<div><img class="down faded" alt="Unhelpful" title="Unhelpful" src="',$Sitewide['Root'],'/assets/images/thumbs_down.png"><img class="up faded" alt="Helpful" title="Helpful" src="',$Sitewide['Root'],'/assets/images/thumbs_up.png"></div>\
 					</div>\
 				</div>\
 			</div>\';
@@ -581,7 +581,7 @@ QUERY;
 			<?php
 				} else {
 					echo '
-		<h3>You must <a href="'.$Sitewide['Account'].'?login&redirect='.$Response_Canonical.'">Log In</a> to '.$Type.'.</h3>';
+		<h3>You must <a href="',$Sitewide['Account'],'?login&redirect=',$Response_Canonical,'">Log In</a> to ',$Type,'.</h3>';
 				}
 			}
 

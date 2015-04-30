@@ -28,7 +28,7 @@ function Member_Group_List($Group, $Status_Check = false) {
 		// IFQUERY
 		if ( !$Member_Group_List ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Member_Group_List): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Member_Group_List): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

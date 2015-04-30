@@ -112,8 +112,8 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 		}
 
 		echo '
-				<h2><a href="'.$Post_Link.'">'.$Page['Title']['HTML'].'</a></h2>
-				<p class="textright faded"><small>'.date('d/m/Y', filemtime($Item)).'</small></p>
+				<h2><a href="',$Post_Link,'">',$Page['Title']['HTML'],'</a></h2>
+				<p class="textright faded"><small>',date('d/m/Y', filemtime($Item)),'</small></p>
 				<p>'.$Page['Description']['HTML'].'</p>
 			</div>';
 
@@ -145,7 +145,7 @@ function Blog($Caller, $Category = false, $Posts_PerLine = 2, $Show = 10) {
 
 		// IFNOPOSTSCATEGORY
 		if ( $Category ) {
-			echo '<h2>Sorry, no posts found in the Category &ldquo;'.$Category.'&rdquo;.</h2>';
+			echo '<h2>Sorry, no posts found in the Category &ldquo;',$Category,'&rdquo;.</h2>';
 		} else {
 			echo '<h2>Sorry, no posts found.</h2>';
 		}

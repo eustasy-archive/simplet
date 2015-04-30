@@ -27,7 +27,7 @@ function Forum_Topic_Increment($Topic_Slug) {
 		// IFQUERY
 		if ( !$Forum_Topic_Increment ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Topic_Increment): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Topic_Increment): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

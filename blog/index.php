@@ -34,7 +34,7 @@ if ( $Request['Path'] === $Canonical ) {
 	// FORCATEGORIES
 	foreach ($Categories as $Categories_Slug => $Categories_Count) {
 		echo '
-			<p><a href="?category='.$Categories_Slug.'">'.$Categories_Slug.'<span class="floatright">'.number_format($Categories_Count).'</span></a></p>';
+			<p><a href="?category=',$Categories_Slug,'">',$Categories_Slug,'<span class="floatright">',number_format($Categories_Count),'</span></a></p>';
 	}
 	echo '
 		</div>
@@ -54,7 +54,7 @@ if ( $Request['Path'] === $Canonical ) {
 				$Page['Title']['HTML'] = $Page['Title']['Plain'];
 			}
 			echo '
-				<p class="textcenter"><a href="'.$Sitewide['Root'].$Trending_Canonical.'">'.$Page['Title']['HTML'].' ('.$Trending_Count.')</a></p>';
+				<p class="textcenter"><a href="',$Sitewide['Root'],$Trending_Canonical,'">',$Page['Title']['HTML'],' (',$Trending_Count,')</a></p>';
 			$Page['Title']['HTML'] = null;
 		}
 	} else {

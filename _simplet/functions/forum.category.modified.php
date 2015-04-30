@@ -25,7 +25,7 @@ function Forum_Category_Modified($Category_Slug) {
 		if ( !$Forum_Category_Modified ) {
 
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Category_Modified): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Category_Modified): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

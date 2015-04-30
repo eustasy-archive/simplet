@@ -58,7 +58,7 @@ function Feed_Files() {
 		// IFQUERY
 		if ( !$Query ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Responses): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Responses): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 		// IFQUERY
@@ -102,10 +102,10 @@ function Feed_Files() {
 				// Echo the RSS Item.
 				echo '
 		<item>
-			<description>'.$Post.'</description>
-			<link>'.$Link.'</link>
-			<guid>'.$Link.'</guid>
-			<pubDate>'.date('r', $Fetch['Created']).'</pubDate>
+			<description>',$Post,'</description>
+			<link>',$Link,'</link>
+			<guid>',$Link,'</guid>
+			<pubDate>',date('r', $Fetch['Created']),'</pubDate>
 		</item>';
 
 			} // WHILEFETCH

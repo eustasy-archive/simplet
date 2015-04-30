@@ -31,7 +31,7 @@ function Member_Sessions() {
 			// IF Session Ended
 			if ( !$Session_End ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Session_End): ',mysqli_error($Database['Connection']);
 				}
 				echo '<h3 class="color-pomegranate">Session could not be Terminated</h3>';
 			// END IF Session Ended
@@ -57,7 +57,7 @@ function Member_Sessions() {
 	// IF Sessions not available
 	if ( !$Sessions ) {
 		if ( $Backend['Debug'] ) {
-			echo 'Invalid Query ($Sessions): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Sessions): ',mysqli_error($Database['Connection']);
 		}
 		echo '<h3 class="color-pomegranate">Sessions could not be listed</h3>';
 	// END IF Sessions not available
@@ -84,11 +84,11 @@ function Member_Sessions() {
 						echo $Sessions_Fetch['IP'];
 					}
 				}
-				echo ' at '.date('G:i, jS F Y', $Sessions_Fetch['Created']).'</p>';
+				echo ' at ',date('G:i, jS F Y', $Sessions_Fetch['Created']),'</p>';
 				echo '
 				<form class="likelink floatright" method="POST" action="">
-					'.Runonce_CSRF_Form().'
-					<input type="hidden" name="cookie" value="'.$Sessions_Fetch['Cookie'].'" />
+					',Runonce_CSRF_Form(),'
+					<input type="hidden" name="cookie" value="',$Sessions_Fetch['Cookie'],'" />
 					<input type="submit" value="Terminate">
 				</form>
 				<div class="clear"></div>';

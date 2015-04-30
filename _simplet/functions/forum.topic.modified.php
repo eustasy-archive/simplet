@@ -24,7 +24,7 @@ function Forum_Topic_Modified($Topic_Slug) {
 		// IFQUERY
 		if ( !$Forum_Topic_Modified ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Topic_Modified): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Topic_Modified): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

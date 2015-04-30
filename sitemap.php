@@ -37,8 +37,8 @@ if ( $Request['Path'] === $Canonical ) {
 				// Echo out the Item
 				echo '
 	<url>
-		<loc>'.$Sitewide['Root'].$Canonical.'</loc>
-		<lastmod>'.date('Y-m-d', filemtime($Item)).'</lastmod>
+		<loc>',$Sitewide['Root'],$Canonical,'</loc>
+		<lastmod>',date('Y-m-d', filemtime($Item)),'</lastmod>
 		<priority>1</priority>
 		<changefreq>daily</changefreq>
 	</url>';
@@ -59,7 +59,7 @@ if ( $Request['Path'] === $Canonical ) {
 			$Forum_Categories = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Categories` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Categories) {
 				if ( $Sitewide['Debug'] ) {
-					echo 'Invalid Query (Forum_Categories): ' . mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Forum_Categories): ' , mysqli_error($Database['Connection']);
 				}
 				// TODO Handle Error
 			} else {
@@ -72,8 +72,8 @@ if ( $Request['Path'] === $Canonical ) {
 						// TODO Support Nice Links
 						echo '
 		<url>
-			<loc>'.$Sitewide['Root'].$Sitewide['Forum'].'?category='.$Forum_Categories_Fetch['Slug'].'</loc>
-			<lastmod>'.date('Y-m-d', $Forum_Categories_Fetch['Modified']).'</lastmod>
+			<loc>',$Sitewide['Root'],$Sitewide['Forum'],'?category=',$Forum_Categories_Fetch['Slug'],'</loc>
+			<lastmod>',date('Y-m-d', $Forum_Categories_Fetch['Modified']).'</lastmod>
 			<priority>1</priority>
 			<changefreq>daily</changefreq>
 		</url>';
@@ -89,7 +89,7 @@ if ( $Request['Path'] === $Canonical ) {
 			$Forum_Topics = mysqli_query($Database['Connection'], 'SELECT `Slug`, `Modified` FROM `'.$Database['Prefix'].'Topics` WHERE `Status`=\'Public\' ORDER BY `Modified` DESC', MYSQLI_STORE_RESULT);
 			if (!$Forum_Topics) {
 				if ( $Sitewide['Debug'] ) {
-					echo 'Invalid Query (Forum_Topics): ' . mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Forum_Topics): ' , mysqli_error($Database['Connection']);
 				}
 				// TODO Handle Error
 			} else {
@@ -102,8 +102,8 @@ if ( $Request['Path'] === $Canonical ) {
 						// TODO Support Nice Links
 						echo '
 		<url>
-			<loc>'.$Sitewide['Root'].$Sitewide['Forum'].'?topic='.$Forum_Topics_Fetch['Slug'].'</loc>
-			<lastmod>'.date('Y-m-d', $Forum_Topics_Fetch['Modified']).'</lastmod>
+			<loc>',$Sitewide['Root'],$Sitewide['Forum'],'?topic=',$Forum_Topics_Fetch['Slug'],'</loc>
+			<lastmod>',date('Y-m-d', $Forum_Topics_Fetch['Modified']).'</lastmod>
 			<priority>1</priority>
 			<changefreq>daily</changefreq>
 		</url>';

@@ -44,7 +44,7 @@ function Forum_Categories() {
 		// IFCOUNTSUCCESS If the Query was unsuccessful
 		if ( !$Categories ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Categories): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 
@@ -104,7 +104,7 @@ function Forum_Categories() {
 				// IFCATEGORIES Failure
 				if ( !$Categories ) {
 					if ( $Backend['Debug'] ) {
-						echo 'Invalid Query (Categories): '.mysqli_error($Database['Connection']);
+						echo 'Invalid Query (Categories): ',mysqli_error($Database['Connection']);
 					}
 					return false;
 
@@ -124,7 +124,7 @@ function Forum_Categories() {
 
 						// Echo the Link
 						echo '
-						<a href="?category='.$Category_Fetch['Slug'].'" class="section group category topic';
+						<a href="?category=',$Category_Fetch['Slug'],'" class="section group category topic';
 
 						// Add private as a class if that's its Status
 						if ( $Category_Status == 'Private' ) {
@@ -136,11 +136,11 @@ function Forum_Categories() {
 						echo '">
 							<div class="col span_1_of_12"><li class="icon unread"></li></div>
 							<div class="col span_7_of_12">
-								<p class="title">'.$Category_Fetch['Title'].'</p>
-								<p>'.$Category_Fetch['Description'].'</p>
+								<p class="title">',$Category_Fetch['Title'],'</p>
+								<p>',$Category_Fetch['Description'],'</p>
 							</div>
-							<div class="col span_2_of_12 textcenter"><p><span>'.number_format($Category_Fetch['Topics']).'<span></p></div>
-							<div class="col span_2_of_12 textcenter"><p><span>'.$Category_Timestamp['Prefered'].'</span></p></div>
+							<div class="col span_2_of_12 textcenter"><p><span>',number_format($Category_Fetch['Topics']),'<span></p></div>
+							<div class="col span_2_of_12 textcenter"><p><span>',$Category_Timestamp['Prefered'].'</span></p></div>
 						</a>';
 
 					} // WHILECATEGORIES

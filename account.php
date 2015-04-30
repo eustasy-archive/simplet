@@ -138,9 +138,9 @@ if ( $Request['Path'] === $Canonical ) {
 				} else if ( $Login_Result != true ) {
 					require $Templates['Header'];
 					echo '<h2>Login Error</h2>';
-					echo '<h3 class="text-left">'.$Login_Result.' <a class="floatright" href="?login';
+					echo '<h3 class="text-left">',$Login_Result,' <a class="floatright" href="?login';
 					if ( isset($Redirect) ) {
-						echo '&redirect='.$Redirect;
+						echo '&redirect=',$Redirect;
 					}
 					echo '">Try Again</a></h3>';
 					require $Templates['Footer'];
@@ -174,7 +174,7 @@ if ( $Request['Path'] === $Canonical ) {
 				$Session_End = mysqli_query($Database['Connection'], $Session_End, MYSQLI_STORE_RESULT);
 				if ( !$Session_End ) {
 					if ( $Sitewide['Debug'] ) {
-						echo 'Invalid Query (Session_End): '.mysqli_error($Database['Connection']);
+						echo 'Invalid Query (Session_End): ',mysqli_error($Database['Connection']);
 					}
 					// TODO Handle Error
 				} else {
@@ -191,9 +191,9 @@ if ( $Request['Path'] === $Canonical ) {
 			require $Templates['Header'];
 			if ( !empty($Error) ) {
 				echo '<h2>Logout Error</h2>';
-				echo '<h3>'.$Error.'</h3>';
+				echo '<h3>',$Error,'</h3>';
 			} else {
-				echo '<h2>See you soon, '.$Bye.'.</h2>';
+				echo '<h2>See you soon, ',$Bye,'.</h2>';
 			}
 			require $Templates['Footer'];
 
@@ -229,7 +229,7 @@ if ( $Request['Path'] === $Canonical ) {
 				require $Templates['Header'];
 				if ( !empty($Error) ) {
 					echo '<h2>Registration Error</h2>';
-					echo '<h3 class="text-left">'.$Error.' <a class="floatright" href="?register">Try Again</a></h3>';
+					echo '<h3 class="text-left">',$Error,' <a class="floatright" href="?register">Try Again</a></h3>';
 				} else {
 					echo '<h2>All Signed Up.</h2>';
 					echo '<h3>You can now <a href="?login">Log In</a>.</h3>';
@@ -486,7 +486,7 @@ if ( $Request['Path'] === $Canonical ) {
 						<div class="error color-pomegranate">
 							<h4 class="text-left error-title color-pomegranate">Error(s):</h4>';
 					foreach ( $Error as $Issue ) {
-						echo '<p>'.$Issue.'</p>';
+						echo '<p>',$Issue,'</p>';
 					}
 					echo '<hr>
 						</div>';
@@ -505,7 +505,7 @@ if ( $Request['Path'] === $Canonical ) {
 						$Authenticatron_QR = Authenticatron_QR(Authenticatron_URL($Member['Name'], $TFA['Secret']));
 						echo '
 							<h3>Scan this QR code with your new Device</h3>
-							<p class="text-center"><img src="'.$Authenticatron_QR.'"></p>';
+							<p class="text-center"><img src="',$Authenticatron_QR,'"></p>';
 						// TODO Continue / Back / Account buttons
 
 					// Enter Code
@@ -545,7 +545,7 @@ if ( $Request['Path'] === $Canonical ) {
 				// Already Enabled
 				} else if ( $TFA['Secret'] ) {
 					echo '
-					<img class="float-left" src="'.$Sitewide['Root'].'/assets/images/locked_128.png">';
+					<img class="float-left" src="',$Sitewide['Root'],'/assets/images/locked_128.png">';
 					if ( $Success ) {
 						echo '
 							<h3 class="text-left color-nephritis">Your account is now secured with two-factor authentication.</h3>';
@@ -557,7 +557,7 @@ if ( $Request['Path'] === $Canonical ) {
 
 					<div class="clear-both group">
 						<div class="col span_1_of_4">
-							<p class="like-input"><a href="<?php echo $Sitewide['Root'].$Sitewide['Account']; ?>">Back to Account</a></p>
+							<p class="like-input"><a href="<?php echo $Sitewide['Root'],$Sitewide['Account']; ?>">Back to Account</a></p>
 						</div>
 						<div class="col span_1_of_4"><br></div>
 						<form method="POST" action="" class="col span_1_of_4">

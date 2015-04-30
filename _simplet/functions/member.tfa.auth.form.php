@@ -29,7 +29,7 @@ function Member_TFA_Auth_Form($Additional, $Cancel = true, $AllowEmail = false) 
 
 			<?php
 				if ( $Additional ) {
-					echo '<input type="hidden" name="'.$Additional.'" required>';
+					echo '<input type="hidden" name="',$Additional,'" required>';
 				}
 			?>
 
@@ -58,7 +58,7 @@ function Member_TFA_Auth_Form($Additional, $Cancel = true, $AllowEmail = false) 
 
 				<?php
 					if ( $Additional ) {
-						echo '<input type="hidden" name="'.$Additional.'" required>';
+						echo '<input type="hidden" name="',$Additional,'" required>';
 					}
 				?>
 

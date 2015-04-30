@@ -33,7 +33,7 @@ function Forum_Topic_Check($Topic_Slug, $Status_Check = false) {
 		// IFQUERY Unsuccessful
 		if ( !$Forum_Topic_Check ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Topic_Check): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Topic_Check): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

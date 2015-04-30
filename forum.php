@@ -43,7 +43,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 				$Category = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Categories` WHERE `Slug`=\''.$Topic_Category.'\' AND NOT `Status`=\'Hidden\' ORDER BY `Modified` DESC LIMIT 1', MYSQLI_STORE_RESULT);
 				if ( !$Category ) {
 					if ( $Sitewide['Debug'] ) {
-						echo 'Invalid Query (Category): '.mysqli_error($Database['Connection']);
+						echo 'Invalid Query (Category): ',mysqli_error($Database['Connection']);
 					}
 					// TODO Handle error
 				} else {
@@ -82,7 +82,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 						$Topic_New = mysqli_query($Database['Connection'], $Topic_New, MYSQLI_STORE_RESULT);
 						if ( !$Topic_New ) {
 							if ( $Sitewide['Debug'] ) {
-								echo 'Invalid Query (Topic_New): '.mysqli_error($Database['Connection']);
+								echo 'Invalid Query (Topic_New): ',mysqli_error($Database['Connection']);
 							}
 							// TODO Handle error
 						} else {
@@ -96,7 +96,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 								$Topic_First = mysqli_query($Database['Connection'], 'INSERT INTO `'.$Database['Prefix'].'Responses` (`Member_ID`, `Canonical`, `Type`, `Status`, `Post`, `Created`, `Modified`) VALUES (\''.$Member['ID'].'\', \''.$Topic['Slug'].'\', \'Post\', \''.$Reply_Status.'\', \''.$Topic_Post.'\', \''.$Time['Now'].'\', \''.$Time['Now'].'\')', MYSQLI_STORE_RESULT);
 								if ( !$Topic_First ) {
 									if ( $Sitewide['Debug'] ) {
-										echo 'Invalid Query (Topic_First): '.mysqli_error($Database['Connection']);
+										echo 'Invalid Query (Topic_First): ',mysqli_error($Database['Connection']);
 									}
 									// TODO Handle error
 								}
@@ -125,7 +125,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 			$Error
 		) {
 			require $Templates['Header'];
-			echo '<h2>Error: '.$Error.'</h2>';
+			echo '<h2>Error: ',$Error,'</h2>';
 			echo '<h3>Simplet encountered an error processing your reply.</h3>';
 			require $Templates['Footer'];
 		}
@@ -136,7 +136,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 			header('HTTP/1.1 401 Unauthorized');
 			require $Templates['Header'];
 			echo '<h2>Error: You are not logged in.</h2>';
-			echo '<h3 class="textleft">You cannot post a topic if you are not logged in. <a class="floatright" href="'.$Sitewide['Account'].'?login">Log In</a></h3>';
+			echo '<h3 class="textleft">You cannot post a topic if you are not logged in. <a class="floatright" href="',$Sitewide['Account'],'?login">Log In</a></h3>';
 			require $Templates['Footer'];
 		} else {
 
@@ -152,7 +152,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 					<h2>Post a new Topic</h2>
 					<form action="" method="post">
 						<input type="hidden" name="action" value="topic" required />
-						<input type="hidden" name="category" value="'.$Category_Slug.'" required />
+						<input type="hidden" name="category" value="',$Category_Slug,'" required />
 						<div class="section group">
 							<div class="col span_1_of_12"><br></div>
 							<div class="col span_10_of_12">
@@ -224,7 +224,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 				$Topic_Check = mysqli_query($Database['Connection'], $Topic_Check, MYSQLI_STORE_RESULT);
 				if (!$Topic_Check ) {
 					if ( $Sitewide['Debug'] ) {
-						echo 'Invalid Query (Topic_Check): '.mysqli_error($Database['Connection']);
+						echo 'Invalid Query (Topic_Check): ',mysqli_error($Database['Connection']);
 					}
 					// TODO Handle error
 				} else {
@@ -235,7 +235,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 						require $Templates['Header'];
 						echo '
 						<h2>Error: Topic does not exist</h2>
-						<p class="textcenter">Try the forum, or search for something like '.$Topic['Slug'].'.</p>';
+						<p class="textcenter">Try the forum, or search for something like ',$Topic['Slug'],'.</p>';
 						require $Templates['Footer'];
 					} else {
 
@@ -267,7 +267,7 @@ if (substr($Request['Path'], 0, strlen($Canonical)) === $Canonical) {
 
 							require $Templates['Header'];
 							echo '
-							<h2>'.$Topic['Title'].'</h2>';
+							<h2>',$Topic['Title'],'</h2>';
 
 							Responses('Post', $Canonical);
 

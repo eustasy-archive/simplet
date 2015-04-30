@@ -25,7 +25,7 @@ function Member_Change_Pass_Form() {
 				<div class="col span_1_of_2">
 
 				<?php
-				echo '<input type="password" name="pass" placeholder="Qwerty12345" required pattern=".{'.$Sitewide_Security_Password_Length.',}" title="Passwords must be at least '.$Sitewide_Security_Password_Length.' characters in length." /></div>';
+				echo '<input type="password" name="pass" placeholder="Qwerty12345" required pattern=".{',$Sitewide_Security_Password_Length,',}" title="Passwords must be at least ',$Sitewide_Security_Password_Length,' characters in length." /></div>';
 				?>
 
 			</div>

@@ -7,7 +7,7 @@ function Member_TFA_Disable() {
 	$TFA_Disable = mysqli_query($Database['Connection'], $TFA_Disable, MYSQLI_STORE_RESULT);
 	if ( !$TFA_Disable ) {
 		if ( $Backend['Debug'] ) {
-			echo 'Invalid Query (TFA_Disable): ' . mysqli_error($Database['Connection']);
+			echo 'Invalid Query (TFA_Disable): ' , mysqli_error($Database['Connection']);
 		}
 		return false;
 	} else {

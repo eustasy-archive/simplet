@@ -35,7 +35,7 @@ if ( $Request['Path'] === $Canonical ) {
 		$Database_Size_Results = Database_Size();
 		foreach ($Database_Size_Results as $Key => $Value) {
 			// TODO Sensible data units.
-			echo $Key.': '.$Value.' bytes<br>';
+			echo $Key,': ',$Value,' bytes<br>';
 		}
 		echo '</p>';
 		require $Templates['Footer'];

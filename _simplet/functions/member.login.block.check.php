@@ -20,7 +20,7 @@ function Member_Login_Block_Check($Login_Mail, $Timeout = 180) {
 		$Block_Check = mysqli_query($Database['Connection'], $Block_Check, MYSQLI_STORE_RESULT);
 		if ( !$Block_Check ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Block_Check): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Block_Check): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 		} else {
