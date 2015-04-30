@@ -31,7 +31,7 @@ function Forum_Category_Info($Category_Slug) {
 		// IFQUERY If Query Failed
 		if ( !$Forum_Category_Info ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Category_Info): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Category_Info): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

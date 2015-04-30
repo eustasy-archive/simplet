@@ -38,7 +38,7 @@ function Member_Delete() {
 			// IF Not Deleted
 			if ( !$Member_Delete ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Member_Delete): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Member_Delete): ',mysqli_error($Database['Connection']);
 				}
 				$Error = '<h3 class="color-pomegranate">Sorry, your account could not be deleted.</h3>';
 			// END IF Not Deleted

@@ -36,7 +36,7 @@ function Member_Register() {
 			$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Member_Check): ',mysqli_error($Database['Connection']);
 				}
 				// TODO Handle Error
 			} else {
@@ -55,7 +55,7 @@ function Member_Register() {
 					$Member_New = mysqli_query($Database['Connection'], $Member_New, MYSQLI_STORE_RESULT);
 					if ( !$Member_New ) {
 						if ( $Backend['Debug'] ) {
-							echo 'Invalid Query (Member_New): '.mysqli_error($Database['Connection']);
+							echo 'Invalid Query (Member_New): ',mysqli_error($Database['Connection']);
 						}
 						// TODO Handle Error
 					}

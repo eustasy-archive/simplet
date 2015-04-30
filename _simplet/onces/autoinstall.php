@@ -20,7 +20,7 @@ if ( !$Database['Exists']['Members'] ) {
 	$Create_Table_Members = mysqli_query($Database['Connection'], $Create_Table_Members, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Members ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Members): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Members): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Members'] = true;
@@ -47,7 +47,7 @@ if ( !$Database['Exists']['Sessions'] ) {
 	$Create_Table_Sessions = mysqli_query($Database['Connection'], $Create_Table_Sessions, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Sessions ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Sessions): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Sessions): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Sessions'] = true;
@@ -70,7 +70,7 @@ if ( !$Database['Exists']['Failures'] ) {
 	$Create_Table_Failures = mysqli_query($Database['Connection'], $Create_Table_Failures, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Failures ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Failures): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Failures): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Failures'] = true;
@@ -102,7 +102,7 @@ if ( !$Database['Exists']['Runonce'] ) {
 	$Create_Table_Runonce = mysqli_query($Database['Connection'], $Create_Table_Runonce, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Runonce ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Runonce): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Runonce): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Runonce'] = true;
@@ -122,7 +122,7 @@ if ( !$Database['Exists']['Settings'] ) {
 	$Create_Table_Settings = mysqli_query($Database['Connection'], $Create_Table_Settings, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Settings ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Settings): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Settings): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Settings'] = true;
@@ -150,7 +150,7 @@ if ( !$Database['Exists']['Categories'] ) {
 	$Create_Table_Categories = mysqli_query($Database['Connection'], $Create_Table_Categories, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Categories ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Categories): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Categories): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Categories'] = true;
@@ -179,7 +179,7 @@ if ( !$Database['Exists']['Topics'] ) {
 	$Create_Table_Topics = mysqli_query($Database['Connection'], $Create_Table_Topics, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Topics ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Topics): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Topics): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Topics'] = true;
@@ -212,7 +212,7 @@ if ( !$Database['Exists']['Responses'] ) {
 	$Create_Table_Responses = mysqli_query($Database['Connection'], $Create_Table_Responses, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Responses ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Responses): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Responses): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Responses'] = true;
@@ -238,7 +238,7 @@ if ( !$Database['Exists']['Helpfulness'] ) {
 	$Create_Table_Helpfulness = mysqli_query($Database['Connection'], $Create_Table_Helpfulness, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Helpfulness ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Helpfulness): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Helpfulness): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Helpfulness'] = true;
@@ -272,7 +272,7 @@ if ( !$Database['Exists']['Views'] ) {
 	$Create_Table_Views = mysqli_query($Database['Connection'], $Create_Table_Views, MYSQLI_STORE_RESULT);
 	if ( !$Create_Table_Views ) {
 		if ( $Sitewide_Debug ) {
-			echo 'Invalid Query ($Create_Table_Views): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query ($Create_Table_Views): ',mysqli_error($Database['Connection']);
 		}
 	} else {
 		$Database['Exists']['Views'] = true;

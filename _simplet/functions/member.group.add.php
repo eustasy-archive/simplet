@@ -41,7 +41,7 @@ function Member_Group_Add($Group, $Member_ID_Override = false) {
 			// IFQUERY
 			if ( !$Member_Group_Add ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Member_Group_Add): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Member_Group_Add): ',mysqli_error($Database['Connection']);
 				}
 				return false;
 

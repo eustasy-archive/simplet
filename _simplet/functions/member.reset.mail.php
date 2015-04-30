@@ -26,7 +26,7 @@ function Member_Reset_Mail() {
 			$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Member_Check): ',mysqli_error($Database['Connection']);
 				}
 			} else {
 				$Member_Count = mysqli_num_rows($Member_Check);

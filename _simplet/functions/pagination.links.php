@@ -25,27 +25,27 @@ function Pagination_Links($Pagination, $PreserveQueryStrings) {
 	$Paginate_End = '&show='.$Pagination['Show'].$PreserveQueryStrings['Miscellaneous'].$PreserveQueryStrings['Topic'];
 
 	if ($Pagination['Page'] > 3) {
-		echo '<span class="floatleft"><a href="?page=1'.$Paginate_End.'">1</a> &emsp; &hellip; &emsp; </span>';
+		echo '<span class="floatleft"><a href="?page=1',$Paginate_End,'">1</a> &emsp; &hellip; &emsp; </span>';
 	}
 
 	if ($Pagination['Page'] >= 3) {
-		echo '<a href="?page='.$Page_Wayback.$Paginate_End.'">'.$Page_Wayback.'</a> &emsp; ';
+		echo '<a href="?page=',$Page_Wayback,$Paginate_End,'">',$Page_Wayback,'</a> &emsp; ';
 	}
 	if ($Pagination['Page'] >= 2) {
-		echo '<a href="?page='.$Page_Previous.$Paginate_End.'">'.$Page_Previous.'</a> &emsp; ';
+		echo '<a href="?page=',$Page_Previous,$Paginate_End,'">',$Page_Previous,'</a> &emsp; ';
 	}
 
 	echo $Pagination['Page'];
 
 	if ($Page_Next <= $Pagination['Page Max']) {
-		echo ' &emsp; <a href="?page='.$Page_Next.$Paginate_End.'">'.$Page_Next.'</a>';
+		echo ' &emsp; <a href="?page=',$Page_Next,$Paginate_End,'">',$Page_Next,'</a>';
 	}
 	if ($Page_Far <= $Pagination['Page Max']) {
-		echo ' &emsp; <a href="?page='.$Page_Far.$Paginate_End.'">'.$Page_Far.'</a>';
+		echo ' &emsp; <a href="?page=',$Page_Far,$Paginate_End,'">',$Page_Far,'</a>';
 	}
 
 	if ($Page_Far < $Pagination['Page Max']) {
-		echo '<span class="floatright"> &emsp; &hellip; &emsp; <a href="?page='.$Pagination['Page Max'].$Paginate_End.'">'.$Pagination['Page Max'].'</a></span>';
+		echo '<span class="floatright"> &emsp; &hellip; &emsp; <a href="?page=',$Pagination['Page Max'],$Paginate_End,'">',$Pagination['Page Max'],'</a></span>';
 	}
 
 	echo '</p>';

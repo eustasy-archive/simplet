@@ -34,7 +34,7 @@ function Member_TFA_Enable() {
 		$TFA_Update = mysqli_query($Database['Connection'], $TFA_Update, MYSQLI_STORE_RESULT);
 		if ( !$TFA_Update ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (TFA_Update): ' . mysqli_error($Database['Connection']);
+				echo 'Invalid Query (TFA_Update): ' , mysqli_error($Database['Connection']);
 			}
 			$Error[] = 'Sorry, we were unable to save you code to the database.';
 		} else {

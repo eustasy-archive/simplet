@@ -47,7 +47,7 @@ function Member_Change_Pass($Redirect = true, $Override_Member_ID = false) {
 			// IF Pass not Changed
 			if ( !$Pass_Change ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Pass_Change): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Pass_Change): ',mysqli_error($Database['Connection']);
 				}
 				$Error = '<h3 class="color-pomegranate">Pass could not be changed.</h3>';
 			// END IF Pass not Changed

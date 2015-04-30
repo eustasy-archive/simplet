@@ -22,7 +22,7 @@ function Forum_Topic_Count($Topic_Slug, $Status_Check = false) {
 		// IFQUERY Unsuccessful
 		if (!$Forum_Topic_Count) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Topic_Count): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Topic_Count): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

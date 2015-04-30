@@ -29,7 +29,7 @@ function Database_Size() {
 	// IFNOTQUERY: The query failed.
 	if ( !$Database_Size_Query ) {
 		if ( $Backend['Debug'] ) {
-			echo 'Invalid Query (Database_Size_Query): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query (Database_Size_Query): ',mysqli_error($Database['Connection']);
 		}
 		return false;
 

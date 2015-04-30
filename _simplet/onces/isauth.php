@@ -19,7 +19,7 @@ if ( // If it is possible for them to be logged in.
 	$Session_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Sessions` WHERE `Cookie`=\''.$Member['Cookie'].'\' AND `Active`=\'1\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 	if ( !$Session_Check ) {
 		if ( $Backend['Debug'] ) {
-			echo 'Invalid Query (Session_Check): ' . mysqli_error($Database['Connection']);
+			echo 'Invalid Query (Session_Check): ' , mysqli_error($Database['Connection']);
 		}
 		$Session_Count = 0;
 	} else {
@@ -80,7 +80,7 @@ if ( // If it is possible for them to be logged in.
 			$Member_Check = mysqli_query($Database['Connection'], 'SELECT * FROM `'.$Database['Prefix'].'Members` WHERE ID=\''.$Member['ID'].'\' AND `Status`=\'Active\' LIMIT 0, 1', MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Member_Check): ' . mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Member_Check): ' , mysqli_error($Database['Connection']);
 				}
 				$Member_Count = 0;
 			} else {
@@ -92,7 +92,7 @@ if ( // If it is possible for them to be logged in.
 				$Session_End = mysqli_query($Database['Connection'], 'UPDATE `'.$Database['Prefix'].'Sessions` SET `Active`=\'0\' WHERE `Member_ID`=\''.$Member['ID'].'\' AND `Cookie`=\''.$Member['Cookie'].'\'', MYSQLI_STORE_RESULT);
 				if ( !$Session_End ) {
 					if ( $Backend['Debug'] ) {
-						echo 'Invalid Query (Session_End): ' . mysqli_error($Database['Connection']);
+						echo 'Invalid Query (Session_End): ' , mysqli_error($Database['Connection']);
 					}
 				}
 

@@ -25,11 +25,11 @@ function Forum_Topics() {
 			require $Header;
 			if ($Member['Auth']) {
 				echo '
-					<h2>There is no such Category: "'.$Forum_Topics_Category_Slug.'".</h2>
+					<h2>There is no such Category: "',$Forum_Topics_Category_Slug,'".</h2>
 					<p><a href="?category=">Return to the Forum Index</a></p>';
 			} else {
 				echo '
-					<h2>There is no such public Category: "'.$Forum_Topics_Category_Slug.'".</h2>
+					<h2>There is no such public Category: "',$Forum_Topics_Category_Slug,'".</h2>
 					<p><a href="?category=">Return to the Forum Index</a></p>';
 			}
 			require $Footer;
@@ -72,7 +72,7 @@ function Forum_Topics() {
 			$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
 			if ( !$Topics ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Category_Check): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Category_Check): ',mysqli_error($Database['Connection']);
 				}
 				// TODO Error
 			} else {
@@ -80,9 +80,9 @@ function Forum_Topics() {
 				$Topics_Count = mysqli_num_rows($Topics);
 				if ( $Topics_Count == 0 ) {
 					if ( $Member['Auth'] ) {
-						echo '<h3 class="textleft">There are no Topics in the Category '.$Category_Title.' <a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a></h3>';
+						echo '<h3 class="textleft">There are no Topics in the Category ',$Category_Title,' <a class="floatright" href="?new&category=',$Forum_Topics_Category_Slug,'">New Topic</a></h3>';
 					} else {
-						echo '<h3>There are no Public Topics in the Category '.$Category_Title.'</h3>';
+						echo '<h3>There are no Public Topics in the Category ',$Category_Title,'</h3>';
 					}
 				} else {
 
@@ -92,7 +92,7 @@ function Forum_Topics() {
 					$Responses_Prefetch = mysqli_query($Database['Connection'], $Responses_Prefetch_Query, MYSQLI_STORE_RESULT);
 					if ( !$Responses_Prefetch ) {
 						if ( $Backend['Debug'] ) {
-							echo 'Invalid Query (Responses_Prefetch): '.mysqli_error($Database['Connection']);
+							echo 'Invalid Query (Responses_Prefetch): ',mysqli_error($Database['Connection']);
 						}
 						// TODO Error
 					} else {
@@ -110,10 +110,10 @@ function Forum_Topics() {
 					$Pagination = Pagination_Pre($Topics_Count);
 
 					echo '
-						<h2>'.$Category_Title.'</h2>
-						<p>'.$Category_Description;
+						<h2>',$Category_Title,'</h2>
+						<p>',$Category_Description;
 					if ( $Member['Auth'] ) {
-						echo '<a class="floatright" href="?new&category='.$Forum_Topics_Category_Slug.'">New Topic</a>';
+						echo '<a class="floatright" href="?new&category=',$Forum_Topics_Category_Slug,'">New Topic</a>';
 					}
 					echo '</p>
 						<div id="topics">
@@ -136,7 +136,7 @@ function Forum_Topics() {
 					$Topics = mysqli_query($Database['Connection'], $Topics_Query, MYSQLI_STORE_RESULT);
 					if ( !$Topics ) {
 						if ( $Backend['Debug'] ) {
-							echo 'Invalid Query (Topics): '.mysqli_error($Database['Connection']);
+							echo 'Invalid Query (Topics): ',mysqli_error($Database['Connection']);
 						}
 						// TODO Error
 					} else {
@@ -157,13 +157,13 @@ function Forum_Topics() {
 							// TODO Use $Topics_Modified and Cookies to label Unread/Read
 
 							echo '
-							<a href="?topic='.$Topics_Fetch['Slug'].'" class="section group topic';
+							<a href="?topic=',$Topics_Fetch['Slug'],'" class="section group topic';
 							if ( $Topics_Fetch['Status'] == 'Private' ) {
 								echo ' private';
 							}
 							echo '">
 								<div class="col span_1_of_12"><li class="icon unread"></li></div>
-								<div class="col span_7_of_12"><p class="title">'.$Topics_Fetch['Title'].'</p></div>
+								<div class="col span_7_of_12"><p class="title">',$Topics_Fetch['Title'],'</p></div>
 								<div class="col span_2_of_12 textcenter"><p><span>';
 							if ( isset($Responses_Prefetch_Count[$Topics_Fetch['Slug']]) ) {
 								echo $Responses_Prefetch_Count[$Topics_Fetch['Slug']];
@@ -177,7 +177,7 @@ function Forum_Topics() {
 							} else {
 								$Topic_Timestamp = Time_Readable_Difference($Topics_Fetch['Modified']);
 							}
-							echo $Topic_Timestamp['Prefered'].'</span></p></div>
+							echo $Topic_Timestamp['Prefered'],'</span></p></div>
 							</a>';
 
 						}

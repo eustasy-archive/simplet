@@ -8,7 +8,7 @@ function Member_Session_New() {
 	$Session_New = mysqli_query($Database['Connection'], $Session_New, MYSQLI_STORE_RESULT);
 	if ( !$Session_New ) {
 		if ( $Backend['Debug'] ) {
-			echo 'Invalid Query (Session_New): '.mysqli_error($Database['Connection']);
+			echo 'Invalid Query (Session_New): ',mysqli_error($Database['Connection']);
 		}
 		return 'Login Error: Could not create session.';
 	} else {

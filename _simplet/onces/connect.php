@@ -87,7 +87,7 @@ if (
 	<body>
 		<h1>Simplet: Fatal Error</h1>
 		<p>Simplet has encountered a fatal error and cannot continue. Don\'t worry, it\'s nothing you did, it\'s the owner of the site. Unless you are the owner of the site. (Shame on you.)</p>
-		<h3>'.$Database['Error'].'</h3>
+		<h3>',$Database['Error'],'</h3>
 	</body>
 </html>';
 	exit;

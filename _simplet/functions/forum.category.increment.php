@@ -25,7 +25,7 @@ function Forum_Category_Increment($Category_Slug) {
 		// IFQUERY Handle the response
 		if ( !$Forum_Category_Increment ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Category_Increment): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Category_Increment): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

@@ -34,7 +34,7 @@ function Forum_Category_Check($Category_Slug, $Status_Check = false) {
 		// IFQUERY
 		if ( !$Forum_Category_Check ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Category_Check): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Category_Check): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

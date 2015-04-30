@@ -30,7 +30,7 @@ function Member_Login() {
 			$Member_Check = mysqli_query($Database['Connection'], $Member_Check, MYSQLI_STORE_RESULT);
 			if ( !$Member_Check ) {
 				if ( $Sitewide['Debug'] ) {
-					echo 'Invalid Query (Member_Check): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Member_Check): ',mysqli_error($Database['Connection']);
 				}
 				$Error = 'Login Error: Could not check member existence.';
 			} else {
@@ -74,7 +74,7 @@ function Member_Login() {
 						$Failures_New = mysqli_query($Database['Connection'], $Failures_New, MYSQLI_STORE_RESULT);
 						if ( !$Failures_New ) {
 							if ( $Backend['Debug'] ) {
-								echo 'Invalid Query (Failures_New): '.mysqli_error($Database['Connection']);
+								echo 'Invalid Query (Failures_New): ',mysqli_error($Database['Connection']);
 							}
 							// Silently Fail
 

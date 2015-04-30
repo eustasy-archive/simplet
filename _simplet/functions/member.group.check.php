@@ -33,7 +33,7 @@ function Member_Group_Check($Group, $Member_ID_Override = false) {
 		// IFQUERY
 		if ( !$Member_Group_Check ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Member_Group_Check): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Member_Group_Check): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

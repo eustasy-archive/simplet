@@ -19,7 +19,7 @@ if ( $Request['Path'] === $Canonical ) {
 	} else {
 		echo '
 		<h2>Protected Page</h2>
-		<p class="textcenter">Sorry, you need to <a href="account?login&redirect='.urlencode($Canonical).'">log in</a> to view this super secret content.</p>';
+		<p class="textcenter">Sorry, you need to <a href="account?login&redirect=',urlencode($Canonical),'">log in</a> to view this super secret content.</p>';
 	}
 
 	require $Templates['Footer'];

@@ -4,7 +4,7 @@
 
 	<meta charset="utf-8">
 	<meta name="description" content="<?php echo $Page['Description']['Plain']; ?>">
-	<meta name="keywords" content="<?php echo $Page['Keywords'].' '.$Sitewide['Title']; ?>">
+	<meta name="keywords" content="<?php echo $Page['Keywords'],' ',$Sitewide['Title']; ?>">
 	<meta itemprop="name" content="<?php echo $Page['Title']['Plain']; ?>">
 	<meta itemprop="description" content="<?php echo $Page['Description']['Plain']; ?>">
 	<meta itemprop="image" content="<?php echo $Page['Featured Image']; ?>">
@@ -14,9 +14,9 @@
 	<meta name="HandheldFriendly" content="True">
 	<meta name="MobileOptimized" content="320">
 
-	<title><?php echo $Page['Title']['Plain'].' &nbsp;&middot;&nbsp; '.$Sitewide['Title']; ?></title>
+	<title><?php echo $Page['Title']['Plain'],' &nbsp;&middot;&nbsp; ',$Sitewide['Title']; ?></title>
 
-	<link rel="canonical" href="<?php echo $Sitewide['Root'].$Canonical; ?>">
+	<link rel="canonical" href="<?php echo $Sitewide['Root'],$Canonical; ?>">
 	<link rel="icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
 	<link rel="shortcut icon" href="<?php echo $Sitewide['Root']; ?>/favicon.ico">
 	<link rel="stylesheet" media="all" href="//cdn.jsdelivr.net/g/normalize,colors.css">
@@ -66,7 +66,7 @@
 		<div class="col span_1_of_2">
 
 			<?php
-				echo '<h1><a href="'.$Sitewide['Root'].'/">'.$Sitewide['Title'].'</a></h1>';
+				echo '<h1><a href="',$Sitewide['Root'],'/">',$Sitewide['Title'],'</a></h1>';
 			?>
 
 		</div>
@@ -86,15 +86,15 @@
 						$Member['Auth'] == true
 					) {
 						echo '
-							<li><a href="'.$Sitewide['Root'].'/account">account</a></li>
-							<form class="like-link" action="'.$Sitewide['Root'].'/account?logout" method="POST">
-								'.Runonce_CSRF_Form().'
+							<li><a href="',$Sitewide['Root'],'/account">account</a></li>
+							<form class="like-link" action="',$Sitewide['Root'],'/account?logout" method="POST">
+								',Runonce_CSRF_Form(),'
 								<li><input type="submit" value="logout"></li>
 							</form>';
 					} else {
 						echo '
-							<li><a href="'.$Sitewide['Root'].'/account?login&redirect='.urlencode($Canonical).'">login</a></li>
-							<li><a href="'.$Sitewide['Root'].'/account?register">register</a></li>';
+							<li><a href="',$Sitewide['Root'],'/account?login&redirect=',urlencode($Canonical),'">login</a></li>
+							<li><a href="',$Sitewide['Root'],'/account?register">register</a></li>';
 					}
 				?>
 

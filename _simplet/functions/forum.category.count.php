@@ -23,7 +23,7 @@ function Forum_Category_Count($Category_Slug, $Status_Check = false) {
 		// IFCOUNT
 		if ( !$Forum_Category_Count ) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Category_Count): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Category_Count): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 

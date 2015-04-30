@@ -32,7 +32,7 @@ function Member_Change_Name() {
 			// IF Name not Changed
 			if ( !$Name_Change ) {
 				if ( $Backend['Debug'] ) {
-					echo 'Invalid Query (Name_Change): '.mysqli_error($Database['Connection']);
+					echo 'Invalid Query (Name_Change): ',mysqli_error($Database['Connection']);
 				}
 				$Error = '<h3 class="color-pomegranate">Name could not be changed.</h3>';
 			// END IF Name not Changed

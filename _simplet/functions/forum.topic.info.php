@@ -32,7 +32,7 @@ function Forum_Topic_Info($Topic_Slug) {
 		// IFQUERY Unsuccessful
 		if (!$Forum_Topic_Info) {
 			if ( $Backend['Debug'] ) {
-				echo 'Invalid Query (Forum_Topic_Info): '.mysqli_error($Database['Connection']);
+				echo 'Invalid Query (Forum_Topic_Info): ',mysqli_error($Database['Connection']);
 			}
 			return false;
 
