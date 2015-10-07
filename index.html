@@ -1,0 +1,55 @@
+<!DocType html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#777777">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simplet has been Deprecated</title>
+<link rel="canonical" href="http://simplet.eustasy.org/">
+<link rel="shortcut icon" href="http://eustasy.org/favicon.ico">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/g/normalize">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700%7CRoboto:100,300,400,700%7CRoboto+Condensed:300,400,700%7CRoboto+Mono:400,500,700">
+<link rel="stylesheet" type="text/css" href="easy-reading.css">
+<script>var jQl={q:[],dq:[],gs:[],ready:function(a){'function'==typeof a&&jQl.q.push(a);return jQl},getScript:function(a,c){jQl.gs.push([a,c])},unq:function(){for(var a=0;a<jQl.q.length;a++)jQl.q[a]();jQl.q=[]},ungs:function(){for(var a=0;a<jQl.gs.length;a++)jQuery.getScript(jQl.gs[a][0],jQl.gs[a][1]);jQl.gs=[]},bId:null,boot:function(a){'undefined'==typeof window.jQuery.fn?jQl.bId||(jQl.bId=setInterval(function(){jQl.boot(a)},25)):(jQl.bId&&clearInterval(jQl.bId),jQl.bId=0,jQl.unqjQdep(),jQl.ungs(),jQuery(jQl.unq()), 'function'==typeof a&&a())},booted:function(){return 0===jQl.bId},loadjQ:function(a,c){setTimeout(function(){var b=document.createElement('script');b.src=a;document.getElementsByTagName('head')[0].appendChild(b)},1);jQl.boot(c)},loadjQdep:function(a){jQl.loadxhr(a,jQl.qdep)},qdep:function(a){a&&('undefined'!==typeof window.jQuery.fn&&!jQl.dq.length?jQl.rs(a):jQl.dq.push(a))},unqjQdep:function(){if('undefined'==typeof window.jQuery.fn)setTimeout(jQl.unqjQdep,50);else{for(var a=0;a<jQl.dq.length;a++)jQl.rs(jQl.dq[a]); jQl.dq=[]}},rs:function(a){var c=document.createElement('script');document.getElementsByTagName('head')[0].appendChild(c);c.text=a},loadxhr:function(a,c){var b;b=jQl.getxo();b.onreadystatechange=function(){4!=b.readyState||200!=b.status||c(b.responseText,a)};try{b.open('GET',a,!0),b.send('')}catch(d){}},getxo:function(){var a=!1;try{a=new XMLHttpRequest}catch(c){for(var b=['MSXML2.XMLHTTP.5.0','MSXML2.XMLHTTP.4.0','MSXML2.XMLHTTP.3.0','MSXML2.XMLHTTP','Microsoft.XMLHTTP'],d=0;d<b.length;++d){try{a= new ActiveXObject(b[d])}catch(e){continue}break}}finally{return a}}};if('undefined'==typeof window.jQuery){var $=jQl.ready,jQuery=$;$.getScript=jQl.getScript};</script>
+<script>jQl.loadjQ('//cdn.jsdelivr.net/g/prefixfree,jquery,jquery.downboy');</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('input[type=checkbox]').click(function(){
+		$('body').toggleClass('dark');
+	});
+});
+</script>
+</head>
+<body>
+
+<header>
+	<span>Simplet</span>
+	<div class="switch-group right">
+		<label for="contrast">Dark</label>
+		<label class="switch no-label">
+			<input name="contrast" type="checkbox" class="switch-input">
+			<span class="switch-trough" data-on="On" data-off="Off"></span>
+			<span class="switch-handle"></span>
+		</label>
+	</div>
+</header>
+<div class="page">
+	<h1>Sorry, but Simplet has been deprecated.</h1>
+	<section>
+		<p>Simplet was supposed to be many things; simple, modular, simple, modular.</p>
+		<p>Unfortunately, Simplet evolved into something that was too much like everything it was supposed to replace. It wasn't easy to remove features from the core, and many of them weren't necessary for most sites. The code became haphazard and had significant security issues. While you can still find the <a href="https://github.com/eustasy/simplet">source on GitHub</a>, from here on in we will not be developing Simplet any further, which includes the cancellation of Simplet 4.2</p>
+		<p>We can only apologise to our users, and suggest they move to an alternative platform as soon as possible. It should be noted that every release of Simplet has known security flaws.</p>
+		<h2>Introducing: Puff</h2>
+		<p>Puff is what Simplet should have been. It starts with <a href="https://github.com/eustasy/puff-core">Puff Core</a>, a barebones templating system that includes some pretty cool auto-loading of scripts and styles for each page, and every SEO and Social tag we could find built in. It's topped off with an auto-regenerating sitemap, for maximum indexability, and A+ grade SSL configuration included. This is suplemented with <a href="https://github.com/eustasy/puff-db">Puff DB</a>, an auto-connecting but totally optional drop-in for persistent MySQL-like database connections.</p>
+		<p>Future integrations are laid out in <a href="https://github.com/eustasy/puff-core/blob/master/ARCHITECTURE.md">ARCHITECTURE.md</a>, and include Blog indexes with RSS feeds, Trending plugins, a Members system, and an option for comments, reviews, and discussions. All of these will be easy to add and remove, ensuring simple sites stay simple, while allowing them to grow and cater to their increasing audience with new features and integrations.</p>
+		<p>All of this is yet to be built, and we hope to move forwards with all the knowledge and experience gained from Simplet to build a better system from the start.</p>
+		<p>Regards,<br>
+		<span class="signature"></span></p>
+	</section>
+</div>
+<footer>
+	<p><span style="float:left;">Design by <a href="http://snwh.org/">Sam Hewitt</a></span><a href="http://eustasy.org/" class="central"><span class="logo"></span>&nbsp;eustasy</a><span style="float:right;">Additional by <a href="http://lewisgoddard.me.uk/">Lewis Goddard</a></span></p>
+</footer>
+</body>
+</html>
